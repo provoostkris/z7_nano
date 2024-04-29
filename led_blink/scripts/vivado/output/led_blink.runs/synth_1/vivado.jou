@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+# Start of session at: Sun Apr 28 22:18:26 2024
+# Process ID: 1300
+# Current directory: D:/github/z7_nano/led_blink/scripts/vivado/output/led_blink.runs/synth_1
+# Command line: vivado.exe -log led_blink.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source led_blink.tcl
+# Log file: D:/github/z7_nano/led_blink/scripts/vivado/output/led_blink.runs/synth_1/led_blink.vds
+# Journal file: D:/github/z7_nano/led_blink/scripts/vivado/output/led_blink.runs/synth_1\vivado.jou
+# Running On: vivobook, OS: Windows, CPU Frequency: 2688 MHz, CPU Physical cores: 14, Host memory: 16858 MB
+#-----------------------------------------------------------
+source led_blink.tcl -notrace

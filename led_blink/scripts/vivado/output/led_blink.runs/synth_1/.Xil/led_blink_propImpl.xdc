@@ -1,0 +1,7 @@
+set_property SRC_FILE_INFO {cfile:D:/github/z7_nano/led_blink/constraints/pin_constraints.xdc rfile:../../../../../../constraints/pin_constraints.xdc id:1} [current_design]
+set_property src_info {type:XDC file:1 line:3 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN N18      [get_ports clk]
+set_property src_info {type:XDC file:1 line:4 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN P14      [get_ports reset_n]
+set_property src_info {type:XDC file:1 line:5 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN R14      [get_ports led]
