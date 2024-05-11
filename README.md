@@ -15,4 +15,4 @@ It contains a dual core ARM and an FPGA with 53200 LUT and 106400 DFF
 A test run of the board. Basic use of the LED and the push button.
 
 ### [HDMI out](/hdmi_tx)
-Adding the HDMI demonstartion, making use of the on board HDMI connector>
+Adding the HDMI demonstration, making use of the on board HDMI connector
