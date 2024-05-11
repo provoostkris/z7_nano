@@ -2,8 +2,9 @@
 
 ### Description
 The design include a VGA timing controller and a HDMI encoder for showing some pattern on a display
-Correct clock frequencies are derived from the local crystal with a fractional PLL>
-
+Primitives are used :
+- PLL : Correct clock frequencies are derived from the local crystal with a fractional PLL
+- OSERDES : output serializer for driving the TDMS pins ( differential)
 
 ### I/O(/constraints)
 HDMI connector

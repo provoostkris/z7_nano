@@ -2,4 +2,5 @@ verilog/encode.v
 verilog/hdmi_trans.v
 verilog/parallel_to_serial.v
 verilog/vga_shift.v
+vhdl/oserdes.vhd
 vhdl/hdmi_tx.vhd
