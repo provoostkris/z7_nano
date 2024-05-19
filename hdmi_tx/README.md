@@ -6,7 +6,7 @@ Primitives are used :
 - PLL : Correct clock frequencies are derived from the local crystal with a fractional PLL
 - OSERDES : output serializer for driving the TDMS pins ( differential)
 
-### [I/O](../constraints)
+### [I/O](constraints)
 HDMI connector
 LED : off = reset
       on  = active
