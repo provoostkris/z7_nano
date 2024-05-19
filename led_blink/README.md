@@ -8,7 +8,7 @@ The generic can be set as :
 - mode = 2 : dimmed
 - mode = 3 : beat
 
-### [I/O](/constraints)
+### [I/O](led_blink/constraints)
 The output is mapped on the PL LED
 The PL push button is the reset
 The clock is directly from the on board crystal
