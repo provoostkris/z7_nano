@@ -43,7 +43,7 @@
 // --------------------------------------------------------------------
 module hdmi_trans (
 	input 	wire 			clk1x 			,// Clock
-	input 	wire 			clk5x 			,// Clock
+	// input 	wire 			clk5x 			,// Clock
 	input 	wire 			rst 			,// Asynchronous reset active high
 	input 	wire 	[7:0]	image_r 		,//输入R分量
 	input 	wire 	[7:0]	image_g 		,//输入G分量

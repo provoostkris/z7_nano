@@ -145,70 +145,70 @@ always @(posedge vpg_pclk ) begin
 	end
 end
 //移动方块的左上角水平方向坐标
-always @(posedge vpg_pclk ) begin
-	if (rst==1'b1) begin
-		x <='d0;
-	end
-	else if (flag_x == 1'b0 && cnt_v == V_TOTAL && cnt_h == H_TOTAL) begin
-		x <= x + 1'b1;
-	end
-	else if(flag_x == 1'b1 && cnt_v == V_TOTAL && cnt_h == H_TOTAL) begin
-		x <= x - 1'b1;
-	end
-end
+// always @(posedge vpg_pclk ) begin
+	// if (rst==1'b1) begin
+		// x <='d0;
+	// end
+	// else if (flag_x == 1'b0 && cnt_v == V_TOTAL && cnt_h == H_TOTAL) begin
+		// x <= x + 1'b1;
+	// end
+	// else if(flag_x == 1'b1 && cnt_v == V_TOTAL && cnt_h == H_TOTAL) begin
+		// x <= x - 1'b1;
+	// end
+// end
 
 //移动方块左上角移动方向指示信号
-always @(posedge vpg_pclk ) begin
-	if (rst==1'b1) begin
-		flag_x <= 1'b0;
-	end
-	else if (flag_x == 1'b0 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL && x==(H_END - H_START - SQUARE_X - 1'b1)) begin
-		flag_x <= 1'b1;
-	end
-	else if (flag_x == 1'b1 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL && x=='d1) begin
-		flag_x <= 1'b0;
-	end
-end
+// always @(posedge vpg_pclk ) begin
+	// if (rst==1'b1) begin
+		// flag_x <= 1'b0;
+	// end
+	// else if (flag_x == 1'b0 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL && x==(H_END - H_START - SQUARE_X - 1'b1)) begin
+		// flag_x <= 1'b1;
+	// end
+	// else if (flag_x == 1'b1 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL && x=='d1) begin
+		// flag_x <= 1'b0;
+	// end
+// end
 
 //移动方块的左上角垂直方向坐标
-always @(posedge vpg_pclk ) begin
-	if (rst==1'b1) begin
-		y <= 'd0;
-	end
-	else if (flag_y == 1'b0 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL) begin
-		y <= y + 1'b1;
-	end
-	else if (flag_y == 1'b1 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL) begin
-		y <= y - 1'b1;
-	end
-end
+// always @(posedge vpg_pclk ) begin
+	// if (rst==1'b1) begin
+		// y <= 'd0;
+	// end
+	// else if (flag_y == 1'b0 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL) begin
+		// y <= y + 1'b1;
+	// end
+	// else if (flag_y == 1'b1 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL) begin
+		// y <= y - 1'b1;
+	// end
+// end
 
 //移动方块左上角垂直移动方向指示信号
-always @(posedge vpg_pclk ) begin
-	if (rst==1'b1) begin
-		flag_y <= 1'b0;
-	end
-	else if (flag_y == 1'b0 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL && y==(V_END - V_START - SQUARE_Y - 1'b1)) begin
-		flag_y <= 1'b1;
-	end
-	else if (flag_y == 1'b1 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL && y=='d1 ) begin
-		flag_y <= 1'b0;
-	end
-end
+// always @(posedge vpg_pclk ) begin
+	// if (rst==1'b1) begin
+		// flag_y <= 1'b0;
+	// end
+	// else if (flag_y == 1'b0 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL && y==(V_END - V_START - SQUARE_Y - 1'b1)) begin
+		// flag_y <= 1'b1;
+	// end
+	// else if (flag_y == 1'b1 && cnt_v ==V_TOTAL && cnt_h == H_TOTAL && y=='d1 ) begin
+		// flag_y <= 1'b0;
+	// end
+// end
 
 //rgb
 always @(posedge vpg_pclk ) begin
 	if (rst==1'b1) begin
 		rgb <='d0;
 	end
-	else if(cnt_h >=H_START+x && cnt_h <H_START+SQUARE_X+x && cnt_v >=V_START+y && cnt_v <V_START+SQUARE_Y+y)begin
-		rgb <= 24'hFFB6C1;//输出方块图像
-	end
+	// else if(cnt_h >=H_START+x && cnt_h <H_START+SQUARE_X+x && cnt_v >=V_START+y && cnt_v <V_START+SQUARE_Y+y)begin
+		// rgb <= 24'hFFB6C1;//输出方块图像
+	// end
 	else if (cnt_h >=H_START && cnt_h <H_END && cnt_v >=V_START && cnt_v <V_END && cnt_h[4:0]>='d20) begin
 		rgb <=24'h00FF00;//green
 	end
 	else if (cnt_h >=H_START && cnt_h <H_END && cnt_v >=V_START && cnt_v <V_END && (cnt_h[4:0]>='d10 && cnt_h[2:0]<'d20)) begin
-		rgb <=24'h0000FF;//bulue
+		rgb <=24'h0000FF;//blue
 	end
 	else if (cnt_h >=H_START && cnt_h <H_END && cnt_v >=V_START && cnt_v <V_END && cnt_h[4:0]<'d10) begin
 		rgb <=24'hFF0000;//red

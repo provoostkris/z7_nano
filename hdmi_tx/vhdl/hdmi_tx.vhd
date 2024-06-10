@@ -142,7 +142,7 @@ begin
   i_hdmi_trans: entity work.hdmi_trans
     port map(
       clk1x           => clk1x,
-      clk5x           => clk5x,
+      -- clk5x           => clk5x,
       rst             => rst,
       image_r         => rgb_r,
       image_g         => rgb_g,
