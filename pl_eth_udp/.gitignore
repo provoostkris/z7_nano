@@ -3,3 +3,5 @@ scripts/vivado/output/
 
 scripts/modelsim/*.ini
 scripts/modelsim/*.wlf
+
+*
