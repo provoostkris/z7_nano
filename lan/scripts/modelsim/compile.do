@@ -28,12 +28,10 @@ echo "Remove old files"
   delete_lib nw_ethernet
   ensure_lib nw_ethernet
 
-  set path_rtl   "../.."
-
-
 echo "Mapping primitives for Xilinx"
 
-  vmap unisim vivado_simlib/unisim
+  vmap unisim   vivado_simlib/unisim
+  vmap unimacro vivado_simlib/unimacro
 
 echo "Compiling netwiz required files"
 
@@ -53,6 +51,7 @@ echo "Compiling netwiz required files"
 
 echo "Compiling design"
 
+  set path_rtl   "../.."
   do vcom_rtl.do
 
 echo "Compiling test bench"

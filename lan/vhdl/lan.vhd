@@ -16,7 +16,7 @@ use     work.lan_pkg.all;
 
 entity lan is
   generic (
-    my_mac            : std_logic_vector(47 downto 0) := x"10bf487a0fed"
+    my_mac            : std_logic_vector(47 downto 0) := x"02AABBCCDDEE"
   );
   port(
     clk               : in  std_logic;  --system clock
@@ -45,6 +45,12 @@ architecture rtl of lan is
   signal  clk_eth   : std_logic;
 
 --! signals on tx channel
+
+  signal s_dat_tready  : std_logic;
+  signal s_dat_tdata   : std_logic_vector(7 downto 0);
+  signal s_dat_tlast   : std_logic;
+  signal s_dat_tvalid  : std_logic;
+
   signal sof, eof     : std_logic;
   signal ctxdata      : std_logic_vector(7 downto 0);
   signal cgenframe    : std_logic;
@@ -52,7 +58,6 @@ architecture rtl of lan is
   signal cenettxdata  : std_logic_vector(7 downto 0);
   signal cenettxen    : std_logic;
   signal cenettxerr   : std_logic;
-
 
 --! signals on rx channel
   signal csof        : std_logic;
@@ -101,56 +106,58 @@ begin
   generic map (45)
   port    map (clk_eth, rst_n,led);
 
-  -- after PLL is locked , generate a pulse to indicate start of a new frame
+  --! send some dummy data , collected from a dummy frame
   process(rst_n, clk_eth) is
-    variable v_detect : std_logic_vector(1 downto 0);
-  begin
-      if rst_n='0' then
-        v_detect  := ( others => '0');
-        cgenframe <= '0';
-      elsif rising_edge(clk_eth) then
-        v_detect(1)  := v_detect(0);
-        v_detect(0)  := locked;
-        cgenframe <= not v_detect(1) and v_detect(0);
-      end if;
-  end process;
-
-  --! send some dummy data , for 100 bytes
-  process(rst_n, clk_eth) is
-    variable v_tx  : boolean;
     variable v_idx : integer range 0 to c_pkg_dummy_eth'length;
   begin
       if rst_n='0' then
-        v_tx     := false;
-        v_idx    := 0;
-        ctxdata  <= ( others => '0');
-        eof      <= '0';
+        v_idx         := 0;
+        s_dat_tdata   <= ( others => '0');
+        s_dat_tlast   <= '0';
+        s_dat_tvalid  <= '0';
       elsif rising_edge(clk_eth) then
-        case v_tx is
-          when false =>
-            if sof = '1' then
-              v_tx     := true;
-              v_idx    := 0;
-            end if;
-            ctxdata  <= ( others => '0');
-            eof      <= '0';
-          when true =>
-            if v_idx = c_pkg_dummy_eth'high then
-              v_tx     := false;
-              eof      <= '1';
-            end if;
-            ctxdata  <= c_pkg_dummy_eth(v_idx);
-            v_idx    := v_idx + 1 ;
-        end case;
+        if s_dat_tready = '1' then
+          s_dat_tdata   <= c_pkg_dummy_eth(v_idx);
+          s_dat_tvalid  <= '1';
+          if v_idx = c_pkg_dummy_eth'high then
+            s_dat_tlast   <= '1';
+            v_idx         := 0;
+          else
+            s_dat_tlast   <= '0';
+            v_idx         := v_idx + 1 ;
+          end if;
+        else
+          s_dat_tdata   <= ( others => '0');
+          s_dat_tlast   <= '0';
+          s_dat_tvalid  <= '0';
+        end if;
       end if;
   end process;
 
+  --! user logic to tx_fifo
+  i_rgmii_tx_fifo : entity work.rgmii_tx_fifo
+    port map (
+      s_clk         => clk_eth,
+      s_rst_n       => rst_n,
+      s_dat_tready  => s_dat_tready,
+      s_dat_tdata   => s_dat_tdata ,
+      s_dat_tlast   => s_dat_tlast ,
+      s_dat_tvalid  => s_dat_tvalid,
 
-  --! fifo to mac
+      m_clk         => clk_eth,
+      m_rst_n       => rst_n,
+      m_txdata      => ctxdata,
+      m_sof         => sof,
+      m_eof         => eof,
+      m_genframe    => cgenframe,
+      m_genframeack => cgenframeack
+    );
+
+  --! tx_fifo to rgmii
   i_rgmii_tx : entity work.rgmii_tx
     port map (
       iclk         => clk_eth,
-      irst_n       => reset_n,
+      irst_n       => rst_n,
 
       itxdata      => ctxdata,
       osof         => sof,
@@ -167,7 +174,7 @@ begin
   i_gmii_to_rgmii: entity work.gmii_to_rgmii
     port map (
       idelay_clk   => '0',
-      rst          => reset,
+      rst          => rst,
       gmii_txc     => clk_eth,
       gmii_tx_dv   => cenettxen,
       gmii_tx_err  => cenettxerr,
@@ -218,7 +225,7 @@ begin
   i_rgmii_to_gmii: entity work.rgmii_to_gmii
     port map(
       idelay_clk  => clk_eth,
-      rst         => reset,
+      rst         => rst,
       rgmii_rxc   => rgmii_rxc,
       rgmii_rx_ctl=> rgmii_rx_ctl,
       rgmii_rd    => rgmii_rd    ,

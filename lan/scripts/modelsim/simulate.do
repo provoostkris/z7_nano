@@ -7,7 +7,7 @@
 
 echo "start simulation"
 
-  vsim -gui -t ps -L unisim -novopt work.tb_lan
+  vsim -gui -t ps -L unisim -L unimacro -novopt work.tb_lan
 
 echo "adding waves"
 
@@ -19,6 +19,7 @@ echo "adding waves"
 
   add wave  -expand             -group "dut"                           /tb_lan/dut/*
   
+  add wave  -expand             -group "i_rgmii_tx_fifo"               /tb_lan/dut/i_rgmii_tx_fifo/*
   add wave  -expand             -group "i_rgmii_tx"                    /tb_lan/dut/i_rgmii_tx/*
   add wave  -expand             -group "i_gmii_to_rgmii"               /tb_lan/dut/i_gmii_to_rgmii/*
   
