@@ -16,3 +16,6 @@ A test run of the board. Basic use of the LED and the push button.
 
 ### [HDMI out](/hdmi_tx)
 Adding the HDMI demonstration, making use of the on board HDMI connector
+
+### [LAN](/lan)
+Adding LAN (wired network) over the PL ETH port on a RGMII interface
