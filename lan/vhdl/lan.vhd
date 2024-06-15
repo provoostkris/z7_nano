@@ -11,6 +11,9 @@ use     ieee.std_logic_misc.all;
 library unisim;
 use     unisim.vcomponents.all;
 
+library work;
+use     work.lan_pkg.all;
+
 entity lan is
   generic (
     my_mac            : std_logic_vector(47 downto 0) := x"10bf487a0fed"
@@ -114,10 +117,12 @@ begin
 
   --! send some dummy data , for 100 bytes
   process(rst_n, clk_eth) is
-    variable v_tx : boolean;
+    variable v_tx  : boolean;
+    variable v_idx : integer range 0 to c_pkg_dummy_eth'length;
   begin
       if rst_n='0' then
         v_tx     := false;
+        v_idx    := 0;
         ctxdata  <= ( others => '0');
         eof      <= '0';
       elsif rising_edge(clk_eth) then
@@ -125,15 +130,17 @@ begin
           when false =>
             if sof = '1' then
               v_tx     := true;
+              v_idx    := 0;
             end if;
             ctxdata  <= ( others => '0');
             eof      <= '0';
           when true =>
-            if unsigned(ctxdata) = to_unsigned(99,ctxdata'length) then
+            if v_idx = c_pkg_dummy_eth'high then
               v_tx     := false;
               eof      <= '1';
             end if;
-            ctxdata  <= std_logic_vector(unsigned(ctxdata) + to_unsigned(1,ctxdata'length));
+            ctxdata  <= c_pkg_dummy_eth(v_idx);
+            v_idx    := v_idx + 1 ;
         end case;
       end if;
   end process;

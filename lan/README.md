@@ -12,8 +12,8 @@ Frequency is fixed to perform at 1 Gbps.
 ### [I/O](constraints)
 - PL ETH 
 - LED : 
-  --off = reset
-  --on  = active
+      off = reset
+      on  = active
 - RESET button press = send a dummy frame
 
 
