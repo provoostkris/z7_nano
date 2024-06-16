@@ -42,8 +42,11 @@ architecture rtl of tb_lan is
   constant c_clk_per     : time      := 20 ns ;
   constant c_rx_clk_per  : time      :=  8 ns ;
 
-  signal clk          : std_ulogic :='0';
+  constant c_tx_ena      : std_logic := '1';
+  constant c_tx_err      : std_logic := '0';
+
   signal rst_n        : std_ulogic :='0';
+  signal clk          : std_ulogic :='0';
   signal rx_clk       : std_ulogic :='0';
 
 --! dut signals
@@ -57,15 +60,24 @@ architecture rtl of tb_lan is
 
 --! bench signals
   signal eth_pkt       : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
-  signal eth_pkt_byte  : std_logic_vector(7 downto 0);
 
 --! procedures
-procedure proc_wait_clk
-  (constant cycles : in natural) is
+procedure proc_wait_clk  (
+  signal    clk    : in std_logic ;
+  constant  cycles : in natural
+  ) is
 begin
    for i in 0 to cycles-1 loop
     wait until rising_edge(clk);
    end loop;
+end procedure;
+
+procedure proc_wait_clk_edge  (
+  signal    clk    : in std_logic ;
+  constant  edge   : in std_logic
+  ) is
+begin
+    wait until clk'event and clk = edge;
 end procedure;
 
 begin
@@ -73,7 +85,7 @@ begin
 --! standard signals
 	clk            <= not clk     after c_clk_per/2;
 	rx_clk         <= not rx_clk  after c_rx_clk_per/2;
-
+  rgmii_rxc      <= rx_clk;
 
 --! dut
 dut: entity work.lan(rtl)
@@ -114,40 +126,51 @@ dut: entity work.lan(rtl)
 	begin
 
 	  report " RUN TST.01 ";
+
+      rgmii_rx_ctl <= '0';
+      rgmii_rd     <= (others => '0');
+	    proc_reset(3);
+
       --! create a loopback , but not for the clocks
       --! as these are generated on each side of the PHY
-      rgmii_rxc    <= rx_clk;
       rgmii_rx_ctl <= rgmii_tx_ctl;
       rgmii_rd     <= rgmii_td;
 
-	    proc_reset(3);
- 	    proc_wait_clk(200);
+ 	    proc_wait_clk(clk, 200);
 
 	  report " RUN TST.02 ";
 
-      rgmii_rxc    <= rx_clk;
       rgmii_rx_ctl <= '0';
       rgmii_rd     <= ( others => '0');
-      
+
       v_payload                 := C_ETH_PKT;
       v_header                  := C_DEFAULT_ETH_HEADER;                                -- copy default header
-      v_header.mac_dest         := f_eth_mac_2_slv_arr("08:00:27:27:1a:d5");            -- change destination MAC
+      v_header.mac_dest         := f_eth_mac_2_slv_arr("02:AA:BB:CC:DD:EE");            -- change destination MAC
       v_len                     := f_eth_create_pkt_len(v_header, v_payload);           -- calculate total packet length
       v_eth_pkt(0 to v_len - 1) := f_eth_create_pkt(v_header, v_payload);               -- create the packet
       v_eth_pkt(0 to v_len + 7) := f_concat(C_ETH_PREAMBLE, v_eth_pkt(0 to v_len - 1)); -- add preamble
 
-      eth_pkt       <= v_eth_pkt;
-      eth_pkt_byte  <= ( others => '0');
-
+      -- create packet for transmission and wait for PLL to lock
 	    proc_reset(3);
+      eth_pkt       <= v_eth_pkt;
+ 	    proc_wait_clk(rx_clk, 250);
+
+      -- then transmit the packet
  	    for i in 0 to v_len + 7 loop
-        proc_wait_clk(1);
-        eth_pkt_byte <= eth_pkt(i);
+        -- first nibble
+        proc_wait_clk_edge(rx_clk, '1');
+        rgmii_rd     <= eth_pkt(i)(7 downto 4);
+        rgmii_rx_ctl <= c_tx_ena;
+        proc_wait_clk_edge(rx_clk, '0');
+        rgmii_rd     <= eth_pkt(i)(3 downto 0);
+        rgmii_rx_ctl <= c_tx_ena xor c_tx_err;
       end loop;
 
+      proc_wait_clk_edge(rx_clk, '1');
+      rgmii_rx_ctl <= '0';
+      rgmii_rd     <= ( others => '0');
 
-
-
+ 	    proc_wait_clk(rx_clk, 25);
 
 	  report " END of test bench" severity failure;
 
