@@ -6,7 +6,7 @@ Make use of the *ETH PORT* connected via the PL fabric. The design makes use of 
 Frequency is fixed to perform at 1 Gbps. 
 
 ### Features
-1 Gbps full duplex
+PHY : 1 Gbps
 
 
 ### [I/O](constraints)
@@ -23,4 +23,6 @@ During installation keep the NPcap option. If not my USB-ETH adapter is not list
 
 Plug in the USB-ETH adapter and give it an IP in the free range
 
-Open wireshark and start sniffing
+Open wireshark and start sniffing.
+With a dummy packet , the wireshark is able to recieve 200 Mbps in a setup
+FPGA ETH TX >> ETH2USB >> LAN 

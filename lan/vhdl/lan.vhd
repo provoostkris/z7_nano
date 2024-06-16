@@ -187,8 +187,7 @@ begin
   i_rgmii_rx : entity work.rgmii_rx
     port map (
       iclk               => clk_eth,
-      -- irst_n             => reset_n,
-      irst_n             => '0',
+      irst_n             => rst_n,
 
       irxdata            => cenetrxdata,
       irxdv              => cenetrxdv,
@@ -222,14 +221,15 @@ begin
     );
 
   --! reduced to normal interface adapter
-  i_rgmii_to_gmii: entity work.rgmii_to_gmii
+  i_rgmii_rx_ddr: entity work.rgmii_rx_ddr
     port map(
-      idelay_clk  => clk_eth,
+
       rst         => rst,
+
       rgmii_rxc   => rgmii_rxc,
       rgmii_rx_ctl=> rgmii_rx_ctl,
       rgmii_rd    => rgmii_rd    ,
-      gmii_rxc    => open        ,
+
       gmii_rx_dv  => cenetrxdv   ,
       gmii_rx_err => cenetrxerr  ,
       gmii_rd     => cenetrxdata
