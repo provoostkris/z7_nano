@@ -1,7 +1,7 @@
 verilog/gmii_to_rgmii.v
-verilog/rgmii_to_gmii.v
 vhdl/eth_crc32.vhd
 vhdl/eth_pkg.vhd
+vhdl/rgmii_rx_ddr.vhd
 vhdl/rgmii_rx.vhd
 vhdl/rgmii_tx_fifo.vhd
 vhdl/rgmii_tx.vhd
