@@ -23,6 +23,9 @@ USE ieee.std_logic_1164.ALL;
 use ieee.numeric_std.all;
 -------------------------------------------------------------------------------
 PACKAGE eth_pkg IS
+  
+  constant c_eth_preamble : std_logic_vector(7 downto 0) := x"55";
+  constant c_eth_sfd      : std_logic_vector(7 downto 0) := x"D5";
 
   CONSTANT ETH_TYPE_IPv4  : STD_LOGIC_VECTOR(15 DOWNTO 0) := X"0800";
   CONSTANT ETH_TYPE_ARP   : STD_LOGIC_VECTOR(15 DOWNTO 0) := X"0806";
