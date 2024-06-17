@@ -62,13 +62,8 @@ architecture rtl of lan is
 --! signals on rx channel
   signal csof        : std_logic;
   signal ceof        : std_logic;
-  signal cerrcrc     : std_logic;
   signal cerrlen     : std_logic;
-  signal cgetarp     : std_logic;
   signal cerrchecksum : std_logic;
-  signal cgetipv4    : std_logic;
-  signal cgetctrl    : std_logic;
-  signal cgetraw     : std_logic;
   signal cpayloadlen : unsigned(15 downto 0);
   signal crxdata     : std_logic_vector(7 downto 0);
   signal crxdv       : std_logic;
@@ -76,10 +71,6 @@ architecture rtl of lan is
   signal cenetrxdv   : std_logic;
   signal cenetrxerr  : std_logic;
 
-  signal cchecksumipcheck   : std_logic;
-  signal cchecksumtcpcheck  : std_logic;
-  signal cchecksumudpcheck  : std_logic;
-  signal cchecksumicmpcheck : std_logic;
 
   attribute MARK_DEBUG : string;
   attribute MARK_DEBUG of sof           : signal is "TRUE";
@@ -94,12 +85,6 @@ begin
   reset    <= not reset_n;
   rst      <= not locked;
   rst_n    <= not rst;
-
---! unused for now
-  cchecksumipcheck    <= '0';
-  cchecksumtcpcheck   <= '0';
-  cchecksumudpcheck   <= '0';
-  cchecksumicmpcheck  <= '0';
 
 --! indicate the board is running
   i_pwm: entity work.pwm
@@ -186,36 +171,23 @@ begin
 
   i_rgmii_rx : entity work.rgmii_rx
     port map (
-      iclk               => clk_eth,
+      -- iclk               => clk_eth,
+      iclk               => rgmii_rxc,
       irst_n             => rst_n,
 
       irxdata            => cenetrxdata,
       irxdv              => cenetrxdv,
       irxer              => cenetrxerr,
 
-      ichecksumipcheck   => cchecksumipcheck,
-      ichecksumtcpcheck  => cchecksumtcpcheck,
-      ichecksumudpcheck  => cchecksumudpcheck,
-      ichecksumicmpcheck => cchecksumicmpcheck,
-      oeof               => ceof,
-      ocrcerr            => cerrcrc,
       orxerr             => open,
       olenerr            => cerrlen,
       ochecksumerr       => cerrchecksum,
-      imymac             => my_mac,
-      ogetarp            => cgetarp,
-      ogetipv4           => cgetipv4,
-      ogetctrl           => cgetctrl,
-      ogetraw            => cgetraw,
-      osof               => csof,
-      otaged             => open,
-      otaginfo           => open,
-      ostacktaged        => open,
-      otaginfo2          => open,
-      olink              => open,
-      ospeed             => open,
-      oduplex            => open,
       opayloadlen        => cpayloadlen,
+
+      imymac             => my_mac,
+
+      osof               => csof,
+      oeof               => ceof,
       orxdata            => crxdata,
       orxdv              => crxdv
     );
