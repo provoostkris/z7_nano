@@ -58,15 +58,16 @@ ARCHITECTURE rtl OF rgmii_tx IS
   
 BEGIN  -- ARCHITECTURE rtl
 
-  crcCalc : ENTITY work.eth_crc32
-    PORT MAP (
-      iClk    => iClk,
-      iRst_n  => iRst_n,
-      iInit   => crcInit,
-      iCalcEn => crcEn,
-      iData   => iTxData,
-      oCRC    => crc,
-      oCRCErr => OPEN);
+  --! calculate the CRC 32
+  i_eth_crc32 : entity work.eth_crc32
+    port map (
+      iclk    => iclk,
+      irst_n  => irst_n,
+      iinit   => crcinit,
+      icalcen => crcen,
+      idata   => itxdata,
+      ocrc    => crc
+    );
 
   oTxErr <= '0';
 

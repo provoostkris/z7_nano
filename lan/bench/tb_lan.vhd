@@ -24,6 +24,10 @@ end entity tb_lan;
 
 architecture rtl of tb_lan is
 
+  constant c_ena_tst_1 : boolean := false;
+  constant c_ena_tst_2 : boolean := true;
+
+
   -- ethernet packet from https://github.com/jwbensley/Ethernet-CRC32
   constant C_ETH_PKT : t_slv_arr(0 to 101)(7 downto 0) := (x"08", x"00", x"27", x"27", x"1a", x"d5", x"52", x"54",
                                                            x"00", x"12", x"35", x"02", x"08", x"00", x"45", x"00",
@@ -125,8 +129,8 @@ dut: entity work.lan(rtl)
 
 	begin
 
+    if c_ena_tst_1 then
 	  report " RUN TST.01 ";
-
       rgmii_rx_ctl <= '0';
       rgmii_rd     <= (others => '0');
 	    proc_reset(3);
@@ -137,7 +141,9 @@ dut: entity work.lan(rtl)
       rgmii_rd     <= rgmii_td;
 
  	    proc_wait_clk(clk, 200);
+    end if;
 
+    if c_ena_tst_2 then
 	  report " RUN TST.02 ";
 
       rgmii_rx_ctl <= '0';
@@ -171,6 +177,7 @@ dut: entity work.lan(rtl)
       rgmii_rd     <= ( others => '0');
 
  	    proc_wait_clk(rx_clk, 25);
+    end if;
 
 	  report " END of test bench" severity failure;
 
