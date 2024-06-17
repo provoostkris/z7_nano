@@ -30,8 +30,8 @@ ENTITY eth_crc32 IS
     iInit   : IN  STD_LOGIC;
     iCalcEn : IN  STD_LOGIC;
     iData   : IN  STD_LOGIC_VECTOR(7 DOWNTO 0);
-    oCRC    : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-    oCRCErr : OUT STD_LOGIC);
+    oCRC    : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+  );
 
 END ENTITY eth_crc32;
 -------------------------------------------------------------------------------
@@ -87,12 +87,9 @@ BEGIN  -- ARCHITECTURE rtl
    END IF;
   END PROCESS;
   
-  oCRC(31 DOWNTO 24) <= NOT (crc(24)&crc(25)&crc(26)&crc(27)&crc(28)&crc(29)&crc(30)&crc(31));
-  oCRC(23 DOWNTO 16) <= NOT (crc(16)&crc(17)&crc(18)&crc(19)&crc(20)&crc(21)&crc(22)&crc(23));
-  oCRC(15 DOWNTO 8) <= NOT (crc(8)&crc(9)&crc(10)&crc(11)&crc(12)&crc(13)&crc(14)&crc(15));
-  oCRC(7 DOWNTO 0) <= NOT (crc(0)&crc(1)&crc(2)&crc(3)&crc(4)&crc(5)&crc(6)&crc(7));
-
-  oCRCErr <= '1' WHEN crc /= X"c704dd7b" ELSE '0';  -- CRC not equal to magic number
+  oCRC(31 DOWNTO 24)  <= NOT (crc(24)&crc(25)&crc(26)&crc(27)&crc(28)&crc(29)&crc(30)&crc(31));
+  oCRC(23 DOWNTO 16)  <= NOT (crc(16)&crc(17)&crc(18)&crc(19)&crc(20)&crc(21)&crc(22)&crc(23));
+  oCRC(15 DOWNTO 8)   <= NOT (crc(8)&crc(9)&crc(10)&crc(11)&crc(12)&crc(13)&crc(14)&crc(15));
+  oCRC(7 DOWNTO 0)    <= NOT (crc(0)&crc(1)&crc(2)&crc(3)&crc(4)&crc(5)&crc(6)&crc(7));
   
 END ARCHITECTURE rtl;
-
