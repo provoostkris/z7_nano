@@ -169,6 +169,23 @@ begin
       rgmii_td     => rgmii_td
     );
 
+
+  --! reduced to normal interface adapter
+  i_rgmii_rx_ddr: entity work.rgmii_rx_ddr
+    port map(
+
+      rst         => rst,
+
+      rgmii_rxc   => rgmii_rxc,
+      rgmii_rx_ctl=> rgmii_rx_ctl,
+      rgmii_rd    => rgmii_rd    ,
+
+      gmii_rx_dv  => cenetrxdv   ,
+      gmii_rx_err => cenetrxerr  ,
+      gmii_rd     => cenetrxdata
+    );
+
+  --! ethernet frame reciever
   i_eth_frm_rx : entity work.eth_frm_rx
     port map (
       -- iclk               => clk_eth,
@@ -193,20 +210,24 @@ begin
       orxdv              => crxdv
     );
 
-  --! reduced to normal interface adapter
-  i_rgmii_rx_ddr: entity work.rgmii_rx_ddr
-    port map(
-
-      rst         => rst,
-
-      rgmii_rxc   => rgmii_rxc,
-      rgmii_rx_ctl=> rgmii_rx_ctl,
-      rgmii_rd    => rgmii_rd    ,
-
-      gmii_rx_dv  => cenetrxdv   ,
-      gmii_rx_err => cenetrxerr  ,
-      gmii_rd     => cenetrxdata
+  --! ethernet frame fifo
+  i_eth_rx_fifo : entity work.eth_rx_fifo
+    port map (
+    s_clk         => rgmii_rxc,
+    s_rst_n       => rst_n,
+    s_sof         => csof,
+    s_eof         => ceof,
+    s_rxdata      => crxdata,
+    s_rxdv        => crxdv,
+    
+    m_clk         => rgmii_rxc,
+    m_rst_n       => rst_n,
+    m_dat_tready  => '1',
+    m_dat_tdata   => open,
+    m_dat_tlast   => open,
+    m_dat_tvalid  => open
     );
+  
 
 --! we need a pll to make 125.0 mhz from the 50 mhz
 --! that ratio is x2.5 , pll needs a number that is with a granularity off 0.125

@@ -1,7 +1,8 @@
 ------------------------------------------------------------------------------
---  rgmii interfqce fifo with dual clock domain
+--  ehternet frame fifo
 --  rev. 1.0 : 2024 provoost kris
 ------------------------------------------------------------------------------
+
 
 library ieee;
 use     ieee.std_logic_1164.all;
@@ -14,37 +15,34 @@ library unimacro;
 use     unimacro.vcomponents.all;
 
 -------------------------------------------------------------------------------
-entity rgmii_tx_fifo is
+entity eth_rx_fifo is
 
   port (
-    -- axis interface from user logic
+    -- interface from rgmii phy
     s_clk         : in  std_logic;
     s_rst_n       : in  std_logic;
-    s_dat_tready  : out std_logic;
-    s_dat_tdata   : in  std_logic_vector(7 downto 0);
-    s_dat_tlast   : in  std_logic;
-    s_dat_tvalid  : in  std_logic;
+    s_sof         : in  std_logic;
+    s_eof         : in  std_logic;
+    s_rxdata      : in  std_logic_vector(7 downto 0);
+    s_rxdv        : in  std_logic;
 
-    -- interface to rgmii phy
+    -- axis interface to user logic
     m_clk         : in  std_logic;
     m_rst_n       : in  std_logic;
-    m_txdata      : out std_logic_vector(7 downto 0);
-    m_sof         : in  std_logic;
-    m_eof         : out std_logic;
-    m_genframe    : out std_logic;
-    m_genframeack : in  std_logic
+    m_dat_tready  : in  std_logic;
+    m_dat_tdata   : out std_logic_vector(7 downto 0);
+    m_dat_tlast   : out std_logic;
+    m_dat_tvalid  : out std_logic
     );
 
-end entity rgmii_tx_fifo;
+end entity eth_rx_fifo;
 -------------------------------------------------------------------------------
-architecture rtl of rgmii_tx_fifo is
+architecture rtl of eth_rx_fifo is
 
-  type t_state is ( tx_frame_req,
-                    tx_frame_ack,
-                    tx_frame_sof,
-                    tx_frame_data
+  type t_state is ( idle,
+                    stream
                   );
-  signal s_ctrl                      : t_state;
+  signal s_ctrl                     : t_state;
   attribute syn_encoding            : string;
   attribute syn_encoding of t_state : type is "safe,onehot";
 
@@ -59,8 +57,8 @@ begin
 
 -- signal assignments
   s_rst         <= not s_rst_n;
-  fifo_di       <= s_dat_tlast & s_dat_tdata;
-
+  fifo_di       <= s_eof & s_rxdata;
+  fifo_rden     <= m_dat_tready and not fifo_empty;
 
    -- FIFO_DUALCLOCK_MACRO: Dual-Clock First-In, First-Out (FIFO) RAM Buffer
    --                       Artix-7
@@ -73,7 +71,7 @@ begin
       ALMOST_EMPTY_OFFSET => X"0080", -- Sets the almost empty threshold
       DATA_WIDTH => 9,   -- Valid values are 1-72 (37-72 only valid when FIFO_SIZE="36Kb")
       FIFO_SIZE => "18Kb",            -- Target BRAM, "18Kb" or "36Kb"
-      FIRST_WORD_FALL_THROUGH => true) -- Sets the FIFO FWFT to TRUE or FALSE
+      FIRST_WORD_FALL_THROUGH => false) -- Sets the FIFO FWFT to TRUE or FALSE
    port map (
       ALMOSTEMPTY => open,   -- 1-bit output almost empty
       ALMOSTFULL => fifo_a_full,     -- 1-bit output almost full
@@ -89,57 +87,46 @@ begin
       RDEN => fifo_rden,                 -- 1-bit input read enable
       RST => s_rst,                   -- 1-bit input reset
       WRCLK => s_clk,               -- 1-bit input write clock
-      WREN => s_dat_tvalid                  -- 1-bit input write enable
+      WREN => s_rxdv                  -- 1-bit input write enable
    );
    -- End of FIFO_DUALCLOCK_MACRO_inst instantiation
 
-  --! RGMII flow controller
+
+  --! data flow controller
   process(m_rst_n, m_clk) is
   begin
       if m_rst_n='0' then
-        s_ctrl     <= tx_frame_req;
-        fifo_rden  <= '0';
-        m_genframe <= '0';
-        m_txdata   <= ( others => '0');
-        m_eof      <= '0';
+        s_ctrl     <= idle;
+        m_dat_tdata   <= ( others => '0');
+        m_dat_tlast   <= '0';
+        m_dat_tvalid  <= '0';
       elsif rising_edge(m_clk) then
         case s_ctrl is
-          when tx_frame_req =>
-            m_txdata   <= ( others => '0');
-            m_eof      <= '0';
+          when idle =>
+            m_dat_tdata   <= ( others => '0');
+            m_dat_tlast   <= '0';
+            m_dat_tvalid  <= '0';
+
             if fifo_empty = '0' then
-              m_genframe <= '1';
-              s_ctrl     <= tx_frame_ack;
+              s_ctrl     <= stream;
             end if;
-          when tx_frame_ack =>
-            if m_genframeack = '1' then
-              m_genframe <= '0';
-              s_ctrl     <= tx_frame_sof;
+
+          when stream =>
+
+            if m_dat_tready = '1' then
+              m_dat_tdata   <= fifo_do(7 downto 0);
+              m_dat_tlast   <= fifo_do(8);
+              m_dat_tvalid  <= '1';
+            else
+              m_dat_tdata   <= ( others => '0');
+              m_dat_tlast   <= '0';
+              m_dat_tvalid  <= '0';
             end if;
-          when tx_frame_sof =>
-            if m_sof = '1' then
-              s_ctrl     <= tx_frame_data;
-              fifo_rden  <= '1';
-            end if;
-          when tx_frame_data =>
+
             if fifo_do(8) = '1' then
-              s_ctrl     <= tx_frame_req;
-              fifo_rden  <= '0';
+              s_ctrl     <= idle;
             end if;
-            m_txdata    <= fifo_do(7 downto 0);
-            m_eof       <= fifo_do(8);
         end case;
-      end if;
-  end process;
-
-
-  --! slave flow control
-  process(s_rst_n, s_clk) is
-  begin
-      if s_rst_n='0' then
-        s_dat_tready  <= '0';
-      elsif rising_edge(s_clk) then
-        s_dat_tready  <= not fifo_a_full;
       end if;
   end process;
 

@@ -3,6 +3,7 @@ vhdl/eth_crc32.vhd
 vhdl/eth_pkg.vhd
 vhdl/rgmii_rx_ddr.vhd
 vhdl/eth_frm_rx.vhd
+vhdl/eth_rx_fifo.vhd
 vhdl/rgmii_tx_fifo.vhd
 vhdl/rgmii_tx.vhd
 vhdl/pwm.vhd
