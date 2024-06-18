@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
---  rgmii basic reciever
+--  ehternet frame reciever with CRC check and destination check
 --  rev. 1.0 : 2024 provoost kris
 ------------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@ use     ieee.std_logic_1164.all;
 use     ieee.numeric_std.all;
 use     work.eth_pkg.all;
 -------------------------------------------------------------------------------
-entity rgmii_rx is
+entity eth_frm_rx is
 
   port (
     iclk          : in std_logic;
@@ -23,7 +23,8 @@ entity rgmii_rx is
     ochecksumerr  : out std_logic;
     opayloadlen   : buffer unsigned(15 downto 0);
 
-    imymac        : in std_logic_vector(47 downto 0);
+    my_dest_mac   : in std_logic_vector(47 downto 0);
+    mac_match     : out std_logic;
 
     osof          : out std_logic;
     oeof          : out std_logic;
@@ -31,9 +32,9 @@ entity rgmii_rx is
     orxdv         : out std_logic
     );
 
-end entity rgmii_rx;
+end entity eth_frm_rx;
 -------------------------------------------------------------------------------
-architecture rtl of rgmii_rx is
+architecture rtl of eth_frm_rx is
 
   type t_arr_slv_8  is array (4 downto 0) of std_logic_vector( 7 downto 0);
   type t_arr_slv_32 is array (4 downto 0) of std_logic_vector(31 downto 0);
@@ -55,9 +56,8 @@ architecture rtl of rgmii_rx is
   signal bytecnt     : unsigned(15 downto 0);
   signal destmacaddr : std_logic_vector(47 downto 0);
 
-  signal frm4me : std_logic;
-
-  signal rxdv, dataen : std_logic;
+  signal rxdv        : std_logic;
+  signal dataen      : std_logic;
 
   signal crc_calculated : t_arr_slv_32;
   signal crc_is_fine    : std_logic;
@@ -136,7 +136,7 @@ begin
       eof          <= '0';
       bytecnt      <= (others => '0');
       opayloadlen  <= (others => '0');
-      frm4me       <= '0';
+      mac_match    <= '0';
       crcen        <= '0';
       sof          <= '0';
       dataen       <= '0';
@@ -154,7 +154,7 @@ begin
         when idle =>
           crcen        <= '0';
           dataen       <= '0';
-          frm4me       <= '0';
+          mac_match    <= '0';
           olenerr      <= '0';
           ochecksumerr <= '0';
 
@@ -213,10 +213,10 @@ begin
         -----------------------------------------------------------------------
         when source_mac =>
           -- raise a flag when the frame was for me
-          if destmacaddr = imymac                -- unicast
+          if destmacaddr = my_dest_mac           -- unicast
           or destmacaddr = mac_addr_ctrl         -- multicast for flow control
           or destmacaddr = x"ffffffffffff" then  -- broadcast
-            frm4me <= '1';
+            mac_match <= '1';
           end if;
           -- keep frame type
           if irxdv = '1' and irxer = '0' then
@@ -258,6 +258,7 @@ begin
           if irxdv = '1' and irxer = '0' then
             bytecnt <= bytecnt + 1;
           end if;
+          -- an IPG is transmitted before the next frame, already move to idle again
           if irxdv = '0' then
             state         <= idle;
             dataen        <= '0';

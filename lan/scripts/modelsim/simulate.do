@@ -19,8 +19,8 @@ echo "adding waves"
 
   add wave                      -group "dut"                           /tb_lan/dut/*
 
-  add wave  -expand             -group "i_rgmii_rx"                    /tb_lan/dut/i_rgmii_rx/*
-  add wave  -expand             -group "i_eth_crc32"                   /tb_lan/dut/i_rgmii_rx/i_eth_crc32/*
+  add wave  -expand             -group "i_eth_frm_rx"                  /tb_lan/dut/i_eth_frm_rx/*
+  add wave  -expand             -group "i_eth_crc32"                   /tb_lan/dut/i_eth_frm_rx/i_eth_crc32/*
   add wave  -expand             -group "i_rgmii_rx_ddr"                /tb_lan/dut/i_rgmii_rx_ddr/*
 
   add wave  -expand             -group "i_rgmii_tx_fifo"               /tb_lan/dut/i_rgmii_tx_fifo/*

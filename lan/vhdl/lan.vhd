@@ -169,7 +169,7 @@ begin
       rgmii_td     => rgmii_td
     );
 
-  i_rgmii_rx : entity work.rgmii_rx
+  i_eth_frm_rx : entity work.eth_frm_rx
     port map (
       -- iclk               => clk_eth,
       iclk               => rgmii_rxc,
@@ -184,7 +184,8 @@ begin
       ochecksumerr       => cerrchecksum,
       opayloadlen        => cpayloadlen,
 
-      imymac             => my_mac,
+      my_dest_mac        => my_mac,
+      mac_match          => open,
 
       osof               => csof,
       oeof               => ceof,
