@@ -48,6 +48,7 @@ architecture rtl of tb_lan is
 
   constant c_tx_ena      : std_logic := '1';
   constant c_tx_err      : std_logic := '0';
+  constant c_ipg_len     : natural   := 12 ;
 
   signal rst_n        : std_ulogic :='0';
   signal clk          : std_ulogic :='0';
@@ -170,6 +171,16 @@ dut: entity work.lan(rtl)
         proc_wait_clk_edge(rx_clk, '0');
         rgmii_rd     <= eth_pkt(i)(3 downto 0);
         rgmii_rx_ctl <= c_tx_ena xor c_tx_err;
+      end loop;
+      -- followed by the IPG
+ 	    for i in 0 to c_ipg_len-1 loop
+        -- first nibble
+        proc_wait_clk_edge(rx_clk, '1');
+        rgmii_rd     <= ( others => '1');
+        rgmii_rx_ctl <= not c_tx_ena;
+        proc_wait_clk_edge(rx_clk, '0');
+        rgmii_rd     <= ( others => '1');
+        rgmii_rx_ctl <= not c_tx_ena xor c_tx_err;
       end loop;
 
       proc_wait_clk_edge(rx_clk, '1');
