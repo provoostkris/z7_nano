@@ -4,8 +4,6 @@ scripts/modelsim/*
 scripts/vivado/*
 !scripts/vivado/*.tcl
 
-scripts/modelsim/*.ini
-scripts/modelsim/*.wlf
-
-scripts/vivado/*.log
-scripts/vivado/*.bak
+bd_base/*
+!bd_base/*.xpr
+!bd_base/prj_bd_base.srcs
