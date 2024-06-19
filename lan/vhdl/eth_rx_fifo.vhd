@@ -112,7 +112,6 @@ begin
             end if;
 
           when stream =>
-
             if m_dat_tready = '1' then
               m_dat_tdata   <= fifo_do(7 downto 0);
               m_dat_tlast   <= fifo_do(8);

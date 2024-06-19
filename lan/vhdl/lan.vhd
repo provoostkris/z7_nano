@@ -11,9 +11,6 @@ use     ieee.std_logic_misc.all;
 library unisim;
 use     unisim.vcomponents.all;
 
-library work;
-use     work.lan_pkg.all;
-
 entity lan is
   generic (
     my_mac            : std_logic_vector(47 downto 0) := x"02AABBCCDDEE"
@@ -91,33 +88,17 @@ begin
   generic map (45)
   port    map (clk_eth, rst_n,led);
 
-  --! send some dummy data , collected from a dummy frame
-  process(rst_n, clk_eth) is
-    variable v_idx : integer range 0 to c_pkg_dummy_eth'length;
-  begin
-      if rst_n='0' then
-        v_idx         := 0;
-        s_dat_tdata   <= ( others => '0');
-        s_dat_tlast   <= '0';
-        s_dat_tvalid  <= '0';
-      elsif rising_edge(clk_eth) then
-        if s_dat_tready = '1' then
-          s_dat_tdata   <= c_pkg_dummy_eth(v_idx);
-          s_dat_tvalid  <= '1';
-          if v_idx = c_pkg_dummy_eth'high then
-            s_dat_tlast   <= '1';
-            v_idx         := 0;
-          else
-            s_dat_tlast   <= '0';
-            v_idx         := v_idx + 1 ;
-          end if;
-        else
-          s_dat_tdata   <= ( others => '0');
-          s_dat_tlast   <= '0';
-          s_dat_tvalid  <= '0';
-        end if;
-      end if;
-  end process;
+
+  --! user logic with ROM
+  i_rom_tx : entity work.rom_tx
+    port map (
+      clk           => clk_eth,
+      rst_n         => rst_n,
+      m_dat_tready  => s_dat_tready,
+      m_dat_tdata   => s_dat_tdata ,
+      m_dat_tlast   => s_dat_tlast ,
+      m_dat_tvalid  => s_dat_tvalid
+    );
 
   --! user logic to tx_fifo
   i_rgmii_tx_fifo : entity work.rgmii_tx_fifo

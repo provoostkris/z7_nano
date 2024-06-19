@@ -24,8 +24,9 @@ end entity tb_lan;
 
 architecture rtl of tb_lan is
 
-  constant c_ena_tst_1 : boolean := false;
+  constant c_ena_tst_1 : boolean := true;
   constant c_ena_tst_2 : boolean := true;
+  constant c_ena_tst_3 : boolean := true;
 
 
   -- ethernet packet from https://github.com/jwbensley/Ethernet-CRC32
@@ -151,6 +152,54 @@ dut: entity work.lan(rtl)
       rgmii_rd     <= ( others => '0');
 
       v_payload                 := C_ETH_PKT;
+      v_header                  := C_DEFAULT_ETH_HEADER;                                -- copy default header
+      v_header.mac_dest         := f_eth_mac_2_slv_arr("02:AA:BB:CC:DD:EE");            -- change destination MAC
+      v_len                     := f_eth_create_pkt_len(v_header, v_payload);           -- calculate total packet length
+      v_eth_pkt(0 to v_len - 1) := f_eth_create_pkt(v_header, v_payload);               -- create the packet
+      v_eth_pkt(0 to v_len + 7) := f_concat(C_ETH_PREAMBLE, v_eth_pkt(0 to v_len - 1)); -- add preamble
+
+      -- create packet for transmission and wait for PLL to lock
+	    proc_reset(3);
+      eth_pkt       <= v_eth_pkt;
+ 	    proc_wait_clk(rx_clk, 250);
+
+      -- then transmit the packet
+ 	    for i in 0 to v_len + 7 loop
+        -- first nibble
+        proc_wait_clk_edge(rx_clk, '1');
+        rgmii_rd     <= eth_pkt(i)(7 downto 4);
+        rgmii_rx_ctl <= c_tx_ena;
+        proc_wait_clk_edge(rx_clk, '0');
+        rgmii_rd     <= eth_pkt(i)(3 downto 0);
+        rgmii_rx_ctl <= c_tx_ena xor c_tx_err;
+      end loop;
+      -- followed by the IPG
+ 	    for i in 0 to c_ipg_len-1 loop
+        -- first nibble
+        proc_wait_clk_edge(rx_clk, '1');
+        rgmii_rd     <= ( others => '1');
+        rgmii_rx_ctl <= not c_tx_ena;
+        proc_wait_clk_edge(rx_clk, '0');
+        rgmii_rd     <= ( others => '1');
+        rgmii_rx_ctl <= not c_tx_ena xor c_tx_err;
+      end loop;
+
+      proc_wait_clk_edge(rx_clk, '1');
+      rgmii_rx_ctl <= '0';
+      rgmii_rd     <= ( others => '0');
+
+ 	    proc_wait_clk(rx_clk, 25);
+    end if;
+
+    if c_ena_tst_3 then
+	  report " RUN TST.03 ";
+
+      rgmii_rx_ctl <= '0';
+      rgmii_rd     <= ( others => '0');
+      
+      for i in C_ETH_PKT'range loop
+        v_payload(i)            := x"F0";
+      end loop;
       v_header                  := C_DEFAULT_ETH_HEADER;                                -- copy default header
       v_header.mac_dest         := f_eth_mac_2_slv_arr("02:AA:BB:CC:DD:EE");            -- change destination MAC
       v_len                     := f_eth_create_pkt_len(v_header, v_payload);           -- calculate total packet length
