@@ -15,18 +15,22 @@ set_property simulator_language VHDL [current_project]
 
 #
 # Add various sources to the project
-set fp [open ../../rtl.txt]
-while {-1 != [gets $fp line]} {
-    set file_src ../../$line
-    puts $file_src
-    add_files -norecurse $file_src
-}
+  set fp [open ../../rtl.txt]
+  while {-1 != [gets $fp line]} {
+      set file_src ../../$line
+      puts $file_src
+      add_files -norecurse $file_src
+  }
+
+  read_bd                         ../../bd_base/prj_bd_base.srcs/sources_1/bd/bd_base/bd_base.bd
+  make_wrapper -files [get_files  ../../bd_base/prj_bd_base.srcs/sources_1/bd/bd_base/bd_base.bd] -top
+  add_files                       ../../bd_base/prj_bd_base.gen/sources_1/bd/bd_base/hdl/bd_base_wrapper.vhd
 
 #
 # Add various constraints to the project
 add_files ../../constraints/pin_constraints.xdc
 add_files ../../constraints/timings.xdc
-    
+
 #
 # Update to set top and file compile order
 update_compile_order -fileset sources_1

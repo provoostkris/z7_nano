@@ -1,4 +1,4 @@
-# lan
+# LAN design
 
 ### Description
 Make use of the *ETH PORT* connected via the PL fabric. The design makes use of an RGMII interface.
@@ -12,8 +12,8 @@ PHY : 1 Gbps
 ### [I/O](constraints)
 - PL ETH 
 - LED : 
-      - off = reset
-      - on  = active
+  - off = reset
+  - on  = active
 - RESET button press = send a dummy frame
 
 

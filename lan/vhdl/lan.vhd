@@ -17,7 +17,7 @@ entity lan is
   );
   port(
     clk               : in  std_logic;  --system clock
-    reset_n           : in  std_logic;  --active low reset
+    -- reset_n           : in  std_logic;  --active low reset
 
     rgmii_rxc         : in  std_logic;
     rgmii_rx_ctl      : in  std_logic;
@@ -27,7 +27,33 @@ entity lan is
     rgmii_td          : out std_logic_vector(3 downto 0);
     phy_rst_n         : out std_logic;
 
-    led               : out std_logic
+    -- led               : out std_logic;
+
+    --! block design
+    DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
+    DDR_ba : inout STD_LOGIC_VECTOR ( 2 downto 0 );
+    DDR_cas_n : inout STD_LOGIC;
+    DDR_ck_n : inout STD_LOGIC;
+    DDR_ck_p : inout STD_LOGIC;
+    DDR_cke : inout STD_LOGIC;
+    DDR_cs_n : inout STD_LOGIC;
+    DDR_dm : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+    DDR_dq : inout STD_LOGIC_VECTOR ( 31 downto 0 );
+    DDR_dqs_n : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+    DDR_dqs_p : inout STD_LOGIC_VECTOR ( 3 downto 0 );
+    DDR_odt : inout STD_LOGIC;
+    DDR_ras_n : inout STD_LOGIC;
+    DDR_reset_n : inout STD_LOGIC;
+    DDR_we_n : inout STD_LOGIC;
+    FIXED_IO_ddr_vrn : inout STD_LOGIC;
+    FIXED_IO_ddr_vrp : inout STD_LOGIC;
+    FIXED_IO_mio : inout STD_LOGIC_VECTOR ( 53 downto 0 );
+    FIXED_IO_ps_clk : inout STD_LOGIC;
+    FIXED_IO_ps_porb : inout STD_LOGIC;
+    FIXED_IO_ps_srstb : inout STD_LOGIC;
+    key_tri_i : in STD_LOGIC_VECTOR ( 0 to 0 );
+    led_tri_o : out STD_LOGIC_VECTOR ( 0 to 0 )
+
   );
 end lan;
 
@@ -79,7 +105,7 @@ architecture rtl of lan is
 begin
 
   phy_rst_n <= '1';
-  reset    <= not reset_n;
+  -- reset    <= not reset_n;
   rst      <= not locked;
   rst_n    <= not rst;
 
@@ -200,7 +226,7 @@ begin
     s_eof         => ceof,
     s_rxdata      => crxdata,
     s_rxdv        => crxdv,
-    
+
     m_clk         => rgmii_rxc,
     m_rst_n       => rst_n,
     m_dat_tready  => '1',
@@ -208,7 +234,7 @@ begin
     m_dat_tlast   => open,
     m_dat_tvalid  => open
     );
-  
+
 
 --! we need a pll to make 125.0 mhz from the 50 mhz
 --! that ratio is x2.5 , pll needs a number that is with a granularity off 0.125
@@ -274,10 +300,37 @@ begin
       clkin1 => clk,       -- 1-bit input: clock
       -- control ports: 1-bit (each) input: mmcm control ports
       pwrdwn => '0',       -- 1-bit input: power-down
-      rst => reset,             -- 1-bit input: reset
+      rst => '0',             -- 1-bit input: reset
       -- feedback clocks: 1-bit (each) input: clock feedback ports
       clkfbin => clkfb      -- 1-bit input: feedback clock
    );
 
-
+--! add the block design containing the processor
+  bd_base_i: entity work.bd_base
+       port map (
+        DDR_addr(14 downto 0) => DDR_addr(14 downto 0),
+        DDR_ba(2 downto 0) => DDR_ba(2 downto 0),
+        DDR_cas_n => DDR_cas_n,
+        DDR_ck_n => DDR_ck_n,
+        DDR_ck_p => DDR_ck_p,
+        DDR_cke => DDR_cke,
+        DDR_cs_n => DDR_cs_n,
+        DDR_dm(3 downto 0) => DDR_dm(3 downto 0),
+        DDR_dq(31 downto 0) => DDR_dq(31 downto 0),
+        DDR_dqs_n(3 downto 0) => DDR_dqs_n(3 downto 0),
+        DDR_dqs_p(3 downto 0) => DDR_dqs_p(3 downto 0),
+        DDR_odt => DDR_odt,
+        DDR_ras_n => DDR_ras_n,
+        DDR_reset_n => DDR_reset_n,
+        DDR_we_n => DDR_we_n,
+        FIXED_IO_ddr_vrn => FIXED_IO_ddr_vrn,
+        FIXED_IO_ddr_vrp => FIXED_IO_ddr_vrp,
+        FIXED_IO_mio(53 downto 0) => FIXED_IO_mio(53 downto 0),
+        FIXED_IO_ps_clk => FIXED_IO_ps_clk,
+        FIXED_IO_ps_porb => FIXED_IO_ps_porb,
+        FIXED_IO_ps_srstb => FIXED_IO_ps_srstb,
+        key_tri_i(0) => key_tri_i(0),
+        led_tri_o(0) => led_tri_o(0)
+      );
+    
 end rtl;
