@@ -60,12 +60,13 @@ end lan;
 architecture rtl of lan is
 
 --! clock and reset tree signals
-  signal  reset      : std_logic;
-  signal  locked     : std_logic;
-  signal  rst        : std_logic;
-  signal  rst_n      : std_logic;
-  signal  clkfb      : std_logic;
-  signal  clk_eth   : std_logic;
+  signal  reset          : std_logic;
+  signal  locked         : std_logic;
+  signal  rst            : std_logic;
+  signal  rst_n          : std_logic;
+  signal  clkfb          : std_logic;
+  signal  clk_sys        : std_logic;
+  signal  clk_rgmii_tx   : std_logic;
 
 --! signals on tx channel
 
@@ -110,15 +111,15 @@ begin
   rst_n    <= not rst;
 
 --! indicate the board is running
-  i_pwm: entity work.pwm
-  generic map (45)
-  port    map (clk_eth, rst_n,led);
+  -- i_pwm: entity work.pwm
+  -- generic map (45)
+  -- port    map (clk_sys, rst_n,led);
 
 
   --! user logic with ROM
   i_rom_tx : entity work.rom_tx
     port map (
-      clk           => clk_eth,
+      clk           => clk_sys,
       rst_n         => rst_n,
       m_dat_tready  => s_dat_tready,
       m_dat_tdata   => s_dat_tdata ,
@@ -129,14 +130,14 @@ begin
   --! user logic to tx_fifo
   i_rgmii_tx_fifo : entity work.rgmii_tx_fifo
     port map (
-      s_clk         => clk_eth,
+      s_clk         => clk_sys,
       s_rst_n       => rst_n,
       s_dat_tready  => s_dat_tready,
       s_dat_tdata   => s_dat_tdata ,
       s_dat_tlast   => s_dat_tlast ,
       s_dat_tvalid  => s_dat_tvalid,
 
-      m_clk         => clk_eth,
+      m_clk         => clk_rgmii_tx,
       m_rst_n       => rst_n,
       m_txdata      => ctxdata,
       m_sof         => sof,
@@ -148,7 +149,7 @@ begin
   --! tx_fifo to rgmii
   i_rgmii_tx : entity work.rgmii_tx
     port map (
-      iclk         => clk_eth,
+      iclk         => clk_rgmii_tx,
       irst_n       => rst_n,
 
       itxdata      => ctxdata,
@@ -167,7 +168,7 @@ begin
     port map (
       idelay_clk   => '0',
       rst          => rst,
-      gmii_txc     => clk_eth,
+      gmii_txc     => clk_rgmii_tx,
       gmii_tx_dv   => cenettxen,
       gmii_tx_err  => cenettxerr,
       gmii_td      => cenettxdata,
@@ -195,7 +196,6 @@ begin
   --! ethernet frame reciever
   i_eth_frm_rx : entity work.eth_frm_rx
     port map (
-      -- iclk               => clk_eth,
       iclk               => rgmii_rxc,
       irst_n             => rst_n,
 
@@ -227,7 +227,7 @@ begin
     s_rxdata      => crxdata,
     s_rxdv        => crxdv,
 
-    m_clk         => rgmii_rxc,
+    m_clk         => clk_sys,
     m_rst_n       => rst_n,
     m_dat_tready  => '1',
     m_dat_tdata   => open,
@@ -251,7 +251,7 @@ begin
       clkin1_period => 20.0,      -- input clock period in ns to ps resolution (i.e. 33.333 is 30 mhz).
       -- clkout0_divide - clkout6_divide: divide amount for each clkout (1-128)
       clkout1_divide => 10,
-      clkout2_divide => 1,
+      clkout2_divide => 25,
       clkout3_divide => 1,
       clkout4_divide => 1,
       clkout5_divide => 1,
@@ -282,9 +282,9 @@ begin
       -- clock outputs: 1-bit (each) output: user configurable clock outputs
       clkout0 => open, -- 1-bit output: clkout0
       clkout0b => open,   -- 1-bit output: inverted clkout0
-      clkout1 => clk_eth,     -- 1-bit output: clkout1
+      clkout1 => clk_rgmii_tx,     -- 1-bit output: clkout1
       clkout1b => open,   -- 1-bit output: inverted clkout1
-      clkout2 => open,     -- 1-bit output: clkout2
+      clkout2 => clk_sys,     -- 1-bit output: clkout2
       clkout2b => open,   -- 1-bit output: inverted clkout2
       clkout3 => open,     -- 1-bit output: clkout3
       clkout3b => open,   -- 1-bit output: inverted clkout3
@@ -304,6 +304,7 @@ begin
       -- feedback clocks: 1-bit (each) input: clock feedback ports
       clkfbin => clkfb      -- 1-bit input: feedback clock
    );
+
 
 --! add the block design containing the processor
   bd_base_i: entity work.bd_base
@@ -332,5 +333,5 @@ begin
         key_tri_i(0) => key_tri_i(0),
         led_tri_o(0) => led_tri_o(0)
       );
-    
+
 end rtl;
