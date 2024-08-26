@@ -25,8 +25,8 @@ end entity tb_lan;
 architecture rtl of tb_lan is
 
   constant c_ena_tst_1 : boolean := true;
-  constant c_ena_tst_2 : boolean := true;
-  constant c_ena_tst_3 : boolean := true;
+  constant c_ena_tst_2 : boolean := false;
+  constant c_ena_tst_3 : boolean := false;
 
 
   -- ethernet packet from https://github.com/jwbensley/Ethernet-CRC32
@@ -56,6 +56,7 @@ architecture rtl of tb_lan is
   signal rx_clk       : std_ulogic :='0';
 
 --! dut signals
+  signal pll_lock          : std_logic;
   signal rgmii_rxc         : std_logic;
   signal rgmii_rx_ctl      : std_logic;
   signal rgmii_rd          : std_logic_vector(3 downto 0);
@@ -97,6 +98,8 @@ begin
 dut: entity work.lan(rtl)
   port map (
     clk               => clk,
+
+    pll_lock          => pll_lock,
 
     rgmii_rxc         => rgmii_rxc    ,
     rgmii_rx_ctl      => rgmii_rx_ctl ,
@@ -154,20 +157,34 @@ dut: entity work.lan(rtl)
 
     if c_ena_tst_1 then
 	  report " RUN TST.01 ";
-      rgmii_rx_ctl <= '0';
+    report " .. simple loop back test , the TX is wired to RX";
+    report " .. then the simulation will run for 200 clk cycles";
+      rgmii_rx_ctl <= '1';
       rgmii_rd     <= (others => '0');
 	    proc_reset(3);
-
-      --! create a loopback , but not for the clocks
+      
+      -- wait until the clocks are running and reset is over
+      wait until pll_lock = '1';
+      -- wait until the transmitter has started
+      wait until rgmii_tx_ctl = '0';
+      -- then signal that the RX has started
+      rgmii_rx_ctl <= '1';
+      --! create a loopback , by means of sampling the TX data in RX clock
       --! as these are generated on each side of the PHY
-      rgmii_rx_ctl <= rgmii_tx_ctl;
-      rgmii_rd     <= rgmii_td;
+      for i in 0 to 400 loop
+        wait until rgmii_rxc'event;
+        rgmii_rx_ctl <= rgmii_tx_ctl;
+        rgmii_rd     <= rgmii_td;
+      end loop;
 
- 	    proc_wait_clk(clk, 200);
+	  report " END TST.01 ";
     end if;
 
     if c_ena_tst_2 then
 	  report " RUN TST.02 ";
+    report " .. a test packet is crafted and sent to the DUT";
+    report " .. the DUT is first resetted and a 250 clk cycles is waited for the PLL to lock";
+    report " .. after the packet the IPG sequence is sent to respect the protocol";
 
       rgmii_rx_ctl <= '0';
       rgmii_rd     <= ( others => '0');
@@ -210,10 +227,14 @@ dut: entity work.lan(rtl)
       rgmii_rd     <= ( others => '0');
 
  	    proc_wait_clk(rx_clk, 25);
+	  report " END TST.02 ";
     end if;
 
     if c_ena_tst_3 then
 	  report " RUN TST.03 ";
+    report " .. a dummy packet is crafted x'FE' and sent to the DUT";
+    report " .. the DUT is first resetted and a 250 clk cycles is waited for the PLL to lock";
+    report " .. after the packet the IPG sequence is sent to respect the protocol";
 
       rgmii_rx_ctl <= '0';
       rgmii_rd     <= ( others => '0');
