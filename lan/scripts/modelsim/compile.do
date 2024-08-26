@@ -51,8 +51,12 @@ echo "Compiling netwiz required files"
 
 echo "Compiling design"
 
+  set path_bd "../../bd_base/prj_bd_base.gen/sources_1/bd/bd_base/sim"
+  vcom -2008 -work work $path_bd/bd_base.vhd
+
   set path_rtl   "../.."
   do vcom_rtl.do
+
 
 echo "Compiling test bench"
 
