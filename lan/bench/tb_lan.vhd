@@ -97,7 +97,6 @@ begin
 dut: entity work.lan(rtl)
   port map (
     clk               => clk,
-    reset_n           => rst_n,
 
     rgmii_rxc         => rgmii_rxc    ,
     rgmii_rx_ctl      => rgmii_rx_ctl ,
@@ -107,7 +106,29 @@ dut: entity work.lan(rtl)
     rgmii_td          => rgmii_td     ,
     phy_rst_n         => phy_rst_n    ,
 
-    led               => y
+    DDR_addr          => open ,
+    DDR_ba            => open ,
+    DDR_cas_n         => open ,
+    DDR_ck_n          => open ,
+    DDR_ck_p          => open ,
+    DDR_cke           => open ,
+    DDR_cs_n          => open ,
+    DDR_dm            => open ,
+    DDR_dq            => open ,
+    DDR_dqs_n         => open ,
+    DDR_dqs_p         => open ,
+    DDR_odt           => open ,
+    DDR_ras_n         => open ,
+    DDR_reset_n       => open ,
+    DDR_we_n          => open ,
+    FIXED_IO_ddr_vrn  => open ,
+    FIXED_IO_ddr_vrp  => open ,
+    FIXED_IO_mio      => open ,
+    FIXED_IO_ps_clk   => open ,
+    FIXED_IO_ps_porb  => open ,
+    FIXED_IO_ps_srstb => open ,
+    key_tri_i         => ( others => 'Z') ,
+    led_tri_o         => open
   );
 
 
@@ -196,7 +217,7 @@ dut: entity work.lan(rtl)
 
       rgmii_rx_ctl <= '0';
       rgmii_rd     <= ( others => '0');
-      
+
       for i in C_ETH_PKT'range loop
         v_payload(i)            := x"F0";
       end loop;
