@@ -26,7 +26,7 @@ architecture rtl of pwm is
 
 begin
 
-  -- siple counter to bring led in visible frequency
+  -- simple counter to bring led in visible frequency
   process(reset_n, clk) is
   begin
       if reset_n='0' then

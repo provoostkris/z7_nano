@@ -92,8 +92,8 @@
       .Q(rgmii_td[i]), // 1-bit DDR output
       .C(rgmii_txc), // 1-bit clock input
       .CE(1'b1), // 1-bit clock enable input
-      .D1(gmii_td[i]), // 1-bit data input (positive edge)
-      .D2(gmii_td[i+4]), // 1-bit data input (negative edge)
+      .D1(gmii_td[i+4]), // 1-bit data input (positive edge)
+      .D2(gmii_td[i+0]), // 1-bit data input (negative edge)
       .R(1'b0), // 1-bit reset
       .S(rst) // 1-bit set
       ); 
