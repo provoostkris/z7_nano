@@ -32,16 +32,31 @@ architecture rtl of rgmii_rx_ddr is
   signal gmii_qf      : std_logic_vector(3 downto 0);
   signal gmii_ctl_qr  : std_logic;
   signal gmii_ctl_qf  : std_logic;
-  
+
+
+-- attribute IODELAY_GROUP : STRING;
+-- attribute IODELAY_GROUP of <label_name>: label is "rx_delay";
+
 begin
 
   -- interleave the DDR IO to a byte
-  gmii_rd       <= gmii_qr & gmii_qf; 
-  
+  gmii_rd       <= gmii_qr & gmii_qf;
+
   -- XOR for the error signal
   gmii_rx_err   <= gmii_ctl_qr xor gmii_ctl_qf;
   gmii_rx_dv    <= gmii_ctl_qr;
-  
+
+   -- IDELAYCTRL: IDELAYE2/ODELAYE2 Tap Delay Value Control
+   --             Artix-7
+   -- Xilinx HDL Language Template, version 2023.1
+
+   -- IDELAYCTRL_inst : IDELAYCTRL
+   -- port map (
+      -- RDY => open,       -- 1-bit output: Ready output
+      -- REFCLK => rgmii_rxc, -- 1-bit input: Reference clock input
+      -- RST => rst        -- 1-bit input: Active high reset input
+   -- );
+
 gen_io: for i in rgmii_rd'range generate
 
    -- IDDR: Double Data Rate Input Register with Set, Reset

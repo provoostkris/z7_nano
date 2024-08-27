@@ -44,12 +44,12 @@ architecture rtl of rgmii_tx_fifo is
                     tx_frame_sof,
                     tx_frame_data
                   );
-  signal s_ctrl                      : t_state;
+  signal s_ctrl                     : t_state;
   attribute syn_encoding            : string;
   attribute syn_encoding of t_state : type is "safe,onehot";
 
   signal s_rst        : std_logic;
-  signal fifo_empty   : std_logic;
+  signal fifo_a_empty : std_logic;
   signal fifo_a_full  : std_logic;
   signal fifo_di      : std_logic_vector(8 downto 0);
   signal fifo_do      : std_logic_vector(8 downto 0);
@@ -69,16 +69,16 @@ begin
    FIFO_DUALCLOCK_MACRO_inst : FIFO_DUALCLOCK_MACRO
    generic map (
       DEVICE => "7SERIES",            -- Target Device: "VIRTEX5", "VIRTEX6", "7SERIES"
-      ALMOST_FULL_OFFSET => X"0080",  -- Sets almost full threshold
-      ALMOST_EMPTY_OFFSET => X"0080", -- Sets the almost empty threshold
+      ALMOST_FULL_OFFSET => X"0040",  -- Sets almost full threshold
+      ALMOST_EMPTY_OFFSET => X"0040", -- Sets the almost empty threshold
       DATA_WIDTH => 9,   -- Valid values are 1-72 (37-72 only valid when FIFO_SIZE="36Kb")
       FIFO_SIZE => "18Kb",            -- Target BRAM, "18Kb" or "36Kb"
       FIRST_WORD_FALL_THROUGH => true) -- Sets the FIFO FWFT to TRUE or FALSE
    port map (
-      ALMOSTEMPTY => open,   -- 1-bit output almost empty
+      ALMOSTEMPTY => fifo_a_empty,   -- 1-bit output almost empty
       ALMOSTFULL => fifo_a_full,     -- 1-bit output almost full
       DO => fifo_do,                     -- Output data, width defined by DATA_WIDTH parameter
-      EMPTY => fifo_empty,               -- 1-bit output empty
+      EMPTY => open,               -- 1-bit output empty
       FULL => open,                 -- 1-bit output full
       RDCOUNT => open,           -- Output read count, width determined by FIFO depth
       RDERR => open,               -- 1-bit output read error
@@ -107,7 +107,7 @@ begin
           when tx_frame_req =>
             m_txdata   <= ( others => '0');
             m_eof      <= '0';
-            if fifo_empty = '0' then
+            if fifo_a_empty = '0' then
               m_genframe <= '1';
               s_ctrl     <= tx_frame_ack;
             end if;
