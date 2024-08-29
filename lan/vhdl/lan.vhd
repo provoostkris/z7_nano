@@ -321,7 +321,7 @@ begin
       clkin1 => clk,       -- 1-bit input: clock
       -- control ports: 1-bit (each) input: mmcm control ports
       pwrdwn => '0',       -- 1-bit input: power-down
-      rst => reset_n,             -- 1-bit input: reset
+      rst => reset,             -- 1-bit input: reset
       -- feedback clocks: 1-bit (each) input: clock feedback ports
       clkfbin => clkfb      -- 1-bit input: feedback clock
    );
