@@ -45,7 +45,7 @@ architecture rtl of tb_lan is
                                                            x"36", x"37", x"e6", x"4c", x"b4", x"86");
 
   constant c_clk_per     : time      := 20 ns ;
-  constant c_rx_clk_per  : time      :=  8 ns ;
+  constant c_rx_clk_per  : time      := 40 ns ;
 
   constant c_tx_ena      : std_logic := '1';
   constant c_tx_err      : std_logic := '0';
