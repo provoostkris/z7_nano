@@ -109,6 +109,8 @@ dut: entity work.lan(rtl)
     rgmii_tx_ctl      => rgmii_tx_ctl ,
     rgmii_td          => rgmii_td     ,
     phy_rst_n         => phy_rst_n    ,
+    
+    led               => open ,
 
     DDR_addr          => open ,
     DDR_ba            => open ,
