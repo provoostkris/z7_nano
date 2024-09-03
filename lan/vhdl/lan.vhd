@@ -110,9 +110,9 @@ begin
   rst_n    <= not rst;
 
 --! indicate the board is running
-  i_pwm: entity work.pwm
-  generic map (45)
-  port    map (clk_eth, rst_n,led);
+  -- i_pwm: entity work.pwm
+  -- generic map (45)
+  -- port    map (clk_eth, rst_n,led);
 
 
   --! user logic with ROM
