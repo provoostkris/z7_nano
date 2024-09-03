@@ -20,7 +20,7 @@ entity lan is
     reset_n           : in  std_logic;  --active low reset
 
     pll_lock          : out std_logic;
-    
+
     rgmii_rxc         : in  std_logic;
     rgmii_rx_ctl      : in  std_logic;
     rgmii_rd          : in  std_logic_vector(3 downto 0);
@@ -29,7 +29,7 @@ entity lan is
     rgmii_td          : out std_logic_vector(3 downto 0);
     phy_rst_n         : out std_logic;
 
-    led               : out std_logic;
+    -- led               : out std_logic;
 
     --! block design
     DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
@@ -117,9 +117,9 @@ begin
   pll_lock  <= locked;
 
 --! indicate the board is running
-  i_pwm: entity work.pwm
-  generic map (45)
-  port    map (clk_sys, rst_n,led);
+  -- i_pwm: entity work.pwm
+  -- generic map (45)
+  -- port    map (clk_sys, rst_n,led);
 
 
   --! user logic with ROM
@@ -181,7 +181,7 @@ begin
       rgmii_tx_ctl => rgmii_tx_ctl,
       rgmii_td     => rgmii_td
     );
-    rgmii_txc <=  not clk_rgmii_tx;
+    rgmii_txc <= clk_rgmii_tx;
 
   --! normal to reduced interface adapter
   -- i_gmii_to_rgmii: entity work.gmii_to_rgmii
