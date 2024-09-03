@@ -18,8 +18,6 @@ entity lan is
   port(
     clk               : in  std_logic;  --system clock
     -- reset_n           : in  std_logic;  --active low reset
-    
-    pll_lock          : out std_logic;
 
     rgmii_rxc         : in  std_logic;
     rgmii_rx_ctl      : in  std_logic;
@@ -55,6 +53,7 @@ entity lan is
     FIXED_IO_ps_srstb : inout STD_LOGIC;
     key_tri_i : in STD_LOGIC_VECTOR ( 0 to 0 );
     led_tri_o : out STD_LOGIC_VECTOR ( 0 to 0 )
+
   );
 end lan;
 
@@ -110,7 +109,6 @@ begin
   -- reset    <= not reset_n;
   rst      <= not locked;
   rst_n    <= not rst;
-  pll_lock <= locked;
 
 --! indicate the board is running
   -- i_pwm: entity work.pwm
