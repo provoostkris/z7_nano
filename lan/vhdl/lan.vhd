@@ -17,7 +17,7 @@ entity lan is
   );
   port(
     clk               : in  std_logic;  --system clock
-    reset_n           : in  std_logic;  --active low reset
+    -- reset_n           : in  std_logic;  --active low reset
 
     pll_lock          : out std_logic;
 
@@ -110,10 +110,10 @@ architecture rtl of lan is
 begin
 
   phy_rst_n <= '1';
-  reset     <= not reset_n;
-  rst       <= not locked;
-  rst_n     <= not rst;
-  pll_lock  <= locked;
+  -- reset    <= not reset_n;
+  rst      <= not locked;
+  rst_n    <= not rst;
+  pll_lock <= locked;
 
 --! indicate the board is running
   -- i_pwm: entity work.pwm
@@ -201,18 +201,18 @@ begin
   -- TODO , add true IO delays
   -- for noz data is just resampled on the same clock
 
-  -- process(rst_n, rgmii_rxc) is
-  -- begin
-      -- if rst_n='0' then
-        -- cdc_rx_data  <= ( others => '0');
-        -- cdc_rx_dv    <= '0';
-        -- cdc_rx_err   <= '0';
-      -- elsif rising_edge(rgmii_rxc) then
+  process(rst_n, rgmii_rxc) is
+  begin
+      if rst_n='0' then
+        cdc_rx_data  <= ( others => '0');
+        cdc_rx_dv    <= '0';
+        cdc_rx_err   <= '0';
+      elsif rising_edge(rgmii_rxc) then
         cdc_rx_data  <= gmii_rx_data;
         cdc_rx_dv    <= gmii_rx_dv  ;
         cdc_rx_err   <= gmii_rx_err ;
-      -- end if;
-  -- end process;
+      end if;
+  end process;
 
   --! ethernet frame reciever
   i_eth_frm_rx : entity work.eth_frm_rx
@@ -321,7 +321,7 @@ begin
       clkin1 => clk,       -- 1-bit input: clock
       -- control ports: 1-bit (each) input: mmcm control ports
       pwrdwn => '0',       -- 1-bit input: power-down
-      rst => reset_n,             -- 1-bit input: reset
+      rst => '0',             -- 1-bit input: reset
       -- feedback clocks: 1-bit (each) input: clock feedback ports
       clkfbin => clkfb      -- 1-bit input: feedback clock
    );
