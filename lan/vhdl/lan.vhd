@@ -18,7 +18,7 @@ entity lan is
   port(
     clk               : in  std_logic;  --system clock
     -- reset_n           : in  std_logic;  --active low reset
-
+    
     pll_lock          : out std_logic;
 
     rgmii_rxc         : in  std_logic;
@@ -92,12 +92,9 @@ architecture rtl of lan is
   signal cpayloadlen : unsigned(15 downto 0);
   signal crxdata     : std_logic_vector(7 downto 0);
   signal crxdv       : std_logic;
-  signal gmii_rx_data : std_logic_vector(7 downto 0);
-  signal gmii_rx_dv   : std_logic;
-  signal gmii_rx_err  : std_logic;
-  signal cdc_rx_data  : std_logic_vector(7 downto 0);
-  signal cdc_rx_dv    : std_logic;
-  signal cdc_rx_err   : std_logic;
+  signal cenetrxdata : std_logic_vector(7 downto 0);
+  signal cenetrxdv   : std_logic;
+  signal cenetrxerr  : std_logic;
 
 
   attribute MARK_DEBUG : string;
@@ -193,26 +190,10 @@ begin
       rgmii_rx_ctl=> rgmii_rx_ctl,
       rgmii_rd    => rgmii_rd    ,
 
-      gmii_rx_dv  => gmii_rx_dv   ,
-      gmii_rx_err => gmii_rx_err  ,
-      gmii_rd     => gmii_rx_data
+      gmii_rx_dv  => cenetrxdv   ,
+      gmii_rx_err => cenetrxerr  ,
+      gmii_rd     => cenetrxdata
     );
-
-  -- TODO , add true IO delays
-  -- for noz data is just resampled on the same clock
-
-  process(rst_n, rgmii_rxc) is
-  begin
-      if rst_n='0' then
-        cdc_rx_data  <= ( others => '0');
-        cdc_rx_dv    <= '0';
-        cdc_rx_err   <= '0';
-      elsif rising_edge(rgmii_rxc) then
-        cdc_rx_data  <= gmii_rx_data;
-        cdc_rx_dv    <= gmii_rx_dv  ;
-        cdc_rx_err   <= gmii_rx_err ;
-      end if;
-  end process;
 
   --! ethernet frame reciever
   i_eth_frm_rx : entity work.eth_frm_rx
@@ -220,9 +201,9 @@ begin
       iclk               => rgmii_rxc,
       irst_n             => rst_n,
 
-      irxdata            => cdc_rx_data,
-      irxdv              => cdc_rx_dv,
-      irxer              => cdc_rx_err,
+      irxdata            => cenetrxdata,
+      irxdv              => cenetrxdv,
+      irxer              => cenetrxerr,
 
       orxerr             => open,
       olenerr            => cerrlen,

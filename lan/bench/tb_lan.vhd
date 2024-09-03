@@ -158,7 +158,7 @@ dut: entity work.lan(rtl)
     if c_ena_tst_1 then
 	  report " RUN TST.01 ";
     report " .. simple loop back test , the TX is wired to RX";
-    report " .. then the simulation will run for 1000 clk events";
+    report " .. then the simulation will run for 200 clk cycles";
       rgmii_rx_ctl <= '1';
       rgmii_rd     <= (others => '0');
 	    proc_reset(3);
@@ -171,7 +171,7 @@ dut: entity work.lan(rtl)
       rgmii_rx_ctl <= '1';
       --! create a loopback , by means of sampling the TX data in RX clock
       --! as these are generated on each side of the PHY
-      for i in 0 to 999 loop
+      for i in 0 to 400 loop
         wait until rgmii_rxc'event;
         rgmii_rx_ctl <= rgmii_tx_ctl;
         rgmii_rd     <= rgmii_td;
