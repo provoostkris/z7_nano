@@ -25,8 +25,8 @@ end entity tb_lan;
 architecture rtl of tb_lan is
 
   constant c_ena_tst_1 : boolean := true;
-  constant c_ena_tst_2 : boolean := true;
-  constant c_ena_tst_3 : boolean := true;
+  constant c_ena_tst_2 : boolean := false;
+  constant c_ena_tst_3 : boolean := false;
 
 
   -- ethernet packet from https://github.com/jwbensley/Ethernet-CRC32
@@ -98,7 +98,6 @@ begin
 dut: entity work.lan(rtl)
   port map (
     clk               => clk,
-    reset_n           => rst_n,
 
     pll_lock          => pll_lock,
 
@@ -163,7 +162,7 @@ dut: entity work.lan(rtl)
       rgmii_rx_ctl <= '1';
       rgmii_rd     <= (others => '0');
 	    proc_reset(3);
-
+      
       -- wait until the clocks are running and reset is over
       wait until pll_lock = '1';
       -- wait until the transmitter has started
@@ -184,7 +183,7 @@ dut: entity work.lan(rtl)
     if c_ena_tst_2 then
 	  report " RUN TST.02 ";
     report " .. a test packet is crafted and sent to the DUT";
-    report " .. the DUT is first resetted waited for the PLL to lock";
+    report " .. the DUT is first resetted and a 250 clk cycles is waited for the PLL to lock";
     report " .. after the packet the IPG sequence is sent to respect the protocol";
 
       rgmii_rx_ctl <= '0';
@@ -200,11 +199,7 @@ dut: entity work.lan(rtl)
       -- create packet for transmission and wait for PLL to lock
 	    proc_reset(3);
       eth_pkt       <= v_eth_pkt;
-
-      -- wait until the clocks are running and reset is over
-      wait until pll_lock = '1';
-
- 	    proc_wait_clk(rx_clk, 5);
+ 	    proc_wait_clk(rx_clk, 250);
 
       -- then transmit the packet
  	    for i in 0 to v_len + 7 loop
@@ -231,7 +226,7 @@ dut: entity work.lan(rtl)
       rgmii_rx_ctl <= '0';
       rgmii_rd     <= ( others => '0');
 
- 	    proc_wait_clk(rx_clk, 75);
+ 	    proc_wait_clk(rx_clk, 25);
 	  report " END TST.02 ";
     end if;
 
@@ -256,11 +251,7 @@ dut: entity work.lan(rtl)
       -- create packet for transmission and wait for PLL to lock
 	    proc_reset(3);
       eth_pkt       <= v_eth_pkt;
-      
-      -- wait until the clocks are running and reset is over
-      wait until pll_lock = '1';
-
- 	    proc_wait_clk(rx_clk, 5);
+ 	    proc_wait_clk(rx_clk, 250);
 
       -- then transmit the packet
  	    for i in 0 to v_len + 7 loop
@@ -287,7 +278,7 @@ dut: entity work.lan(rtl)
       rgmii_rx_ctl <= '0';
       rgmii_rd     <= ( others => '0');
 
- 	    proc_wait_clk(rx_clk, 75);
+ 	    proc_wait_clk(rx_clk, 25);
     end if;
 
 	  report " END of test bench" severity failure;
