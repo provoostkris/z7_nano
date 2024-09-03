@@ -6,8 +6,7 @@ vhdl/rgmii_rx_ddr.vhd
 vhdl/eth_frm_rx.vhd
 vhdl/eth_rx_fifo.vhd
 vhdl/rgmii_tx_fifo.vhd
-vhdl/gmii_tx.vhd
-vhdl/rgmii_tx_sdr.vhd
+vhdl/rgmii_tx.vhd
 vhdl/rom_tx.vhd
 vhdl/pwm.vhd
 vhdl/lan.vhd
