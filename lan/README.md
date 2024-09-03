@@ -17,6 +17,12 @@ PHY : 1 Gbps
 - RESET button press = send a dummy frame
 
 
+### Simulation
+The scrips/modelsim folder contains the reauired do files to be loaded by modelsim.
+open modelsim from this location and run the simulate.do file
+the first time the vivado is reauired to build the simulation libraries containing the primitives
+use gen_sim_libs.tcl in vivado to create these
+
 ### Testing
 For testing a wireshark is installed on a normal windows laptop.
 During installation keep the NPcap option. If not my USB-ETH adapter is not listed.

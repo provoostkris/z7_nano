@@ -27,7 +27,7 @@ entity lan is
     rgmii_td          : out std_logic_vector(3 downto 0);
     phy_rst_n         : out std_logic;
 
-    -- led               : out std_logic;
+    pll_lock          : out std_logic;
 
     --! block design
     DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
@@ -107,7 +107,8 @@ begin
   phy_rst_n <= '1';
   -- reset    <= not reset_n;
   rst      <= not locked;
-  rst_n    <= not rst;
+  rst_n    <=     locked;
+  pll_lock <=     locked;
 
 --! indicate the board is running
   -- i_pwm: entity work.pwm
