@@ -67,7 +67,6 @@ architecture rtl of lan is
   signal  rst_n          : std_logic;
   signal  clkfb          : std_logic;
   signal  clk_sys        : std_logic;
-  signal  clk_gmii_tx    : std_logic;
   signal  clk_rgmii_tx   : std_logic;
 
 --! signals on tx channel
@@ -143,7 +142,7 @@ begin
       s_dat_tlast   => s_dat_tlast ,
       s_dat_tvalid  => s_dat_tvalid,
 
-      m_clk         => clk_gmii_tx,
+      m_clk         => clk_rgmii_tx,
       m_rst_n       => rst_n,
       m_txdata      => ctxdata,
       m_sof         => sof,
@@ -153,9 +152,9 @@ begin
     );
 
   --! tx_fifo to rgmii
-  i_gmii_tx : entity work.gmii_tx
+  i_rgmii_tx : entity work.rgmii_tx
     port map (
-      iclk         => clk_gmii_tx,
+      iclk         => clk_rgmii_tx,
       irst_n       => rst_n,
 
       itxdata      => ctxdata,
@@ -169,33 +168,19 @@ begin
       otxerr       => cenettxerr
     );
 
-  --! gmii to rgmii with SDR outputs
-  i_rgmii_tx_sdr: entity work.rgmii_tx_sdr
+  --! normal to reduced interface adapter
+  i_gmii_to_rgmii: entity work.gmii_to_rgmii
     port map (
+      idelay_clk   => '0',
       rst          => rst,
-      gmii_txc     => clk_gmii_tx,
+      gmii_txc     => clk_rgmii_tx,
       gmii_tx_dv   => cenettxen,
       gmii_tx_err  => cenettxerr,
       gmii_td      => cenettxdata,
-      rgmii_txc    => clk_rgmii_tx   ,
+      rgmii_txc    => rgmii_txc   ,
       rgmii_tx_ctl => rgmii_tx_ctl,
       rgmii_td     => rgmii_td
     );
-    rgmii_txc <= clk_rgmii_tx;
-
-  --! normal to reduced interface adapter
-  -- i_gmii_to_rgmii: entity work.gmii_to_rgmii
-    -- port map (
-      -- idelay_clk   => '0',
-      -- rst          => rst,
-      -- gmii_txc     => clk_rgmii_tx,
-      -- gmii_tx_dv   => cenettxen,
-      -- gmii_tx_err  => cenettxerr,
-      -- gmii_td      => cenettxdata,
-      -- rgmii_txc    => rgmii_txc   ,
-      -- rgmii_tx_ctl => rgmii_tx_ctl,
-      -- rgmii_td     => rgmii_td
-    -- );
 
 
   --! reduced to normal interface adapter
@@ -214,7 +199,7 @@ begin
     );
 
   -- TODO , add true IO delays
-  -- for now data is just resampled on the same clock
+  -- for noz data is just resampled on the same clock
 
   -- process(rst_n, rgmii_rxc) is
   -- begin
@@ -288,8 +273,8 @@ begin
       -- clkout0_divide - clkout6_divide: divide amount for each clkout (1-128)
       clkout1_divide => 10,
       clkout2_divide => 25,
-      clkout3_divide => 50,
-      clkout4_divide => 100,
+      clkout3_divide => 1,
+      clkout4_divide => 1,
       clkout5_divide => 1,
       clkout6_divide => 1,
       clkout0_divide_f => 1.0,   -- divide amount for clkout0 (1.000-128.000).
@@ -318,14 +303,13 @@ begin
       -- clock outputs: 1-bit (each) output: user configurable clock outputs
       clkout0 => open, -- 1-bit output: clkout0
       clkout0b => open,   -- 1-bit output: inverted clkout0
-      -- clkout1 => clk_rgmii_tx,     -- 1-bit output: clkout1
-      clkout1 => open,     -- 1-bit output: clkout1
+      clkout1 => clk_rgmii_tx,     -- 1-bit output: clkout1
       clkout1b => open,   -- 1-bit output: inverted clkout1
       clkout2 => clk_sys,     -- 1-bit output: clkout2
       clkout2b => open,   -- 1-bit output: inverted clkout2
-      clkout3 => clk_rgmii_tx,     -- 1-bit output: clkout3
+      clkout3 => open,     -- 1-bit output: clkout3
       clkout3b => open,   -- 1-bit output: inverted clkout3
-      clkout4 => clk_gmii_tx,     -- 1-bit output: clkout4
+      clkout4 => open,     -- 1-bit output: clkout4
       clkout5 => open,     -- 1-bit output: clkout5
       clkout6 => open,     -- 1-bit output: clkout6
       -- feedback clocks: 1-bit (each) output: clock feedback ports
@@ -344,31 +328,31 @@ begin
 
 
 --! add the block design containing the processor
-  -- bd_base_i: entity work.bd_base
-       -- port map (
-        -- DDR_addr(14 downto 0) => DDR_addr(14 downto 0),
-        -- DDR_ba(2 downto 0) => DDR_ba(2 downto 0),
-        -- DDR_cas_n => DDR_cas_n,
-        -- DDR_ck_n => DDR_ck_n,
-        -- DDR_ck_p => DDR_ck_p,
-        -- DDR_cke => DDR_cke,
-        -- DDR_cs_n => DDR_cs_n,
-        -- DDR_dm(3 downto 0) => DDR_dm(3 downto 0),
-        -- DDR_dq(31 downto 0) => DDR_dq(31 downto 0),
-        -- DDR_dqs_n(3 downto 0) => DDR_dqs_n(3 downto 0),
-        -- DDR_dqs_p(3 downto 0) => DDR_dqs_p(3 downto 0),
-        -- DDR_odt => DDR_odt,
-        -- DDR_ras_n => DDR_ras_n,
-        -- DDR_reset_n => DDR_reset_n,
-        -- DDR_we_n => DDR_we_n,
-        -- FIXED_IO_ddr_vrn => FIXED_IO_ddr_vrn,
-        -- FIXED_IO_ddr_vrp => FIXED_IO_ddr_vrp,
-        -- FIXED_IO_mio(53 downto 0) => FIXED_IO_mio(53 downto 0),
-        -- FIXED_IO_ps_clk => FIXED_IO_ps_clk,
-        -- FIXED_IO_ps_porb => FIXED_IO_ps_porb,
-        -- FIXED_IO_ps_srstb => FIXED_IO_ps_srstb,
-        -- key_tri_i(0) => key_tri_i(0),
-        -- led_tri_o(0) => led_tri_o(0)
-      -- );
+  bd_base_i: entity work.bd_base
+       port map (
+        DDR_addr(14 downto 0) => DDR_addr(14 downto 0),
+        DDR_ba(2 downto 0) => DDR_ba(2 downto 0),
+        DDR_cas_n => DDR_cas_n,
+        DDR_ck_n => DDR_ck_n,
+        DDR_ck_p => DDR_ck_p,
+        DDR_cke => DDR_cke,
+        DDR_cs_n => DDR_cs_n,
+        DDR_dm(3 downto 0) => DDR_dm(3 downto 0),
+        DDR_dq(31 downto 0) => DDR_dq(31 downto 0),
+        DDR_dqs_n(3 downto 0) => DDR_dqs_n(3 downto 0),
+        DDR_dqs_p(3 downto 0) => DDR_dqs_p(3 downto 0),
+        DDR_odt => DDR_odt,
+        DDR_ras_n => DDR_ras_n,
+        DDR_reset_n => DDR_reset_n,
+        DDR_we_n => DDR_we_n,
+        FIXED_IO_ddr_vrn => FIXED_IO_ddr_vrn,
+        FIXED_IO_ddr_vrp => FIXED_IO_ddr_vrp,
+        FIXED_IO_mio(53 downto 0) => FIXED_IO_mio(53 downto 0),
+        FIXED_IO_ps_clk => FIXED_IO_ps_clk,
+        FIXED_IO_ps_porb => FIXED_IO_ps_porb,
+        FIXED_IO_ps_srstb => FIXED_IO_ps_srstb,
+        key_tri_i(0) => key_tri_i(0),
+        led_tri_o(0) => led_tri_o(0)
+      );
 
 end rtl;
