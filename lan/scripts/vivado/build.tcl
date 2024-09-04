@@ -7,8 +7,11 @@ cd $loc_folder
 
 set CompilationStart [clock seconds]
 
+# Clean workspace
+file delete -force ../../release/vivado
+
 # Create the project and directory structure
-create_project -force lan ./output -part xc7z020clg400-2
+create_project -force lan ../../release/vivado -part xc7z020clg400-2
 
 set_property target_language VHDL [current_project]
 set_property simulator_language VHDL [current_project]

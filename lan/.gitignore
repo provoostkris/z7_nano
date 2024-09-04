@@ -9,3 +9,6 @@ bd_base/*
 !bd_base/*.xpr
 !bd_base/prj_bd_base.srcs
 !bd_base/prj_bd_base.gen
+
+release/vivado/*
+!release/vivado/*.xpr

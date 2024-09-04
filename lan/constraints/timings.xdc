@@ -1,9 +1,8 @@
 create_clock -period 20.000 [get_ports clk]
-create_clock -period 8.000 [get_ports rgmii_rxc]
+create_clock -period  8.000 [get_ports rgmii_rxc]
 
 
-set_false_path -from              [get_ports reset_n]
-set_false_path -to                [get_ports led]
+set_false_path -to                [get_ports pll_lock]
 
 
 create_clock -period 8.000 -name VIRTUAL_clk_eth -waveform {0.000 4.000}
