@@ -12,3 +12,9 @@ bd_base/*
 
 release/vivado/*
 !release/vivado/*.xpr
+!release/vivado/lan.runs/
+release/vivado/lan.runs/.jobs/*
+release/vivado/lan.runs/synth_1/*
+release/vivado/lan.runs/impl_1/*
+!release/vivado/lan.runs/impl_1/*.bit
+!release/vivado/lan.runs/impl_1/*.rpt
