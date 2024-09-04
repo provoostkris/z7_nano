@@ -1,0 +1,39 @@
+Model Technology ModelSim SE-64 vcom 10.5 Compiler 2016.02 Feb 13 2016
+Start time: 22:45:14 on Sep 03,2024
+vcom -source -93 -work unimacro -f D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unimacro/.cxl.vhd.unimacro.unimacro.cmf 
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling package VCOMPONENTS
+-- Compiling package body VCOMPONENTS
+-- Loading package VCOMPONENTS
+-- Loading package NUMERIC_STD
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity ADDMACC_MACRO
+-- Compiling architecture addmacc of ADDMACC_MACRO
+-- Compiling entity ADDSUB_MACRO
+-- Compiling architecture addsub of ADDSUB_MACRO
+-- Compiling entity BRAM_SDP_MACRO
+-- Compiling architecture bram_V of BRAM_SDP_MACRO
+-- Compiling entity BRAM_SINGLE_MACRO
+-- Compiling architecture bram_V of BRAM_SINGLE_MACRO
+-- Compiling entity BRAM_TDP_MACRO
+-- Compiling architecture bram_V of BRAM_TDP_MACRO
+-- Compiling entity COUNTER_LOAD_MACRO
+-- Compiling architecture counter of COUNTER_LOAD_MACRO
+-- Compiling entity COUNTER_TC_MACRO
+-- Compiling architecture count of COUNTER_TC_MACRO
+-- Compiling entity EQ_COMPARE_MACRO
+-- Compiling architecture compare of EQ_COMPARE_MACRO
+-- Loading package VCOMPONENTS
+-- Compiling entity FIFO_DUALCLOCK_MACRO
+-- Compiling architecture fifo_V of FIFO_DUALCLOCK_MACRO
+-- Compiling entity FIFO_SYNC_MACRO
+-- Compiling architecture fifo_V of FIFO_SYNC_MACRO
+-- Compiling entity MACC_MACRO
+-- Compiling architecture macc of MACC_MACRO
+-- Compiling entity MULT_MACRO
+-- Compiling architecture mult of MULT_MACRO
+End time: 22:45:15 on Sep 03,2024, Elapsed time: 0:00:01
+Errors: 0, Warnings: 0

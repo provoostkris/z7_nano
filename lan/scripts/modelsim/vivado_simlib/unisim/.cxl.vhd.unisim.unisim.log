@@ -1,0 +1,2220 @@
+Model Technology ModelSim SE-64 vcom 10.5 Compiler 2016.02 Feb 13 2016
+Start time: 22:44:56 on Sep 03,2024
+vcom -source -93 -work unisim -f D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unisim/.cxl.vhd.unisim.unisim.cmf -f D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unisim/.cxl.vhd.secureip_vhdl_unisim.unisim.cmf 
+-- Loading package STANDARD
+-- Loading package VITAL_Timing
+-- Loading package VITAL_Primitives
+-- Compiling package VPKG
+-- Compiling package body VPKG
+-- Loading package VPKG
+-- Loading package VPKG
+-- Compiling entity AND2B1L
+-- Compiling architecture AND2B1L_V of AND2B1L
+-- Compiling entity AUTOBUF
+-- Compiling architecture AUTOBUF_V of AUTOBUF
+-- Compiling entity BIBUF
+-- Compiling architecture BIBUF_V of BIBUF
+-- Compiling entity BSCANE2
+-- Compiling architecture BSCANE2_V of BSCANE2
+-- Compiling entity BUF
+-- Compiling architecture BUF_V of BUF
+-- Compiling entity BUFCE_LEAF
+-- Compiling architecture BUFCE_LEAF_V of BUFCE_LEAF
+-- Compiling entity BUFCE_ROW
+-- Compiling architecture BUFCE_ROW_V of BUFCE_ROW
+-- Compiling entity BUFG
+-- Compiling architecture BUFG_V of BUFG
+-- Compiling entity BUFGCE
+-- Compiling architecture BUFGCE_V of BUFGCE
+-- Compiling entity BUFGCE_DIV
+-- Compiling architecture BUFGCE_DIV_V of BUFGCE_DIV
+-- Compiling entity BUFGCTRL
+-- Compiling architecture BUFGCTRL_V of BUFGCTRL
+-- Compiling entity BUFGP
+-- Compiling architecture BUFGP_V of BUFGP
+-- Compiling entity BUFG_GT
+-- Compiling architecture BUFG_GT_V of BUFG_GT
+-- Compiling entity BUFG_GT_SYNC
+-- Compiling architecture BUFG_GT_SYNC_V of BUFG_GT_SYNC
+-- Compiling entity BUFH
+-- Compiling architecture BUFH_V of BUFH
+-- Compiling entity BUFHCE
+-- Compiling architecture BUFHCE_V of BUFHCE
+-- Compiling entity BUFIO
+-- Compiling architecture BUFIO_V of BUFIO
+-- Loading package std_logic_arith
+-- Compiling entity BUFMR
+-- Compiling architecture BUFMR_V of BUFMR
+-- Compiling entity BUFMRCE
+-- Compiling architecture BUFMRCE_V of BUFMRCE
+-- Compiling entity BUFR
+-- Compiling architecture BUFR_V of BUFR
+-- Compiling entity CAPTUREE2
+-- Compiling architecture CAPTUREE2_V of CAPTUREE2
+-- Compiling entity CARRY4
+-- Compiling architecture CARRY4_V of CARRY4
+-- Compiling entity CARRY8
+-- Compiling architecture CARRY8_V of CARRY8
+-- Compiling entity CFGLUT5
+-- Compiling architecture CFGLUT5_V of CFGLUT5
+-- Compiling entity DCIRESET
+-- Compiling architecture DCIRESET_V of DCIRESET
+-- Compiling entity dcm_adv_clock_divide_by_2
+-- Compiling architecture dcm_adv_clock_divide_by_2_V of dcm_adv_clock_divide_by_2
+-- Compiling entity dcm_adv_maximum_period_check
+-- Compiling architecture dcm_adv_maximum_period_check_V of dcm_adv_maximum_period_check
+-- Compiling entity dcm_adv_clock_lost
+-- Compiling architecture dcm_adv_clock_lost_V of dcm_adv_clock_lost
+-- Compiling entity DCM_ADV
+-- Compiling architecture DCM_ADV_V of DCM_ADV
+-- Compiling entity dcm_sp_clock_divide_by_2
+-- Compiling architecture dcm_sp_clock_divide_by_2_V of dcm_sp_clock_divide_by_2
+-- Compiling entity dcm_sp_maximum_period_check
+-- Compiling architecture dcm_sp_maximum_period_check_V of dcm_sp_maximum_period_check
+-- Compiling entity dcm_sp_clock_lost
+-- Compiling architecture dcm_sp_clock_lost_V of dcm_sp_clock_lost
+-- Compiling entity DCM_SP
+-- Compiling architecture DCM_SP_V of DCM_SP
+-- Compiling entity DIFFINBUF
+-- Compiling architecture DIFFINBUF_V of DIFFINBUF
+-- Compiling entity DNA_PORT
+-- Compiling architecture DNA_PORT_V of DNA_PORT
+-- Compiling entity DNA_PORTE2
+-- Compiling architecture DNA_PORTE2_V of DNA_PORTE2
+-- Compiling entity DPHY_DIFFINBUF
+-- Compiling architecture DPHY_DIFFINBUF_V of DPHY_DIFFINBUF
+-- Loading package STD_LOGIC_SIGNED
+-- Compiling entity DSP48E1
+-- Compiling architecture DSP48E1_V of DSP48E1
+-- Compiling entity DSP48E2
+-- Compiling architecture DSP48E2_V of DSP48E2
+-- Compiling entity DSP_ALU
+-- Compiling architecture DSP_ALU_V of DSP_ALU
+-- Compiling entity DSP_A_B_DATA
+-- Compiling architecture DSP_A_B_DATA_V of DSP_A_B_DATA
+-- Compiling entity DSP_C_DATA
+-- Compiling architecture DSP_C_DATA_V of DSP_C_DATA
+-- Compiling entity DSP_MULTIPLIER
+-- Compiling architecture DSP_MULTIPLIER_V of DSP_MULTIPLIER
+-- Compiling entity DSP_M_DATA
+-- Compiling architecture DSP_M_DATA_V of DSP_M_DATA
+-- Compiling entity DSP_OUTPUT
+-- Compiling architecture DSP_OUTPUT_V of DSP_OUTPUT
+-- Compiling entity DSP_PREADD
+-- Compiling architecture DSP_PREADD_V of DSP_PREADD
+-- Compiling entity DSP_PREADD_DATA
+-- Compiling architecture DSP_PREADD_DATA_V of DSP_PREADD_DATA
+-- Compiling entity EFUSE_USR
+-- Compiling architecture EFUSE_USR_V of EFUSE_USR
+-- Compiling entity FDCE
+-- Compiling architecture FDCE_V of FDCE
+-- Compiling entity FDPE
+-- Compiling architecture FDPE_V of FDPE
+-- Compiling entity FDRE
+-- Compiling architecture FDRE_V of FDRE
+-- Compiling entity FDSE
+-- Compiling architecture FDSE_V of FDSE
+-- Compiling entity FF18_INTERNAL_VHDL
+-- Compiling architecture FF18_INTERNAL_VHDL_V of FF18_INTERNAL_VHDL
+-- Compiling entity FIFO18E1
+-- Compiling architecture FIFO18E1_V of FIFO18E1
+-- Compiling entity FIFO18E2
+-- Compiling architecture FIFO18E2_V of FIFO18E2
+-- Compiling entity FF36_INTERNAL_VHDL
+-- Compiling architecture FF36_INTERNAL_VHDL_V of FF36_INTERNAL_VHDL
+-- Compiling entity FIFO36E1
+-- Compiling architecture FIFO36E1_V of FIFO36E1
+-- Compiling entity FIFO36E2
+-- Compiling architecture FIFO36E2_V of FIFO36E2
+-- Compiling entity FRAME_ECCE2
+-- Compiling architecture FRAME_ECCE2_V of FRAME_ECCE2
+-- Compiling entity FRAME_ECCE3
+-- Compiling architecture FRAME_ECCE3_V of FRAME_ECCE3
+-- Compiling entity GLBL_VHD
+-- Compiling architecture GLBL_VHD_V of GLBL_VHD
+-- Compiling entity GND
+-- Compiling architecture GND_V of GND
+-- Compiling entity HARD_SYNC
+-- Compiling architecture HARD_SYNC_V of HARD_SYNC
+-- Loading package std_logic_textio
+-- Compiling entity HPIO_VREF
+-- Compiling architecture HPIO_VREF_V of HPIO_VREF
+-- Compiling entity IBUF
+-- Compiling architecture IBUF_V of IBUF
+-- Compiling entity IBUFCTRL
+-- Compiling architecture IBUFCTRL_V of IBUFCTRL
+-- Compiling entity IBUFDS
+-- Compiling architecture IBUFDS_V of IBUFDS
+-- Compiling entity IBUFDSE3
+-- Compiling architecture IBUFDSE3_V of IBUFDSE3
+-- Compiling entity IBUFDS_DIFF_OUT
+-- Compiling architecture IBUFDS_DIFF_OUT_V of IBUFDS_DIFF_OUT
+-- Compiling entity IBUFDS_DIFF_OUT_IBUFDISABLE
+-- Compiling architecture IBUFDS_DIFF_OUT_IBUFDISABLE_V of IBUFDS_DIFF_OUT_IBUFDISABLE
+-- Compiling entity IBUFDS_DIFF_OUT_INTERMDISABLE
+-- Compiling architecture IBUFDS_DIFF_OUT_INTERMDISABLE_V of IBUFDS_DIFF_OUT_INTERMDISABLE
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity IBUFDS_GTE2
+-- Compiling architecture IBUFDS_GTE2_V of IBUFDS_GTE2
+-- Compiling entity IBUFDS_GTE3
+-- Compiling architecture IBUFDS_GTE3_V of IBUFDS_GTE3
+-- Compiling entity IBUFDS_IBUFDISABLE
+-- Compiling architecture IBUFDS_IBUFDISABLE_V of IBUFDS_IBUFDISABLE
+-- Compiling entity IBUFDS_IBUFDISABLE_INT
+-- Compiling architecture IBUFDS_IBUFDISABLE_INT_V of IBUFDS_IBUFDISABLE_INT
+-- Compiling entity IBUFDS_INTERMDISABLE
+-- Compiling architecture IBUFDS_INTERMDISABLE_V of IBUFDS_INTERMDISABLE
+-- Compiling entity IBUFDS_INTERMDISABLE_INT
+-- Compiling architecture IBUFDS_INTERMDISABLE_INT_V of IBUFDS_INTERMDISABLE_INT
+-- Compiling entity IBUFE3
+-- Compiling architecture IBUFE3_V of IBUFE3
+-- Compiling entity IBUF_ANALOG
+-- Compiling architecture IBUF_ANALOG_V of IBUF_ANALOG
+-- Compiling entity IOBUF_ANALOG
+-- Compiling architecture IOBUF_ANALOG_V of IOBUF_ANALOG
+-- Compiling entity IBUF_IBUFDISABLE
+-- Compiling architecture IBUF_IBUFDISABLE_V of IBUF_IBUFDISABLE
+-- Compiling entity IBUF_INTERMDISABLE
+-- Compiling architecture IBUF_INTERMDISABLE_V of IBUF_INTERMDISABLE
+-- Compiling entity ICAPE2
+-- Compiling architecture ICAPE2_V of ICAPE2
+-- Compiling entity ICAPE3
+-- Compiling architecture ICAPE3_V of ICAPE3
+-- Compiling entity IDDR
+-- Compiling architecture IDDR_V of IDDR
+-- Compiling entity IDDRE1
+-- Compiling architecture IDDRE1_V of IDDRE1
+-- Compiling entity IDDR_2CLK
+-- Compiling architecture IDDR_2CLK_V of IDDR_2CLK
+-- Compiling entity IDELAYCTRL
+-- Compiling architecture IDELAYCTRL_V of IDELAYCTRL
+-- Compiling entity IDELAYE2
+-- Compiling architecture IDELAYE2_V of IDELAYE2
+-- Compiling entity IDELAYE2_FINEDELAY
+-- Compiling architecture IDELAYE2_FINEDELAY_V of IDELAYE2_FINEDELAY
+-- Compiling entity IDELAYE3
+-- Compiling architecture IDELAYE3_V of IDELAYE3
+-- Compiling entity INBUF
+-- Compiling architecture INBUF_V of INBUF
+-- Compiling entity INV
+-- Compiling architecture INV_V of INV
+-- Compiling entity IOBUF
+-- Compiling architecture IOBUF_V of IOBUF
+-- Compiling entity IOBUFDS
+-- Compiling architecture IOBUFDS_V of IOBUFDS
+-- Compiling entity IOBUFDSE3
+-- Compiling architecture IOBUFDSE3_V of IOBUFDSE3
+-- Compiling entity IOBUFDS_DCIEN
+-- Compiling architecture IOBUFDS_DCIEN_V of IOBUFDS_DCIEN
+-- Compiling entity IOBUFDS_DIFF_OUT
+-- Compiling architecture IOBUFDS_DIFF_OUT_V of IOBUFDS_DIFF_OUT
+-- Compiling entity IOBUFDS_DIFF_OUT_DCIEN
+-- Compiling architecture IOBUFDS_DIFF_OUT_DCIEN_V of IOBUFDS_DIFF_OUT_DCIEN
+-- Compiling entity IOBUFDS_DIFF_OUT_INTERMDISABLE
+-- Compiling architecture IOBUFDS_DIFF_OUT_INTERMDISABLE_V of IOBUFDS_DIFF_OUT_INTERMDISABLE
+-- Compiling entity IOBUFDS_INTERMDISABLE
+-- Compiling architecture IOBUFDS_INTERMDISABLE_V of IOBUFDS_INTERMDISABLE
+-- Compiling entity IOBUFE3
+-- Compiling architecture IOBUFE3_V of IOBUFE3
+-- Compiling entity IOBUF_DCIEN
+-- Compiling architecture IOBUF_DCIEN_V of IOBUF_DCIEN
+-- Compiling entity IOBUF_INTERMDISABLE
+-- Compiling architecture IOBUF_INTERMDISABLE_V of IOBUF_INTERMDISABLE
+-- Compiling entity bscntrl
+-- Compiling architecture bscntrl_V of bscntrl
+-- Compiling entity ice_module
+-- Compiling architecture ice_V of ice_module
+-- Compiling entity ISERDES
+-- Compiling architecture ISERDES_V of ISERDES
+-- Compiling entity bscntrl_iserdese1_vhd
+-- Compiling architecture bscntrl_iserdese1_vhd_V of bscntrl_iserdese1_vhd
+-- Compiling entity ice_iserdese1_vhd
+-- Compiling architecture ice_iserdese1_vhd_V of ice_iserdese1_vhd
+-- Compiling entity ISERDESE1
+-- Compiling architecture ISERDESE1_V of ISERDESE1
+-- Compiling entity bscntrl_nodelay
+-- Compiling architecture bscntrl_nodelay_V of bscntrl_nodelay
+-- Compiling entity ice_module_nodelay
+-- Compiling architecture ice_module_nodelay_V of ice_module_nodelay
+-- Compiling entity ISERDES_NODELAY
+-- Compiling architecture ISERDES_NODELAY_V of ISERDES_NODELAY
+-- Compiling entity JTAG_SIME2_SUBMOD
+-- Compiling architecture JTAG_SIME2_SUBMOD_V of JTAG_SIME2_SUBMOD
+-- Compiling entity JTAG_SIME2
+-- Compiling architecture JTAG_SIME2_V of JTAG_SIME2
+-- Compiling entity KEEPER
+-- Compiling architecture KEEPER_V of KEEPER
+-- Compiling entity LDCE
+-- Compiling architecture LDCE_V of LDCE
+-- Compiling entity LDPE
+-- Compiling architecture LDPE_V of LDPE
+-- Compiling entity LUT1
+-- Compiling architecture LUT1_V of LUT1
+-- Compiling entity LUT2
+-- Compiling architecture LUT2_V of LUT2
+-- Compiling entity LUT3
+-- Compiling architecture LUT3_V of LUT3
+-- Compiling entity LUT4
+-- Compiling architecture LUT4_V of LUT4
+-- Compiling entity LUT5
+-- Compiling architecture LUT5_V of LUT5
+-- Compiling entity LUT6
+-- Compiling architecture LUT6_V of LUT6
+-- Compiling entity LUT6_2
+-- Compiling architecture LUT6_2_V of LUT6_2
+-- Compiling entity MASTER_JTAG
+-- Compiling architecture MASTER_JTAG_V of MASTER_JTAG
+-- Compiling entity MMCME2_ADV
+-- Compiling architecture MMCME2_ADV_V of MMCME2_ADV
+-- Compiling entity MMCME2_BASE
+-- Compiling architecture MMCME2_BASE_V of MMCME2_BASE
+-- Compiling entity MMCME3_ADV
+-- Compiling architecture MMCME3_ADV_V of MMCME3_ADV
+-- Compiling entity MMCME3_BASE
+-- Compiling architecture MMCME3_BASE_V of MMCME3_BASE
+-- Compiling entity MUXCY
+-- Compiling architecture MUXCY_V of MUXCY
+-- Compiling entity MUXF7
+-- Compiling architecture MUXF7_V of MUXF7
+-- Compiling entity MUXF8
+-- Compiling architecture MUXF8_V of MUXF8
+-- Compiling entity MUXF9
+-- Compiling architecture MUXF9_V of MUXF9
+-- Compiling entity OBUF
+-- Compiling architecture OBUF_V of OBUF
+-- Compiling entity OBUFDS
+-- Compiling architecture OBUFDS_V of OBUFDS
+-- Compiling entity OBUFDS_GTE3
+-- Compiling architecture OBUFDS_GTE3_V of OBUFDS_GTE3
+-- Compiling entity OBUFDS_GTE3_ADV
+-- Compiling architecture OBUFDS_GTE3_ADV_V of OBUFDS_GTE3_ADV
+-- Compiling entity OBUFT
+-- Compiling architecture OBUFT_V of OBUFT
+-- Compiling entity OBUFTDS
+-- Compiling architecture OBUFTDS_V of OBUFTDS
+-- Compiling entity OBUFTDS_DCIEN
+-- Compiling architecture OBUFTDS_DCIEN_V of OBUFTDS_DCIEN
+-- Compiling entity OBUFT_DCIEN
+-- Compiling architecture OBUFT_DCIEN_V of OBUFT_DCIEN
+-- Compiling entity ODDR
+-- Compiling architecture ODDR_V of ODDR
+-- Compiling entity ODDRE1
+-- Compiling architecture ODDRE1_V of ODDRE1
+-- Compiling entity ODELAYE2
+-- Compiling architecture ODELAYE2_V of ODELAYE2
+-- Compiling entity ODELAYE2_FINEDELAY
+-- Compiling architecture ODELAYE2_FINEDELAY_V of ODELAYE2_FINEDELAY
+-- Compiling entity ODELAYE3
+-- Compiling architecture ODELAYE3_V of ODELAYE3
+###### C:\Xilinx\Vivado\2023.1\data\vhdl\src\unisims\primitive\ODELAYE3.vhd(534):   variable idelay_count_var : integer := ODELAYE3_InitDelayCount(DELAY_FORMAT,DELAY_VALUE,PER_BIT_FINE_DELAY);
+** Warning: C:\Xilinx\Vivado\2023.1\data\vhdl\src\unisims\primitive\ODELAYE3.vhd(534): (vcom-1013) Initial value of "idelay_count_var" depends on value of signal "PER_BIT_FINE_DELAY".
+-- Compiling entity OR2L
+-- Compiling architecture OR2L_V of OR2L
+-- Compiling entity PLG
+-- Compiling architecture PLG_V of PLG
+-- Compiling entity IOOUT
+-- Compiling architecture IOOUT_V of IOOUT
+-- Compiling entity IOT
+-- Compiling architecture IOT_V of IOT
+-- Compiling entity OSERDES
+-- Compiling architecture OSERDES_V of OSERDES
+-- Compiling entity selfheal_oserdese1_vhd
+-- Compiling architecture selfheal_oserdese1_vhd_V of selfheal_oserdese1_vhd
+-- Compiling entity plg_oserdese1_vhd
+-- Compiling architecture plg_oserdese1_vhd_V of plg_oserdese1_vhd
+-- Compiling entity RANK12D_OSERDESE1_VHD
+-- Compiling architecture RANK12D_OSERDESE1_VHD_V of RANK12D_OSERDESE1_VHD
+-- Compiling entity TRIF_OSERDESE1_VHD
+-- Compiling architecture TRIF_OSERDESE1_VHD_V of TRIF_OSERDESE1_VHD
+-- Compiling entity TXBUFFER_OSERDESE1_VHD
+-- Compiling architecture TXBUFFER_OSERDESE1_VHD_V of TXBUFFER_OSERDESE1_VHD
+-- Compiling entity FIFO_TDPIPE_OSERDESE1_VHD
+-- Compiling architecture FIFO_TDPIPE_OSERDESE1_VHD_V of FIFO_TDPIPE_OSERDESE1_VHD
+-- Compiling entity FIFO_RESET_OSERDESE1_VHD
+-- Compiling architecture FIFO_RESET_OSERDESE1_VHD_V of FIFO_RESET_OSERDESE1_VHD
+-- Compiling entity FIFO_ADDR_OSERDESE1_VHD
+-- Compiling architecture FIFO_ADDR_OSERDESE1_VHD_V of FIFO_ADDR_OSERDESE1_VHD
+-- Compiling entity IODLYCTRL_NPRE_OSERDESE1_VHD
+-- Compiling architecture IODLYCTRL_NPRE_OSERDESE1_VHD_V of IODLYCTRL_NPRE_OSERDESE1_VHD
+-- Compiling entity DOUT_OSERDESE1_VHD
+-- Compiling architecture DOUT_OSERDESE1_VHD_V of DOUT_OSERDESE1_VHD
+-- Compiling entity TOUT_OSERDESE1_VHD
+-- Compiling architecture TOUT_OSERDESE1_VHD_V of TOUT_OSERDESE1_VHD
+-- Compiling entity OSERDESE1
+-- Compiling architecture OSERDESE1_V of OSERDESE1
+-- Compiling entity PHASER_REF
+-- Compiling architecture PHASER_REF_V of PHASER_REF
+-- Compiling entity PLLE2_ADV
+-- Compiling architecture PLLE2_ADV_V of PLLE2_ADV
+-- Compiling entity PLLE2_BASE
+-- Compiling architecture PLLE2_BASE_V of PLLE2_BASE
+-- Compiling entity PLLE3_ADV
+-- Compiling architecture PLLE3_ADV_V of PLLE3_ADV
+-- Compiling entity PLLE3_BASE
+-- Compiling architecture PLLE3_BASE_V of PLLE3_BASE
+-- Compiling entity PS7
+-- Compiling architecture PS7_V of PS7
+-- Compiling entity PULLDOWN
+-- Compiling architecture PULLDOWN_V of PULLDOWN
+-- Compiling entity PULLUP
+-- Compiling architecture PULLUP_V of PULLUP
+-- Compiling entity RAM128X1D
+-- Compiling architecture RAM128X1D_V of RAM128X1D
+-- Compiling entity RAM128X1S
+-- Compiling architecture RAM128X1S_V of RAM128X1S
+-- Compiling entity RAM256X1D
+-- Compiling architecture RAM256X1D_V of RAM256X1D
+-- Compiling entity RAM256X1S
+-- Compiling architecture RAM256X1S_V of RAM256X1S
+-- Compiling entity RAM32M
+-- Compiling architecture RAM32M_V of RAM32M
+-- Compiling entity RAM32M16
+-- Compiling architecture RAM32M16_V of RAM32M16
+-- Compiling entity RAM32X1D
+-- Compiling architecture RAM32X1D_V of RAM32X1D
+-- Compiling entity RAM32X1S
+-- Compiling architecture RAM32X1S_V of RAM32X1S
+-- Compiling entity RAM512X1S
+-- Compiling architecture RAM512X1S_V of RAM512X1S
+-- Compiling entity RAM64M
+-- Compiling architecture RAM64M_V of RAM64M
+-- Compiling entity RAM64M8
+-- Compiling architecture RAM64M8_V of RAM64M8
+-- Compiling entity RAM64X1D
+-- Compiling architecture RAM64X1D_V of RAM64X1D
+-- Compiling entity RAM64X1S
+-- Compiling architecture RAM64X1S_V of RAM64X1S
+-- Compiling entity RAM64X8SW
+-- Compiling architecture RAM64X8SW_V of RAM64X8SW
+-- Compiling entity RB18_INTERNAL_VHDL
+-- Compiling architecture RB18_INTERNAL_VHDL_V of RB18_INTERNAL_VHDL
+-- Compiling entity RAMB18E1
+-- Compiling architecture RAMB18E1_V of RAMB18E1
+-- Compiling entity RAMB18E2
+-- Compiling architecture RAMB18E2_V of RAMB18E2
+-- Compiling entity RB36_INTERNAL_VHDL
+-- Compiling architecture RB36_INTERNAL_VHDL_V of RB36_INTERNAL_VHDL
+-- Compiling entity RAMB36E1
+-- Compiling architecture RAMB36E1_V of RAMB36E1
+-- Compiling entity RAMB36E2
+-- Compiling architecture RAMB36E2_V of RAMB36E2
+-- Compiling entity RAMD32
+-- Compiling architecture RAMD32_V of RAMD32
+-- Compiling entity RAMD64E
+-- Compiling architecture RAMD64E_V of RAMD64E
+-- Compiling entity RAMS32
+-- Compiling architecture RAMS32_V of RAMS32
+-- Compiling entity RAMS64E
+-- Compiling architecture RAMS64E_V of RAMS64E
+-- Compiling entity RAMS64E1
+-- Compiling architecture RAMS64E1_V of RAMS64E1
+-- Compiling entity RIU_OR
+-- Compiling architecture RIU_OR_V of RIU_OR
+-- Compiling entity SIM_CONFIGE2
+-- Compiling architecture SIM_CONFIGE2_V of SIM_CONFIGE2
+-- Compiling entity SIM_CONFIGE3
+-- Compiling architecture SIM_CONFIGE3_V of SIM_CONFIGE3
+-- Compiling entity SRL16E
+-- Compiling architecture SRL16E_V of SRL16E
+-- Compiling entity SRLC16E
+-- Compiling architecture SRLC16E_V of SRLC16E
+-- Compiling entity SRLC32E
+-- Compiling architecture SRLC32E_V of SRLC32E
+-- Compiling entity STARTUPE2
+-- Compiling architecture STARTUPE2_V of STARTUPE2
+-- Compiling entity STARTUPE3
+-- Compiling architecture STARTUPE3_V of STARTUPE3
+-- Compiling entity SYSMONE1
+-- Compiling architecture SYSMONE1_V of SYSMONE1
+-- Compiling entity USR_ACCESSE2
+-- Compiling architecture USR_ACCESSE2_V of USR_ACCESSE2
+-- Compiling entity VCC
+-- Compiling architecture VCC_V of VCC
+-- Compiling entity XADC
+-- Compiling architecture XADC_V of XADC
+-- Compiling entity XORCY
+-- Compiling architecture XORCY_V of XORCY
+-- Compiling entity ZHOLD_DELAY
+-- Compiling architecture ZHOLD_DELAY_V of ZHOLD_DELAY
+-- Compiling entity BUFG_PS
+-- Compiling architecture BUFG_PS_V of BUFG_PS
+-- Compiling entity FRAME_ECCE4
+-- Compiling architecture FRAME_ECCE4_V of FRAME_ECCE4
+-- Compiling entity IBUFDS_DPHY
+-- Compiling architecture IBUFDS_DPHY_V of IBUFDS_DPHY
+-- Compiling entity IBUFDS_GTE4
+-- Compiling architecture IBUFDS_GTE4_V of IBUFDS_GTE4
+-- Compiling entity OBUFDS_DPHY
+-- Compiling architecture OBUFDS_DPHY_V of OBUFDS_DPHY
+-- Compiling entity OBUFDS_GTE4
+-- Compiling architecture OBUFDS_GTE4_V of OBUFDS_GTE4
+-- Compiling entity OBUFDS_GTE4_ADV
+-- Compiling architecture OBUFDS_GTE4_ADV_V of OBUFDS_GTE4_ADV
+-- Compiling entity SYSMONE4
+-- Compiling architecture SYSMONE4_V of SYSMONE4
+-- Compiling entity URAM288
+-- Compiling architecture URAM288_V of URAM288
+-- Compiling entity URAM288_BASE
+-- Compiling architecture URAM288_BASE_V of URAM288_BASE
+-- Compiling entity MMCME4_ADV
+-- Compiling architecture MMCME4_ADV_V of MMCME4_ADV
+-- Compiling entity MMCME4_BASE
+-- Compiling architecture MMCME4_BASE_V of MMCME4_BASE
+-- Compiling entity PLLE4_ADV
+-- Compiling architecture PLLE4_ADV_V of PLLE4_ADV
+-- Compiling entity PLLE4_BASE
+-- Compiling architecture PLLE4_BASE_V of PLLE4_BASE
+-- Compiling entity VCU
+-- Compiling architecture VCU_V of VCU
+-- Compiling entity AND2
+-- Compiling architecture AND2_V of AND2
+-- Compiling entity AND2B1
+-- Compiling architecture AND2B1_V of AND2B1
+-- Compiling entity AND2B2
+-- Compiling architecture AND2B2_V of AND2B2
+-- Compiling entity AND3
+-- Compiling architecture AND3_V of AND3
+-- Compiling entity AND3B1
+-- Compiling architecture AND3B1_V of AND3B1
+-- Compiling entity AND3B2
+-- Compiling architecture AND3B2_V of AND3B2
+-- Compiling entity AND3B3
+-- Compiling architecture AND3B3_V of AND3B3
+-- Compiling entity AND4
+-- Compiling architecture AND4_V of AND4
+-- Compiling entity AND4B1
+-- Compiling architecture AND4B1_V of AND4B1
+-- Compiling entity AND4B2
+-- Compiling architecture AND4B2_V of AND4B2
+-- Compiling entity AND4B3
+-- Compiling architecture AND4B3_V of AND4B3
+-- Compiling entity AND4B4
+-- Compiling architecture AND4B4_V of AND4B4
+-- Compiling entity AND5
+-- Compiling architecture AND5_V of AND5
+-- Compiling entity AND5B1
+-- Compiling architecture AND5B1_V of AND5B1
+-- Compiling entity AND5B2
+-- Compiling architecture AND5B2_V of AND5B2
+-- Compiling entity AND5B3
+-- Compiling architecture AND5B3_V of AND5B3
+-- Compiling entity AND5B4
+-- Compiling architecture AND5B4_V of AND5B4
+-- Compiling entity AND5B5
+-- Compiling architecture AND5B5_V of AND5B5
+-- Compiling entity BSCAN_SPARTAN3
+-- Compiling architecture BSCAN_SPARTAN3_V of BSCAN_SPARTAN3
+-- Compiling entity BSCAN_SPARTAN3A
+-- Compiling architecture BSCAN_SPARTAN3A_V of BSCAN_SPARTAN3A
+-- Compiling entity BSCAN_SPARTAN6
+-- Compiling architecture BSCAN_SPARTAN6_V of BSCAN_SPARTAN6
+-- Compiling entity BSCAN_VIRTEX4
+-- Compiling architecture BSCAN_VIRTEX4_V of BSCAN_VIRTEX4
+-- Compiling entity BSCAN_VIRTEX5
+-- Compiling architecture BSCAN_VIRTEX5_V of BSCAN_VIRTEX5
+-- Compiling entity BSCAN_VIRTEX6
+-- Compiling architecture BSCAN_VIRTEX6_V of BSCAN_VIRTEX6
+-- Compiling entity BUFGCE_1
+-- Compiling architecture BUFGCE_1_V of BUFGCE_1
+-- Compiling entity BUFGMUX
+-- Compiling architecture BUFGMUX_V of BUFGMUX
+-- Compiling entity BUFGMUX_1
+-- Compiling architecture BUFGMUX_1_V of BUFGMUX_1
+-- Compiling entity BUFGMUX_CTRL
+-- Compiling architecture BUFGMUX_CTRL_V of BUFGMUX_CTRL
+-- Compiling entity BUFGMUX_VIRTEX4
+-- Compiling architecture BUFGMUX_VIRTEX4_V of BUFGMUX_VIRTEX4
+-- Compiling entity BUFIO2
+-- Compiling architecture BUFIO2_V of BUFIO2
+-- Compiling entity CAPTURE_SPARTAN3
+-- Compiling architecture CAPTURE_SPARTAN3_V of CAPTURE_SPARTAN3
+-- Compiling entity CAPTURE_SPARTAN3A
+-- Compiling architecture CAPTURE_SPARTAN3A_V of CAPTURE_SPARTAN3A
+-- Compiling entity CAPTURE_VIRTEX4
+-- Compiling architecture CAPTURE_VIRTEX4_V of CAPTURE_VIRTEX4
+-- Compiling entity CAPTURE_VIRTEX5
+-- Compiling architecture CAPTURE_VIRTEX5_V of CAPTURE_VIRTEX5
+-- Compiling entity CAPTURE_VIRTEX6
+-- Compiling architecture CAPTURE_VIRTEX6_V of CAPTURE_VIRTEX6
+-- Compiling entity DCM
+-- Compiling architecture DCM_V of DCM
+-- Compiling entity DCM_BASE
+-- Compiling architecture DCM_BASE_V of DCM_BASE
+-- Compiling entity DCM_PS
+-- Compiling architecture DCM_PS_V of DCM_PS
+-- Compiling entity DSP48
+-- Compiling architecture DSP48_V of DSP48
+-- Compiling entity DSP48A
+-- Compiling architecture DSP48A_V of DSP48A
+-- Compiling entity DSP48A1
+-- Compiling architecture DSP48A1_V of DSP48A1
+-- Compiling entity DSP48E
+-- Compiling architecture DSP48E_V of DSP48E
+-- Compiling entity FD
+-- Compiling architecture FD_V of FD
+-- Compiling entity FDC
+-- Compiling architecture FDC_V of FDC
+-- Compiling entity FDCE_1
+-- Compiling architecture FDCE_1_V of FDCE_1
+-- Compiling entity FDCP
+-- Compiling architecture FDCP_V of FDCP
+-- Compiling entity FDCPE
+-- Compiling architecture FDCPE_V of FDCPE
+-- Compiling entity FDCPE_1
+-- Compiling architecture FDCPE_1_V of FDCPE_1
+-- Compiling entity FDCP_1
+-- Compiling architecture FDCP_1_V of FDCP_1
+-- Compiling entity FDC_1
+-- Compiling architecture FDC_1_V of FDC_1
+-- Compiling entity FDE
+-- Compiling architecture FDE_V of FDE
+-- Compiling entity FDE_1
+-- Compiling architecture FDE_1_V of FDE_1
+-- Compiling entity FDP
+-- Compiling architecture FDP_V of FDP
+-- Compiling entity FDPE_1
+-- Compiling architecture FDPE_1_V of FDPE_1
+-- Compiling entity FDP_1
+-- Compiling architecture FDP_1_V of FDP_1
+-- Compiling entity FDR
+-- Compiling architecture FDR_V of FDR
+-- Compiling entity FDRE_1
+-- Compiling architecture FDRE_1_V of FDRE_1
+-- Compiling entity FDRS
+-- Compiling architecture FDRS_V of FDRS
+-- Compiling entity FDRSE
+-- Compiling architecture FDRSE_V of FDRSE
+-- Compiling entity FDRSE_1
+-- Compiling architecture FDRSE_1_V of FDRSE_1
+-- Compiling entity FDRS_1
+-- Compiling architecture FDRS_1_V of FDRS_1
+-- Compiling entity FDR_1
+-- Compiling architecture FDR_1_V of FDR_1
+-- Compiling entity FDS
+-- Compiling architecture FDS_V of FDS
+-- Compiling entity FDSE_1
+-- Compiling architecture FDSE_1_V of FDSE_1
+-- Compiling entity FDS_1
+-- Compiling architecture FDS_1_V of FDS_1
+-- Compiling entity FD_1
+-- Compiling architecture FD_1_V of FD_1
+-- Compiling entity FIFO16
+-- Compiling architecture FIFO16_V of FIFO16
+-- Compiling entity FIFO18
+-- Compiling architecture FIFO18_V of FIFO18
+-- Compiling entity FIFO18_36
+-- Compiling architecture FIFO18_36_V of FIFO18_36
+-- Compiling entity FIFO36
+-- Compiling architecture FIFO36_V of FIFO36
+-- Compiling entity FIFO36_72
+-- Compiling architecture FIFO36_72_V of FIFO36_72
+-- Compiling entity FRAME_ECC_VIRTEX6
+-- Compiling architecture FRAME_ECC_VIRTEX6_V of FRAME_ECC_VIRTEX6
+-- Compiling entity GTPA1_DUAL
+-- Compiling architecture GTPA1_DUAL_V of GTPA1_DUAL
+-- Compiling entity GTXE1
+-- Compiling architecture GTXE1_V of GTXE1
+-- Compiling entity IBUFDS_BLVDS_25
+-- Compiling architecture IBUFDS_BLVDS_25_V of IBUFDS_BLVDS_25
+-- Compiling entity IBUFDS_GTXE1
+-- Compiling architecture IBUFDS_GTXE1_V of IBUFDS_GTXE1
+-- Compiling entity IBUFDS_LDT_25
+-- Compiling architecture IBUFDS_LDT_25_V of IBUFDS_LDT_25
+-- Compiling entity IBUFDS_LVDSEXT_25
+-- Compiling architecture IBUFDS_LVDSEXT_25_V of IBUFDS_LVDSEXT_25
+-- Compiling entity IBUFDS_LVDSEXT_25_DCI
+-- Compiling architecture IBUFDS_LVDSEXT_25_DCI_V of IBUFDS_LVDSEXT_25_DCI
+-- Compiling entity IBUFDS_LVDSEXT_33
+-- Compiling architecture IBUFDS_LVDSEXT_33_V of IBUFDS_LVDSEXT_33
+-- Compiling entity IBUFDS_LVDSEXT_33_DCI
+-- Compiling architecture IBUFDS_LVDSEXT_33_DCI_V of IBUFDS_LVDSEXT_33_DCI
+-- Compiling entity IBUFDS_LVDS_25
+-- Compiling architecture IBUFDS_LVDS_25_V of IBUFDS_LVDS_25
+-- Compiling entity IBUFDS_LVDS_25_DCI
+-- Compiling architecture IBUFDS_LVDS_25_DCI_V of IBUFDS_LVDS_25_DCI
+-- Compiling entity IBUFDS_LVDS_33
+-- Compiling architecture IBUFDS_LVDS_33_V of IBUFDS_LVDS_33
+-- Compiling entity IBUFDS_LVDS_33_DCI
+-- Compiling architecture IBUFDS_LVDS_33_DCI_V of IBUFDS_LVDS_33_DCI
+-- Compiling entity IBUFDS_LVPECL_25
+-- Compiling architecture IBUFDS_LVPECL_25_V of IBUFDS_LVPECL_25
+-- Compiling entity IBUFDS_LVPECL_33
+-- Compiling architecture IBUFDS_LVPECL_33_V of IBUFDS_LVPECL_33
+-- Compiling entity IBUFDS_ULVDS_25
+-- Compiling architecture IBUFDS_ULVDS_25_V of IBUFDS_ULVDS_25
+-- Compiling entity IBUFG
+-- Compiling architecture IBUFG_V of IBUFG
+-- Compiling entity IBUFGDS
+-- Compiling architecture IBUFGDS_V of IBUFGDS
+-- Compiling entity IBUFGDS_BLVDS_25
+-- Compiling architecture IBUFGDS_BLVDS_25_V of IBUFGDS_BLVDS_25
+-- Compiling entity IBUFGDS_DIFF_OUT
+-- Compiling architecture IBUFGDS_DIFF_OUT_V of IBUFGDS_DIFF_OUT
+-- Compiling entity IBUFGDS_LDT_25
+-- Compiling architecture IBUFGDS_LDT_25_V of IBUFGDS_LDT_25
+-- Compiling entity IBUFGDS_LVDSEXT_25
+-- Compiling architecture IBUFGDS_LVDSEXT_25_V of IBUFGDS_LVDSEXT_25
+-- Compiling entity IBUFGDS_LVDSEXT_25_DCI
+-- Compiling architecture IBUFGDS_LVDSEXT_25_DCI_V of IBUFGDS_LVDSEXT_25_DCI
+-- Compiling entity IBUFGDS_LVDSEXT_33
+-- Compiling architecture IBUFGDS_LVDSEXT_33_V of IBUFGDS_LVDSEXT_33
+-- Compiling entity IBUFGDS_LVDSEXT_33_DCI
+-- Compiling architecture IBUFGDS_LVDSEXT_33_DCI_V of IBUFGDS_LVDSEXT_33_DCI
+-- Compiling entity IBUFGDS_LVDS_25
+-- Compiling architecture IBUFGDS_LVDS_25_V of IBUFGDS_LVDS_25
+-- Compiling entity IBUFGDS_LVDS_25_DCI
+-- Compiling architecture IBUFGDS_LVDS_25_DCI_V of IBUFGDS_LVDS_25_DCI
+-- Compiling entity IBUFGDS_LVDS_33
+-- Compiling architecture IBUFGDS_LVDS_33_V of IBUFGDS_LVDS_33
+-- Compiling entity IBUFGDS_LVDS_33_DCI
+-- Compiling architecture IBUFGDS_LVDS_33_DCI_V of IBUFGDS_LVDS_33_DCI
+-- Compiling entity IBUFGDS_LVPECL_25
+-- Compiling architecture IBUFGDS_LVPECL_25_V of IBUFGDS_LVPECL_25
+-- Compiling entity IBUFGDS_LVPECL_33
+-- Compiling architecture IBUFGDS_LVPECL_33_V of IBUFGDS_LVPECL_33
+-- Compiling entity IBUFGDS_ULVDS_25
+-- Compiling architecture IBUFGDS_ULVDS_25_V of IBUFGDS_ULVDS_25
+-- Compiling entity IBUFG_AGP
+-- Compiling architecture IBUFG_AGP_V of IBUFG_AGP
+-- Compiling entity IBUFG_CTT
+-- Compiling architecture IBUFG_CTT_V of IBUFG_CTT
+-- Compiling entity IBUFG_GTL
+-- Compiling architecture IBUFG_GTL_V of IBUFG_GTL
+-- Compiling entity IBUFG_GTLP
+-- Compiling architecture IBUFG_GTLP_V of IBUFG_GTLP
+-- Compiling entity IBUFG_GTLP_DCI
+-- Compiling architecture IBUFG_GTLP_DCI_V of IBUFG_GTLP_DCI
+-- Compiling entity IBUFG_GTL_DCI
+-- Compiling architecture IBUFG_GTL_DCI_V of IBUFG_GTL_DCI
+-- Compiling entity IBUFG_HSTL_I
+-- Compiling architecture IBUFG_HSTL_I_V of IBUFG_HSTL_I
+-- Compiling entity IBUFG_HSTL_II
+-- Compiling architecture IBUFG_HSTL_II_V of IBUFG_HSTL_II
+-- Compiling entity IBUFG_HSTL_III
+-- Compiling architecture IBUFG_HSTL_III_V of IBUFG_HSTL_III
+-- Compiling entity IBUFG_HSTL_III_18
+-- Compiling architecture IBUFG_HSTL_III_18_V of IBUFG_HSTL_III_18
+-- Compiling entity IBUFG_HSTL_III_DCI
+-- Compiling architecture IBUFG_HSTL_III_DCI_V of IBUFG_HSTL_III_DCI
+-- Compiling entity IBUFG_HSTL_III_DCI_18
+-- Compiling architecture IBUFG_HSTL_III_DCI_18_V of IBUFG_HSTL_III_DCI_18
+-- Compiling entity IBUFG_HSTL_II_18
+-- Compiling architecture IBUFG_HSTL_II_18_V of IBUFG_HSTL_II_18
+-- Compiling entity IBUFG_HSTL_II_DCI
+-- Compiling architecture IBUFG_HSTL_II_DCI_V of IBUFG_HSTL_II_DCI
+-- Compiling entity IBUFG_HSTL_II_DCI_18
+-- Compiling architecture IBUFG_HSTL_II_DCI_18_V of IBUFG_HSTL_II_DCI_18
+-- Compiling entity IBUFG_HSTL_IV
+-- Compiling architecture IBUFG_HSTL_IV_V of IBUFG_HSTL_IV
+-- Compiling entity IBUFG_HSTL_IV_18
+-- Compiling architecture IBUFG_HSTL_IV_18_V of IBUFG_HSTL_IV_18
+-- Compiling entity IBUFG_HSTL_IV_DCI
+-- Compiling architecture IBUFG_HSTL_IV_DCI_V of IBUFG_HSTL_IV_DCI
+-- Compiling entity IBUFG_HSTL_IV_DCI_18
+-- Compiling architecture IBUFG_HSTL_IV_DCI_18_V of IBUFG_HSTL_IV_DCI_18
+-- Compiling entity IBUFG_HSTL_I_18
+-- Compiling architecture IBUFG_HSTL_I_18_V of IBUFG_HSTL_I_18
+-- Compiling entity IBUFG_HSTL_I_DCI
+-- Compiling architecture IBUFG_HSTL_I_DCI_V of IBUFG_HSTL_I_DCI
+-- Compiling entity IBUFG_HSTL_I_DCI_18
+-- Compiling architecture IBUFG_HSTL_I_DCI_18_V of IBUFG_HSTL_I_DCI_18
+-- Compiling entity IBUFG_LVCMOS12
+-- Compiling architecture IBUFG_LVCMOS12_V of IBUFG_LVCMOS12
+-- Compiling entity IBUFG_LVCMOS15
+-- Compiling architecture IBUFG_LVCMOS15_V of IBUFG_LVCMOS15
+-- Compiling entity IBUFG_LVCMOS18
+-- Compiling architecture IBUFG_LVCMOS18_V of IBUFG_LVCMOS18
+-- Compiling entity IBUFG_LVCMOS2
+-- Compiling architecture IBUFG_LVCMOS2_V of IBUFG_LVCMOS2
+-- Compiling entity IBUFG_LVCMOS25
+-- Compiling architecture IBUFG_LVCMOS25_V of IBUFG_LVCMOS25
+-- Compiling entity IBUFG_LVCMOS33
+-- Compiling architecture IBUFG_LVCMOS33_V of IBUFG_LVCMOS33
+-- Compiling entity IBUFG_LVDCI_15
+-- Compiling architecture IBUFG_LVDCI_15_V of IBUFG_LVDCI_15
+-- Compiling entity IBUFG_LVDCI_18
+-- Compiling architecture IBUFG_LVDCI_18_V of IBUFG_LVDCI_18
+-- Compiling entity IBUFG_LVDCI_25
+-- Compiling architecture IBUFG_LVDCI_25_V of IBUFG_LVDCI_25
+-- Compiling entity IBUFG_LVDCI_33
+-- Compiling architecture IBUFG_LVDCI_33_V of IBUFG_LVDCI_33
+-- Compiling entity IBUFG_LVDCI_DV2_15
+-- Compiling architecture IBUFG_LVDCI_DV2_15_V of IBUFG_LVDCI_DV2_15
+-- Compiling entity IBUFG_LVDCI_DV2_18
+-- Compiling architecture IBUFG_LVDCI_DV2_18_V of IBUFG_LVDCI_DV2_18
+-- Compiling entity IBUFG_LVDCI_DV2_25
+-- Compiling architecture IBUFG_LVDCI_DV2_25_V of IBUFG_LVDCI_DV2_25
+-- Compiling entity IBUFG_LVDCI_DV2_33
+-- Compiling architecture IBUFG_LVDCI_DV2_33_V of IBUFG_LVDCI_DV2_33
+-- Compiling entity IBUFG_LVDS
+-- Compiling architecture IBUFG_LVDS_V of IBUFG_LVDS
+-- Compiling entity IBUFG_LVPECL
+-- Compiling architecture IBUFG_LVPECL_V of IBUFG_LVPECL
+-- Compiling entity IBUFG_LVTTL
+-- Compiling architecture IBUFG_LVTTL_V of IBUFG_LVTTL
+-- Compiling entity IBUFG_PCI33_3
+-- Compiling architecture IBUFG_PCI33_3_V of IBUFG_PCI33_3
+-- Compiling entity IBUFG_PCI33_5
+-- Compiling architecture IBUFG_PCI33_5_V of IBUFG_PCI33_5
+-- Compiling entity IBUFG_PCI66_3
+-- Compiling architecture IBUFG_PCI66_3_V of IBUFG_PCI66_3
+-- Compiling entity IBUFG_PCIX
+-- Compiling architecture IBUFG_PCIX_V of IBUFG_PCIX
+-- Compiling entity IBUFG_PCIX66_3
+-- Compiling architecture IBUFG_PCIX66_3_V of IBUFG_PCIX66_3
+-- Compiling entity IBUFG_SSTL18_I
+-- Compiling architecture IBUFG_SSTL18_I_V of IBUFG_SSTL18_I
+-- Compiling entity IBUFG_SSTL18_II
+-- Compiling architecture IBUFG_SSTL18_II_V of IBUFG_SSTL18_II
+-- Compiling entity IBUFG_SSTL18_II_DCI
+-- Compiling architecture IBUFG_SSTL18_II_DCI_V of IBUFG_SSTL18_II_DCI
+-- Compiling entity IBUFG_SSTL18_I_DCI
+-- Compiling architecture IBUFG_SSTL18_I_DCI_V of IBUFG_SSTL18_I_DCI
+-- Compiling entity IBUFG_SSTL2_I
+-- Compiling architecture IBUFG_SSTL2_I_V of IBUFG_SSTL2_I
+-- Compiling entity IBUFG_SSTL2_II
+-- Compiling architecture IBUFG_SSTL2_II_V of IBUFG_SSTL2_II
+-- Compiling entity IBUFG_SSTL2_II_DCI
+-- Compiling architecture IBUFG_SSTL2_II_DCI_V of IBUFG_SSTL2_II_DCI
+-- Compiling entity IBUFG_SSTL2_I_DCI
+-- Compiling architecture IBUFG_SSTL2_I_DCI_V of IBUFG_SSTL2_I_DCI
+-- Compiling entity IBUFG_SSTL3_I
+-- Compiling architecture IBUFG_SSTL3_I_V of IBUFG_SSTL3_I
+-- Compiling entity IBUFG_SSTL3_II
+-- Compiling architecture IBUFG_SSTL3_II_V of IBUFG_SSTL3_II
+-- Compiling entity IBUFG_SSTL3_II_DCI
+-- Compiling architecture IBUFG_SSTL3_II_DCI_V of IBUFG_SSTL3_II_DCI
+-- Compiling entity IBUFG_SSTL3_I_DCI
+-- Compiling architecture IBUFG_SSTL3_I_DCI_V of IBUFG_SSTL3_I_DCI
+-- Compiling entity IBUF_AGP
+-- Compiling architecture IBUF_AGP_V of IBUF_AGP
+-- Compiling entity IBUF_CTT
+-- Compiling architecture IBUF_CTT_V of IBUF_CTT
+-- Compiling entity IBUF_GTL
+-- Compiling architecture IBUF_GTL_V of IBUF_GTL
+-- Compiling entity IBUF_GTLP
+-- Compiling architecture IBUF_GTLP_V of IBUF_GTLP
+-- Compiling entity IBUF_GTLP_DCI
+-- Compiling architecture IBUF_GTLP_DCI_V of IBUF_GTLP_DCI
+-- Compiling entity IBUF_GTL_DCI
+-- Compiling architecture IBUF_GTL_DCI_V of IBUF_GTL_DCI
+-- Compiling entity IBUF_HSTL_I
+-- Compiling architecture IBUF_HSTL_I_V of IBUF_HSTL_I
+-- Compiling entity IBUF_HSTL_II
+-- Compiling architecture IBUF_HSTL_II_V of IBUF_HSTL_II
+-- Compiling entity IBUF_HSTL_III
+-- Compiling architecture IBUF_HSTL_III_V of IBUF_HSTL_III
+-- Compiling entity IBUF_HSTL_III_18
+-- Compiling architecture IBUF_HSTL_III_18_V of IBUF_HSTL_III_18
+-- Compiling entity IBUF_HSTL_III_DCI
+-- Compiling architecture IBUF_HSTL_III_DCI_V of IBUF_HSTL_III_DCI
+-- Compiling entity IBUF_HSTL_III_DCI_18
+-- Compiling architecture IBUF_HSTL_III_DCI_18_V of IBUF_HSTL_III_DCI_18
+-- Compiling entity IBUF_HSTL_II_18
+-- Compiling architecture IBUF_HSTL_II_18_V of IBUF_HSTL_II_18
+-- Compiling entity IBUF_HSTL_II_DCI
+-- Compiling architecture IBUF_HSTL_II_DCI_V of IBUF_HSTL_II_DCI
+-- Compiling entity IBUF_HSTL_II_DCI_18
+-- Compiling architecture IBUF_HSTL_II_DCI_18_V of IBUF_HSTL_II_DCI_18
+-- Compiling entity IBUF_HSTL_IV
+-- Compiling architecture IBUF_HSTL_IV_V of IBUF_HSTL_IV
+-- Compiling entity IBUF_HSTL_IV_18
+-- Compiling architecture IBUF_HSTL_IV_18_V of IBUF_HSTL_IV_18
+-- Compiling entity IBUF_HSTL_IV_DCI
+-- Compiling architecture IBUF_HSTL_IV_DCI_V of IBUF_HSTL_IV_DCI
+-- Compiling entity IBUF_HSTL_IV_DCI_18
+-- Compiling architecture IBUF_HSTL_IV_DCI_18_V of IBUF_HSTL_IV_DCI_18
+-- Compiling entity IBUF_HSTL_I_18
+-- Compiling architecture IBUF_HSTL_I_18_V of IBUF_HSTL_I_18
+-- Compiling entity IBUF_HSTL_I_DCI
+-- Compiling architecture IBUF_HSTL_I_DCI_V of IBUF_HSTL_I_DCI
+-- Compiling entity IBUF_HSTL_I_DCI_18
+-- Compiling architecture IBUF_HSTL_I_DCI_18_V of IBUF_HSTL_I_DCI_18
+-- Compiling entity IBUF_LVCMOS12
+-- Compiling architecture IBUF_LVCMOS12_V of IBUF_LVCMOS12
+-- Compiling entity IBUF_LVCMOS15
+-- Compiling architecture IBUF_LVCMOS15_V of IBUF_LVCMOS15
+-- Compiling entity IBUF_LVCMOS18
+-- Compiling architecture IBUF_LVCMOS18_V of IBUF_LVCMOS18
+-- Compiling entity IBUF_LVCMOS2
+-- Compiling architecture IBUF_LVCMOS2_V of IBUF_LVCMOS2
+-- Compiling entity IBUF_LVCMOS25
+-- Compiling architecture IBUF_LVCMOS25_V of IBUF_LVCMOS25
+-- Compiling entity IBUF_LVCMOS33
+-- Compiling architecture IBUF_LVCMOS33_V of IBUF_LVCMOS33
+-- Compiling entity IBUF_LVDCI_15
+-- Compiling architecture IBUF_LVDCI_15_V of IBUF_LVDCI_15
+-- Compiling entity IBUF_LVDCI_18
+-- Compiling architecture IBUF_LVDCI_18_V of IBUF_LVDCI_18
+-- Compiling entity IBUF_LVDCI_25
+-- Compiling architecture IBUF_LVDCI_25_V of IBUF_LVDCI_25
+-- Compiling entity IBUF_LVDCI_33
+-- Compiling architecture IBUF_LVDCI_33_V of IBUF_LVDCI_33
+-- Compiling entity IBUF_LVDCI_DV2_15
+-- Compiling architecture IBUF_LVDCI_DV2_15_V of IBUF_LVDCI_DV2_15
+-- Compiling entity IBUF_LVDCI_DV2_18
+-- Compiling architecture IBUF_LVDCI_DV2_18_V of IBUF_LVDCI_DV2_18
+-- Compiling entity IBUF_LVDCI_DV2_25
+-- Compiling architecture IBUF_LVDCI_DV2_25_V of IBUF_LVDCI_DV2_25
+-- Compiling entity IBUF_LVDCI_DV2_33
+-- Compiling architecture IBUF_LVDCI_DV2_33_V of IBUF_LVDCI_DV2_33
+-- Compiling entity IBUF_LVDS
+-- Compiling architecture IBUF_LVDS_V of IBUF_LVDS
+-- Compiling entity IBUF_LVPECL
+-- Compiling architecture IBUF_LVPECL_V of IBUF_LVPECL
+-- Compiling entity IBUF_LVTTL
+-- Compiling architecture IBUF_LVTTL_V of IBUF_LVTTL
+-- Compiling entity IBUF_PCI33_3
+-- Compiling architecture IBUF_PCI33_3_V of IBUF_PCI33_3
+-- Compiling entity IBUF_PCI33_5
+-- Compiling architecture IBUF_PCI33_5_V of IBUF_PCI33_5
+-- Compiling entity IBUF_PCI66_3
+-- Compiling architecture IBUF_PCI66_3_V of IBUF_PCI66_3
+-- Compiling entity IBUF_PCIX
+-- Compiling architecture IBUF_PCIX_V of IBUF_PCIX
+-- Compiling entity IBUF_PCIX66_3
+-- Compiling architecture IBUF_PCIX66_3_V of IBUF_PCIX66_3
+-- Compiling entity IBUF_SSTL18_I
+-- Compiling architecture IBUF_SSTL18_I_V of IBUF_SSTL18_I
+-- Compiling entity IBUF_SSTL18_II
+-- Compiling architecture IBUF_SSTL18_II_V of IBUF_SSTL18_II
+-- Compiling entity IBUF_SSTL18_II_DCI
+-- Compiling architecture IBUF_SSTL18_II_DCI_V of IBUF_SSTL18_II_DCI
+-- Compiling entity IBUF_SSTL18_I_DCI
+-- Compiling architecture IBUF_SSTL18_I_DCI_V of IBUF_SSTL18_I_DCI
+-- Compiling entity IBUF_SSTL2_I
+-- Compiling architecture IBUF_SSTL2_I_V of IBUF_SSTL2_I
+-- Compiling entity IBUF_SSTL2_II
+-- Compiling architecture IBUF_SSTL2_II_V of IBUF_SSTL2_II
+-- Compiling entity IBUF_SSTL2_II_DCI
+-- Compiling architecture IBUF_SSTL2_II_DCI_V of IBUF_SSTL2_II_DCI
+-- Compiling entity IBUF_SSTL2_I_DCI
+-- Compiling architecture IBUF_SSTL2_I_DCI_V of IBUF_SSTL2_I_DCI
+-- Compiling entity IBUF_SSTL3_I
+-- Compiling architecture IBUF_SSTL3_I_V of IBUF_SSTL3_I
+-- Compiling entity IBUF_SSTL3_II
+-- Compiling architecture IBUF_SSTL3_II_V of IBUF_SSTL3_II
+-- Compiling entity IBUF_SSTL3_II_DCI
+-- Compiling architecture IBUF_SSTL3_II_DCI_V of IBUF_SSTL3_II_DCI
+-- Compiling entity IBUF_SSTL3_I_DCI
+-- Compiling architecture IBUF_SSTL3_I_DCI_V of IBUF_SSTL3_I_DCI
+-- Compiling entity ICAP_SPARTAN3A
+-- Compiling architecture ICAP_SPARTAN3A_V of ICAP_SPARTAN3A
+-- Compiling entity ICAP_SPARTAN6
+-- Compiling architecture ICAP_SPARTAN6_V of ICAP_SPARTAN6
+-- Compiling entity ICAP_VIRTEX4
+-- Compiling architecture ICAP_VIRTEX4_V of ICAP_VIRTEX4
+-- Compiling entity ICAP_VIRTEX5
+-- Compiling architecture ICAP_VIRTEX5_V of ICAP_VIRTEX5
+-- Compiling entity ICAP_VIRTEX6
+-- Compiling architecture ICAP_VIRTEX6_V of ICAP_VIRTEX6
+-- Compiling entity IDDR2
+-- Compiling architecture IDDR2_V of IDDR2
+-- Compiling entity IDELAY
+-- Compiling architecture IDELAY_V of IDELAY
+-- Compiling entity IOBUFDS_BLVDS_25
+-- Compiling architecture IOBUFDS_BLVDS_25_V of IOBUFDS_BLVDS_25
+-- Compiling entity IOBUF_AGP
+-- Compiling architecture IOBUF_AGP_V of IOBUF_AGP
+-- Compiling entity IOBUF_CTT
+-- Compiling architecture IOBUF_CTT_V of IOBUF_CTT
+-- Compiling entity IOBUF_F_12
+-- Compiling architecture IOBUF_F_12_V of IOBUF_F_12
+-- Compiling entity IOBUF_F_16
+-- Compiling architecture IOBUF_F_16_V of IOBUF_F_16
+-- Compiling entity IOBUF_F_2
+-- Compiling architecture IOBUF_F_2_V of IOBUF_F_2
+-- Compiling entity IOBUF_F_24
+-- Compiling architecture IOBUF_F_24_V of IOBUF_F_24
+-- Compiling entity IOBUF_F_4
+-- Compiling architecture IOBUF_F_4_V of IOBUF_F_4
+-- Compiling entity IOBUF_F_6
+-- Compiling architecture IOBUF_F_6_V of IOBUF_F_6
+-- Compiling entity IOBUF_F_8
+-- Compiling architecture IOBUF_F_8_V of IOBUF_F_8
+-- Compiling entity IOBUF_GTL
+-- Compiling architecture IOBUF_GTL_V of IOBUF_GTL
+-- Compiling entity IOBUF_GTLP
+-- Compiling architecture IOBUF_GTLP_V of IOBUF_GTLP
+-- Compiling entity IOBUF_GTLP_DCI
+-- Compiling architecture IOBUF_GTLP_DCI_V of IOBUF_GTLP_DCI
+-- Compiling entity IOBUF_GTL_DCI
+-- Compiling architecture IOBUF_GTL_DCI_V of IOBUF_GTL_DCI
+-- Compiling entity IOBUF_HSTL_I
+-- Compiling architecture IOBUF_HSTL_I_V of IOBUF_HSTL_I
+-- Compiling entity IOBUF_HSTL_II
+-- Compiling architecture IOBUF_HSTL_II_V of IOBUF_HSTL_II
+-- Compiling entity IOBUF_HSTL_III
+-- Compiling architecture IOBUF_HSTL_III_V of IOBUF_HSTL_III
+-- Compiling entity IOBUF_HSTL_III_18
+-- Compiling architecture IOBUF_HSTL_III_18_V of IOBUF_HSTL_III_18
+-- Compiling entity IOBUF_HSTL_II_18
+-- Compiling architecture IOBUF_HSTL_II_18_V of IOBUF_HSTL_II_18
+-- Compiling entity IOBUF_HSTL_II_DCI
+-- Compiling architecture IOBUF_HSTL_II_DCI_V of IOBUF_HSTL_II_DCI
+-- Compiling entity IOBUF_HSTL_II_DCI_18
+-- Compiling architecture IOBUF_HSTL_II_DCI_18_V of IOBUF_HSTL_II_DCI_18
+-- Compiling entity IOBUF_HSTL_IV
+-- Compiling architecture IOBUF_HSTL_IV_V of IOBUF_HSTL_IV
+-- Compiling entity IOBUF_HSTL_IV_18
+-- Compiling architecture IOBUF_HSTL_IV_18_V of IOBUF_HSTL_IV_18
+-- Compiling entity IOBUF_HSTL_IV_DCI
+-- Compiling architecture IOBUF_HSTL_IV_DCI_V of IOBUF_HSTL_IV_DCI
+-- Compiling entity IOBUF_HSTL_IV_DCI_18
+-- Compiling architecture IOBUF_HSTL_IV_DCI_18_V of IOBUF_HSTL_IV_DCI_18
+-- Compiling entity IOBUF_HSTL_I_18
+-- Compiling architecture IOBUF_HSTL_I_18_V of IOBUF_HSTL_I_18
+-- Compiling entity IOBUF_LVCMOS12
+-- Compiling architecture IOBUF_LVCMOS12_V of IOBUF_LVCMOS12
+-- Compiling entity IOBUF_LVCMOS12_F_2
+-- Compiling architecture IOBUF_LVCMOS12_F_2_V of IOBUF_LVCMOS12_F_2
+-- Compiling entity IOBUF_LVCMOS12_F_4
+-- Compiling architecture IOBUF_LVCMOS12_F_4_V of IOBUF_LVCMOS12_F_4
+-- Compiling entity IOBUF_LVCMOS12_F_6
+-- Compiling architecture IOBUF_LVCMOS12_F_6_V of IOBUF_LVCMOS12_F_6
+-- Compiling entity IOBUF_LVCMOS12_F_8
+-- Compiling architecture IOBUF_LVCMOS12_F_8_V of IOBUF_LVCMOS12_F_8
+-- Compiling entity IOBUF_LVCMOS12_S_2
+-- Compiling architecture IOBUF_LVCMOS12_S_2_V of IOBUF_LVCMOS12_S_2
+-- Compiling entity IOBUF_LVCMOS12_S_4
+-- Compiling architecture IOBUF_LVCMOS12_S_4_V of IOBUF_LVCMOS12_S_4
+-- Compiling entity IOBUF_LVCMOS12_S_6
+-- Compiling architecture IOBUF_LVCMOS12_S_6_V of IOBUF_LVCMOS12_S_6
+-- Compiling entity IOBUF_LVCMOS12_S_8
+-- Compiling architecture IOBUF_LVCMOS12_S_8_V of IOBUF_LVCMOS12_S_8
+-- Compiling entity IOBUF_LVCMOS15
+-- Compiling architecture IOBUF_LVCMOS15_V of IOBUF_LVCMOS15
+-- Compiling entity IOBUF_LVCMOS15_F_12
+-- Compiling architecture IOBUF_LVCMOS15_F_12_V of IOBUF_LVCMOS15_F_12
+-- Compiling entity IOBUF_LVCMOS15_F_16
+-- Compiling architecture IOBUF_LVCMOS15_F_16_V of IOBUF_LVCMOS15_F_16
+-- Compiling entity IOBUF_LVCMOS15_F_2
+-- Compiling architecture IOBUF_LVCMOS15_F_2_V of IOBUF_LVCMOS15_F_2
+-- Compiling entity IOBUF_LVCMOS15_F_4
+-- Compiling architecture IOBUF_LVCMOS15_F_4_V of IOBUF_LVCMOS15_F_4
+-- Compiling entity IOBUF_LVCMOS15_F_6
+-- Compiling architecture IOBUF_LVCMOS15_F_6_V of IOBUF_LVCMOS15_F_6
+-- Compiling entity IOBUF_LVCMOS15_F_8
+-- Compiling architecture IOBUF_LVCMOS15_F_8_V of IOBUF_LVCMOS15_F_8
+-- Compiling entity IOBUF_LVCMOS15_S_12
+-- Compiling architecture IOBUF_LVCMOS15_S_12_V of IOBUF_LVCMOS15_S_12
+-- Compiling entity IOBUF_LVCMOS15_S_16
+-- Compiling architecture IOBUF_LVCMOS15_S_16_V of IOBUF_LVCMOS15_S_16
+-- Compiling entity IOBUF_LVCMOS15_S_2
+-- Compiling architecture IOBUF_LVCMOS15_S_2_V of IOBUF_LVCMOS15_S_2
+-- Compiling entity IOBUF_LVCMOS15_S_4
+-- Compiling architecture IOBUF_LVCMOS15_S_4_V of IOBUF_LVCMOS15_S_4
+-- Compiling entity IOBUF_LVCMOS15_S_6
+-- Compiling architecture IOBUF_LVCMOS15_S_6_V of IOBUF_LVCMOS15_S_6
+-- Compiling entity IOBUF_LVCMOS15_S_8
+-- Compiling architecture IOBUF_LVCMOS15_S_8_V of IOBUF_LVCMOS15_S_8
+-- Compiling entity IOBUF_LVCMOS18
+-- Compiling architecture IOBUF_LVCMOS18_V of IOBUF_LVCMOS18
+-- Compiling entity IOBUF_LVCMOS18_F_12
+-- Compiling architecture IOBUF_LVCMOS18_F_12_V of IOBUF_LVCMOS18_F_12
+-- Compiling entity IOBUF_LVCMOS18_F_16
+-- Compiling architecture IOBUF_LVCMOS18_F_16_V of IOBUF_LVCMOS18_F_16
+-- Compiling entity IOBUF_LVCMOS18_F_2
+-- Compiling architecture IOBUF_LVCMOS18_F_2_V of IOBUF_LVCMOS18_F_2
+-- Compiling entity IOBUF_LVCMOS18_F_4
+-- Compiling architecture IOBUF_LVCMOS18_F_4_V of IOBUF_LVCMOS18_F_4
+-- Compiling entity IOBUF_LVCMOS18_F_6
+-- Compiling architecture IOBUF_LVCMOS18_F_6_V of IOBUF_LVCMOS18_F_6
+-- Compiling entity IOBUF_LVCMOS18_F_8
+-- Compiling architecture IOBUF_LVCMOS18_F_8_V of IOBUF_LVCMOS18_F_8
+-- Compiling entity IOBUF_LVCMOS18_S_12
+-- Compiling architecture IOBUF_LVCMOS18_S_12_V of IOBUF_LVCMOS18_S_12
+-- Compiling entity IOBUF_LVCMOS18_S_16
+-- Compiling architecture IOBUF_LVCMOS18_S_16_V of IOBUF_LVCMOS18_S_16
+-- Compiling entity IOBUF_LVCMOS18_S_2
+-- Compiling architecture IOBUF_LVCMOS18_S_2_V of IOBUF_LVCMOS18_S_2
+-- Compiling entity IOBUF_LVCMOS18_S_4
+-- Compiling architecture IOBUF_LVCMOS18_S_4_V of IOBUF_LVCMOS18_S_4
+-- Compiling entity IOBUF_LVCMOS18_S_6
+-- Compiling architecture IOBUF_LVCMOS18_S_6_V of IOBUF_LVCMOS18_S_6
+-- Compiling entity IOBUF_LVCMOS18_S_8
+-- Compiling architecture IOBUF_LVCMOS18_S_8_V of IOBUF_LVCMOS18_S_8
+-- Compiling entity IOBUF_LVCMOS2
+-- Compiling architecture IOBUF_LVCMOS2_V of IOBUF_LVCMOS2
+-- Compiling entity IOBUF_LVCMOS25
+-- Compiling architecture IOBUF_LVCMOS25_V of IOBUF_LVCMOS25
+-- Compiling entity IOBUF_LVCMOS25_F_12
+-- Compiling architecture IOBUF_LVCMOS25_F_12_V of IOBUF_LVCMOS25_F_12
+-- Compiling entity IOBUF_LVCMOS25_F_16
+-- Compiling architecture IOBUF_LVCMOS25_F_16_V of IOBUF_LVCMOS25_F_16
+-- Compiling entity IOBUF_LVCMOS25_F_2
+-- Compiling architecture IOBUF_LVCMOS25_F_2_V of IOBUF_LVCMOS25_F_2
+-- Compiling entity IOBUF_LVCMOS25_F_24
+-- Compiling architecture IOBUF_LVCMOS25_F_24_V of IOBUF_LVCMOS25_F_24
+-- Compiling entity IOBUF_LVCMOS25_F_4
+-- Compiling architecture IOBUF_LVCMOS25_F_4_V of IOBUF_LVCMOS25_F_4
+-- Compiling entity IOBUF_LVCMOS25_F_6
+-- Compiling architecture IOBUF_LVCMOS25_F_6_V of IOBUF_LVCMOS25_F_6
+-- Compiling entity IOBUF_LVCMOS25_F_8
+-- Compiling architecture IOBUF_LVCMOS25_F_8_V of IOBUF_LVCMOS25_F_8
+-- Compiling entity IOBUF_LVCMOS25_S_12
+-- Compiling architecture IOBUF_LVCMOS25_S_12_V of IOBUF_LVCMOS25_S_12
+-- Compiling entity IOBUF_LVCMOS25_S_16
+-- Compiling architecture IOBUF_LVCMOS25_S_16_V of IOBUF_LVCMOS25_S_16
+-- Compiling entity IOBUF_LVCMOS25_S_2
+-- Compiling architecture IOBUF_LVCMOS25_S_2_V of IOBUF_LVCMOS25_S_2
+-- Compiling entity IOBUF_LVCMOS25_S_24
+-- Compiling architecture IOBUF_LVCMOS25_S_24_V of IOBUF_LVCMOS25_S_24
+-- Compiling entity IOBUF_LVCMOS25_S_4
+-- Compiling architecture IOBUF_LVCMOS25_S_4_V of IOBUF_LVCMOS25_S_4
+-- Compiling entity IOBUF_LVCMOS25_S_6
+-- Compiling architecture IOBUF_LVCMOS25_S_6_V of IOBUF_LVCMOS25_S_6
+-- Compiling entity IOBUF_LVCMOS25_S_8
+-- Compiling architecture IOBUF_LVCMOS25_S_8_V of IOBUF_LVCMOS25_S_8
+-- Compiling entity IOBUF_LVCMOS33
+-- Compiling architecture IOBUF_LVCMOS33_V of IOBUF_LVCMOS33
+-- Compiling entity IOBUF_LVCMOS33_F_12
+-- Compiling architecture IOBUF_LVCMOS33_F_12_V of IOBUF_LVCMOS33_F_12
+-- Compiling entity IOBUF_LVCMOS33_F_16
+-- Compiling architecture IOBUF_LVCMOS33_F_16_V of IOBUF_LVCMOS33_F_16
+-- Compiling entity IOBUF_LVCMOS33_F_2
+-- Compiling architecture IOBUF_LVCMOS33_F_2_V of IOBUF_LVCMOS33_F_2
+-- Compiling entity IOBUF_LVCMOS33_F_24
+-- Compiling architecture IOBUF_LVCMOS33_F_24_V of IOBUF_LVCMOS33_F_24
+-- Compiling entity IOBUF_LVCMOS33_F_4
+-- Compiling architecture IOBUF_LVCMOS33_F_4_V of IOBUF_LVCMOS33_F_4
+-- Compiling entity IOBUF_LVCMOS33_F_6
+-- Compiling architecture IOBUF_LVCMOS33_F_6_V of IOBUF_LVCMOS33_F_6
+-- Compiling entity IOBUF_LVCMOS33_F_8
+-- Compiling architecture IOBUF_LVCMOS33_F_8_V of IOBUF_LVCMOS33_F_8
+-- Compiling entity IOBUF_LVCMOS33_S_12
+-- Compiling architecture IOBUF_LVCMOS33_S_12_V of IOBUF_LVCMOS33_S_12
+-- Compiling entity IOBUF_LVCMOS33_S_16
+-- Compiling architecture IOBUF_LVCMOS33_S_16_V of IOBUF_LVCMOS33_S_16
+-- Compiling entity IOBUF_LVCMOS33_S_2
+-- Compiling architecture IOBUF_LVCMOS33_S_2_V of IOBUF_LVCMOS33_S_2
+-- Compiling entity IOBUF_LVCMOS33_S_24
+-- Compiling architecture IOBUF_LVCMOS33_S_24_V of IOBUF_LVCMOS33_S_24
+-- Compiling entity IOBUF_LVCMOS33_S_4
+-- Compiling architecture IOBUF_LVCMOS33_S_4_V of IOBUF_LVCMOS33_S_4
+-- Compiling entity IOBUF_LVCMOS33_S_6
+-- Compiling architecture IOBUF_LVCMOS33_S_6_V of IOBUF_LVCMOS33_S_6
+-- Compiling entity IOBUF_LVCMOS33_S_8
+-- Compiling architecture IOBUF_LVCMOS33_S_8_V of IOBUF_LVCMOS33_S_8
+-- Compiling entity IOBUF_LVDCI_15
+-- Compiling architecture IOBUF_LVDCI_15_V of IOBUF_LVDCI_15
+-- Compiling entity IOBUF_LVDCI_18
+-- Compiling architecture IOBUF_LVDCI_18_V of IOBUF_LVDCI_18
+-- Compiling entity IOBUF_LVDCI_25
+-- Compiling architecture IOBUF_LVDCI_25_V of IOBUF_LVDCI_25
+-- Compiling entity IOBUF_LVDCI_33
+-- Compiling architecture IOBUF_LVDCI_33_V of IOBUF_LVDCI_33
+-- Compiling entity IOBUF_LVDCI_DV2_15
+-- Compiling architecture IOBUF_LVDCI_DV2_15_V of IOBUF_LVDCI_DV2_15
+-- Compiling entity IOBUF_LVDCI_DV2_18
+-- Compiling architecture IOBUF_LVDCI_DV2_18_V of IOBUF_LVDCI_DV2_18
+-- Compiling entity IOBUF_LVDCI_DV2_25
+-- Compiling architecture IOBUF_LVDCI_DV2_25_V of IOBUF_LVDCI_DV2_25
+-- Compiling entity IOBUF_LVDCI_DV2_33
+-- Compiling architecture IOBUF_LVDCI_DV2_33_V of IOBUF_LVDCI_DV2_33
+-- Compiling entity IOBUF_LVDS
+-- Compiling architecture IOBUF_LVDS_V of IOBUF_LVDS
+-- Compiling entity IOBUF_LVPECL
+-- Compiling architecture IOBUF_LVPECL_V of IOBUF_LVPECL
+-- Compiling entity IOBUF_LVTTL
+-- Compiling architecture IOBUF_LVTTL_V of IOBUF_LVTTL
+-- Compiling entity IOBUF_LVTTL_F_12
+-- Compiling architecture IOBUF_LVTTL_F_12_V of IOBUF_LVTTL_F_12
+-- Compiling entity IOBUF_LVTTL_F_16
+-- Compiling architecture IOBUF_LVTTL_F_16_V of IOBUF_LVTTL_F_16
+-- Compiling entity IOBUF_LVTTL_F_2
+-- Compiling architecture IOBUF_LVTTL_F_2_V of IOBUF_LVTTL_F_2
+-- Compiling entity IOBUF_LVTTL_F_24
+-- Compiling architecture IOBUF_LVTTL_F_24_V of IOBUF_LVTTL_F_24
+-- Compiling entity IOBUF_LVTTL_F_4
+-- Compiling architecture IOBUF_LVTTL_F_4_V of IOBUF_LVTTL_F_4
+-- Compiling entity IOBUF_LVTTL_F_6
+-- Compiling architecture IOBUF_LVTTL_F_6_V of IOBUF_LVTTL_F_6
+-- Compiling entity IOBUF_LVTTL_F_8
+-- Compiling architecture IOBUF_LVTTL_F_8_V of IOBUF_LVTTL_F_8
+-- Compiling entity IOBUF_LVTTL_S_12
+-- Compiling architecture IOBUF_LVTTL_S_12_V of IOBUF_LVTTL_S_12
+-- Compiling entity IOBUF_LVTTL_S_16
+-- Compiling architecture IOBUF_LVTTL_S_16_V of IOBUF_LVTTL_S_16
+-- Compiling entity IOBUF_LVTTL_S_2
+-- Compiling architecture IOBUF_LVTTL_S_2_V of IOBUF_LVTTL_S_2
+-- Compiling entity IOBUF_LVTTL_S_24
+-- Compiling architecture IOBUF_LVTTL_S_24_V of IOBUF_LVTTL_S_24
+-- Compiling entity IOBUF_LVTTL_S_4
+-- Compiling architecture IOBUF_LVTTL_S_4_V of IOBUF_LVTTL_S_4
+-- Compiling entity IOBUF_LVTTL_S_6
+-- Compiling architecture IOBUF_LVTTL_S_6_V of IOBUF_LVTTL_S_6
+-- Compiling entity IOBUF_LVTTL_S_8
+-- Compiling architecture IOBUF_LVTTL_S_8_V of IOBUF_LVTTL_S_8
+-- Compiling entity IOBUF_PCI33_3
+-- Compiling architecture IOBUF_PCI33_3_V of IOBUF_PCI33_3
+-- Compiling entity IOBUF_PCI33_5
+-- Compiling architecture IOBUF_PCI33_5_V of IOBUF_PCI33_5
+-- Compiling entity IOBUF_PCI66_3
+-- Compiling architecture IOBUF_PCI66_3_V of IOBUF_PCI66_3
+-- Compiling entity IOBUF_PCIX
+-- Compiling architecture IOBUF_PCIX_V of IOBUF_PCIX
+-- Compiling entity IOBUF_PCIX66_3
+-- Compiling architecture IOBUF_PCIX66_3_V of IOBUF_PCIX66_3
+-- Compiling entity IOBUF_SSTL18_I
+-- Compiling architecture IOBUF_SSTL18_I_V of IOBUF_SSTL18_I
+-- Compiling entity IOBUF_SSTL18_II
+-- Compiling architecture IOBUF_SSTL18_II_V of IOBUF_SSTL18_II
+-- Compiling entity IOBUF_SSTL18_II_DCI
+-- Compiling architecture IOBUF_SSTL18_II_DCI_V of IOBUF_SSTL18_II_DCI
+-- Compiling entity IOBUF_SSTL2_I
+-- Compiling architecture IOBUF_SSTL2_I_V of IOBUF_SSTL2_I
+-- Compiling entity IOBUF_SSTL2_II
+-- Compiling architecture IOBUF_SSTL2_II_V of IOBUF_SSTL2_II
+-- Compiling entity IOBUF_SSTL2_II_DCI
+-- Compiling architecture IOBUF_SSTL2_II_DCI_V of IOBUF_SSTL2_II_DCI
+-- Compiling entity IOBUF_SSTL3_I
+-- Compiling architecture IOBUF_SSTL3_I_V of IOBUF_SSTL3_I
+-- Compiling entity IOBUF_SSTL3_II
+-- Compiling architecture IOBUF_SSTL3_II_V of IOBUF_SSTL3_II
+-- Compiling entity IOBUF_SSTL3_II_DCI
+-- Compiling architecture IOBUF_SSTL3_II_DCI_V of IOBUF_SSTL3_II_DCI
+-- Compiling entity IOBUF_S_12
+-- Compiling architecture IOBUF_S_12_V of IOBUF_S_12
+-- Compiling entity IOBUF_S_16
+-- Compiling architecture IOBUF_S_16_V of IOBUF_S_16
+-- Compiling entity IOBUF_S_2
+-- Compiling architecture IOBUF_S_2_V of IOBUF_S_2
+-- Compiling entity IOBUF_S_24
+-- Compiling architecture IOBUF_S_24_V of IOBUF_S_24
+-- Compiling entity IOBUF_S_4
+-- Compiling architecture IOBUF_S_4_V of IOBUF_S_4
+-- Compiling entity IOBUF_S_6
+-- Compiling architecture IOBUF_S_6_V of IOBUF_S_6
+-- Compiling entity IOBUF_S_8
+-- Compiling architecture IOBUF_S_8_V of IOBUF_S_8
+-- Compiling entity IODELAY
+-- Compiling architecture IODELAY_V of IODELAY
+-- Compiling entity IODELAY2
+-- Compiling architecture IODELAY2_V of IODELAY2
+-- Compiling entity IODELAYE1
+-- Compiling architecture IODELAYE1_V of IODELAYE1
+-- Compiling entity KEY_CLEAR
+-- Compiling architecture KEY_CLEAR_V of KEY_CLEAR
+-- Compiling entity LD
+-- Compiling architecture LD_V of LD
+-- Compiling entity LDC
+-- Compiling architecture LDC_V of LDC
+-- Compiling entity LDCE_1
+-- Compiling architecture LDCE_1_V of LDCE_1
+-- Compiling entity LDCP
+-- Compiling architecture LDCP_V of LDCP
+-- Compiling entity LDCPE
+-- Compiling architecture LDCPE_V of LDCPE
+-- Compiling entity LDCPE_1
+-- Compiling architecture LDCPE_1_V of LDCPE_1
+-- Compiling entity LDCP_1
+-- Compiling architecture LDCP_1_V of LDCP_1
+-- Compiling entity LDC_1
+-- Compiling architecture LDC_1_V of LDC_1
+-- Compiling entity LDE
+-- Compiling architecture LDE_V of LDE
+-- Compiling entity LDE_1
+-- Compiling architecture LDE_1_V of LDE_1
+-- Compiling entity LDP
+-- Compiling architecture LDP_V of LDP
+-- Compiling entity LDPE_1
+-- Compiling architecture LDPE_1_V of LDPE_1
+-- Compiling entity LDP_1
+-- Compiling architecture LDP_1_V of LDP_1
+-- Compiling entity LD_1
+-- Compiling architecture LD_1_V of LD_1
+-- Compiling entity LUT1_D
+-- Compiling architecture LUT1_D_V of LUT1_D
+-- Compiling entity LUT1_L
+-- Compiling architecture LUT1_L_V of LUT1_L
+-- Compiling entity LUT2_D
+-- Compiling architecture LUT2_D_V of LUT2_D
+-- Compiling entity LUT2_L
+-- Compiling architecture LUT2_L_V of LUT2_L
+-- Compiling entity LUT3_D
+-- Compiling architecture LUT3_D_V of LUT3_D
+-- Compiling entity LUT3_L
+-- Compiling architecture LUT3_L_V of LUT3_L
+-- Compiling entity LUT4_D
+-- Compiling architecture LUT4_D_V of LUT4_D
+-- Compiling entity LUT4_L
+-- Compiling architecture LUT4_L_V of LUT4_L
+-- Compiling entity LUT5_D
+-- Compiling architecture LUT5_D_V of LUT5_D
+-- Compiling entity LUT5_L
+-- Compiling architecture LUT5_L_V of LUT5_L
+-- Compiling entity LUT6_D
+-- Compiling architecture LUT6_D_V of LUT6_D
+-- Compiling entity LUT6_L
+-- Compiling architecture LUT6_L_V of LUT6_L
+-- Compiling entity MMCM_ADV
+-- Compiling architecture MMCM_ADV_V of MMCM_ADV
+-- Compiling entity MMCM_BASE
+-- Compiling architecture MMCM_BASE_V of MMCM_BASE
+-- Compiling entity MULT18X18
+-- Compiling architecture MULT18X18_V of MULT18X18
+-- Compiling entity MULT18X18S
+-- Compiling architecture MULT18X18S_V of MULT18X18S
+-- Compiling entity MULT18X18SIO
+-- Compiling architecture MULT18X18SIO_V of MULT18X18SIO
+-- Compiling entity MULT_AND
+-- Compiling architecture MULT_AND_V of MULT_AND
+-- Compiling entity MUXCY_D
+-- Compiling architecture MUXCY_D_V of MUXCY_D
+-- Compiling entity MUXCY_L
+-- Compiling architecture MUXCY_L_V of MUXCY_L
+-- Compiling entity MUXF5
+-- Compiling architecture MUXF5_V of MUXF5
+-- Compiling entity MUXF5_D
+-- Compiling architecture MUXF5_D_V of MUXF5_D
+-- Compiling entity MUXF5_L
+-- Compiling architecture MUXF5_L_V of MUXF5_L
+-- Compiling entity MUXF6
+-- Compiling architecture MUXF6_V of MUXF6
+-- Compiling entity MUXF6_D
+-- Compiling architecture MUXF6_D_V of MUXF6_D
+-- Compiling entity MUXF6_L
+-- Compiling architecture MUXF6_L_V of MUXF6_L
+-- Compiling entity MUXF7_D
+-- Compiling architecture MUXF7_D_V of MUXF7_D
+-- Compiling entity MUXF7_L
+-- Compiling architecture MUXF7_L_V of MUXF7_L
+-- Compiling entity MUXF8_D
+-- Compiling architecture MUXF8_D_V of MUXF8_D
+-- Compiling entity MUXF8_L
+-- Compiling architecture MUXF8_L_V of MUXF8_L
+-- Compiling entity NAND2
+-- Compiling architecture NAND2_V of NAND2
+-- Compiling entity NAND2B1
+-- Compiling architecture NAND2B1_V of NAND2B1
+-- Compiling entity NAND2B2
+-- Compiling architecture NAND2B2_V of NAND2B2
+-- Compiling entity NAND3
+-- Compiling architecture NAND3_V of NAND3
+-- Compiling entity NAND3B1
+-- Compiling architecture NAND3B1_V of NAND3B1
+-- Compiling entity NAND3B2
+-- Compiling architecture NAND3B2_V of NAND3B2
+-- Compiling entity NAND3B3
+-- Compiling architecture NAND3B3_V of NAND3B3
+-- Compiling entity NAND4
+-- Compiling architecture NAND4_V of NAND4
+-- Compiling entity NAND4B1
+-- Compiling architecture NAND4B1_V of NAND4B1
+-- Compiling entity NAND4B2
+-- Compiling architecture NAND4B2_V of NAND4B2
+-- Compiling entity NAND4B3
+-- Compiling architecture NAND4B3_V of NAND4B3
+-- Compiling entity NAND4B4
+-- Compiling architecture NAND4B4_V of NAND4B4
+-- Compiling entity NAND5
+-- Compiling architecture NAND5_V of NAND5
+-- Compiling entity NAND5B1
+-- Compiling architecture NAND5B1_V of NAND5B1
+-- Compiling entity NAND5B2
+-- Compiling architecture NAND5B2_V of NAND5B2
+-- Compiling entity NAND5B3
+-- Compiling architecture NAND5B3_V of NAND5B3
+-- Compiling entity NAND5B4
+-- Compiling architecture NAND5B4_V of NAND5B4
+-- Compiling entity NAND5B5
+-- Compiling architecture NAND5B5_V of NAND5B5
+-- Compiling entity NOR2
+-- Compiling architecture NOR2_V of NOR2
+-- Compiling entity NOR2B1
+-- Compiling architecture NOR2B1_V of NOR2B1
+-- Compiling entity NOR2B2
+-- Compiling architecture NOR2B2_V of NOR2B2
+-- Compiling entity NOR3
+-- Compiling architecture NOR3_V of NOR3
+-- Compiling entity NOR3B1
+-- Compiling architecture NOR3B1_V of NOR3B1
+-- Compiling entity NOR3B2
+-- Compiling architecture NOR3B2_V of NOR3B2
+-- Compiling entity NOR3B3
+-- Compiling architecture NOR3B3_V of NOR3B3
+-- Compiling entity NOR4
+-- Compiling architecture NOR4_V of NOR4
+-- Compiling entity NOR4B1
+-- Compiling architecture NOR4B1_V of NOR4B1
+-- Compiling entity NOR4B2
+-- Compiling architecture NOR4B2_V of NOR4B2
+-- Compiling entity NOR4B3
+-- Compiling architecture NOR4B3_V of NOR4B3
+-- Compiling entity NOR4B4
+-- Compiling architecture NOR4B4_V of NOR4B4
+-- Compiling entity NOR5
+-- Compiling architecture NOR5_V of NOR5
+-- Compiling entity NOR5B1
+-- Compiling architecture NOR5B1_V of NOR5B1
+-- Compiling entity NOR5B2
+-- Compiling architecture NOR5B2_V of NOR5B2
+-- Compiling entity NOR5B3
+-- Compiling architecture NOR5B3_V of NOR5B3
+-- Compiling entity NOR5B4
+-- Compiling architecture NOR5B4_V of NOR5B4
+-- Compiling entity NOR5B5
+-- Compiling architecture NOR5B5_V of NOR5B5
+-- Compiling entity OBUFDS_BLVDS_25
+-- Compiling architecture OBUFDS_BLVDS_25_V of OBUFDS_BLVDS_25
+-- Compiling entity OBUFDS_LDT_25
+-- Compiling architecture OBUFDS_LDT_25_V of OBUFDS_LDT_25
+-- Compiling entity OBUFDS_LVDSEXT_25
+-- Compiling architecture OBUFDS_LVDSEXT_25_V of OBUFDS_LVDSEXT_25
+-- Compiling entity OBUFDS_LVDSEXT_33
+-- Compiling architecture OBUFDS_LVDSEXT_33_V of OBUFDS_LVDSEXT_33
+-- Compiling entity OBUFDS_LVDS_25
+-- Compiling architecture OBUFDS_LVDS_25_V of OBUFDS_LVDS_25
+-- Compiling entity OBUFDS_LVDS_33
+-- Compiling architecture OBUFDS_LVDS_33_V of OBUFDS_LVDS_33
+-- Compiling entity OBUFDS_LVPECL_25
+-- Compiling architecture OBUFDS_LVPECL_25_V of OBUFDS_LVPECL_25
+-- Compiling entity OBUFDS_LVPECL_33
+-- Compiling architecture OBUFDS_LVPECL_33_V of OBUFDS_LVPECL_33
+-- Compiling entity OBUFDS_ULVDS_25
+-- Compiling architecture OBUFDS_ULVDS_25_V of OBUFDS_ULVDS_25
+-- Compiling entity OBUFTDS_BLVDS_25
+-- Compiling architecture OBUFTDS_BLVDS_25_V of OBUFTDS_BLVDS_25
+-- Compiling entity OBUFTDS_LDT_25
+-- Compiling architecture OBUFTDS_LDT_25_V of OBUFTDS_LDT_25
+-- Compiling entity OBUFTDS_LVDSEXT_25
+-- Compiling architecture OBUFTDS_LVDSEXT_25_V of OBUFTDS_LVDSEXT_25
+-- Compiling entity OBUFTDS_LVDSEXT_33
+-- Compiling architecture OBUFTDS_LVDSEXT_33_V of OBUFTDS_LVDSEXT_33
+-- Compiling entity OBUFTDS_LVDS_25
+-- Compiling architecture OBUFTDS_LVDS_25_V of OBUFTDS_LVDS_25
+-- Compiling entity OBUFTDS_LVDS_33
+-- Compiling architecture OBUFTDS_LVDS_33_V of OBUFTDS_LVDS_33
+-- Compiling entity OBUFTDS_LVPECL_25
+-- Compiling architecture OBUFTDS_LVPECL_25_V of OBUFTDS_LVPECL_25
+-- Compiling entity OBUFTDS_LVPECL_33
+-- Compiling architecture OBUFTDS_LVPECL_33_V of OBUFTDS_LVPECL_33
+-- Compiling entity OBUFTDS_ULVDS_25
+-- Compiling architecture OBUFTDS_ULVDS_25_V of OBUFTDS_ULVDS_25
+-- Compiling entity OBUFT_AGP
+-- Compiling architecture OBUFT_AGP_V of OBUFT_AGP
+-- Compiling entity OBUFT_CTT
+-- Compiling architecture OBUFT_CTT_V of OBUFT_CTT
+-- Compiling entity OBUFT_F_12
+-- Compiling architecture OBUFT_F_12_V of OBUFT_F_12
+-- Compiling entity OBUFT_F_16
+-- Compiling architecture OBUFT_F_16_V of OBUFT_F_16
+-- Compiling entity OBUFT_F_2
+-- Compiling architecture OBUFT_F_2_V of OBUFT_F_2
+-- Compiling entity OBUFT_F_24
+-- Compiling architecture OBUFT_F_24_V of OBUFT_F_24
+-- Compiling entity OBUFT_F_4
+-- Compiling architecture OBUFT_F_4_V of OBUFT_F_4
+-- Compiling entity OBUFT_F_6
+-- Compiling architecture OBUFT_F_6_V of OBUFT_F_6
+-- Compiling entity OBUFT_F_8
+-- Compiling architecture OBUFT_F_8_V of OBUFT_F_8
+-- Compiling entity OBUFT_GTL
+-- Compiling architecture OBUFT_GTL_V of OBUFT_GTL
+-- Compiling entity OBUFT_GTLP
+-- Compiling architecture OBUFT_GTLP_V of OBUFT_GTLP
+-- Compiling entity OBUFT_GTLP_DCI
+-- Compiling architecture OBUFT_GTLP_DCI_V of OBUFT_GTLP_DCI
+-- Compiling entity OBUFT_GTL_DCI
+-- Compiling architecture OBUFT_GTL_DCI_V of OBUFT_GTL_DCI
+-- Compiling entity OBUFT_HSTL_I
+-- Compiling architecture OBUFT_HSTL_I_V of OBUFT_HSTL_I
+-- Compiling entity OBUFT_HSTL_II
+-- Compiling architecture OBUFT_HSTL_II_V of OBUFT_HSTL_II
+-- Compiling entity OBUFT_HSTL_III
+-- Compiling architecture OBUFT_HSTL_III_V of OBUFT_HSTL_III
+-- Compiling entity OBUFT_HSTL_III_18
+-- Compiling architecture OBUFT_HSTL_III_18_V of OBUFT_HSTL_III_18
+-- Compiling entity OBUFT_HSTL_III_DCI
+-- Compiling architecture OBUFT_HSTL_III_DCI_V of OBUFT_HSTL_III_DCI
+-- Compiling entity OBUFT_HSTL_III_DCI_18
+-- Compiling architecture OBUFT_HSTL_III_DCI_18_V of OBUFT_HSTL_III_DCI_18
+-- Compiling entity OBUFT_HSTL_II_18
+-- Compiling architecture OBUFT_HSTL_II_18_V of OBUFT_HSTL_II_18
+-- Compiling entity OBUFT_HSTL_II_DCI
+-- Compiling architecture OBUFT_HSTL_II_DCI_V of OBUFT_HSTL_II_DCI
+-- Compiling entity OBUFT_HSTL_II_DCI_18
+-- Compiling architecture OBUFT_HSTL_II_DCI_18_V of OBUFT_HSTL_II_DCI_18
+-- Compiling entity OBUFT_HSTL_IV
+-- Compiling architecture OBUFT_HSTL_IV_V of OBUFT_HSTL_IV
+-- Compiling entity OBUFT_HSTL_IV_18
+-- Compiling architecture OBUFT_HSTL_IV_18_V of OBUFT_HSTL_IV_18
+-- Compiling entity OBUFT_HSTL_IV_DCI
+-- Compiling architecture OBUFT_HSTL_IV_DCI_V of OBUFT_HSTL_IV_DCI
+-- Compiling entity OBUFT_HSTL_IV_DCI_18
+-- Compiling architecture OBUFT_HSTL_IV_DCI_18_V of OBUFT_HSTL_IV_DCI_18
+-- Compiling entity OBUFT_HSTL_I_18
+-- Compiling architecture OBUFT_HSTL_I_18_V of OBUFT_HSTL_I_18
+-- Compiling entity OBUFT_HSTL_I_DCI
+-- Compiling architecture OBUFT_HSTL_I_DCI_V of OBUFT_HSTL_I_DCI
+-- Compiling entity OBUFT_HSTL_I_DCI_18
+-- Compiling architecture OBUFT_HSTL_I_DCI_18_V of OBUFT_HSTL_I_DCI_18
+-- Compiling entity OBUFT_LVCMOS12
+-- Compiling architecture OBUFT_LVCMOS12_V of OBUFT_LVCMOS12
+-- Compiling entity OBUFT_LVCMOS12_F_2
+-- Compiling architecture OBUFT_LVCMOS12_F_2_V of OBUFT_LVCMOS12_F_2
+-- Compiling entity OBUFT_LVCMOS12_F_4
+-- Compiling architecture OBUFT_LVCMOS12_F_4_V of OBUFT_LVCMOS12_F_4
+-- Compiling entity OBUFT_LVCMOS12_F_6
+-- Compiling architecture OBUFT_LVCMOS12_F_6_V of OBUFT_LVCMOS12_F_6
+-- Compiling entity OBUFT_LVCMOS12_F_8
+-- Compiling architecture OBUFT_LVCMOS12_F_8_V of OBUFT_LVCMOS12_F_8
+-- Compiling entity OBUFT_LVCMOS12_S_2
+-- Compiling architecture OBUFT_LVCMOS12_S_2_V of OBUFT_LVCMOS12_S_2
+-- Compiling entity OBUFT_LVCMOS12_S_4
+-- Compiling architecture OBUFT_LVCMOS12_S_4_V of OBUFT_LVCMOS12_S_4
+-- Compiling entity OBUFT_LVCMOS12_S_6
+-- Compiling architecture OBUFT_LVCMOS12_S_6_V of OBUFT_LVCMOS12_S_6
+-- Compiling entity OBUFT_LVCMOS12_S_8
+-- Compiling architecture OBUFT_LVCMOS12_S_8_V of OBUFT_LVCMOS12_S_8
+-- Compiling entity OBUFT_LVCMOS15
+-- Compiling architecture OBUFT_LVCMOS15_V of OBUFT_LVCMOS15
+-- Compiling entity OBUFT_LVCMOS15_F_12
+-- Compiling architecture OBUFT_LVCMOS15_F_12_V of OBUFT_LVCMOS15_F_12
+-- Compiling entity OBUFT_LVCMOS15_F_16
+-- Compiling architecture OBUFT_LVCMOS15_F_16_V of OBUFT_LVCMOS15_F_16
+-- Compiling entity OBUFT_LVCMOS15_F_2
+-- Compiling architecture OBUFT_LVCMOS15_F_2_V of OBUFT_LVCMOS15_F_2
+-- Compiling entity OBUFT_LVCMOS15_F_4
+-- Compiling architecture OBUFT_LVCMOS15_F_4_V of OBUFT_LVCMOS15_F_4
+-- Compiling entity OBUFT_LVCMOS15_F_6
+-- Compiling architecture OBUFT_LVCMOS15_F_6_V of OBUFT_LVCMOS15_F_6
+-- Compiling entity OBUFT_LVCMOS15_F_8
+-- Compiling architecture OBUFT_LVCMOS15_F_8_V of OBUFT_LVCMOS15_F_8
+-- Compiling entity OBUFT_LVCMOS15_S_12
+-- Compiling architecture OBUFT_LVCMOS15_S_12_V of OBUFT_LVCMOS15_S_12
+-- Compiling entity OBUFT_LVCMOS15_S_16
+-- Compiling architecture OBUFT_LVCMOS15_S_16_V of OBUFT_LVCMOS15_S_16
+-- Compiling entity OBUFT_LVCMOS15_S_2
+-- Compiling architecture OBUFT_LVCMOS15_S_2_V of OBUFT_LVCMOS15_S_2
+-- Compiling entity OBUFT_LVCMOS15_S_4
+-- Compiling architecture OBUFT_LVCMOS15_S_4_V of OBUFT_LVCMOS15_S_4
+-- Compiling entity OBUFT_LVCMOS15_S_6
+-- Compiling architecture OBUFT_LVCMOS15_S_6_V of OBUFT_LVCMOS15_S_6
+-- Compiling entity OBUFT_LVCMOS15_S_8
+-- Compiling architecture OBUFT_LVCMOS15_S_8_V of OBUFT_LVCMOS15_S_8
+-- Compiling entity OBUFT_LVCMOS18
+-- Compiling architecture OBUFT_LVCMOS18_V of OBUFT_LVCMOS18
+-- Compiling entity OBUFT_LVCMOS18_F_12
+-- Compiling architecture OBUFT_LVCMOS18_F_12_V of OBUFT_LVCMOS18_F_12
+-- Compiling entity OBUFT_LVCMOS18_F_16
+-- Compiling architecture OBUFT_LVCMOS18_F_16_V of OBUFT_LVCMOS18_F_16
+-- Compiling entity OBUFT_LVCMOS18_F_2
+-- Compiling architecture OBUFT_LVCMOS18_F_2_V of OBUFT_LVCMOS18_F_2
+-- Compiling entity OBUFT_LVCMOS18_F_4
+-- Compiling architecture OBUFT_LVCMOS18_F_4_V of OBUFT_LVCMOS18_F_4
+-- Compiling entity OBUFT_LVCMOS18_F_6
+-- Compiling architecture OBUFT_LVCMOS18_F_6_V of OBUFT_LVCMOS18_F_6
+-- Compiling entity OBUFT_LVCMOS18_F_8
+-- Compiling architecture OBUFT_LVCMOS18_F_8_V of OBUFT_LVCMOS18_F_8
+-- Compiling entity OBUFT_LVCMOS18_S_12
+-- Compiling architecture OBUFT_LVCMOS18_S_12_V of OBUFT_LVCMOS18_S_12
+-- Compiling entity OBUFT_LVCMOS18_S_16
+-- Compiling architecture OBUFT_LVCMOS18_S_16_V of OBUFT_LVCMOS18_S_16
+-- Compiling entity OBUFT_LVCMOS18_S_2
+-- Compiling architecture OBUFT_LVCMOS18_S_2_V of OBUFT_LVCMOS18_S_2
+-- Compiling entity OBUFT_LVCMOS18_S_4
+-- Compiling architecture OBUFT_LVCMOS18_S_4_V of OBUFT_LVCMOS18_S_4
+-- Compiling entity OBUFT_LVCMOS18_S_6
+-- Compiling architecture OBUFT_LVCMOS18_S_6_V of OBUFT_LVCMOS18_S_6
+-- Compiling entity OBUFT_LVCMOS18_S_8
+-- Compiling architecture OBUFT_LVCMOS18_S_8_V of OBUFT_LVCMOS18_S_8
+-- Compiling entity OBUFT_LVCMOS2
+-- Compiling architecture OBUFT_LVCMOS2_V of OBUFT_LVCMOS2
+-- Compiling entity OBUFT_LVCMOS25
+-- Compiling architecture OBUFT_LVCMOS25_V of OBUFT_LVCMOS25
+-- Compiling entity OBUFT_LVCMOS25_F_12
+-- Compiling architecture OBUFT_LVCMOS25_F_12_V of OBUFT_LVCMOS25_F_12
+-- Compiling entity OBUFT_LVCMOS25_F_16
+-- Compiling architecture OBUFT_LVCMOS25_F_16_V of OBUFT_LVCMOS25_F_16
+-- Compiling entity OBUFT_LVCMOS25_F_2
+-- Compiling architecture OBUFT_LVCMOS25_F_2_V of OBUFT_LVCMOS25_F_2
+-- Compiling entity OBUFT_LVCMOS25_F_24
+-- Compiling architecture OBUFT_LVCMOS25_F_24_V of OBUFT_LVCMOS25_F_24
+-- Compiling entity OBUFT_LVCMOS25_F_4
+-- Compiling architecture OBUFT_LVCMOS25_F_4_V of OBUFT_LVCMOS25_F_4
+-- Compiling entity OBUFT_LVCMOS25_F_6
+-- Compiling architecture OBUFT_LVCMOS25_F_6_V of OBUFT_LVCMOS25_F_6
+-- Compiling entity OBUFT_LVCMOS25_F_8
+-- Compiling architecture OBUFT_LVCMOS25_F_8_V of OBUFT_LVCMOS25_F_8
+-- Compiling entity OBUFT_LVCMOS25_S_12
+-- Compiling architecture OBUFT_LVCMOS25_S_12_V of OBUFT_LVCMOS25_S_12
+-- Compiling entity OBUFT_LVCMOS25_S_16
+-- Compiling architecture OBUFT_LVCMOS25_S_16_V of OBUFT_LVCMOS25_S_16
+-- Compiling entity OBUFT_LVCMOS25_S_2
+-- Compiling architecture OBUFT_LVCMOS25_S_2_V of OBUFT_LVCMOS25_S_2
+-- Compiling entity OBUFT_LVCMOS25_S_24
+-- Compiling architecture OBUFT_LVCMOS25_S_24_V of OBUFT_LVCMOS25_S_24
+-- Compiling entity OBUFT_LVCMOS25_S_4
+-- Compiling architecture OBUFT_LVCMOS25_S_4_V of OBUFT_LVCMOS25_S_4
+-- Compiling entity OBUFT_LVCMOS25_S_6
+-- Compiling architecture OBUFT_LVCMOS25_S_6_V of OBUFT_LVCMOS25_S_6
+-- Compiling entity OBUFT_LVCMOS25_S_8
+-- Compiling architecture OBUFT_LVCMOS25_S_8_V of OBUFT_LVCMOS25_S_8
+-- Compiling entity OBUFT_LVCMOS33
+-- Compiling architecture OBUFT_LVCMOS33_V of OBUFT_LVCMOS33
+-- Compiling entity OBUFT_LVCMOS33_F_12
+-- Compiling architecture OBUFT_LVCMOS33_F_12_V of OBUFT_LVCMOS33_F_12
+-- Compiling entity OBUFT_LVCMOS33_F_16
+-- Compiling architecture OBUFT_LVCMOS33_F_16_V of OBUFT_LVCMOS33_F_16
+-- Compiling entity OBUFT_LVCMOS33_F_2
+-- Compiling architecture OBUFT_LVCMOS33_F_2_V of OBUFT_LVCMOS33_F_2
+-- Compiling entity OBUFT_LVCMOS33_F_24
+-- Compiling architecture OBUFT_LVCMOS33_F_24_V of OBUFT_LVCMOS33_F_24
+-- Compiling entity OBUFT_LVCMOS33_F_4
+-- Compiling architecture OBUFT_LVCMOS33_F_4_V of OBUFT_LVCMOS33_F_4
+-- Compiling entity OBUFT_LVCMOS33_F_6
+-- Compiling architecture OBUFT_LVCMOS33_F_6_V of OBUFT_LVCMOS33_F_6
+-- Compiling entity OBUFT_LVCMOS33_F_8
+-- Compiling architecture OBUFT_LVCMOS33_F_8_V of OBUFT_LVCMOS33_F_8
+-- Compiling entity OBUFT_LVCMOS33_S_12
+-- Compiling architecture OBUFT_LVCMOS33_S_12_V of OBUFT_LVCMOS33_S_12
+-- Compiling entity OBUFT_LVCMOS33_S_16
+-- Compiling architecture OBUFT_LVCMOS33_S_16_V of OBUFT_LVCMOS33_S_16
+-- Compiling entity OBUFT_LVCMOS33_S_2
+-- Compiling architecture OBUFT_LVCMOS33_S_2_V of OBUFT_LVCMOS33_S_2
+-- Compiling entity OBUFT_LVCMOS33_S_24
+-- Compiling architecture OBUFT_LVCMOS33_S_24_V of OBUFT_LVCMOS33_S_24
+-- Compiling entity OBUFT_LVCMOS33_S_4
+-- Compiling architecture OBUFT_LVCMOS33_S_4_V of OBUFT_LVCMOS33_S_4
+-- Compiling entity OBUFT_LVCMOS33_S_6
+-- Compiling architecture OBUFT_LVCMOS33_S_6_V of OBUFT_LVCMOS33_S_6
+-- Compiling entity OBUFT_LVCMOS33_S_8
+-- Compiling architecture OBUFT_LVCMOS33_S_8_V of OBUFT_LVCMOS33_S_8
+-- Compiling entity OBUFT_LVDCI_15
+-- Compiling architecture OBUFT_LVDCI_15_V of OBUFT_LVDCI_15
+-- Compiling entity OBUFT_LVDCI_18
+-- Compiling architecture OBUFT_LVDCI_18_V of OBUFT_LVDCI_18
+-- Compiling entity OBUFT_LVDCI_25
+-- Compiling architecture OBUFT_LVDCI_25_V of OBUFT_LVDCI_25
+-- Compiling entity OBUFT_LVDCI_33
+-- Compiling architecture OBUFT_LVDCI_33_V of OBUFT_LVDCI_33
+-- Compiling entity OBUFT_LVDCI_DV2_15
+-- Compiling architecture OBUFT_LVDCI_DV2_15_V of OBUFT_LVDCI_DV2_15
+-- Compiling entity OBUFT_LVDCI_DV2_18
+-- Compiling architecture OBUFT_LVDCI_DV2_18_V of OBUFT_LVDCI_DV2_18
+-- Compiling entity OBUFT_LVDCI_DV2_25
+-- Compiling architecture OBUFT_LVDCI_DV2_25_V of OBUFT_LVDCI_DV2_25
+-- Compiling entity OBUFT_LVDCI_DV2_33
+-- Compiling architecture OBUFT_LVDCI_DV2_33_V of OBUFT_LVDCI_DV2_33
+-- Compiling entity OBUFT_LVDS
+-- Compiling architecture OBUFT_LVDS_V of OBUFT_LVDS
+-- Compiling entity OBUFT_LVPECL
+-- Compiling architecture OBUFT_LVPECL_V of OBUFT_LVPECL
+-- Compiling entity OBUFT_LVTTL
+-- Compiling architecture OBUFT_LVTTL_V of OBUFT_LVTTL
+-- Compiling entity OBUFT_LVTTL_F_12
+-- Compiling architecture OBUFT_LVTTL_F_12_V of OBUFT_LVTTL_F_12
+-- Compiling entity OBUFT_LVTTL_F_16
+-- Compiling architecture OBUFT_LVTTL_F_16_V of OBUFT_LVTTL_F_16
+-- Compiling entity OBUFT_LVTTL_F_2
+-- Compiling architecture OBUFT_LVTTL_F_2_V of OBUFT_LVTTL_F_2
+-- Compiling entity OBUFT_LVTTL_F_24
+-- Compiling architecture OBUFT_LVTTL_F_24_V of OBUFT_LVTTL_F_24
+-- Compiling entity OBUFT_LVTTL_F_4
+-- Compiling architecture OBUFT_LVTTL_F_4_V of OBUFT_LVTTL_F_4
+-- Compiling entity OBUFT_LVTTL_F_6
+-- Compiling architecture OBUFT_LVTTL_F_6_V of OBUFT_LVTTL_F_6
+-- Compiling entity OBUFT_LVTTL_F_8
+-- Compiling architecture OBUFT_LVTTL_F_8_V of OBUFT_LVTTL_F_8
+-- Compiling entity OBUFT_LVTTL_S_12
+-- Compiling architecture OBUFT_LVTTL_S_12_V of OBUFT_LVTTL_S_12
+-- Compiling entity OBUFT_LVTTL_S_16
+-- Compiling architecture OBUFT_LVTTL_S_16_V of OBUFT_LVTTL_S_16
+-- Compiling entity OBUFT_LVTTL_S_2
+-- Compiling architecture OBUFT_LVTTL_S_2_V of OBUFT_LVTTL_S_2
+-- Compiling entity OBUFT_LVTTL_S_24
+-- Compiling architecture OBUFT_LVTTL_S_24_V of OBUFT_LVTTL_S_24
+-- Compiling entity OBUFT_LVTTL_S_4
+-- Compiling architecture OBUFT_LVTTL_S_4_V of OBUFT_LVTTL_S_4
+-- Compiling entity OBUFT_LVTTL_S_6
+-- Compiling architecture OBUFT_LVTTL_S_6_V of OBUFT_LVTTL_S_6
+-- Compiling entity OBUFT_LVTTL_S_8
+-- Compiling architecture OBUFT_LVTTL_S_8_V of OBUFT_LVTTL_S_8
+-- Compiling entity OBUFT_PCI33_3
+-- Compiling architecture OBUFT_PCI33_3_V of OBUFT_PCI33_3
+-- Compiling entity OBUFT_PCI33_5
+-- Compiling architecture OBUFT_PCI33_5_V of OBUFT_PCI33_5
+-- Compiling entity OBUFT_PCI66_3
+-- Compiling architecture OBUFT_PCI66_3_V of OBUFT_PCI66_3
+-- Compiling entity OBUFT_PCIX
+-- Compiling architecture OBUFT_PCIX_V of OBUFT_PCIX
+-- Compiling entity OBUFT_PCIX66_3
+-- Compiling architecture OBUFT_PCIX66_3_V of OBUFT_PCIX66_3
+-- Compiling entity OBUFT_SSTL18_I
+-- Compiling architecture OBUFT_SSTL18_I_V of OBUFT_SSTL18_I
+-- Compiling entity OBUFT_SSTL18_II
+-- Compiling architecture OBUFT_SSTL18_II_V of OBUFT_SSTL18_II
+-- Compiling entity OBUFT_SSTL18_II_DCI
+-- Compiling architecture OBUFT_SSTL18_II_DCI_V of OBUFT_SSTL18_II_DCI
+-- Compiling entity OBUFT_SSTL18_I_DCI
+-- Compiling architecture OBUFT_SSTL18_I_DCI_V of OBUFT_SSTL18_I_DCI
+-- Compiling entity OBUFT_SSTL2_I
+-- Compiling architecture OBUFT_SSTL2_I_V of OBUFT_SSTL2_I
+-- Compiling entity OBUFT_SSTL2_II
+-- Compiling architecture OBUFT_SSTL2_II_V of OBUFT_SSTL2_II
+-- Compiling entity OBUFT_SSTL2_II_DCI
+-- Compiling architecture OBUFT_SSTL2_II_DCI_V of OBUFT_SSTL2_II_DCI
+-- Compiling entity OBUFT_SSTL2_I_DCI
+-- Compiling architecture OBUFT_SSTL2_I_DCI_V of OBUFT_SSTL2_I_DCI
+-- Compiling entity OBUFT_SSTL3_I
+-- Compiling architecture OBUFT_SSTL3_I_V of OBUFT_SSTL3_I
+-- Compiling entity OBUFT_SSTL3_II
+-- Compiling architecture OBUFT_SSTL3_II_V of OBUFT_SSTL3_II
+-- Compiling entity OBUFT_SSTL3_II_DCI
+-- Compiling architecture OBUFT_SSTL3_II_DCI_V of OBUFT_SSTL3_II_DCI
+-- Compiling entity OBUFT_SSTL3_I_DCI
+-- Compiling architecture OBUFT_SSTL3_I_DCI_V of OBUFT_SSTL3_I_DCI
+-- Compiling entity OBUFT_S_12
+-- Compiling architecture OBUFT_S_12_V of OBUFT_S_12
+-- Compiling entity OBUFT_S_16
+-- Compiling architecture OBUFT_S_16_V of OBUFT_S_16
+-- Compiling entity OBUFT_S_2
+-- Compiling architecture OBUFT_S_2_V of OBUFT_S_2
+-- Compiling entity OBUFT_S_24
+-- Compiling architecture OBUFT_S_24_V of OBUFT_S_24
+-- Compiling entity OBUFT_S_4
+-- Compiling architecture OBUFT_S_4_V of OBUFT_S_4
+-- Compiling entity OBUFT_S_6
+-- Compiling architecture OBUFT_S_6_V of OBUFT_S_6
+-- Compiling entity OBUFT_S_8
+-- Compiling architecture OBUFT_S_8_V of OBUFT_S_8
+-- Compiling entity OBUF_AGP
+-- Compiling architecture OBUF_AGP_V of OBUF_AGP
+-- Compiling entity OBUF_CTT
+-- Compiling architecture OBUF_CTT_V of OBUF_CTT
+-- Compiling entity OBUF_F_12
+-- Compiling architecture OBUF_F_12_V of OBUF_F_12
+-- Compiling entity OBUF_F_16
+-- Compiling architecture OBUF_F_16_V of OBUF_F_16
+-- Compiling entity OBUF_F_2
+-- Compiling architecture OBUF_F_2_V of OBUF_F_2
+-- Compiling entity OBUF_F_24
+-- Compiling architecture OBUF_F_24_V of OBUF_F_24
+-- Compiling entity OBUF_F_4
+-- Compiling architecture OBUF_F_4_V of OBUF_F_4
+-- Compiling entity OBUF_F_6
+-- Compiling architecture OBUF_F_6_V of OBUF_F_6
+-- Compiling entity OBUF_F_8
+-- Compiling architecture OBUF_F_8_V of OBUF_F_8
+-- Compiling entity OBUF_GTL
+-- Compiling architecture OBUF_GTL_V of OBUF_GTL
+-- Compiling entity OBUF_GTLP
+-- Compiling architecture OBUF_GTLP_V of OBUF_GTLP
+-- Compiling entity OBUF_GTLP_DCI
+-- Compiling architecture OBUF_GTLP_DCI_V of OBUF_GTLP_DCI
+-- Compiling entity OBUF_GTL_DCI
+-- Compiling architecture OBUF_GTL_DCI_V of OBUF_GTL_DCI
+-- Compiling entity OBUF_HSTL_I
+-- Compiling architecture OBUF_HSTL_I_V of OBUF_HSTL_I
+-- Compiling entity OBUF_HSTL_II
+-- Compiling architecture OBUF_HSTL_II_V of OBUF_HSTL_II
+-- Compiling entity OBUF_HSTL_III
+-- Compiling architecture OBUF_HSTL_III_V of OBUF_HSTL_III
+-- Compiling entity OBUF_HSTL_III_18
+-- Compiling architecture OBUF_HSTL_III_18_V of OBUF_HSTL_III_18
+-- Compiling entity OBUF_HSTL_III_DCI
+-- Compiling architecture OBUF_HSTL_III_DCI_V of OBUF_HSTL_III_DCI
+-- Compiling entity OBUF_HSTL_III_DCI_18
+-- Compiling architecture OBUF_HSTL_III_DCI_18_V of OBUF_HSTL_III_DCI_18
+-- Compiling entity OBUF_HSTL_II_18
+-- Compiling architecture OBUF_HSTL_II_18_V of OBUF_HSTL_II_18
+-- Compiling entity OBUF_HSTL_II_DCI
+-- Compiling architecture OBUF_HSTL_II_DCI_V of OBUF_HSTL_II_DCI
+-- Compiling entity OBUF_HSTL_II_DCI_18
+-- Compiling architecture OBUF_HSTL_II_DCI_18_V of OBUF_HSTL_II_DCI_18
+-- Compiling entity OBUF_HSTL_IV
+-- Compiling architecture OBUF_HSTL_IV_V of OBUF_HSTL_IV
+-- Compiling entity OBUF_HSTL_IV_18
+-- Compiling architecture OBUF_HSTL_IV_18_V of OBUF_HSTL_IV_18
+-- Compiling entity OBUF_HSTL_IV_DCI
+-- Compiling architecture OBUF_HSTL_IV_DCI_V of OBUF_HSTL_IV_DCI
+-- Compiling entity OBUF_HSTL_IV_DCI_18
+-- Compiling architecture OBUF_HSTL_IV_DCI_18_V of OBUF_HSTL_IV_DCI_18
+-- Compiling entity OBUF_HSTL_I_18
+-- Compiling architecture OBUF_HSTL_I_18_V of OBUF_HSTL_I_18
+-- Compiling entity OBUF_HSTL_I_DCI
+-- Compiling architecture OBUF_HSTL_I_DCI_V of OBUF_HSTL_I_DCI
+-- Compiling entity OBUF_HSTL_I_DCI_18
+-- Compiling architecture OBUF_HSTL_I_DCI_18_V of OBUF_HSTL_I_DCI_18
+-- Compiling entity OBUF_LVCMOS12
+-- Compiling architecture OBUF_LVCMOS12_V of OBUF_LVCMOS12
+-- Compiling entity OBUF_LVCMOS12_F_2
+-- Compiling architecture OBUF_LVCMOS12_F_2_V of OBUF_LVCMOS12_F_2
+-- Compiling entity OBUF_LVCMOS12_F_4
+-- Compiling architecture OBUF_LVCMOS12_F_4_V of OBUF_LVCMOS12_F_4
+-- Compiling entity OBUF_LVCMOS12_F_6
+-- Compiling architecture OBUF_LVCMOS12_F_6_V of OBUF_LVCMOS12_F_6
+-- Compiling entity OBUF_LVCMOS12_F_8
+-- Compiling architecture OBUF_LVCMOS12_F_8_V of OBUF_LVCMOS12_F_8
+-- Compiling entity OBUF_LVCMOS12_S_2
+-- Compiling architecture OBUF_LVCMOS12_S_2_V of OBUF_LVCMOS12_S_2
+-- Compiling entity OBUF_LVCMOS12_S_4
+-- Compiling architecture OBUF_LVCMOS12_S_4_V of OBUF_LVCMOS12_S_4
+-- Compiling entity OBUF_LVCMOS12_S_6
+-- Compiling architecture OBUF_LVCMOS12_S_6_V of OBUF_LVCMOS12_S_6
+-- Compiling entity OBUF_LVCMOS12_S_8
+-- Compiling architecture OBUF_LVCMOS12_S_8_V of OBUF_LVCMOS12_S_8
+-- Compiling entity OBUF_LVCMOS15
+-- Compiling architecture OBUF_LVCMOS15_V of OBUF_LVCMOS15
+-- Compiling entity OBUF_LVCMOS15_F_12
+-- Compiling architecture OBUF_LVCMOS15_F_12_V of OBUF_LVCMOS15_F_12
+-- Compiling entity OBUF_LVCMOS15_F_16
+-- Compiling architecture OBUF_LVCMOS15_F_16_V of OBUF_LVCMOS15_F_16
+-- Compiling entity OBUF_LVCMOS15_F_2
+-- Compiling architecture OBUF_LVCMOS15_F_2_V of OBUF_LVCMOS15_F_2
+-- Compiling entity OBUF_LVCMOS15_F_4
+-- Compiling architecture OBUF_LVCMOS15_F_4_V of OBUF_LVCMOS15_F_4
+-- Compiling entity OBUF_LVCMOS15_F_6
+-- Compiling architecture OBUF_LVCMOS15_F_6_V of OBUF_LVCMOS15_F_6
+-- Compiling entity OBUF_LVCMOS15_F_8
+-- Compiling architecture OBUF_LVCMOS15_F_8_V of OBUF_LVCMOS15_F_8
+-- Compiling entity OBUF_LVCMOS15_S_12
+-- Compiling architecture OBUF_LVCMOS15_S_12_V of OBUF_LVCMOS15_S_12
+-- Compiling entity OBUF_LVCMOS15_S_16
+-- Compiling architecture OBUF_LVCMOS15_S_16_V of OBUF_LVCMOS15_S_16
+-- Compiling entity OBUF_LVCMOS15_S_2
+-- Compiling architecture OBUF_LVCMOS15_S_2_V of OBUF_LVCMOS15_S_2
+-- Compiling entity OBUF_LVCMOS15_S_4
+-- Compiling architecture OBUF_LVCMOS15_S_4_V of OBUF_LVCMOS15_S_4
+-- Compiling entity OBUF_LVCMOS15_S_6
+-- Compiling architecture OBUF_LVCMOS15_S_6_V of OBUF_LVCMOS15_S_6
+-- Compiling entity OBUF_LVCMOS15_S_8
+-- Compiling architecture OBUF_LVCMOS15_S_8_V of OBUF_LVCMOS15_S_8
+-- Compiling entity OBUF_LVCMOS18
+-- Compiling architecture OBUF_LVCMOS18_V of OBUF_LVCMOS18
+-- Compiling entity OBUF_LVCMOS18_F_12
+-- Compiling architecture OBUF_LVCMOS18_F_12_V of OBUF_LVCMOS18_F_12
+-- Compiling entity OBUF_LVCMOS18_F_16
+-- Compiling architecture OBUF_LVCMOS18_F_16_V of OBUF_LVCMOS18_F_16
+-- Compiling entity OBUF_LVCMOS18_F_2
+-- Compiling architecture OBUF_LVCMOS18_F_2_V of OBUF_LVCMOS18_F_2
+-- Compiling entity OBUF_LVCMOS18_F_4
+-- Compiling architecture OBUF_LVCMOS18_F_4_V of OBUF_LVCMOS18_F_4
+-- Compiling entity OBUF_LVCMOS18_F_6
+-- Compiling architecture OBUF_LVCMOS18_F_6_V of OBUF_LVCMOS18_F_6
+-- Compiling entity OBUF_LVCMOS18_F_8
+-- Compiling architecture OBUF_LVCMOS18_F_8_V of OBUF_LVCMOS18_F_8
+-- Compiling entity OBUF_LVCMOS18_S_12
+-- Compiling architecture OBUF_LVCMOS18_S_12_V of OBUF_LVCMOS18_S_12
+-- Compiling entity OBUF_LVCMOS18_S_16
+-- Compiling architecture OBUF_LVCMOS18_S_16_V of OBUF_LVCMOS18_S_16
+-- Compiling entity OBUF_LVCMOS18_S_2
+-- Compiling architecture OBUF_LVCMOS18_S_2_V of OBUF_LVCMOS18_S_2
+-- Compiling entity OBUF_LVCMOS18_S_4
+-- Compiling architecture OBUF_LVCMOS18_S_4_V of OBUF_LVCMOS18_S_4
+-- Compiling entity OBUF_LVCMOS18_S_6
+-- Compiling architecture OBUF_LVCMOS18_S_6_V of OBUF_LVCMOS18_S_6
+-- Compiling entity OBUF_LVCMOS18_S_8
+-- Compiling architecture OBUF_LVCMOS18_S_8_V of OBUF_LVCMOS18_S_8
+-- Compiling entity OBUF_LVCMOS2
+-- Compiling architecture OBUF_LVCMOS2_V of OBUF_LVCMOS2
+-- Compiling entity OBUF_LVCMOS25
+-- Compiling architecture OBUF_LVCMOS25_V of OBUF_LVCMOS25
+-- Compiling entity OBUF_LVCMOS25_F_12
+-- Compiling architecture OBUF_LVCMOS25_F_12_V of OBUF_LVCMOS25_F_12
+-- Compiling entity OBUF_LVCMOS25_F_16
+-- Compiling architecture OBUF_LVCMOS25_F_16_V of OBUF_LVCMOS25_F_16
+-- Compiling entity OBUF_LVCMOS25_F_2
+-- Compiling architecture OBUF_LVCMOS25_F_2_V of OBUF_LVCMOS25_F_2
+-- Compiling entity OBUF_LVCMOS25_F_24
+-- Compiling architecture OBUF_LVCMOS25_F_24_V of OBUF_LVCMOS25_F_24
+-- Compiling entity OBUF_LVCMOS25_F_4
+-- Compiling architecture OBUF_LVCMOS25_F_4_V of OBUF_LVCMOS25_F_4
+-- Compiling entity OBUF_LVCMOS25_F_6
+-- Compiling architecture OBUF_LVCMOS25_F_6_V of OBUF_LVCMOS25_F_6
+-- Compiling entity OBUF_LVCMOS25_F_8
+-- Compiling architecture OBUF_LVCMOS25_F_8_V of OBUF_LVCMOS25_F_8
+-- Compiling entity OBUF_LVCMOS25_S_12
+-- Compiling architecture OBUF_LVCMOS25_S_12_V of OBUF_LVCMOS25_S_12
+-- Compiling entity OBUF_LVCMOS25_S_16
+-- Compiling architecture OBUF_LVCMOS25_S_16_V of OBUF_LVCMOS25_S_16
+-- Compiling entity OBUF_LVCMOS25_S_2
+-- Compiling architecture OBUF_LVCMOS25_S_2_V of OBUF_LVCMOS25_S_2
+-- Compiling entity OBUF_LVCMOS25_S_24
+-- Compiling architecture OBUF_LVCMOS25_S_24_V of OBUF_LVCMOS25_S_24
+-- Compiling entity OBUF_LVCMOS25_S_4
+-- Compiling architecture OBUF_LVCMOS25_S_4_V of OBUF_LVCMOS25_S_4
+-- Compiling entity OBUF_LVCMOS25_S_6
+-- Compiling architecture OBUF_LVCMOS25_S_6_V of OBUF_LVCMOS25_S_6
+-- Compiling entity OBUF_LVCMOS25_S_8
+-- Compiling architecture OBUF_LVCMOS25_S_8_V of OBUF_LVCMOS25_S_8
+-- Compiling entity OBUF_LVCMOS33
+-- Compiling architecture OBUF_LVCMOS33_V of OBUF_LVCMOS33
+-- Compiling entity OBUF_LVCMOS33_F_12
+-- Compiling architecture OBUF_LVCMOS33_F_12_V of OBUF_LVCMOS33_F_12
+-- Compiling entity OBUF_LVCMOS33_F_16
+-- Compiling architecture OBUF_LVCMOS33_F_16_V of OBUF_LVCMOS33_F_16
+-- Compiling entity OBUF_LVCMOS33_F_2
+-- Compiling architecture OBUF_LVCMOS33_F_2_V of OBUF_LVCMOS33_F_2
+-- Compiling entity OBUF_LVCMOS33_F_24
+-- Compiling architecture OBUF_LVCMOS33_F_24_V of OBUF_LVCMOS33_F_24
+-- Compiling entity OBUF_LVCMOS33_F_4
+-- Compiling architecture OBUF_LVCMOS33_F_4_V of OBUF_LVCMOS33_F_4
+-- Compiling entity OBUF_LVCMOS33_F_6
+-- Compiling architecture OBUF_LVCMOS33_F_6_V of OBUF_LVCMOS33_F_6
+-- Compiling entity OBUF_LVCMOS33_F_8
+-- Compiling architecture OBUF_LVCMOS33_F_8_V of OBUF_LVCMOS33_F_8
+-- Compiling entity OBUF_LVCMOS33_S_12
+-- Compiling architecture OBUF_LVCMOS33_S_12_V of OBUF_LVCMOS33_S_12
+-- Compiling entity OBUF_LVCMOS33_S_16
+-- Compiling architecture OBUF_LVCMOS33_S_16_V of OBUF_LVCMOS33_S_16
+-- Compiling entity OBUF_LVCMOS33_S_2
+-- Compiling architecture OBUF_LVCMOS33_S_2_V of OBUF_LVCMOS33_S_2
+-- Compiling entity OBUF_LVCMOS33_S_24
+-- Compiling architecture OBUF_LVCMOS33_S_24_V of OBUF_LVCMOS33_S_24
+-- Compiling entity OBUF_LVCMOS33_S_4
+-- Compiling architecture OBUF_LVCMOS33_S_4_V of OBUF_LVCMOS33_S_4
+-- Compiling entity OBUF_LVCMOS33_S_6
+-- Compiling architecture OBUF_LVCMOS33_S_6_V of OBUF_LVCMOS33_S_6
+-- Compiling entity OBUF_LVCMOS33_S_8
+-- Compiling architecture OBUF_LVCMOS33_S_8_V of OBUF_LVCMOS33_S_8
+-- Compiling entity OBUF_LVDCI_15
+-- Compiling architecture OBUF_LVDCI_15_V of OBUF_LVDCI_15
+-- Compiling entity OBUF_LVDCI_18
+-- Compiling architecture OBUF_LVDCI_18_V of OBUF_LVDCI_18
+-- Compiling entity OBUF_LVDCI_25
+-- Compiling architecture OBUF_LVDCI_25_V of OBUF_LVDCI_25
+-- Compiling entity OBUF_LVDCI_33
+-- Compiling architecture OBUF_LVDCI_33_V of OBUF_LVDCI_33
+-- Compiling entity OBUF_LVDCI_DV2_15
+-- Compiling architecture OBUF_LVDCI_DV2_15_V of OBUF_LVDCI_DV2_15
+-- Compiling entity OBUF_LVDCI_DV2_18
+-- Compiling architecture OBUF_LVDCI_DV2_18_V of OBUF_LVDCI_DV2_18
+-- Compiling entity OBUF_LVDCI_DV2_25
+-- Compiling architecture OBUF_LVDCI_DV2_25_V of OBUF_LVDCI_DV2_25
+-- Compiling entity OBUF_LVDCI_DV2_33
+-- Compiling architecture OBUF_LVDCI_DV2_33_V of OBUF_LVDCI_DV2_33
+-- Compiling entity OBUF_LVDS
+-- Compiling architecture OBUF_LVDS_V of OBUF_LVDS
+-- Compiling entity OBUF_LVPECL
+-- Compiling architecture OBUF_LVPECL_V of OBUF_LVPECL
+-- Compiling entity OBUF_LVTTL
+-- Compiling architecture OBUF_LVTTL_V of OBUF_LVTTL
+-- Compiling entity OBUF_LVTTL_F_12
+-- Compiling architecture OBUF_LVTTL_F_12_V of OBUF_LVTTL_F_12
+-- Compiling entity OBUF_LVTTL_F_16
+-- Compiling architecture OBUF_LVTTL_F_16_V of OBUF_LVTTL_F_16
+-- Compiling entity OBUF_LVTTL_F_2
+-- Compiling architecture OBUF_LVTTL_F_2_V of OBUF_LVTTL_F_2
+-- Compiling entity OBUF_LVTTL_F_24
+-- Compiling architecture OBUF_LVTTL_F_24_V of OBUF_LVTTL_F_24
+-- Compiling entity OBUF_LVTTL_F_4
+-- Compiling architecture OBUF_LVTTL_F_4_V of OBUF_LVTTL_F_4
+-- Compiling entity OBUF_LVTTL_F_6
+-- Compiling architecture OBUF_LVTTL_F_6_V of OBUF_LVTTL_F_6
+-- Compiling entity OBUF_LVTTL_F_8
+-- Compiling architecture OBUF_LVTTL_F_8_V of OBUF_LVTTL_F_8
+-- Compiling entity OBUF_LVTTL_S_12
+-- Compiling architecture OBUF_LVTTL_S_12_V of OBUF_LVTTL_S_12
+-- Compiling entity OBUF_LVTTL_S_16
+-- Compiling architecture OBUF_LVTTL_S_16_V of OBUF_LVTTL_S_16
+-- Compiling entity OBUF_LVTTL_S_2
+-- Compiling architecture OBUF_LVTTL_S_2_V of OBUF_LVTTL_S_2
+-- Compiling entity OBUF_LVTTL_S_24
+-- Compiling architecture OBUF_LVTTL_S_24_V of OBUF_LVTTL_S_24
+-- Compiling entity OBUF_LVTTL_S_4
+-- Compiling architecture OBUF_LVTTL_S_4_V of OBUF_LVTTL_S_4
+-- Compiling entity OBUF_LVTTL_S_6
+-- Compiling architecture OBUF_LVTTL_S_6_V of OBUF_LVTTL_S_6
+-- Compiling entity OBUF_LVTTL_S_8
+-- Compiling architecture OBUF_LVTTL_S_8_V of OBUF_LVTTL_S_8
+-- Compiling entity OBUF_PCI33_3
+-- Compiling architecture OBUF_PCI33_3_V of OBUF_PCI33_3
+-- Compiling entity OBUF_PCI33_5
+-- Compiling architecture OBUF_PCI33_5_V of OBUF_PCI33_5
+-- Compiling entity OBUF_PCI66_3
+-- Compiling architecture OBUF_PCI66_3_V of OBUF_PCI66_3
+-- Compiling entity OBUF_PCIX
+-- Compiling architecture OBUF_PCIX_V of OBUF_PCIX
+-- Compiling entity OBUF_PCIX66_3
+-- Compiling architecture OBUF_PCIX66_3_V of OBUF_PCIX66_3
+-- Compiling entity OBUF_SSTL18_I
+-- Compiling architecture OBUF_SSTL18_I_V of OBUF_SSTL18_I
+-- Compiling entity OBUF_SSTL18_II
+-- Compiling architecture OBUF_SSTL18_II_V of OBUF_SSTL18_II
+-- Compiling entity OBUF_SSTL18_II_DCI
+-- Compiling architecture OBUF_SSTL18_II_DCI_V of OBUF_SSTL18_II_DCI
+-- Compiling entity OBUF_SSTL18_I_DCI
+-- Compiling architecture OBUF_SSTL18_I_DCI_V of OBUF_SSTL18_I_DCI
+-- Compiling entity OBUF_SSTL2_I
+-- Compiling architecture OBUF_SSTL2_I_V of OBUF_SSTL2_I
+-- Compiling entity OBUF_SSTL2_II
+-- Compiling architecture OBUF_SSTL2_II_V of OBUF_SSTL2_II
+-- Compiling entity OBUF_SSTL2_II_DCI
+-- Compiling architecture OBUF_SSTL2_II_DCI_V of OBUF_SSTL2_II_DCI
+-- Compiling entity OBUF_SSTL2_I_DCI
+-- Compiling architecture OBUF_SSTL2_I_DCI_V of OBUF_SSTL2_I_DCI
+-- Compiling entity OBUF_SSTL3_I
+-- Compiling architecture OBUF_SSTL3_I_V of OBUF_SSTL3_I
+-- Compiling entity OBUF_SSTL3_II
+-- Compiling architecture OBUF_SSTL3_II_V of OBUF_SSTL3_II
+-- Compiling entity OBUF_SSTL3_II_DCI
+-- Compiling architecture OBUF_SSTL3_II_DCI_V of OBUF_SSTL3_II_DCI
+-- Compiling entity OBUF_SSTL3_I_DCI
+-- Compiling architecture OBUF_SSTL3_I_DCI_V of OBUF_SSTL3_I_DCI
+-- Compiling entity OBUF_S_12
+-- Compiling architecture OBUF_S_12_V of OBUF_S_12
+-- Compiling entity OBUF_S_16
+-- Compiling architecture OBUF_S_16_V of OBUF_S_16
+-- Compiling entity OBUF_S_2
+-- Compiling architecture OBUF_S_2_V of OBUF_S_2
+-- Compiling entity OBUF_S_24
+-- Compiling architecture OBUF_S_24_V of OBUF_S_24
+-- Compiling entity OBUF_S_4
+-- Compiling architecture OBUF_S_4_V of OBUF_S_4
+-- Compiling entity OBUF_S_6
+-- Compiling architecture OBUF_S_6_V of OBUF_S_6
+-- Compiling entity OBUF_S_8
+-- Compiling architecture OBUF_S_8_V of OBUF_S_8
+-- Compiling entity ODDR2
+-- Compiling architecture ODDR2_V of ODDR2
+-- Compiling entity OR2
+-- Compiling architecture OR2_V of OR2
+-- Compiling entity OR2B1
+-- Compiling architecture OR2B1_V of OR2B1
+-- Compiling entity OR2B2
+-- Compiling architecture OR2B2_V of OR2B2
+-- Compiling entity OR3
+-- Compiling architecture OR3_V of OR3
+-- Compiling entity OR3B1
+-- Compiling architecture OR3B1_V of OR3B1
+-- Compiling entity OR3B2
+-- Compiling architecture OR3B2_V of OR3B2
+-- Compiling entity OR3B3
+-- Compiling architecture OR3B3_V of OR3B3
+-- Compiling entity OR4
+-- Compiling architecture OR4_V of OR4
+-- Compiling entity OR4B1
+-- Compiling architecture OR4B1_V of OR4B1
+-- Compiling entity OR4B2
+-- Compiling architecture OR4B2_V of OR4B2
+-- Compiling entity OR4B3
+-- Compiling architecture OR4B3_V of OR4B3
+-- Compiling entity OR4B4
+-- Compiling architecture OR4B4_V of OR4B4
+-- Compiling entity OR5
+-- Compiling architecture OR5_V of OR5
+-- Compiling entity OR5B1
+-- Compiling architecture OR5B1_V of OR5B1
+-- Compiling entity OR5B2
+-- Compiling architecture OR5B2_V of OR5B2
+-- Compiling entity OR5B3
+-- Compiling architecture OR5B3_V of OR5B3
+-- Compiling entity OR5B4
+-- Compiling architecture OR5B4_V of OR5B4
+-- Compiling entity OR5B5
+-- Compiling architecture OR5B5_V of OR5B5
+-- Compiling entity PLL_ADV
+-- Compiling architecture PLL_ADV_V of PLL_ADV
+-- Compiling entity PLL_BASE
+-- Compiling architecture PLL_BASE_V of PLL_BASE
+-- Compiling entity RAM128X1S_1
+-- Compiling architecture RAM128X1S_1_V of RAM128X1S_1
+-- Compiling entity RAM16X1D
+-- Compiling architecture RAM16X1D_V of RAM16X1D
+-- Compiling entity RAM16X1D_1
+-- Compiling architecture RAM16X1D_1_V of RAM16X1D_1
+-- Compiling entity RAM16X1S
+-- Compiling architecture RAM16X1S_V of RAM16X1S
+-- Compiling entity RAM16X1S_1
+-- Compiling architecture RAM16X1S_1_V of RAM16X1S_1
+-- Compiling entity RAM16X2S
+-- Compiling architecture RAM16X2S_V of RAM16X2S
+-- Compiling entity RAM16X4S
+-- Compiling architecture RAM16X4S_V of RAM16X4S
+-- Compiling entity RAM16X8S
+-- Compiling architecture RAM16X8S_V of RAM16X8S
+-- Compiling entity RAM32X1D_1
+-- Compiling architecture RAM32X1D_1_V of RAM32X1D_1
+-- Compiling entity RAM32X1S_1
+-- Compiling architecture RAM32X1S_1_V of RAM32X1S_1
+-- Compiling entity RAM32X2S
+-- Compiling architecture RAM32X2S_V of RAM32X2S
+-- Compiling entity RAM32X4S
+-- Compiling architecture RAM32X4S_V of RAM32X4S
+-- Compiling entity RAM32X8S
+-- Compiling architecture RAM32X8S_V of RAM32X8S
+-- Compiling entity RAM64X1D_1
+-- Compiling architecture RAM64X1D_1_V of RAM64X1D_1
+-- Compiling entity RAM64X1S_1
+-- Compiling architecture RAM64X1S_1_V of RAM64X1S_1
+-- Compiling entity RAM64X2S
+-- Compiling architecture RAM64X2S_V of RAM64X2S
+-- Compiling entity RAMB16
+-- Compiling architecture RAMB16_V of RAMB16
+-- Compiling entity RAMB16BWE
+-- Compiling architecture RAMB16BWE_V of RAMB16BWE
+-- Compiling entity RAMB16BWER
+-- Compiling architecture RAMB16BWER_V of RAMB16BWER
+-- Compiling entity RAMB16BWE_S18
+-- Compiling architecture RAMB16BWE_S18_V of RAMB16BWE_S18
+-- Compiling entity RAMB16BWE_S18_S18
+-- Compiling architecture RAMB16BWE_S18_S18_V of RAMB16BWE_S18_S18
+-- Compiling entity RAMB16BWE_S18_S9
+-- Compiling architecture RAMB16BWE_S18_S9_V of RAMB16BWE_S18_S9
+-- Compiling entity RAMB16BWE_S36
+-- Compiling architecture RAMB16BWE_S36_V of RAMB16BWE_S36
+-- Compiling entity RAMB16BWE_S36_S18
+-- Compiling architecture RAMB16BWE_S36_S18_V of RAMB16BWE_S36_S18
+-- Compiling entity RAMB16BWE_S36_S36
+-- Compiling architecture RAMB16BWE_S36_S36_V of RAMB16BWE_S36_S36
+-- Compiling entity RAMB16BWE_S36_S9
+-- Compiling architecture RAMB16BWE_S36_S9_V of RAMB16BWE_S36_S9
+-- Compiling entity RAMB16_S1
+-- Compiling architecture RAMB16_S1_V of RAMB16_S1
+-- Compiling entity RAMB16_S18
+-- Compiling architecture RAMB16_S18_V of RAMB16_S18
+-- Compiling entity RAMB16_S18_S18
+-- Compiling architecture RAMB16_S18_S18_V of RAMB16_S18_S18
+-- Compiling entity RAMB16_S18_S36
+-- Compiling architecture RAMB16_S18_S36_V of RAMB16_S18_S36
+-- Compiling entity RAMB16_S1_S1
+-- Compiling architecture RAMB16_S1_S1_V of RAMB16_S1_S1
+-- Compiling entity RAMB16_S1_S18
+-- Compiling architecture RAMB16_S1_S18_V of RAMB16_S1_S18
+-- Compiling entity RAMB16_S1_S2
+-- Compiling architecture RAMB16_S1_S2_V of RAMB16_S1_S2
+-- Compiling entity RAMB16_S1_S36
+-- Compiling architecture RAMB16_S1_S36_V of RAMB16_S1_S36
+-- Compiling entity RAMB16_S1_S4
+-- Compiling architecture RAMB16_S1_S4_V of RAMB16_S1_S4
+-- Compiling entity RAMB16_S1_S9
+-- Compiling architecture RAMB16_S1_S9_V of RAMB16_S1_S9
+-- Compiling entity RAMB16_S2
+-- Compiling architecture RAMB16_S2_V of RAMB16_S2
+-- Compiling entity RAMB16_S2_S18
+-- Compiling architecture RAMB16_S2_S18_V of RAMB16_S2_S18
+-- Compiling entity RAMB16_S2_S2
+-- Compiling architecture RAMB16_S2_S2_V of RAMB16_S2_S2
+-- Compiling entity RAMB16_S2_S36
+-- Compiling architecture RAMB16_S2_S36_V of RAMB16_S2_S36
+-- Compiling entity RAMB16_S2_S4
+-- Compiling architecture RAMB16_S2_S4_V of RAMB16_S2_S4
+-- Compiling entity RAMB16_S2_S9
+-- Compiling architecture RAMB16_S2_S9_V of RAMB16_S2_S9
+-- Compiling entity RAMB16_S36
+-- Compiling architecture RAMB16_S36_V of RAMB16_S36
+-- Compiling entity RAMB16_S36_S36
+-- Compiling architecture RAMB16_S36_S36_V of RAMB16_S36_S36
+-- Compiling entity RAMB16_S4
+-- Compiling architecture RAMB16_S4_V of RAMB16_S4
+-- Compiling entity RAMB16_S4_S18
+-- Compiling architecture RAMB16_S4_S18_V of RAMB16_S4_S18
+-- Compiling entity RAMB16_S4_S36
+-- Compiling architecture RAMB16_S4_S36_V of RAMB16_S4_S36
+-- Compiling entity RAMB16_S4_S4
+-- Compiling architecture RAMB16_S4_S4_V of RAMB16_S4_S4
+-- Compiling entity RAMB16_S4_S9
+-- Compiling architecture RAMB16_S4_S9_V of RAMB16_S4_S9
+-- Compiling entity RAMB16_S9
+-- Compiling architecture RAMB16_S9_V of RAMB16_S9
+-- Compiling entity RAMB16_S9_S18
+-- Compiling architecture RAMB16_S9_S18_V of RAMB16_S9_S18
+-- Compiling entity RAMB16_S9_S36
+-- Compiling architecture RAMB16_S9_S36_V of RAMB16_S9_S36
+-- Compiling entity RAMB16_S9_S9
+-- Compiling architecture RAMB16_S9_S9_V of RAMB16_S9_S9
+-- Compiling entity RAMB18
+-- Compiling architecture RAMB18_V of RAMB18
+-- Compiling entity RAMB18SDP
+-- Compiling architecture RAMB18SDP_V of RAMB18SDP
+-- Compiling entity RAMB36
+-- Compiling architecture RAMB36_V of RAMB36
+-- Compiling entity RAMB36SDP
+-- Compiling architecture RAMB36SDP_V of RAMB36SDP
+-- Compiling entity RAMB8BWER
+-- Compiling architecture RAMB8BWER_V of RAMB8BWER
+-- Compiling entity ROM128X1
+-- Compiling architecture ROM128X1_V of ROM128X1
+-- Compiling entity ROM16X1
+-- Compiling architecture ROM16X1_V of ROM16X1
+-- Compiling entity ROM256X1
+-- Compiling architecture ROM256X1_V of ROM256X1
+-- Compiling entity ROM32X1
+-- Compiling architecture ROM32X1_V of ROM32X1
+-- Compiling entity ROM64X1
+-- Compiling architecture ROM64X1_V of ROM64X1
+-- Compiling entity SRL16
+-- Compiling architecture SRL16_V of SRL16
+-- Compiling entity SRL16E_1
+-- Compiling architecture SRL16E_1_V of SRL16E_1
+-- Compiling entity SRL16_1
+-- Compiling architecture SRL16_1_V of SRL16_1
+-- Compiling entity SRL32E
+-- Compiling architecture SRL32E_V of SRL32E
+-- Compiling entity SRLC16
+-- Compiling architecture SRLC16_V of SRLC16
+-- Compiling entity SRLC16E_1
+-- Compiling architecture SRLC16E_1_V of SRLC16E_1
+-- Compiling entity SRLC16_1
+-- Compiling architecture SRLC16_1_V of SRLC16_1
+-- Compiling entity STARTUP_SPARTAN3
+-- Compiling architecture STARTUP_SPARTAN3_V of STARTUP_SPARTAN3
+-- Compiling entity STARTUP_SPARTAN3A
+-- Compiling architecture STARTUP_SPARTAN3A_V of STARTUP_SPARTAN3A
+-- Compiling entity STARTUP_SPARTAN6
+-- Compiling architecture STARTUP_SPARTAN6_V of STARTUP_SPARTAN6
+-- Compiling entity STARTUP_VIRTEX4
+-- Compiling architecture STARTUP_VIRTEX4_V of STARTUP_VIRTEX4
+-- Compiling entity STARTUP_VIRTEX5
+-- Compiling architecture STARTUP_VIRTEX5_V of STARTUP_VIRTEX5
+-- Compiling entity STARTUP_VIRTEX6
+-- Compiling architecture STARTUP_VIRTEX6_V of STARTUP_VIRTEX6
+-- Compiling entity SYSMON
+-- Compiling architecture SYSMON_V of SYSMON
+-- Compiling entity TEMAC_SINGLE
+-- Compiling architecture TEMAC_SINGLE_V of TEMAC_SINGLE
+-- Compiling entity USR_ACCESS_VIRTEX4
+-- Compiling architecture USR_ACCESS_VIRTEX4_V of USR_ACCESS_VIRTEX4
+-- Compiling entity USR_ACCESS_VIRTEX5
+-- Compiling architecture USR_ACCESS_VIRTEX5_V of USR_ACCESS_VIRTEX5
+-- Compiling entity USR_ACCESS_VIRTEX6
+-- Compiling architecture USR_ACCESS_VIRTEX6_V of USR_ACCESS_VIRTEX6
+-- Compiling entity XNOR2
+-- Compiling architecture XNOR2_V of XNOR2
+-- Compiling entity XNOR3
+-- Compiling architecture XNOR3_V of XNOR3
+-- Compiling entity XNOR4
+-- Compiling architecture XNOR4_V of XNOR4
+-- Compiling entity XNOR5
+-- Compiling architecture XNOR5_V of XNOR5
+-- Compiling entity XOR2
+-- Compiling architecture XOR2_V of XOR2
+-- Compiling entity XOR3
+-- Compiling architecture XOR3_V of XOR3
+-- Compiling entity XOR4
+-- Compiling architecture XOR4_V of XOR4
+-- Compiling entity XOR5
+-- Compiling architecture XOR5_V of XOR5
+-- Compiling entity XORCY_D
+-- Compiling architecture XORCY_D_V of XORCY_D
+-- Compiling entity XORCY_L
+-- Compiling architecture XORCY_L_V of XORCY_L
+-- Compiling entity GTXE2_CHANNEL
+-- Compiling architecture GTXE2_CHANNEL_V of GTXE2_CHANNEL
+-- Compiling entity GTXE2_COMMON
+-- Compiling architecture GTXE2_COMMON_V of GTXE2_COMMON
+-- Compiling entity IN_FIFO
+-- Compiling architecture IN_FIFO_V of IN_FIFO
+-- Compiling entity ISERDESE2
+-- Compiling architecture ISERDESE2_V of ISERDESE2
+-- Compiling entity OSERDESE2
+-- Compiling architecture OSERDESE2_V of OSERDESE2
+-- Compiling entity OUT_FIFO
+-- Compiling architecture OUT_FIFO_V of OUT_FIFO
+-- Compiling entity PCIE_2_1
+-- Compiling architecture PCIE_2_1_V of PCIE_2_1
+-- Compiling entity PHASER_IN
+-- Compiling architecture PHASER_IN_V of PHASER_IN
+-- Compiling entity PHASER_IN_PHY
+-- Compiling architecture PHASER_IN_PHY_V of PHASER_IN_PHY
+-- Compiling entity PHASER_OUT
+-- Compiling architecture PHASER_OUT_V of PHASER_OUT
+-- Compiling entity PHASER_OUT_PHY
+-- Compiling architecture PHASER_OUT_PHY_V of PHASER_OUT_PHY
+-- Compiling entity PHY_CONTROL
+-- Compiling architecture PHY_CONTROL_V of PHY_CONTROL
+End time: 22:45:12 on Sep 03,2024, Elapsed time: 0:00:16
+Errors: 0, Warnings: 1

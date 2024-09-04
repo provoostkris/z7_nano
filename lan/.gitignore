@@ -1,5 +1,6 @@
 scripts/modelsim/*
 !scripts/modelsim/*.do
+!scripts/modelsim/vivado_simlib
 
 scripts/vivado/*
 !scripts/vivado/*.tcl

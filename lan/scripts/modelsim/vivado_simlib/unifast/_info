@@ -1,0 +1,220 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/github/z7_nano/lan/scripts/vivado
+Edsp48e1
+Z1 w1683266567
+Z2 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z3 DPx6 unisim 11 vcomponents 0 22 5Z3a?hh7V>9_PmzcCZlGM3
+Z4 DPx4 ieee 16 vital_primitives 0 22 G>kiXP8Q9dRClKfK1Zn7j1
+Z5 DPx4 ieee 12 vital_timing 0 22 J>EBealN09f8GzldA[z2>3
+Z6 DPx6 unisim 4 vpkg 0 22 kj]Pf^=3LXGW6ZH]Nkd4g1
+Z7 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
+Z8 DPx4 ieee 16 std_logic_signed 0 22 C<aanc0R`<LWPSe[JYRP^3
+Z9 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z10 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+R0
+Z11 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\DSP48E1.vhd
+Z12 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\DSP48E1.vhd
+l0
+L57
+V2C7KZCcfdEX?2A^D;HMY>2
+!s100 RHICNV1d^Tgg=U7;n1:jZ3
+Z13 OL;C;10.5;63
+31
+!s110 1725396317
+!i10b 1
+Z14 !s108 1725396317.000000
+Z15 !s90 -source|-93|-work|unifast|-f|D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unifast/.cxl.vhd.unifast.unifast.cmf|
+Z16 !s107 C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\secureip\GTXE2_CHANNEL.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\PLLE2_ADV.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\MMCME2_ADV.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\DSP48E1.vhd|
+!i113 0
+Z17 o-source -93 -work unifast
+Z18 tExplicit 1 CvgOpt 0
+Adsp48e1_v
+R2
+R3
+R4
+R5
+R6
+R7
+R8
+R9
+R10
+DEx4 work 7 dsp48e1 0 22 2C7KZCcfdEX?2A^D;HMY>2
+l546
+L150
+VR[?[Xj8BG?glKVWSF?F_>3
+!s100 hD9OB86[1b5A73C8LCPf=2
+R13
+31
+Z19 !s110 1725396318
+!i10b 1
+R14
+R15
+R16
+!i113 0
+R17
+R18
+Egtxe2_channel
+R1
+R4
+R5
+R6
+R2
+R3
+R9
+R10
+R7
+R0
+Z20 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\secureip\GTXE2_CHANNEL.vhd
+Z21 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\secureip\GTXE2_CHANNEL.vhd
+l0
+L45
+V6enc^z=<]]z`mmCb3W?Z32
+!s100 _TFUaKNTdKK0DbI@`KmFY2
+R13
+31
+R19
+!i10b 1
+R14
+R15
+R16
+!i113 0
+R17
+R18
+Agtxe2_channel_fast_v
+R4
+R5
+R6
+R2
+R3
+R9
+R10
+R7
+DEx4 work 13 gtxe2_channel 0 22 6enc^z=<]]z`mmCb3W?Z32
+l1806
+L490
+VNPLSU@_iC?Lb>MWXm9Ae:2
+!s100 6C>Xd3zBfOM^7[Uj9GE9F1
+R13
+31
+R19
+!i10b 1
+R14
+R15
+R16
+!i113 0
+R17
+R18
+Emmcme2_adv
+R1
+R3
+R4
+R5
+R6
+R2
+R7
+R8
+R9
+R10
+R0
+Z22 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\MMCME2_ADV.vhd
+Z23 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\MMCME2_ADV.vhd
+l0
+L32
+VBjFn<CE6MPiCA8ZcE7U3C2
+!s100 Xf650j:g`FB;T=_g22UCG1
+R13
+31
+R19
+!i10b 1
+R14
+R15
+R16
+!i113 0
+R17
+R18
+Ammcme2_adv_v
+R3
+R4
+R5
+R6
+R2
+R7
+R8
+R9
+R10
+DEx4 work 10 mmcme2_adv 0 22 BjFn<CE6MPiCA8ZcE7U3C2
+l433
+L124
+V;`]Lkoodn10IDk13JYff81
+!s100 O9OUSGI?aNYc]im:300VB1
+R13
+31
+R19
+!i10b 1
+R14
+R15
+R16
+!i113 0
+R17
+R18
+Eplle2_adv
+R1
+R3
+R4
+R5
+R6
+R2
+R7
+R8
+R9
+R10
+R0
+Z24 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\PLLE2_ADV.vhd
+Z25 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\PLLE2_ADV.vhd
+l0
+L32
+V]TR=j1>:Qna4OPO`mRYYG1
+!s100 66W0TFVa<K^F1hiU[8?ZI3
+R13
+31
+R19
+!i10b 1
+R14
+R15
+R16
+!i113 0
+R17
+R18
+Aplle2_adv_v
+R3
+R4
+R5
+R6
+R2
+R7
+R8
+R9
+R10
+DEx4 work 9 plle2_adv 0 22 ]TR=j1>:Qna4OPO`mRYYG1
+l380
+L94
+VajI>@j@2KoV0GSRK<o^>70
+!s100 1didTM@M3g_hBA?iff:?o3
+R13
+31
+R19
+!i10b 1
+R14
+R15
+R16
+!i113 0
+R17
+R18

@@ -1,0 +1,598 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/github/z7_nano/lan/scripts/vivado
+Eaddmacc_macro
+Z1 w1683266567
+Z2 DPx6 unisim 11 vcomponents 0 22 5Z3a?hh7V>9_PmzcCZlGM3
+Z3 DPx4 ieee 18 std_logic_unsigned 0 22 ;eZjO2D4ZDz<]0>8AL<ne1
+Z4 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
+Z5 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z6 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z7 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+R0
+Z8 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\ADDMACC_MACRO.vhd
+Z9 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\ADDMACC_MACRO.vhd
+l0
+L35
+V6z>B@@1M==n;hgL9Pd:cE3
+!s100 X>jFNU6zOHXVDm9M9>Sbn0
+Z10 OL;C;10.5;63
+31
+Z11 !s110 1725396314
+!i10b 1
+Z12 !s108 1725396314.000000
+Z13 !s90 -source|-93|-work|unimacro|-f|D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unimacro/.cxl.vhd.unimacro.unimacro.cmf|
+Z14 !s107 C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\MULT_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\MACC_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\FIFO_SYNC_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\FIFO_DUALCLOCK_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\EQ_COMPARE_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\COUNTER_TC_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\COUNTER_LOAD_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\BRAM_TDP_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\BRAM_SINGLE_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\BRAM_SDP_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\ADDSUB_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\ADDMACC_MACRO.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\unimacro_VCOMP.vhd|
+!i113 0
+Z15 o-source -93 -work unimacro
+Z16 tExplicit 1 CvgOpt 0
+Aaddmacc
+R2
+R3
+R4
+R5
+R6
+R7
+DEx4 work 13 addmacc_macro 0 22 6z>B@@1M==n;hgL9Pd:cE3
+l283
+L58
+V01Gd]3KE9[ziZ0Z_ILKlR2
+!s100 X1EJV7RPkFKTK^JR<S5H^3
+R10
+31
+R11
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Eaddsub_macro
+R1
+R2
+R3
+R4
+R5
+R6
+R7
+R0
+Z17 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\ADDSUB_MACRO.vhd
+Z18 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\ADDSUB_MACRO.vhd
+l0
+L37
+VgW^b8fH_hzKQhoGoTl<Ud3
+!s100 7IBNM=LoZS34POkcmQe061
+R10
+31
+R11
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Aaddsub
+R2
+R3
+R4
+R5
+R6
+R7
+DEx4 work 12 addsub_macro 0 22 gW^b8fH_hzKQhoGoTl<Ud3
+l191
+L62
+V7Hol2z[mQa0Y:kV[;Af1N2
+!s100 RWTgdA2UcYSQ4]ECS:nS20
+R10
+31
+R11
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Ebram_sdp_macro
+R1
+R5
+R2
+R6
+R7
+R0
+Z19 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\BRAM_SDP_MACRO.vhd
+Z20 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\BRAM_SDP_MACRO.vhd
+l0
+L38
+V:^`C512ogPUOIV`WE_kEM0
+!s100 YON]GoQ;VKD0PeU^?W0[I1
+R10
+31
+R11
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Abram_v
+R5
+R2
+R6
+R7
+DEx4 work 14 bram_sdp_macro 0 22 :^`C512ogPUOIV`WE_kEM0
+l1528
+L217
+Vg:]:E<gloc4^WnbHfaaVj3
+!s100 ;o8jU3XCboQYg]d@6C_<C3
+R10
+31
+R11
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Ebram_single_macro
+R1
+R5
+R2
+R6
+R7
+R0
+Z21 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\BRAM_SINGLE_MACRO.vhd
+Z22 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\BRAM_SINGLE_MACRO.vhd
+l0
+L38
+V39hm72Q:HilLJd:M^imng0
+!s100 RIgMbNEeY5b>LZk75llzO0
+R10
+31
+R11
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Abram_v
+R5
+R2
+R6
+R7
+DEx4 work 17 bram_single_macro 0 22 39hm72Q:HilLJd:M^imng0
+l1365
+L211
+V@KYj;YmB=IKS`h2AXfXT50
+!s100 Gj:L]eC4@UVOfJURg<Hai0
+R10
+31
+Z23 !s110 1725396315
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Ebram_tdp_macro
+R1
+R5
+R2
+R6
+R7
+R0
+Z24 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\BRAM_TDP_MACRO.vhd
+Z25 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\BRAM_TDP_MACRO.vhd
+l0
+L36
+VSlob^z^_L=z9JEFlhzkMN1
+!s100 <S2;UaaPL;gROP4VJRbF?2
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Abram_v
+R5
+R2
+R6
+R7
+DEx4 work 14 bram_tdp_macro 0 22 Slob^z^_L=z9JEFlhzkMN1
+l1553
+L224
+VM<S3VgVcR`XdNdH4^:66W3
+!s100 aSAMKDG@T8hdU9TafmDhg0
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Ecounter_load_macro
+R1
+R2
+R3
+R4
+R5
+R6
+R7
+R0
+Z26 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\COUNTER_LOAD_MACRO.vhd
+Z27 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\COUNTER_LOAD_MACRO.vhd
+l0
+L33
+V<]31LPNj58Q@CZoWmVLlG1
+!s100 YecllzLfIY2hk[YoWGc3V2
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Acounter
+R2
+R3
+R4
+R5
+R6
+R7
+DEx4 work 18 counter_load_macro 0 22 <]31LPNj58Q@CZoWmVLlG1
+l143
+L52
+VGnGHD7[TTFNHaM5m<Umdj3
+!s100 dFUIg^o>VcaoB46Mi34Hf0
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Ecounter_tc_macro
+R1
+R2
+R3
+R4
+R5
+R6
+R7
+R0
+Z28 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\COUNTER_TC_MACRO.vhd
+Z29 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\COUNTER_TC_MACRO.vhd
+l0
+L34
+VHGFE^Qdd3a562S8H_l3=b3
+!s100 ?i5<:=8B:@FFXIEM[`RBU1
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Acount
+R2
+R3
+R4
+R5
+R6
+R7
+DEx4 work 16 counter_tc_macro 0 22 HGFE^Qdd3a562S8H_l3=b3
+l173
+L54
+VjLN2ZzY]f=RV6`;4l2RM^2
+!s100 ROPTkjE[86;zD=79:hWQ32
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Eeq_compare_macro
+R1
+R2
+R3
+R4
+R5
+R6
+R7
+R0
+Z30 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\EQ_COMPARE_MACRO.vhd
+Z31 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\EQ_COMPARE_MACRO.vhd
+l0
+L34
+V82H^1[SY?gH`7@f;V4g`52
+!s100 <f;^2[Y<R95_M8P>i^QSP1
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Acompare
+R2
+R3
+R4
+R5
+R6
+R7
+DEx4 work 16 eq_compare_macro 0 22 82H^1[SY?gH`7@f;V4g`52
+l203
+L55
+VXQVgY6nl_mOXCCbAj=1BZ3
+!s100 U[IkbU9jbzl0G^ShEXao53
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Efifo_dualclock_macro
+R1
+Z32 DPx8 unimacro 11 vcomponents 0 22 8fFc8>dIDdGFE`1n@4[OG2
+R2
+R5
+R6
+R7
+R0
+Z33 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\FIFO_DUALCLOCK_MACRO.vhd
+Z34 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\FIFO_DUALCLOCK_MACRO.vhd
+l0
+L36
+VzU_@84`HSZ]QV;CXT@iZQ0
+!s100 `2I1PT1X;>kLHOVa;O6OE1
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Afifo_v
+R32
+R2
+R5
+R6
+R7
+DEx4 work 20 fifo_dualclock_macro 0 22 zU_@84`HSZ]QV;CXT@iZQ0
+31
+R23
+l596
+L70
+ViKK7SZo0]XM>znDOm3FEl1
+!s100 :JFAnRRz4f0hGO0Z?C=4d1
+R10
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Efifo_sync_macro
+R1
+R32
+R2
+R5
+R6
+R7
+R0
+Z35 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\FIFO_SYNC_MACRO.vhd
+Z36 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\FIFO_SYNC_MACRO.vhd
+l0
+L36
+V0a@:4>1CaP^0TZa;5fB0I0
+!s100 >T9_9ki:Q08On5VCoQ@?62
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Afifo_v
+R32
+R2
+R5
+R6
+R7
+DEx4 work 15 fifo_sync_macro 0 22 0a@:4>1CaP^0TZa;5fB0I0
+l596
+L69
+VS;gfoCHKVnBhDf70F5o8B1
+!s100 o>UOOb0@6B4J?Jg6FO6DD3
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Emacc_macro
+R1
+R2
+R3
+R4
+R5
+R6
+R7
+R0
+Z37 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\MACC_MACRO.vhd
+Z38 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\MACC_MACRO.vhd
+l0
+L35
+VJQ]DdRmS?JYT0g9T7[d4S2
+!s100 z9g;DPY]5h6H8gA=A[I2F2
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Amacc
+R2
+R3
+R4
+R5
+R6
+R7
+DEx4 work 10 macc_macro 0 22 JQ]DdRmS?JYT0g9T7[d4S2
+l268
+L58
+V_7OPF;dlzT69:MBYCb^LN1
+!s100 e;dHIXWB0BJA6f`6b]`]f1
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Emult_macro
+R1
+R2
+R3
+R4
+R5
+R6
+R7
+R0
+Z39 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\MULT_MACRO.vhd
+Z40 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\MULT_MACRO.vhd
+l0
+L35
+VWRSf8YlRlG5;WF7<S6E@@2
+!s100 >kTE2XjPYQ5b0N<535Q2@0
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Amult
+R2
+R3
+R4
+R5
+R6
+R7
+DEx4 work 10 mult_macro 0 22 WRSf8YlRlG5;WF7<S6E@@2
+l266
+L54
+VW>n;Z^]XP[haHS20oBCX03
+!s100 6fZXDdTT:a;C7@z8knhNZ0
+R10
+31
+R23
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Pvcomponents
+R6
+R7
+R1
+R0
+Z41 8C:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\unimacro_VCOMP.vhd
+Z42 FC:\Xilinx\Vivado\2023.1\data\vhdl\src\unimacro\unimacro_VCOMP.vhd
+l0
+L13
+V8fFc8>dIDdGFE`1n@4[OG2
+!s100 YG89V<A2>6YUjgZN1]Lac3
+R10
+31
+b1
+R11
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Bbody
+DPx4 work 11 vcomponents 0 22 8fFc8>dIDdGFE`1n@4[OG2
+R6
+R7
+31
+R11
+l0
+L768
+VK_dhZEKh_j5oZf@^:3<M@3
+!s100 TP]O8BKS<XT0OleJl8J661
+R10
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
