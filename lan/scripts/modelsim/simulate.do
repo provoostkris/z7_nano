@@ -15,18 +15,18 @@ echo "adding waves"
   delete wave /*
 
 
-  add wave                      -group "bench"            -internal    /tb_lan/*
-
-  add wave                      -group "dut"                           /tb_lan/dut/*
-
-  add wave  -expand             -group "i_eth_rx_fifo"                 /tb_lan/dut/i_eth_rx_fifo/*
-  add wave  -expand             -group "i_eth_frm_rx"                  /tb_lan/dut/i_eth_frm_rx/*
-  add wave  -expand             -group "i_eth_crc32"                   /tb_lan/dut/i_eth_frm_rx/i_eth_crc32/*
-  add wave  -expand             -group "i_rgmii_rx_ddr"                /tb_lan/dut/i_rgmii_rx_ddr/*
-
-  add wave  -expand             -group "i_rgmii_tx_fifo"               /tb_lan/dut/i_rgmii_tx_fifo/*
-  add wave  -expand             -group "i_rgmii_tx"                    /tb_lan/dut/i_rgmii_tx/*
-  add wave  -expand             -group "i_gmii_to_rgmii"               /tb_lan/dut/i_gmii_to_rgmii/*
+  add wave    -group "bench"            -internal    /tb_lan/*
+              
+  add wave    -group "dut"                           /tb_lan/dut/*
+              
+  add wave    -group "i_eth_rx_fifo"                 /tb_lan/dut/i_eth_rx_fifo/*
+  add wave    -group "i_eth_frm_rx"                  /tb_lan/dut/i_eth_frm_rx/*
+  add wave    -group "i_eth_crc32"                   /tb_lan/dut/i_eth_frm_rx/i_eth_crc32/*
+  add wave    -group "i_rgmii_rx_ddr"                /tb_lan/dut/i_rgmii_rx_ddr/*
+              
+  add wave    -group "i_rgmii_tx_fifo"               /tb_lan/dut/i_rgmii_tx_fifo/*
+  add wave    -group "i_rgmii_tx"                    /tb_lan/dut/i_rgmii_tx/*
+  add wave    -group "i_gmii_to_rgmii"               /tb_lan/dut/i_gmii_to_rgmii/*
 
 
 echo "view wave forms"

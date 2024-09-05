@@ -66,7 +66,13 @@ architecture rtl of tb_lan is
   signal phy_rst_n         : std_logic;
 
 --! bench signals
-  signal eth_pkt       : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
+  signal eth_pkt            : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
+  type t_mode is            ( loopback,   -- put TX and RX in loop
+                              rx_model       -- connect the RX with a model
+                            );
+  signal test_mode          : t_mode;
+  signal mdl_rgmii_rx_ctl   : std_logic;
+  signal mdl_rgmii_rd       : std_logic_vector(3 downto 0);
 
 --! procedures
 procedure proc_wait_clk  (
@@ -92,7 +98,6 @@ begin
 --! standard signals
 	clk            <= not clk     after c_clk_per/2;
 	rx_clk         <= not rx_clk  after c_rx_clk_per/2;
-  rgmii_rxc      <= rx_clk;
 
 --! dut
 dut: entity work.lan(rtl)
@@ -134,6 +139,19 @@ dut: entity work.lan(rtl)
     led_tri_o         => open
   );
 
+--! test modes
+with test_mode select
+  rgmii_rxc     <=  rgmii_txc         when loopback,
+                    rx_clk            when rx_model,
+                    '0'               when others;
+with test_mode select
+  rgmii_rd      <=  rgmii_td          when loopback,
+                    mdl_rgmii_rd      when rx_model,
+                    ( others => '0')  when others;
+with test_mode select
+  rgmii_rx_ctl  <=  rgmii_tx_ctl      when loopback,
+                    mdl_rgmii_rx_ctl  when rx_model,
+                    '0'               when others;
 
 	--! run test bench
 	p_run: process
@@ -159,23 +177,17 @@ dut: entity work.lan(rtl)
 	  report " RUN TST.01 ";
     report " .. simple loop back test , the TX is wired to RX";
     report " .. then the simulation will run for 200 clk cycles";
-      rgmii_rx_ctl <= '1';
-      rgmii_rd     <= (others => '0');
+
+      mdl_rgmii_rx_ctl <= '0';
+      mdl_rgmii_rd     <= ( others => '0');
 	    proc_reset(3);
-      
+
+      -- create loop back condition
+      test_mode <= loopback ;
       -- wait until the clocks are running and reset is over
       wait until pll_lock = '1';
-      -- wait until the transmitter has started
-      wait until rgmii_tx_ctl = '0';
-      -- then signal that the RX has started
-      rgmii_rx_ctl <= '1';
-      --! create a loopback , by means of sampling the TX data in RX clock
-      --! as these are generated on each side of the PHY
-      for i in 0 to 400 loop
-        wait until rgmii_rxc'event;
-        rgmii_rx_ctl <= rgmii_tx_ctl;
-        rgmii_rd     <= rgmii_td;
-      end loop;
+
+ 	    proc_wait_clk(rx_clk, 250);
 
 	  report " END TST.01 ";
     end if;
@@ -186,8 +198,9 @@ dut: entity work.lan(rtl)
     report " .. the DUT is first resetted and a 250 clk cycles is waited for the PLL to lock";
     report " .. after the packet the IPG sequence is sent to respect the protocol";
 
-      rgmii_rx_ctl <= '0';
-      rgmii_rd     <= ( others => '0');
+      mdl_rgmii_rx_ctl <= '0';
+      mdl_rgmii_rd     <= ( others => '0');
+	    proc_reset(3);
 
       v_payload                 := C_ETH_PKT;
       v_header                  := C_DEFAULT_ETH_HEADER;                                -- copy default header
@@ -205,26 +218,26 @@ dut: entity work.lan(rtl)
  	    for i in 0 to v_len + 7 loop
         -- first nibble
         proc_wait_clk_edge(rx_clk, '1');
-        rgmii_rd     <= eth_pkt(i)(7 downto 4);
-        rgmii_rx_ctl <= c_tx_ena;
+        mdl_rgmii_rd     <= eth_pkt(i)(7 downto 4);
+        mdl_rgmii_rx_ctl <= c_tx_ena;
         proc_wait_clk_edge(rx_clk, '0');
-        rgmii_rd     <= eth_pkt(i)(3 downto 0);
-        rgmii_rx_ctl <= c_tx_ena xor c_tx_err;
+        mdl_rgmii_rd     <= eth_pkt(i)(3 downto 0);
+        mdl_rgmii_rx_ctl <= c_tx_ena xor c_tx_err;
       end loop;
       -- followed by the IPG
  	    for i in 0 to c_ipg_len-1 loop
         -- first nibble
         proc_wait_clk_edge(rx_clk, '1');
-        rgmii_rd     <= ( others => '1');
-        rgmii_rx_ctl <= not c_tx_ena;
+        mdl_rgmii_rd     <= ( others => '1');
+        mdl_rgmii_rx_ctl <= not c_tx_ena;
         proc_wait_clk_edge(rx_clk, '0');
-        rgmii_rd     <= ( others => '1');
-        rgmii_rx_ctl <= not c_tx_ena xor c_tx_err;
+        mdl_rgmii_rd     <= ( others => '1');
+        mdl_rgmii_rx_ctl <= not c_tx_ena xor c_tx_err;
       end loop;
 
       proc_wait_clk_edge(rx_clk, '1');
-      rgmii_rx_ctl <= '0';
-      rgmii_rd     <= ( others => '0');
+      mdl_rgmii_rx_ctl <= '0';
+      mdl_rgmii_rd     <= ( others => '0');
 
  	    proc_wait_clk(rx_clk, 25);
 	  report " END TST.02 ";
@@ -236,8 +249,9 @@ dut: entity work.lan(rtl)
     report " .. the DUT is first resetted and a 250 clk cycles is waited for the PLL to lock";
     report " .. after the packet the IPG sequence is sent to respect the protocol";
 
-      rgmii_rx_ctl <= '0';
-      rgmii_rd     <= ( others => '0');
+      mdl_rgmii_rx_ctl <= '0';
+      mdl_rgmii_rd     <= ( others => '0');
+	    proc_reset(3);
 
       for i in C_ETH_PKT'range loop
         v_payload(i)            := x"F0";
@@ -257,26 +271,26 @@ dut: entity work.lan(rtl)
  	    for i in 0 to v_len + 7 loop
         -- first nibble
         proc_wait_clk_edge(rx_clk, '1');
-        rgmii_rd     <= eth_pkt(i)(7 downto 4);
-        rgmii_rx_ctl <= c_tx_ena;
+        mdl_rgmii_rd     <= eth_pkt(i)(7 downto 4);
+        mdl_rgmii_rx_ctl <= c_tx_ena;
         proc_wait_clk_edge(rx_clk, '0');
-        rgmii_rd     <= eth_pkt(i)(3 downto 0);
-        rgmii_rx_ctl <= c_tx_ena xor c_tx_err;
+        mdl_rgmii_rd     <= eth_pkt(i)(3 downto 0);
+        mdl_rgmii_rx_ctl <= c_tx_ena xor c_tx_err;
       end loop;
       -- followed by the IPG
  	    for i in 0 to c_ipg_len-1 loop
         -- first nibble
         proc_wait_clk_edge(rx_clk, '1');
-        rgmii_rd     <= ( others => '1');
-        rgmii_rx_ctl <= not c_tx_ena;
+        mdl_rgmii_rd     <= ( others => '1');
+        mdl_rgmii_rx_ctl <= not c_tx_ena;
         proc_wait_clk_edge(rx_clk, '0');
-        rgmii_rd     <= ( others => '1');
-        rgmii_rx_ctl <= not c_tx_ena xor c_tx_err;
+        mdl_rgmii_rd     <= ( others => '1');
+        mdl_rgmii_rx_ctl <= not c_tx_ena xor c_tx_err;
       end loop;
 
       proc_wait_clk_edge(rx_clk, '1');
-      rgmii_rx_ctl <= '0';
-      rgmii_rd     <= ( others => '0');
+      mdl_rgmii_rx_ctl <= '0';
+      mdl_rgmii_rd     <= ( others => '0');
 
  	    proc_wait_clk(rx_clk, 25);
     end if;

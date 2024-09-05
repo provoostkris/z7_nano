@@ -95,12 +95,12 @@ architecture rtl of lan is
   signal cenetrxerr  : std_logic;
 
 
-  attribute MARK_DEBUG : string;
-  attribute MARK_DEBUG of sof           : signal is "TRUE";
-  attribute MARK_DEBUG of eof           : signal is "TRUE";
-  attribute MARK_DEBUG of cenettxdata   : signal is "TRUE";
-  attribute MARK_DEBUG of cenettxen     : signal is "TRUE";
-  attribute MARK_DEBUG of cenettxerr    : signal is "TRUE";
+  -- attribute MARK_DEBUG : string;
+  -- attribute MARK_DEBUG of sof           : signal is "TRUE";
+  -- attribute MARK_DEBUG of eof           : signal is "TRUE";
+  -- attribute MARK_DEBUG of cenettxdata   : signal is "TRUE";
+  -- attribute MARK_DEBUG of cenettxen     : signal is "TRUE";
+  -- attribute MARK_DEBUG of cenettxerr    : signal is "TRUE";
 
 begin
 
