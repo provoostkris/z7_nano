@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
---  rgmii interfqce with double date rate I/O
+--  rgmii RX interface with double date rate I/O
 --  rev. 1.0 : 2024 provoost kris
 ------------------------------------------------------------------------------
 
