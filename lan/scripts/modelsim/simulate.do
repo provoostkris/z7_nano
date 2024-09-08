@@ -26,7 +26,7 @@ echo "adding waves"
               
   add wave    -group "i_rgmii_tx_fifo"               /tb_lan/dut/i_rgmii_tx_fifo/*
   add wave    -group "i_rgmii_tx"                    /tb_lan/dut/i_rgmii_tx/*
-  add wave    -group "i_gmii_to_rgmii"               /tb_lan/dut/i_gmii_to_rgmii/*
+  add wave    -group "i_rgmii_tx_ddr"                /tb_lan/dut/i_rgmii_tx_ddr/*
 
 
 echo "view wave forms"

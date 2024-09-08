@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date         : Wed Sep  4 21:50:31 2024
+| Date         : Sun Sep  8 22:03:00 2024
 | Host         : vivobook running 64-bit major release  (build 9200)
 | Command      : report_methodology -file lan_methodology_drc_routed.rpt -pb lan_methodology_drc_routed.pb -rpx lan_methodology_drc_routed.rpx
 | Design       : lan
@@ -35,27 +35,27 @@ Table of Contents
 -----------------
 TIMING-16#1 Warning
 Large setup violation  
-There is a large setup violation of -7.991 ns between i_gmii_to_rgmii/genblk1[1].ODDR_inst1/C (clocked by clk_eth) and rgmii_td[1] (clocked by VIRTUAL_clk_eth). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -7.991 ns between i_rgmii_tx_ddr/gen_io[1].ODDR_inst/C (clocked by rgmii_txc_OBUF) and rgmii_td[1] (clocked by VIRTUAL_clk_eth). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#2 Warning
 Large setup violation  
-There is a large setup violation of -7.992 ns between i_gmii_to_rgmii/ODDR_inst0/C (clocked by clk_eth) and rgmii_tx_ctl (clocked by VIRTUAL_clk_eth). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -7.992 ns between i_rgmii_tx_ddr/ODDR_inst/C (clocked by rgmii_txc_OBUF) and rgmii_tx_ctl (clocked by VIRTUAL_clk_eth). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#3 Warning
 Large setup violation  
-There is a large setup violation of -7.994 ns between i_gmii_to_rgmii/genblk1[3].ODDR_inst1/C (clocked by clk_eth) and rgmii_td[3] (clocked by VIRTUAL_clk_eth). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -7.994 ns between i_rgmii_tx_ddr/gen_io[3].ODDR_inst/C (clocked by rgmii_txc_OBUF) and rgmii_td[3] (clocked by VIRTUAL_clk_eth). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#4 Warning
 Large setup violation  
-There is a large setup violation of -8.002 ns between i_gmii_to_rgmii/genblk1[0].ODDR_inst1/C (clocked by clk_eth) and rgmii_td[0] (clocked by VIRTUAL_clk_eth). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -8.002 ns between i_rgmii_tx_ddr/gen_io[0].ODDR_inst/C (clocked by rgmii_txc_OBUF) and rgmii_td[0] (clocked by VIRTUAL_clk_eth). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#5 Warning
 Large setup violation  
-There is a large setup violation of -8.004 ns between i_gmii_to_rgmii/genblk1[2].ODDR_inst1/C (clocked by clk_eth) and rgmii_td[2] (clocked by VIRTUAL_clk_eth). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -8.004 ns between i_rgmii_tx_ddr/gen_io[2].ODDR_inst/C (clocked by rgmii_txc_OBUF) and rgmii_td[2] (clocked by VIRTUAL_clk_eth). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-18#1 Warning

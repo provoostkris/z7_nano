@@ -164,19 +164,33 @@ begin
     );
 
   --! normal to reduced interface adapter
-  i_gmii_to_rgmii: entity work.gmii_to_rgmii
+  -- i_gmii_to_rgmii: entity work.gmii_to_rgmii
+    -- port map (
+      -- idelay_clk   => '0',
+      -- rst          => rst,
+      -- gmii_txc     => clk_eth,
+      -- gmii_tx_dv   => cenettxen,
+      -- gmii_tx_err  => cenettxerr,
+      -- gmii_td      => cenettxdata,
+      -- rgmii_txc    => rgmii_txc   ,
+      -- rgmii_tx_ctl => rgmii_tx_ctl,
+      -- rgmii_td     => rgmii_td
+    -- );
+
+  --! normal to reduced interface adapter
+  i_rgmii_tx_ddr: entity work.rgmii_tx_ddr
     port map (
-      idelay_clk   => '0',
       rst          => rst,
-      gmii_txc     => clk_eth,
-      gmii_tx_dv   => cenettxen,
-      gmii_tx_err  => cenettxerr,
+      clk          => clk_eth,
+      
       gmii_td      => cenettxdata,
+      gmii_tx_en   => cenettxen,
+      gmii_tx_err  => cenettxerr,
+      
       rgmii_txc    => rgmii_txc   ,
       rgmii_tx_ctl => rgmii_tx_ctl,
       rgmii_td     => rgmii_td
     );
-
 
   --! reduced to normal interface adapter
   i_rgmii_rx_ddr: entity work.rgmii_rx_ddr
