@@ -1,6 +1,5 @@
 vhdl/lan_pkg.vhd
 vhdl/eth_pkg.vhd
-verilog/gmii_to_rgmii.v
 vhdl/eth_crc32.vhd
 vhdl/rgmii_rx_ddr.vhd
 vhdl/eth_frm_rx.vhd
