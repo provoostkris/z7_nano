@@ -44,8 +44,6 @@ begin
   gmii_ctl_qr   <= gmii_tx_en;
   gmii_ctl_qf   <= gmii_tx_en xor gmii_tx_err;
 
-  rgmii_txc <= clk;
-
 gen_io: for i in rgmii_td'range generate
 
    -- ODDR: Output Double Data Rate Output Register with Set, Reset
@@ -75,7 +73,7 @@ end generate gen_io;
    --       Artix-7
    -- Xilinx HDL Language Template, version 2023.1
 
-   ODDR_inst : ODDR
+   i_rgmii_tx_ctl : ODDR
    generic map(
       DDR_CLK_EDGE => "SAME_EDGE", -- "OPPOSITE_EDGE" or "SAME_EDGE"
       INIT => '0',   -- Initial value for Q port ('1' or '0')
@@ -86,6 +84,26 @@ end generate gen_io;
       CE => '1',  -- 1-bit clock enable input
       D1 => gmii_ctl_qr,  -- 1-bit data input (positive edge)
       D2 => gmii_ctl_qf,  -- 1-bit data input (negative edge)
+      R => rst,    -- 1-bit reset input
+      S => '0'     -- 1-bit set input
+   );
+
+   -- ODDR: Output Double Data Rate Output Register with Set, Reset
+   --       and Clock Enable.
+   --       Artix-7
+   -- Xilinx HDL Language Template, version 2023.1
+
+   i_rgmii_txc : ODDR
+   generic map(
+      DDR_CLK_EDGE => "SAME_EDGE", -- "OPPOSITE_EDGE" or "SAME_EDGE"
+      INIT => '0',   -- Initial value for Q port ('1' or '0')
+      SRTYPE => "SYNC") -- Reset Type ("ASYNC" or "SYNC")
+   port map (
+      Q => rgmii_txc,   -- 1-bit DDR output
+      C => clk,    -- 1-bit clock input
+      CE => '1',  -- 1-bit clock enable input
+      D1 => '1',  -- 1-bit data input (positive edge)
+      D2 => '0',  -- 1-bit data input (negative edge)
       R => rst,    -- 1-bit reset input
       S => '0'     -- 1-bit set input
    );

@@ -36,7 +36,7 @@ architecture rtl of rgmii_rx_ddr is
 begin
 
   -- interleave the DDR IO to a byte
-  gmii_rd       <= gmii_qr & gmii_qf; 
+  gmii_rd       <= gmii_qf & gmii_qr; 
   
   -- XOR for the error signal
   gmii_rx_err   <= gmii_ctl_qr xor gmii_ctl_qf;
