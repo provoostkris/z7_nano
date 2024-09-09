@@ -26,8 +26,9 @@ set_property simulator_language VHDL [current_project]
   }
 
   read_bd                         ../../bd_base/prj_bd_base.srcs/sources_1/bd/bd_base/bd_base.bd
-  make_wrapper -files [get_files  ../../bd_base/prj_bd_base.srcs/sources_1/bd/bd_base/bd_base.bd] -top
-  add_files                       ../../bd_base/prj_bd_base.gen/sources_1/bd/bd_base/hdl/bd_base_wrapper.vhd
+  # uncomment in case the wrapper is needed
+  #make_wrapper -files [get_files  ../../bd_base/prj_bd_base.srcs/sources_1/bd/bd_base/bd_base.bd] -top
+  #add_files                       ../../bd_base/prj_bd_base.gen/sources_1/bd/bd_base/hdl/bd_base_wrapper.vhd
 
 #
 # Add various constraints to the project
@@ -42,7 +43,7 @@ update_compile_order -fileset sources_1
 # Launch Synthesis
 launch_runs synth_1
 wait_on_run synth_1
-open_run synth_1 -name netlist_1
+#open_run synth_1 -name netlist_1
 
 #
 # Launch Implementation
