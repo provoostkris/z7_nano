@@ -7,7 +7,7 @@
 <Project Product="Vivado" Version="7" Minor="63" Path="D:/github/z7_nano/lan/release/vivado/lan.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="e930937095be4e5f8a908aa268312e2a"/>
+    <Option Name="Id" Val="42775f398bf340ad86de2a08577f0761"/>
     <Option Name="Part" Val="xc7z020clg400-2"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
@@ -161,14 +161,6 @@
       <File Path="$PPRDIR/../../vhdl/lan.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../../verilog/gmii_to_rgmii.v">
-        <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>

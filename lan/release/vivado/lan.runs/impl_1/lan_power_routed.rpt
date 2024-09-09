@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date             : Sun Sep  8 22:03:00 2024
+| Date             : Mon Sep  9 21:05:04 2024
 | Host             : vivobook running 64-bit major release  (build 9200)
 | Command          : report_power -file lan_power_routed.rpt -pb lan_power_summary_routed.pb -rpx lan_power_routed.rpx
 | Design           : lan
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 1.582        |
+| Total On-Chip Power (W)  | 1.583        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 1.443        |
+| Dynamic (W)              | 1.444        |
 | Device Static (W)        | 0.139        |
 | Effective TJA (C/W)      | 11.5         |
-| Max Ambient (C)          | 66.8         |
-| Junction Temperature (C) | 43.2         |
+| Max Ambient (C)          | 66.7         |
+| Junction Temperature (C) | 43.3         |
 | Confidence Level         | Medium       |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -53,19 +53,19 @@ Table of Contents
 | On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
 +-------------------------+-----------+----------+-----------+-----------------+
 | Clocks                  |     0.004 |        8 |       --- |             --- |
-| Slice Logic             |     0.002 |     1973 |       --- |             --- |
+| Slice Logic             |     0.002 |     1974 |       --- |             --- |
 |   LUT as Logic          |     0.002 |      627 |     53200 |            1.18 |
 |   Register              |    <0.001 |      851 |    106400 |            0.80 |
 |   CARRY4                |    <0.001 |       22 |     13300 |            0.17 |
 |   LUT as Shift Register |    <0.001 |       62 |     17400 |            0.36 |
-|   Others                |     0.000 |      219 |       --- |             --- |
-| Signals                 |     0.002 |     1430 |       --- |             --- |
+|   Others                |     0.000 |      220 |       --- |             --- |
+| Signals                 |     0.002 |     1434 |       --- |             --- |
 | Block RAM               |     0.003 |      0.5 |       140 |            0.36 |
 | MMCM                    |     0.119 |        1 |         4 |           25.00 |
 | I/O                     |     0.047 |       11 |       125 |            8.80 |
 | PS7                     |     1.268 |        1 |       --- |             --- |
 | Static Power            |     0.139 |          |           |                 |
-| Total                   |     1.582 |          |           |                 |
+| Total                   |     1.583 |          |           |                 |
 +-------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -135,14 +135,14 @@ Table of Contents
 2.2 Clock Constraints
 ---------------------
 
-+----------------+------------------------------------------------------------+-----------------+
-| Clock          | Domain                                                     | Constraint (ns) |
-+----------------+------------------------------------------------------------+-----------------+
-| CLKFBIN        | CLKFBIN                                                    |            20.0 |
-| clk            | clk                                                        |            20.0 |
-| clk_fpga_0     | bd_base_i/processing_system7_0/inst/FCLK_CLK_unbuffered[0] |            20.0 |
-| rgmii_txc_OBUF | rgmii_txc_OBUF                                             |             8.0 |
-+----------------+------------------------------------------------------------+-----------------+
++------------+------------------------------------------------------------+-----------------+
+| Clock      | Domain                                                     | Constraint (ns) |
++------------+------------------------------------------------------------+-----------------+
+| CLKFBIN    | CLKFBIN                                                    |            20.0 |
+| clk        | clk                                                        |            20.0 |
+| clk_eth    | clk_eth                                                    |             8.0 |
+| clk_fpga_0 | bd_base_i/processing_system7_0/inst/FCLK_CLK_unbuffered[0] |            20.0 |
++------------+------------------------------------------------------------+-----------------+
 
 
 3. Detailed Reports
@@ -154,7 +154,7 @@ Table of Contents
 +-------------------------------+-----------+
 | Name                          | Power (W) |
 +-------------------------------+-----------+
-| lan                           |     1.443 |
+| lan                           |     1.444 |
 |   bd_base_i                   |     1.271 |
 |     processing_system7_0      |     1.268 |
 |       inst                    |     1.268 |

@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
---  ehternet frame fifo
+--  ehternet RX frame fifo
 --  rev. 1.0 : 2024 provoost kris
 ------------------------------------------------------------------------------
 
@@ -39,15 +39,17 @@ end entity eth_rx_fifo;
 -------------------------------------------------------------------------------
 architecture rtl of eth_rx_fifo is
 
-  type t_state is ( idle,
-                    stream
+  type t_state is ( reset,  -- delay out of reset by 5 clocks to respect fifo primitive
+                    idle,   -- wait until data is recieved , smallest packet is 64 bytes by standard
+                    stream  -- stream the data until buffer empty
                   );
   signal s_ctrl                     : t_state;
   attribute syn_encoding            : string;
   attribute syn_encoding of t_state : type is "safe,onehot";
 
   signal s_rst        : std_logic;
-  signal fifo_empty   : std_logic;
+  signal rst_delay    : std_logic_vector(6 downto 0);   -- fifo reauires reset to be low for 5 clocks
+  signal fifo_a_empty   : std_logic;
   signal fifo_a_full  : std_logic;
   signal fifo_di      : std_logic_vector(8 downto 0);
   signal fifo_do      : std_logic_vector(8 downto 0);
@@ -58,7 +60,7 @@ begin
 -- signal assignments
   s_rst         <= not s_rst_n;
   fifo_di       <= s_eof & s_rxdata;
-  fifo_rden     <= m_dat_tready and not fifo_empty;
+  fifo_rden     <= m_dat_tready and not fifo_a_empty;
 
    -- FIFO_DUALCLOCK_MACRO: Dual-Clock First-In, First-Out (FIFO) RAM Buffer
    --                       Artix-7
@@ -67,16 +69,16 @@ begin
    FIFO_DUALCLOCK_MACRO_inst : FIFO_DUALCLOCK_MACRO
    generic map (
       DEVICE => "7SERIES",            -- Target Device: "VIRTEX5", "VIRTEX6", "7SERIES"
-      ALMOST_FULL_OFFSET => X"0080",  -- Sets almost full threshold
-      ALMOST_EMPTY_OFFSET => X"0080", -- Sets the almost empty threshold
+      ALMOST_FULL_OFFSET => X"0040",  -- Sets almost full threshold
+      ALMOST_EMPTY_OFFSET => X"0040", -- Sets the almost empty threshold
       DATA_WIDTH => 9,   -- Valid values are 1-72 (37-72 only valid when FIFO_SIZE="36Kb")
       FIFO_SIZE => "18Kb",            -- Target BRAM, "18Kb" or "36Kb"
       FIRST_WORD_FALL_THROUGH => false) -- Sets the FIFO FWFT to TRUE or FALSE
    port map (
-      ALMOSTEMPTY => open,   -- 1-bit output almost empty
+      ALMOSTEMPTY => fifo_a_empty,   -- 1-bit output almost empty
       ALMOSTFULL => fifo_a_full,     -- 1-bit output almost full
       DO => fifo_do,                     -- Output data, width defined by DATA_WIDTH parameter
-      EMPTY => fifo_empty,               -- 1-bit output empty
+      EMPTY => open,               -- 1-bit output empty
       FULL => open,                 -- 1-bit output full
       RDCOUNT => open,           -- Output read count, width determined by FIFO depth
       RDERR => open,               -- 1-bit output read error
@@ -85,7 +87,7 @@ begin
       DI => fifo_di,                     -- Input data, width defined by DATA_WIDTH parameter
       RDCLK => m_clk,               -- 1-bit input read clock
       RDEN => fifo_rden,                 -- 1-bit input read enable
-      RST => s_rst,                   -- 1-bit input reset
+      RST => rst_delay(rst_delay'high),                   -- 1-bit input reset
       WRCLK => s_clk,               -- 1-bit input write clock
       WREN => s_rxdv                  -- 1-bit input write enable
    );
@@ -96,18 +98,26 @@ begin
   process(m_rst_n, m_clk) is
   begin
       if m_rst_n='0' then
-        s_ctrl     <= idle;
+        s_ctrl        <= reset;
+        rst_delay     <= ( others => '1');
         m_dat_tdata   <= ( others => '0');
         m_dat_tlast   <= '0';
         m_dat_tvalid  <= '0';
       elsif rising_edge(m_clk) then
         case s_ctrl is
+
+          when reset =>
+            rst_delay <= rst_delay(rst_delay'high-1 downto 0) & '0';
+            if rst_delay(rst_delay'high) = '0' then
+              s_ctrl     <= idle;
+            end if;
+
           when idle =>
             m_dat_tdata   <= ( others => '0');
             m_dat_tlast   <= '0';
             m_dat_tvalid  <= '0';
 
-            if fifo_empty = '0' then
+            if fifo_a_empty = '0' then
               s_ctrl     <= stream;
             end if;
 
