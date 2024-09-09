@@ -1,8 +1,8 @@
-set_property PACKAGE_PIN N18      [get_ports clk]
-set_property PACKAGE_PIN R14      [get_ports pll_lock]
+set_property PACKAGE_PIN N18 [get_ports clk]
+set_property PACKAGE_PIN R14 [get_ports pll_lock]
 
-set_property IOSTANDARD LVCMOS33  [get_ports clk]
-set_property IOSTANDARD LVCMOS33  [get_ports pll_lock]
+set_property IOSTANDARD LVCMOS33 [get_ports clk]
+set_property IOSTANDARD LVCMOS33 [get_ports pll_lock]
 
 set_property PACKAGE_PIN K17 [get_ports rgmii_rxc]
 set_property PACKAGE_PIN K18 [get_ports rgmii_rx_ctl]
@@ -26,8 +26,9 @@ set_property IOSTANDARD LVCMOS33 [get_ports rgmii_tx_ctl]
 set_property IOSTANDARD LVCMOS33 [get_ports {rgmii_td[*]}]
 set_property IOSTANDARD LVCMOS33 [get_ports phy_rst_n]
 
-set_property PACKAGE_PIN N17 [get_ports key_tri_i]
-set_property PACKAGE_PIN R16 [get_ports led_tri_o]
+set_property PACKAGE_PIN N17 [get_ports {key_tri_i[0]}]
+set_property PACKAGE_PIN R16 [get_ports {led_tri_o[0]}]
 
-set_property IOSTANDARD LVCMOS33 [get_ports led_tri_o]
-set_property IOSTANDARD LVCMOS33 [get_ports key_tri_i]
+set_property IOSTANDARD LVCMOS33 [get_ports {led_tri_o[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {key_tri_i[0]}]
+
