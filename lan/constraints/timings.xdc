@@ -4,14 +4,12 @@
   create_clock -period  8.000 [get_ports rgmii_rxc]
   create_generated_clock -name rgmii_txc -source [get_pins {i_rgmii_tx_ddr/i_rgmii_txc/C}] -divide_by 1 [get_ports {rgmii_txc}]
 
-
 # False paths
 
+  set_false_path -to                [get_ports led]
   set_false_path -to                [get_ports pll_lock]
   set_false_path -from              [get_ports {key_tri_i[0]}]
   set_false_path -to                [get_ports {led_tri_o[0]}]
-
-
 
 # Definitions and groups
 
