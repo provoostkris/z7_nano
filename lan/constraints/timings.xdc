@@ -21,24 +21,36 @@
   set rgmii_rd      [get_ports {rgmii_rd[*]}]
   set rgmii_rx_ctl  [get_ports rgmii_rx_ctl]
 
-# External PHY Parameter (Refer to MarvelPHY 88EE1111)
+# External PHY Parameter
 # TX
-  set tsu      -0.9
-  set th        2.7
+  set tsu       1.2
+  set th        1.2
+  set tx_del    2.0
 # RX
-  set tco_max   0.8
-  set tco_min  -0.8
+  set tco_max   1.0
+  set tco_min   1.0
+  set rx_del    2.0
 
 # Note the schematic is designed such that the ETH TRCVR is
 # adding the 2ns delay, so that the FPGA must not delay the clocks
 # mind we have to constrain both edges since it is a DDR interface
 
-  set_output_delay -clock [get_clocks {rgmii_txc}] -max $tsu $rgmii_td -add_delay
-  set_output_delay -clock [get_clocks {rgmii_txc}] -max $tsu $rgmii_td -clock_fall -add_delay
-  set_output_delay -clock [get_clocks {rgmii_txc}] -min $th  $rgmii_td -add_delay
-  set_output_delay -clock [get_clocks {rgmii_txc}] -min $th  $rgmii_td -clock_fall -add_delay
-  
-  set_output_delay -clock [get_clocks {rgmii_txc}] -max $tsu $rgmii_tx_ctl -add_delay
-  set_output_delay -clock [get_clocks {rgmii_txc}] -max $tsu $rgmii_tx_ctl -clock_fall -add_delay
-  set_output_delay -clock [get_clocks {rgmii_txc}] -min $th  $rgmii_tx_ctl -add_delay
-  set_output_delay -clock [get_clocks {rgmii_txc}] -min $th  $rgmii_tx_ctl -clock_fall -add_delay
+  set_output_delay -clock [get_clocks {rgmii_txc}] -max [expr $tsu + $tx_del]     $rgmii_td      -add_delay
+  set_output_delay -clock [get_clocks {rgmii_txc}] -max [expr $tsu + $tx_del]     $rgmii_td      -clock_fall -add_delay
+  set_output_delay -clock [get_clocks {rgmii_txc}] -min [expr $tx_del - $th ]     $rgmii_td      -add_delay
+  set_output_delay -clock [get_clocks {rgmii_txc}] -min [expr $tx_del - $th ]     $rgmii_td      -clock_fall -add_delay
+                                                                 
+  set_output_delay -clock [get_clocks {rgmii_txc}] -max [expr $tsu + $tx_del]     $rgmii_tx_ctl  -add_delay
+  set_output_delay -clock [get_clocks {rgmii_txc}] -max [expr $tsu + $tx_del]     $rgmii_tx_ctl  -clock_fall -add_delay
+  set_output_delay -clock [get_clocks {rgmii_txc}] -min [expr $tx_del - $th ]     $rgmii_tx_ctl  -add_delay
+  set_output_delay -clock [get_clocks {rgmii_txc}] -min [expr $tx_del - $th ]     $rgmii_tx_ctl  -clock_fall -add_delay
+
+  set_input_delay -clock  [get_clocks {rgmii_rxc}] -max [expr $tco_max - $rx_del] $rgmii_rd      -add_delay
+  set_input_delay -clock  [get_clocks {rgmii_rxc}] -max [expr $tco_max - $rx_del] $rgmii_rd      -clock_fall -add_delay
+  set_input_delay -clock  [get_clocks {rgmii_rxc}] -min [expr $tco_min - $rx_del] $rgmii_rd      -add_delay
+  set_input_delay -clock  [get_clocks {rgmii_rxc}] -min [expr $tco_min - $rx_del] $rgmii_rd      -clock_fall -add_delay
+
+  set_input_delay -clock  [get_clocks {rgmii_rxc}] -max [expr $tco_max - $rx_del] $rgmii_rx_ctl  -add_delay
+  set_input_delay -clock  [get_clocks {rgmii_rxc}] -max [expr $tco_max - $rx_del] $rgmii_rx_ctl  -clock_fall -add_delay
+  set_input_delay -clock  [get_clocks {rgmii_rxc}] -min [expr $tco_min - $rx_del] $rgmii_rx_ctl  -add_delay
+  set_input_delay -clock  [get_clocks {rgmii_rxc}] -min [expr $tco_min - $rx_del] $rgmii_rx_ctl  -clock_fall -add_delay
