@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date         : Tue Sep 10 21:07:51 2024
+| Date         : Tue Sep 10 21:38:01 2024
 | Host         : vivobook running 64-bit major release  (build 9200)
 | Command      : report_methodology -file lan_methodology_drc_routed.rpt -pb lan_methodology_drc_routed.pb -rpx lan_methodology_drc_routed.rpx
 | Design       : lan
@@ -23,48 +23,54 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max violations: <unlimited>
-             Violations found: 5
-+--------+----------+------------------------------------------+------------+
-| Rule   | Severity | Description                              | Violations |
-+--------+----------+------------------------------------------+------------+
-| XDCH-2 | Warning  | Same min and max delay values on IO port | 5          |
-+--------+----------+------------------------------------------+------------+
+             Violations found: 6
++-----------+----------+------------------------------------------+------------+
+| Rule      | Severity | Description                              | Violations |
++-----------+----------+------------------------------------------+------------+
+| TIMING-18 | Warning  | Missing input or output delay            | 1          |
+| XDCH-2    | Warning  | Same min and max delay values on IO port | 5          |
++-----------+----------+------------------------------------------+------------+
 
 2. REPORT DETAILS
 -----------------
+TIMING-18#1 Warning
+Missing input or output delay  
+An output delay is missing on led relative to the rising and/or falling clock edge(s) of rgmii_txc.
+Related violations: <none>
+
 XDCH-2#1 Warning
 Same min and max delay values on IO port  
 The same input delay of -1.000 ns has been defined on port 'rgmii_rd[0]' relative to clock rgmii_rxc for both max and min. Make sure this reflects the design intent.
 set_input_delay -clock [get_clocks rgmii_rxc] -clock_fall -min -add_delay -1.000 [get_ports {rgmii_rd[*]}]
-D:/github/z7_nano/lan/constraints/timings.xdc (Line: 56)
+D:/github/z7_nano/lan/constraints/timings.xdc (Line: 51)
 Related violations: <none>
 
 XDCH-2#2 Warning
 Same min and max delay values on IO port  
 The same input delay of -1.000 ns has been defined on port 'rgmii_rd[1]' relative to clock rgmii_rxc for both max and min. Make sure this reflects the design intent.
 set_input_delay -clock [get_clocks rgmii_rxc] -clock_fall -min -add_delay -1.000 [get_ports {rgmii_rd[*]}]
-D:/github/z7_nano/lan/constraints/timings.xdc (Line: 56)
+D:/github/z7_nano/lan/constraints/timings.xdc (Line: 51)
 Related violations: <none>
 
 XDCH-2#3 Warning
 Same min and max delay values on IO port  
 The same input delay of -1.000 ns has been defined on port 'rgmii_rd[2]' relative to clock rgmii_rxc for both max and min. Make sure this reflects the design intent.
 set_input_delay -clock [get_clocks rgmii_rxc] -clock_fall -min -add_delay -1.000 [get_ports {rgmii_rd[*]}]
-D:/github/z7_nano/lan/constraints/timings.xdc (Line: 56)
+D:/github/z7_nano/lan/constraints/timings.xdc (Line: 51)
 Related violations: <none>
 
 XDCH-2#4 Warning
 Same min and max delay values on IO port  
 The same input delay of -1.000 ns has been defined on port 'rgmii_rd[3]' relative to clock rgmii_rxc for both max and min. Make sure this reflects the design intent.
 set_input_delay -clock [get_clocks rgmii_rxc] -clock_fall -min -add_delay -1.000 [get_ports {rgmii_rd[*]}]
-D:/github/z7_nano/lan/constraints/timings.xdc (Line: 56)
+D:/github/z7_nano/lan/constraints/timings.xdc (Line: 51)
 Related violations: <none>
 
 XDCH-2#5 Warning
 Same min and max delay values on IO port  
 The same input delay of -1.000 ns has been defined on port 'rgmii_rx_ctl' relative to clock rgmii_rxc for both max and min. Make sure this reflects the design intent.
 set_input_delay -clock [get_clocks rgmii_rxc] -clock_fall -min -add_delay -1.000 [get_ports rgmii_rx_ctl]
-D:/github/z7_nano/lan/constraints/timings.xdc (Line: 61)
+D:/github/z7_nano/lan/constraints/timings.xdc (Line: 56)
 Related violations: <none>
 
 

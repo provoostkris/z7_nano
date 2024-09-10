@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version              : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date                      : Tue Sep 10 21:07:24 2024
+| Date                      : Tue Sep 10 21:37:35 2024
 | Host                      : vivobook running 64-bit major release  (build 9200)
 | Command                   : report_io -file lan_io_placed.rpt
 | Design                    : lan
@@ -25,7 +25,7 @@ Table of Contents
 +---------------+
 | Total User IO |
 +---------------+
-|           147 |
+|           149 |
 +---------------+
 
 
@@ -308,7 +308,7 @@ Table of Contents
 | P11        |                   |            | GND                     | GND         |                   |         |            |      |                     |                      |     0.0 |            |           |          |      |                  |              |                   |              |
 | P12        |                   |            | VCCINT                  | VCCINT      |                   |         |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | P13        |                   |            | GND                     | GND         |                   |         |            |      |                     |                      |     0.0 |            |           |          |      |                  |              |                   |              |
-| P14        |                   | High Range | IO_L6P_T0_34            | User IO     |                   |      34 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
+| P14        | reset_n           | High Range | IO_L6P_T0_34            | INPUT       | LVCMOS33          |      34 |            |      |                     |                 NONE |         | FIXED      |           |          |      | NONE             |              |                   |              |
 | P15        |                   | High Range | IO_L24P_T3_34           | User IO     |                   |      34 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | P16        |                   | High Range | IO_L24N_T3_34           | User IO     |                   |      34 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | P17        |                   |            | GND                     | GND         |                   |         |            |      |                     |                      |     0.0 |            |           |          |      |                  |              |                   |              |
@@ -328,7 +328,7 @@ Table of Contents
 | R11        |                   | Dedicated  | DONE_0                  | Config      |                   |       0 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | R12        |                   |            | GND                     | GND         |                   |         |            |      |                     |                      |     0.0 |            |           |          |      |                  |              |                   |              |
 | R13        |                   |            | VCCINT                  | VCCINT      |                   |         |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
-| R14        | pll_lock          | High Range | IO_L6N_T0_VREF_34       | OUTPUT      | LVCMOS33          |      34 |         12 | SLOW |                     |            FP_VTT_50 |         | FIXED      |           |          |      | NONE             |              |                   |              |
+| R14        | led               | High Range | IO_L6N_T0_VREF_34       | OUTPUT      | LVCMOS33          |      34 |         12 | SLOW |                     |            FP_VTT_50 |         | FIXED      |           |          |      | NONE             |              |                   |              |
 | R15        |                   | High Range | VCCO_34                 | VCCO        |                   |      34 |            |      |                     |                      |    3.30 |            |           |          |      |                  |              |                   |              |
 | R16        | led_tri_o[0]      | High Range | IO_L19P_T3_34           | OUTPUT      | LVCMOS33          |      34 |         12 | SLOW |                     |            FP_VTT_50 |         | FIXED      |           |          |      | NONE             |              |                   |              |
 | R17        |                   | High Range | IO_L19N_T3_VREF_34      | User IO     |                   |      34 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
@@ -351,7 +351,7 @@ Table of Contents
 | T14        |                   | High Range | IO_L5P_T0_34            | User IO     |                   |      34 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | T15        |                   | High Range | IO_L5N_T0_34            | User IO     |                   |      34 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | T16        |                   | High Range | IO_L9P_T1_DQS_34        | User IO     |                   |      34 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
-| T17        |                   | High Range | IO_L20P_T3_34           | User IO     |                   |      34 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
+| T17        | pll_lock          | High Range | IO_L20P_T3_34           | OUTPUT      | LVCMOS33          |      34 |         12 | SLOW |                     |            FP_VTT_50 |         | FIXED      |           |          |      | NONE             |              |                   |              |
 | T18        |                   | High Range | VCCO_34                 | VCCO        |                   |      34 |            |      |                     |                      |    3.30 |            |           |          |      |                  |              |                   |              |
 | T19        |                   | High Range | IO_25_34                | User IO     |                   |      34 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | T20        |                   | High Range | IO_L15P_T2_DQS_34       | User IO     |                   |      34 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
