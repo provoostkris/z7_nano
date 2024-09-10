@@ -17,7 +17,7 @@ entity lan is
   );
   port(
     clk               : in  std_logic;  --system clock
-    -- reset_n           : in  std_logic;  --active low reset
+    reset_n           : in  std_logic;  --active low reset
 
     rgmii_rxc         : in  std_logic;
     rgmii_rx_ctl      : in  std_logic;
@@ -28,6 +28,7 @@ entity lan is
     phy_rst_n         : out std_logic;
 
     pll_lock          : out std_logic;
+    led               : out std_logic;
 
     --! block design
     DDR_addr : inout STD_LOGIC_VECTOR ( 14 downto 0 );
@@ -105,15 +106,15 @@ architecture rtl of lan is
 begin
 
   phy_rst_n <= '1';
-  -- reset    <= not reset_n;
+  reset    <= not reset_n;
   rst      <= not locked;
   rst_n    <=     locked;
   pll_lock <=     locked;
 
 --! indicate the board is running
-  -- i_pwm: entity work.pwm
-  -- generic map (45)
-  -- port    map (clk_eth, rst_n,led);
+  i_pwm: entity work.pwm
+  generic map (45)
+  port    map (clk_eth, rst_n,led);
 
 
   --! user logic with ROM
@@ -315,7 +316,7 @@ begin
       clkin1 => clk,       -- 1-bit input: clock
       -- control ports: 1-bit (each) input: mmcm control ports
       pwrdwn => '0',       -- 1-bit input: power-down
-      rst => '0',             -- 1-bit input: reset
+      rst => reset,             -- 1-bit input: reset
       -- feedback clocks: 1-bit (each) input: clock feedback ports
       clkfbin => clkfb      -- 1-bit input: feedback clock
    );

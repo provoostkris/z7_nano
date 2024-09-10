@@ -25,8 +25,8 @@ end entity tb_lan;
 architecture rtl of tb_lan is
 
   constant c_ena_tst_1 : boolean := true;
-  constant c_ena_tst_2 : boolean := false;
-  constant c_ena_tst_3 : boolean := false;
+  constant c_ena_tst_2 : boolean := true;
+  constant c_ena_tst_3 : boolean := true;
 
 
   -- ethernet packet from https://github.com/jwbensley/Ethernet-CRC32
@@ -46,6 +46,7 @@ architecture rtl of tb_lan is
 
   constant c_clk_per     : time      := 20 ns ;
   constant c_rx_clk_per  : time      :=  8 ns ;
+  constant c_t_pd        : time      :=  2 ns ;  -- propagation delay added by the PHY
 
   constant c_tx_ena      : std_logic := '1';
   constant c_tx_err      : std_logic := '0';
@@ -68,7 +69,7 @@ architecture rtl of tb_lan is
 --! bench signals
   signal eth_pkt            : t_slv_arr(0 to 1500)(7 downto 0); -- byte array
   type t_mode is            ( loopback,   -- put TX and RX in loop
-                              rx_model       -- connect the RX with a model
+                              tx_model    -- connect the RX with a TX model
                             );
   signal test_mode          : t_mode;
   signal mdl_rgmii_rx_ctl   : std_logic;
@@ -103,8 +104,10 @@ begin
 dut: entity work.lan(rtl)
   port map (
     clk               => clk,
-
+    reset_n           => rst_n,
+    
     pll_lock          => pll_lock,
+    led               => open,
 
     rgmii_rxc         => rgmii_rxc    ,
     rgmii_rx_ctl      => rgmii_rx_ctl ,
@@ -141,16 +144,16 @@ dut: entity work.lan(rtl)
 
 --! test modes
 with test_mode select
-  rgmii_rxc     <=  rgmii_txc         when loopback,
-                    rx_clk            when rx_model,
-                    '0'               when others;
+  rgmii_rxc     <=  rgmii_txc           when loopback,
+                    rx_clk after c_t_pd when tx_model,
+                    '0'                 when others;
 with test_mode select
   rgmii_rd      <=  rgmii_td          when loopback,
-                    mdl_rgmii_rd      when rx_model,
+                    mdl_rgmii_rd      when tx_model,
                     ( others => '0')  when others;
 with test_mode select
   rgmii_rx_ctl  <=  rgmii_tx_ctl      when loopback,
-                    mdl_rgmii_rx_ctl  when rx_model,
+                    mdl_rgmii_rx_ctl  when tx_model,
                     '0'               when others;
 
 	--! run test bench
@@ -202,6 +205,9 @@ with test_mode select
       mdl_rgmii_rd     <= ( others => '0');
 	    proc_reset(3);
 
+      -- configure test mode
+      test_mode <= tx_model ;
+      
       v_payload                 := C_ETH_PKT;
       v_header                  := C_DEFAULT_ETH_HEADER;                                -- copy default header
       v_header.mac_dest         := f_eth_mac_2_slv_arr("02:AA:BB:CC:DD:EE");            -- change destination MAC
@@ -212,16 +218,18 @@ with test_mode select
       -- create packet for transmission and wait for PLL to lock
 	    proc_reset(3);
       eth_pkt       <= v_eth_pkt;
- 	    proc_wait_clk(rx_clk, 250);
+      -- wait until the clocks are running and reset is over
+      wait until pll_lock = '1';
+ 	    proc_wait_clk(rx_clk, 5);
 
       -- then transmit the packet
  	    for i in 0 to v_len + 7 loop
         -- first nibble
         proc_wait_clk_edge(rx_clk, '1');
-        mdl_rgmii_rd     <= eth_pkt(i)(7 downto 4);
+        mdl_rgmii_rd     <= eth_pkt(i)(3 downto 0);
         mdl_rgmii_rx_ctl <= c_tx_ena;
         proc_wait_clk_edge(rx_clk, '0');
-        mdl_rgmii_rd     <= eth_pkt(i)(3 downto 0);
+        mdl_rgmii_rd     <= eth_pkt(i)(7 downto 4);
         mdl_rgmii_rx_ctl <= c_tx_ena xor c_tx_err;
       end loop;
       -- followed by the IPG
@@ -271,10 +279,10 @@ with test_mode select
  	    for i in 0 to v_len + 7 loop
         -- first nibble
         proc_wait_clk_edge(rx_clk, '1');
-        mdl_rgmii_rd     <= eth_pkt(i)(7 downto 4);
+        mdl_rgmii_rd     <= eth_pkt(i)(3 downto 0);
         mdl_rgmii_rx_ctl <= c_tx_ena;
         proc_wait_clk_edge(rx_clk, '0');
-        mdl_rgmii_rd     <= eth_pkt(i)(3 downto 0);
+        mdl_rgmii_rd     <= eth_pkt(i)(7 downto 4);
         mdl_rgmii_rx_ctl <= c_tx_ena xor c_tx_err;
       end loop;
       -- followed by the IPG
