@@ -7,7 +7,7 @@
 <Project Product="Vivado" Version="7" Minor="63" Path="D:/github/z7_nano/lan/bd_base/prj_bd_base.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="72d3217dcc3c43f8abd74a1782bc66b9"/>
+    <Option Name="Id" Val="28da9a38fd754583a8ec15686e6a5c40"/>
     <Option Name="Part" Val="xc7z020clg400-2"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>

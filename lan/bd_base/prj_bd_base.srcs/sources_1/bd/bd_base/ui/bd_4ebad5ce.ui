@@ -1,21 +1,22 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"0.542077",
-   "Default View_TopLeft":"-858,2",
+   "Default View_ScaleFactor":"1.0",
+   "Default View_TopLeft":"-1317,-469",
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.5.8 2022-09-21 7111 VDI=41 GEI=38 GUI=JA:10.0
 #  -string -flagsOSRD
-preplace port led -pg 1 -lvl 2 -x 420 -y 80 -defaultsOSRD
-preplace port key -pg 1 -lvl 2 -x 420 -y 60 -defaultsOSRD
-preplace port DDR -pg 1 -lvl 2 -x 420 -y 20 -defaultsOSRD
-preplace port FIXED_IO -pg 1 -lvl 2 -x 420 -y 40 -defaultsOSRD
-preplace inst processing_system7_0 -pg 1 -lvl 1 -x 200 -y 380 -defaultsOSRD
-preplace inst rst_ps7_0_50M -pg 1 -lvl 1 -x 200 -y 820 -defaultsOSRD
-preplace inst led -pg 1 -lvl 1 -x 200 -y 220 -defaultsOSRD
-preplace inst key -pg 1 -lvl 1 -x 200 -y 80 -defaultsOSRD
-preplace inst ps7_0_axi_periph -pg 1 -lvl 1 -x 200 -y 600 -defaultsOSRD
-levelinfo -pg 1 0 200 420
-pagesize -pg 1 -db -bbox -sgen 0 0 540 920
+preplace port DDR -pg 1 -lvl 2 -x 440 -y 40 -defaultsOSRD
+preplace port FIXED_IO -pg 1 -lvl 2 -x 440 -y 60 -defaultsOSRD
+preplace port AXI_STR_TXD_0 -pg 1 -lvl 2 -x 440 -y 20 -defaultsOSRD
+preplace port AXI_STR_RXD_0 -pg 1 -lvl 0 -x 0 -y 20 -defaultsOSRD
+preplace port port-id_interrupt_0 -pg 1 -lvl 2 -x 440 -y 80 -defaultsOSRD
+preplace port port-id_mm2s_prmry_reset_out_n_0 -pg 1 -lvl 2 -x 440 -y 100 -defaultsOSRD
+preplace port port-id_s2mm_prmry_reset_out_n_0 -pg 1 -lvl 2 -x 440 -y 120 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 1 -x 220 -y 360 -defaultsOSRD
+preplace inst rst_ps7_0_50M -pg 1 -lvl 1 -x 220 -y 540 -defaultsOSRD
+preplace inst ps7_0_axi_periph -pg 1 -lvl 1 -x 220 -y 140 -defaultsOSRD
+levelinfo -pg 1 0 220 440
+pagesize -pg 1 -db -bbox -sgen -170 0 680 640
 "
 }
 
