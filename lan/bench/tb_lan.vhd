@@ -247,7 +247,7 @@ with test_mode select
       mdl_rgmii_rx_ctl <= '0';
       mdl_rgmii_rd     <= ( others => '0');
 
- 	    proc_wait_clk(rx_clk, 25);
+ 	    proc_wait_clk(rx_clk, 250);
 	  report " END TST.02 ";
     end if;
 
@@ -300,7 +300,7 @@ with test_mode select
       mdl_rgmii_rx_ctl <= '0';
       mdl_rgmii_rd     <= ( others => '0');
 
- 	    proc_wait_clk(rx_clk, 25);
+ 	    proc_wait_clk(rx_clk, 250);
     end if;
 
 	  report " END of test bench" severity failure;

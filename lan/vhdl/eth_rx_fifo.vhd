@@ -49,8 +49,10 @@ architecture rtl of eth_rx_fifo is
 
   signal s_rst        : std_logic;
   signal rst_delay    : std_logic_vector(6 downto 0);   -- fifo reauires reset to be low for 5 clocks
-  signal fifo_a_empty   : std_logic;
-  signal fifo_a_full  : std_logic;
+  signal fifo_a_empty : std_logic; -- almost empty
+  signal fifo_c_empty : std_logic; -- complete empty
+  signal fifo_a_full  : std_logic; -- almost full
+  signal fifo_c_full  : std_logic; -- complete full
   signal fifo_di      : std_logic_vector(8 downto 0);
   signal fifo_do      : std_logic_vector(8 downto 0);
   signal fifo_rden    : std_logic;
@@ -60,7 +62,8 @@ begin
 -- signal assignments
   s_rst         <= not s_rst_n;
   fifo_di       <= s_eof & s_rxdata;
-  fifo_rden     <= m_dat_tready and not fifo_a_empty;
+  fifo_rden     <= m_dat_tready when s_ctrl = stream else 
+                   '0';
 
    -- FIFO_DUALCLOCK_MACRO: Dual-Clock First-In, First-Out (FIFO) RAM Buffer
    --                       Artix-7
@@ -78,8 +81,8 @@ begin
       ALMOSTEMPTY => fifo_a_empty,   -- 1-bit output almost empty
       ALMOSTFULL => fifo_a_full,     -- 1-bit output almost full
       DO => fifo_do,                     -- Output data, width defined by DATA_WIDTH parameter
-      EMPTY => open,               -- 1-bit output empty
-      FULL => open,                 -- 1-bit output full
+      EMPTY => fifo_c_empty,               -- 1-bit output empty
+      FULL => fifo_c_full,                 -- 1-bit output full
       RDCOUNT => open,           -- Output read count, width determined by FIFO depth
       RDERR => open,               -- 1-bit output read error
       WRCOUNT => open,           -- Output write count, width determined by FIFO depth
