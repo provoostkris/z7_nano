@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date         : Tue Sep 10 21:38:02 2024
+| Date         : Wed Sep 11 20:32:20 2024
 | Host         : vivobook running 64-bit major release  (build 9200)
 | Command      : report_timing_summary -max_paths 10 -report_unconstrained -file lan_timing_summary_routed.rpt -pb lan_timing_summary_routed.pb -rpx lan_timing_summary_routed.rpx -warn_on_violation
 | Design       : lan
@@ -40,10 +40,9 @@ Timing Summary Report
 | ------------------
 ------------------------------------------------------------------------------------------------
 
-Rule       Severity  Description                               Violations  
----------  --------  ----------------------------------------  ----------  
-TIMING-18  Warning   Missing input or output delay             1           
-XDCH-2     Warning   Same min and max delay values on IO port  5           
+Rule    Severity  Description                               Violations  
+------  --------  ----------------------------------------  ----------  
+XDCH-2  Warning   Same min and max delay values on IO port  5           
 
 Note: This report is based on the most recent report_methodology run and may not be up-to-date. Run report_methodology on the current design for the latest report.
 
@@ -97,9 +96,9 @@ Table of Contents
 
 6. checking no_output_delay (3)
 -------------------------------
- There is 1 port with no output delay specified. (HIGH)
+ There are 0 ports with no output delay specified.
 
- There is 1 port with no output delay but user has a false path constraint (MEDIUM)
+ There are 2 ports with no output delay but user has a false path constraint (MEDIUM)
 
  There is 1 port with no output delay but with a timing clock defined on it or propagating through it (LOW)
 
@@ -203,6 +202,7 @@ Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing 
 Path Group    From Clock    To Clock    
 ----------    ----------    --------    
 (none)                                    
+(none)        clk_eth                     
 (none)        clk_fpga_0                  
 (none)                      clk_fpga_0    
 
@@ -215,7 +215,6 @@ Path Group    From Clock    To Clock
 Path Group    From Clock    To Clock    
 ----------    ----------    --------    
 (none)        CLKFBIN                     
-(none)        clk_eth                     
 (none)                      clk_eth       
 
 
@@ -3460,6 +3459,106 @@ Slack:                    inf
 
 --------------------------------------------------------------------------------------
 Path Group:  (none)
+From Clock:  clk_eth
+  To Clock:  
+
+Max Delay             1 Endpoint
+Min Delay             1 Endpoint
+--------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack:                    inf
+  Source:                 i_pwm/cntr_reg[4]/C
+                            (rising edge-triggered cell FDCE clocked by clk_eth  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            led
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Max at Slow Process Corner
+  Data Path Delay:        6.920ns  (logic 4.010ns (57.955%)  route 2.909ns (42.045%))
+  Logic Levels:           3  (LUT2=1 LUT6=1 OBUF=1)
+  Clock Uncertainty:      0.217ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Discrete Jitter          (DJ):    0.124ns
+    Phase Error              (PE):    0.151ns
+  Timing Exception:       False Path
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_eth rise edge)    0.000     0.000 r  
+    N18                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    N18                  IBUF (Prop_ibuf_I_O)         1.392     1.392 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.110     2.502    clk_IBUF
+    MMCME2_ADV_X1Y1      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
+                                                      0.077     2.579 r  mmcme2_base_inst/CLKOUT1
+                         net (fo=1, routed)           1.597     4.176    clk_eth
+    BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.085     4.261 r  clk_eth_BUFG_inst/O
+                         net (fo=109, routed)         1.575     5.836    i_pwm/CLK
+    SLICE_X112Y92        FDCE                                         r  i_pwm/cntr_reg[4]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X112Y92        FDCE (Prop_fdce_C_Q)         0.398     6.234 r  i_pwm/cntr_reg[4]/Q
+                         net (fo=4, routed)           0.992     7.227    i_pwm/cntr_reg[4]
+    SLICE_X112Y92        LUT6 (Prop_lut6_I1_O)        0.232     7.459 r  i_pwm/led_OBUF_inst_i_2/O
+                         net (fo=1, routed)           0.397     7.855    i_pwm/led_OBUF_inst_i_2_n_0
+    SLICE_X113Y92        LUT2 (Prop_lut2_I1_O)        0.105     7.960 r  i_pwm/led_OBUF_inst_i_1/O
+                         net (fo=1, routed)           1.521     9.481    led_OBUF
+    R14                  OBUF (Prop_obuf_I_O)         3.275    12.756 r  led_OBUF_inst/O
+                         net (fo=0)                   0.000    12.756    led
+    R14                                                               r  led (OUT)
+  -------------------------------------------------------------------    -------------------
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack:                    inf
+  Source:                 i_pwm/cntr_reg[6]/C
+                            (rising edge-triggered cell FDCE clocked by clk_eth  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            led
+                            (output port)
+  Path Group:             (none)
+  Path Type:              Min at Fast Process Corner
+  Data Path Delay:        2.027ns  (logic 1.417ns (69.897%)  route 0.610ns (30.103%))
+  Logic Levels:           2  (LUT2=1 OBUF=1)
+  Clock Uncertainty:      0.217ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Discrete Jitter          (DJ):    0.124ns
+    Phase Error              (PE):    0.151ns
+  Timing Exception:       False Path
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_eth rise edge)    0.000     0.000 r  
+    N18                                               0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    N18                  IBUF (Prop_ibuf_I_O)         0.229     0.229 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           0.440     0.669    clk_IBUF
+    MMCME2_ADV_X1Y1      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
+                                                      0.050     0.719 r  mmcme2_base_inst/CLKOUT1
+                         net (fo=1, routed)           0.529     1.248    clk_eth
+    BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.026     1.274 r  clk_eth_BUFG_inst/O
+                         net (fo=109, routed)         0.635     1.909    i_pwm/CLK
+    SLICE_X113Y92        FDCE                                         r  i_pwm/cntr_reg[6]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X113Y92        FDCE (Prop_fdce_C_Q)         0.141     2.050 r  i_pwm/cntr_reg[6]/Q
+                         net (fo=3, routed)           0.206     2.256    i_pwm/cntr_reg[6]
+    SLICE_X113Y92        LUT2 (Prop_lut2_I0_O)        0.045     2.301 r  i_pwm/led_OBUF_inst_i_1/O
+                         net (fo=1, routed)           0.405     2.705    led_OBUF
+    R14                  OBUF (Prop_obuf_I_O)         1.231     3.936 r  led_OBUF_inst/O
+                         net (fo=0)                   0.000     3.936    led
+    R14                                                               r  led (OUT)
+  -------------------------------------------------------------------    -------------------
+
+
+
+
+
+--------------------------------------------------------------------------------------
+Path Group:  (none)
 From Clock:  clk_fpga_0
   To Clock:  
 
@@ -3773,104 +3872,6 @@ Slack:                    inf
                                                       0.050     0.719 r  mmcme2_base_inst/CLKFBOUT
                          net (fo=1, routed)           0.005     0.724    CLKFBIN
     MMCME2_ADV_X1Y1      MMCME2_ADV                                   r  mmcme2_base_inst/CLKFBIN
-  -------------------------------------------------------------------    -------------------
-
-
-
-
-
---------------------------------------------------------------------------------------
-Path Group:  (none)
-From Clock:  clk_eth
-  To Clock:  
-
-Max Delay             1 Endpoint
-Min Delay             1 Endpoint
---------------------------------------------------------------------------------------
-
-
-Max Delay Paths
---------------------------------------------------------------------------------------
-Slack:                    inf
-  Source:                 i_pwm/cntr_reg[4]/C
-                            (rising edge-triggered cell FDCE clocked by clk_eth  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            led
-                            (output port)
-  Path Group:             (none)
-  Path Type:              Max at Slow Process Corner
-  Data Path Delay:        6.920ns  (logic 4.010ns (57.955%)  route 2.909ns (42.045%))
-  Logic Levels:           3  (LUT2=1 LUT6=1 OBUF=1)
-  Clock Uncertainty:      0.217ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
-    Total System Jitter     (TSJ):    0.050ns
-    Discrete Jitter          (DJ):    0.124ns
-    Phase Error              (PE):    0.151ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_eth rise edge)    0.000     0.000 r  
-    N18                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    N18                  IBUF (Prop_ibuf_I_O)         1.392     1.392 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           1.110     2.502    clk_IBUF
-    MMCME2_ADV_X1Y1      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
-                                                      0.077     2.579 r  mmcme2_base_inst/CLKOUT1
-                         net (fo=1, routed)           1.597     4.176    clk_eth
-    BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.085     4.261 r  clk_eth_BUFG_inst/O
-                         net (fo=109, routed)         1.575     5.836    i_pwm/CLK
-    SLICE_X112Y92        FDCE                                         r  i_pwm/cntr_reg[4]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X112Y92        FDCE (Prop_fdce_C_Q)         0.398     6.234 r  i_pwm/cntr_reg[4]/Q
-                         net (fo=4, routed)           0.992     7.227    i_pwm/cntr_reg[4]
-    SLICE_X112Y92        LUT6 (Prop_lut6_I1_O)        0.232     7.459 r  i_pwm/led_OBUF_inst_i_2/O
-                         net (fo=1, routed)           0.397     7.855    i_pwm/led_OBUF_inst_i_2_n_0
-    SLICE_X113Y92        LUT2 (Prop_lut2_I1_O)        0.105     7.960 r  i_pwm/led_OBUF_inst_i_1/O
-                         net (fo=1, routed)           1.521     9.481    led_OBUF
-    R14                  OBUF (Prop_obuf_I_O)         3.275    12.756 r  led_OBUF_inst/O
-                         net (fo=0)                   0.000    12.756    led
-    R14                                                               r  led (OUT)
-  -------------------------------------------------------------------    -------------------
-
-
-
-
-
-Min Delay Paths
---------------------------------------------------------------------------------------
-Slack:                    inf
-  Source:                 i_pwm/cntr_reg[6]/C
-                            (rising edge-triggered cell FDCE clocked by clk_eth  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            led
-                            (output port)
-  Path Group:             (none)
-  Path Type:              Min at Fast Process Corner
-  Data Path Delay:        2.027ns  (logic 1.417ns (69.897%)  route 0.610ns (30.103%))
-  Logic Levels:           2  (LUT2=1 OBUF=1)
-  Clock Uncertainty:      0.217ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
-    Total System Jitter     (TSJ):    0.050ns
-    Discrete Jitter          (DJ):    0.124ns
-    Phase Error              (PE):    0.151ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_eth rise edge)    0.000     0.000 r  
-    N18                                               0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    N18                  IBUF (Prop_ibuf_I_O)         0.229     0.229 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           0.440     0.669    clk_IBUF
-    MMCME2_ADV_X1Y1      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
-                                                      0.050     0.719 r  mmcme2_base_inst/CLKOUT1
-                         net (fo=1, routed)           0.529     1.248    clk_eth
-    BUFGCTRL_X0Y17       BUFG (Prop_bufg_I_O)         0.026     1.274 r  clk_eth_BUFG_inst/O
-                         net (fo=109, routed)         0.635     1.909    i_pwm/CLK
-    SLICE_X113Y92        FDCE                                         r  i_pwm/cntr_reg[6]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X113Y92        FDCE (Prop_fdce_C_Q)         0.141     2.050 r  i_pwm/cntr_reg[6]/Q
-                         net (fo=3, routed)           0.206     2.256    i_pwm/cntr_reg[6]
-    SLICE_X113Y92        LUT2 (Prop_lut2_I0_O)        0.045     2.301 r  i_pwm/led_OBUF_inst_i_1/O
-                         net (fo=1, routed)           0.405     2.705    led_OBUF
-    R14                  OBUF (Prop_obuf_I_O)         1.231     3.936 r  led_OBUF_inst/O
-                         net (fo=0)                   0.000     3.936    led
-    R14                                                               r  led (OUT)
   -------------------------------------------------------------------    -------------------
 
 
