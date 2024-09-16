@@ -338,6 +338,8 @@ begin
   AXI_STR_RXD_0_tlast  <= '0';
   AXI_STR_RXD_0_tvalid <= '0';
   
+  AXI_STR_TXD_0_tready <= '1';
+  
   
 --! add the block design containing the processor
   bd_base_i: entity work.bd_base
