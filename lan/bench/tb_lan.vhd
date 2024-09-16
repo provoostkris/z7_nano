@@ -137,9 +137,7 @@ dut: entity work.lan(rtl)
     FIXED_IO_mio      => open ,
     FIXED_IO_ps_clk   => open ,
     FIXED_IO_ps_porb  => open ,
-    FIXED_IO_ps_srstb => open ,
-    key_tri_i         => ( others => 'Z') ,
-    led_tri_o         => open
+    FIXED_IO_ps_srstb => open 
   );
 
 --! test modes

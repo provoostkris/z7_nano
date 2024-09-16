@@ -51,6 +51,7 @@ echo "Compiling netwiz required files"
 
 echo "Compiling design"
 
+  echo " make sure to run the vivado project once before the simulation , or the sim folder will be empty"
   set path_bd "../../bd_base/prj_bd_base.gen/sources_1/bd/bd_base/sim"
   vcom -2008 -work work $path_bd/bd_base.vhd
 

@@ -51,10 +51,7 @@ entity lan is
     FIXED_IO_mio : inout STD_LOGIC_VECTOR ( 53 downto 0 );
     FIXED_IO_ps_clk : inout STD_LOGIC;
     FIXED_IO_ps_porb : inout STD_LOGIC;
-    FIXED_IO_ps_srstb : inout STD_LOGIC;
-    key_tri_i : in STD_LOGIC_VECTOR ( 0 to 0 );
-    led_tri_o : out STD_LOGIC_VECTOR ( 0 to 0 )
-
+    FIXED_IO_ps_srstb : inout STD_LOGIC
   );
 end lan;
 
@@ -95,7 +92,21 @@ architecture rtl of lan is
   signal cenetrxdv   : std_logic;
   signal cenetrxerr  : std_logic;
 
-
+--! signals for AXIS CH 0
+  signal AXI_STR_RXD_0_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_RXD_0_tlast  : STD_LOGIC;
+  signal AXI_STR_RXD_0_tready : STD_LOGIC;
+  signal AXI_STR_RXD_0_tvalid : STD_LOGIC;
+  signal AXI_STR_TXD_0_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_TXD_0_tlast  : STD_LOGIC;
+  signal AXI_STR_TXD_0_tready : STD_LOGIC;
+  signal AXI_STR_TXD_0_tvalid : STD_LOGIC;
+    
+--! spare signals on block design
+  signal interrupt_0              :   STD_LOGIC;
+  signal mm2s_prmry_reset_out_n_0 :   STD_LOGIC;
+  signal s2mm_prmry_reset_out_n_0 :   STD_LOGIC;
+    
   -- attribute MARK_DEBUG : string;
   -- attribute MARK_DEBUG of sof           : signal is "TRUE";
   -- attribute MARK_DEBUG of eof           : signal is "TRUE";
@@ -321,32 +332,48 @@ begin
       clkfbin => clkfb      -- 1-bit input: feedback clock
    );
 
+
+--! for now tie off the signals
+  AXI_STR_RXD_0_tdata  <= (others => '0');
+  AXI_STR_RXD_0_tlast  <= '0';
+  AXI_STR_RXD_0_tvalid <= '0';
+  
+  
 --! add the block design containing the processor
   bd_base_i: entity work.bd_base
-       port map (
-        DDR_addr(14 downto 0) => DDR_addr(14 downto 0),
-        DDR_ba(2 downto 0) => DDR_ba(2 downto 0),
-        DDR_cas_n => DDR_cas_n,
-        DDR_ck_n => DDR_ck_n,
-        DDR_ck_p => DDR_ck_p,
-        DDR_cke => DDR_cke,
-        DDR_cs_n => DDR_cs_n,
-        DDR_dm(3 downto 0) => DDR_dm(3 downto 0),
-        DDR_dq(31 downto 0) => DDR_dq(31 downto 0),
-        DDR_dqs_n(3 downto 0) => DDR_dqs_n(3 downto 0),
-        DDR_dqs_p(3 downto 0) => DDR_dqs_p(3 downto 0),
-        DDR_odt => DDR_odt,
-        DDR_ras_n => DDR_ras_n,
-        DDR_reset_n => DDR_reset_n,
-        DDR_we_n => DDR_we_n,
-        FIXED_IO_ddr_vrn => FIXED_IO_ddr_vrn,
-        FIXED_IO_ddr_vrp => FIXED_IO_ddr_vrp,
-        FIXED_IO_mio(53 downto 0) => FIXED_IO_mio(53 downto 0),
-        FIXED_IO_ps_clk => FIXED_IO_ps_clk,
-        FIXED_IO_ps_porb => FIXED_IO_ps_porb,
-        FIXED_IO_ps_srstb => FIXED_IO_ps_srstb,
-        key_tri_i(0) => key_tri_i(0),
-        led_tri_o(0) => led_tri_o(0)
-      );
+    port map (       
+      AXI_STR_RXD_0_tdata(31 downto 0) => AXI_STR_RXD_0_tdata(31 downto 0),
+      AXI_STR_RXD_0_tlast => AXI_STR_RXD_0_tlast,
+      AXI_STR_RXD_0_tready => AXI_STR_RXD_0_tready,
+      AXI_STR_RXD_0_tvalid => AXI_STR_RXD_0_tvalid,
+      AXI_STR_TXD_0_tdata(31 downto 0) => AXI_STR_TXD_0_tdata(31 downto 0),
+      AXI_STR_TXD_0_tlast => AXI_STR_TXD_0_tlast,
+      AXI_STR_TXD_0_tready => AXI_STR_TXD_0_tready,
+      AXI_STR_TXD_0_tvalid => AXI_STR_TXD_0_tvalid,
+      DDR_addr(14 downto 0) => DDR_addr(14 downto 0),
+      DDR_ba(2 downto 0) => DDR_ba(2 downto 0),
+      DDR_cas_n => DDR_cas_n,
+      DDR_ck_n => DDR_ck_n,
+      DDR_ck_p => DDR_ck_p,
+      DDR_cke => DDR_cke,
+      DDR_cs_n => DDR_cs_n,
+      DDR_dm(3 downto 0) => DDR_dm(3 downto 0),
+      DDR_dq(31 downto 0) => DDR_dq(31 downto 0),
+      DDR_dqs_n(3 downto 0) => DDR_dqs_n(3 downto 0),
+      DDR_dqs_p(3 downto 0) => DDR_dqs_p(3 downto 0),
+      DDR_odt => DDR_odt,
+      DDR_ras_n => DDR_ras_n,
+      DDR_reset_n => DDR_reset_n,
+      DDR_we_n => DDR_we_n,
+      FIXED_IO_ddr_vrn => FIXED_IO_ddr_vrn,
+      FIXED_IO_ddr_vrp => FIXED_IO_ddr_vrp,
+      FIXED_IO_mio(53 downto 0) => FIXED_IO_mio(53 downto 0),
+      FIXED_IO_ps_clk => FIXED_IO_ps_clk,
+      FIXED_IO_ps_porb => FIXED_IO_ps_porb,
+      FIXED_IO_ps_srstb => FIXED_IO_ps_srstb,
+      interrupt_0 => interrupt_0,
+      mm2s_prmry_reset_out_n_0 => mm2s_prmry_reset_out_n_0,
+      s2mm_prmry_reset_out_n_0 => s2mm_prmry_reset_out_n_0
+    );
     
 end rtl;
