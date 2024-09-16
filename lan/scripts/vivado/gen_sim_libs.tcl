@@ -15,7 +15,7 @@ set_property simulator_language VHDL [current_project]
 
 #
 # generate simulation libraries
-# 
+#
 
   compile_simlib \
    -simulator modelsim \
@@ -23,9 +23,11 @@ set_property simulator_language VHDL [current_project]
    -family zynq \
    -language vhdl \
    -library unisim \
+   -library xpm \
    -dir {../modelsim/vivado_simlib} \
    -no_ip_compile \
    -verbose
+
 
 set duration [expr [clock seconds]-$CompilationStart]
 set LastCompilationTime $CompilationStart

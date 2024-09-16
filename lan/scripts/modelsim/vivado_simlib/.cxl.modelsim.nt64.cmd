@@ -11,3 +11,6 @@ C:/modeltech64_10.5/win64/vcom -source -93 -work unimacro -f D:\github\z7_nano\l
 C:/modeltech64_10.5/win64/vlib D:/github/z7_nano/lan/scripts/modelsim/vivado_simlib/unifast
 C:/modeltech64_10.5/win64/vmap unifast D:/github/z7_nano/lan/scripts/modelsim/vivado_simlib/unifast
 C:/modeltech64_10.5/win64/vcom -source -93 -work unifast -f D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unifast/.cxl.vhd.unifast.unifast.cmf
+C:/modeltech64_10.5/win64/vlib D:/github/z7_nano/lan/scripts/modelsim/vivado_simlib/xpm
+C:/modeltech64_10.5/win64/vmap xpm D:/github/z7_nano/lan/scripts/modelsim/vivado_simlib/xpm
+C:/modeltech64_10.5/win64/vcom  -work xpm -f D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/xpm/.cxl.vhd.xpm.xpm.cmf

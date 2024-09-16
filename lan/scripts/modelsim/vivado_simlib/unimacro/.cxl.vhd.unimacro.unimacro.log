@@ -1,5 +1,5 @@
 Model Technology ModelSim SE-64 vcom 10.5 Compiler 2016.02 Feb 13 2016
-Start time: 22:45:14 on Sep 03,2024
+Start time: 21:51:15 on Sep 16,2024
 vcom -source -93 -work unimacro -f D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unimacro/.cxl.vhd.unimacro.unimacro.cmf 
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -35,5 +35,5 @@ vcom -source -93 -work unimacro -f D:\github\z7_nano\lan\scripts\modelsim\vivado
 -- Compiling architecture macc of MACC_MACRO
 -- Compiling entity MULT_MACRO
 -- Compiling architecture mult of MULT_MACRO
-End time: 22:45:15 on Sep 03,2024, Elapsed time: 0:00:01
+End time: 21:51:15 on Sep 16,2024, Elapsed time: 0:00:00
 Errors: 0, Warnings: 0

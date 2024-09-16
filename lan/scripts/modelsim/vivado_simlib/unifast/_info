@@ -28,14 +28,14 @@ V2C7KZCcfdEX?2A^D;HMY>2
 !s100 RHICNV1d^Tgg=U7;n1:jZ3
 Z13 OL;C;10.5;63
 31
-!s110 1725396317
+Z14 !s110 1726516278
 !i10b 1
-Z14 !s108 1725396317.000000
-Z15 !s90 -source|-93|-work|unifast|-f|D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unifast/.cxl.vhd.unifast.unifast.cmf|
-Z16 !s107 C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\secureip\GTXE2_CHANNEL.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\PLLE2_ADV.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\MMCME2_ADV.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\DSP48E1.vhd|
+Z15 !s108 1726516278.000000
+Z16 !s90 -source|-93|-work|unifast|-f|D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unifast/.cxl.vhd.unifast.unifast.cmf|
+Z17 !s107 C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\secureip\GTXE2_CHANNEL.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\PLLE2_ADV.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\MMCME2_ADV.vhd|C:\Xilinx\Vivado\2023.1\data\vhdl\src\unifast\primitive\DSP48E1.vhd|
 !i113 0
-Z17 o-source -93 -work unifast
-Z18 tExplicit 1 CvgOpt 0
+Z18 o-source -93 -work unifast
+Z19 tExplicit 1 CvgOpt 0
 Adsp48e1_v
 R2
 R3
@@ -53,14 +53,14 @@ VR[?[Xj8BG?glKVWSF?F_>3
 !s100 hD9OB86[1b5A73C8LCPf=2
 R13
 31
-Z19 !s110 1725396318
-!i10b 1
 R14
+!i10b 1
 R15
 R16
-!i113 0
 R17
+!i113 0
 R18
+R19
 Egtxe2_channel
 R1
 R4
@@ -80,14 +80,14 @@ V6enc^z=<]]z`mmCb3W?Z32
 !s100 _TFUaKNTdKK0DbI@`KmFY2
 R13
 31
-R19
-!i10b 1
 R14
+!i10b 1
 R15
 R16
-!i113 0
 R17
+!i113 0
 R18
+R19
 Agtxe2_channel_fast_v
 R4
 R5
@@ -104,14 +104,14 @@ VNPLSU@_iC?Lb>MWXm9Ae:2
 !s100 6C>Xd3zBfOM^7[Uj9GE9F1
 R13
 31
-R19
-!i10b 1
 R14
+!i10b 1
 R15
 R16
-!i113 0
 R17
+!i113 0
 R18
+R19
 Emmcme2_adv
 R1
 R3
@@ -132,14 +132,14 @@ VBjFn<CE6MPiCA8ZcE7U3C2
 !s100 Xf650j:g`FB;T=_g22UCG1
 R13
 31
-R19
-!i10b 1
 R14
+!i10b 1
 R15
 R16
-!i113 0
 R17
+!i113 0
 R18
+R19
 Ammcme2_adv_v
 R3
 R4
@@ -157,14 +157,14 @@ V;`]Lkoodn10IDk13JYff81
 !s100 O9OUSGI?aNYc]im:300VB1
 R13
 31
-R19
-!i10b 1
 R14
+!i10b 1
 R15
 R16
-!i113 0
 R17
+!i113 0
 R18
+R19
 Eplle2_adv
 R1
 R3
@@ -185,14 +185,14 @@ V]TR=j1>:Qna4OPO`mRYYG1
 !s100 66W0TFVa<K^F1hiU[8?ZI3
 R13
 31
-R19
-!i10b 1
 R14
+!i10b 1
 R15
 R16
-!i113 0
 R17
+!i113 0
 R18
+R19
 Aplle2_adv_v
 R3
 R4
@@ -210,11 +210,11 @@ VajI>@j@2KoV0GSRK<o^>70
 !s100 1didTM@M3g_hBA?iff:?o3
 R13
 31
-R19
-!i10b 1
 R14
+!i10b 1
 R15
 R16
-!i113 0
 R17
+!i113 0
 R18
+R19

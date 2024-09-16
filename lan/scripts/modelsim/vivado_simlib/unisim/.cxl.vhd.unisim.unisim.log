@@ -1,5 +1,5 @@
 Model Technology ModelSim SE-64 vcom 10.5 Compiler 2016.02 Feb 13 2016
-Start time: 22:44:56 on Sep 03,2024
+Start time: 21:51:07 on Sep 16,2024
 vcom -source -93 -work unisim -f D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unisim/.cxl.vhd.unisim.unisim.cmf -f D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unisim/.cxl.vhd.secureip_vhdl_unisim.unisim.cmf 
 -- Loading package STANDARD
 -- Loading package VITAL_Timing
@@ -2216,5 +2216,5 @@ vcom -source -93 -work unisim -f D:\github\z7_nano\lan\scripts\modelsim\vivado_s
 -- Compiling architecture PHASER_OUT_PHY_V of PHASER_OUT_PHY
 -- Compiling entity PHY_CONTROL
 -- Compiling architecture PHY_CONTROL_V of PHY_CONTROL
-End time: 22:45:12 on Sep 03,2024, Elapsed time: 0:00:16
+End time: 21:51:13 on Sep 16,2024, Elapsed time: 0:00:06
 Errors: 0, Warnings: 1

@@ -1,2 +1,3 @@
 secureip,vhdl=pass,verilog=fail,shared_lib=0
+xpm,vhdl=pass,verilog=pass,shared_lib=0
 unisim,vhdl=pass,verilog=pass,shared_lib=0
