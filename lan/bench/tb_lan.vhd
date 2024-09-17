@@ -97,7 +97,7 @@ end procedure;
 begin
 
 --! standard signals
-	clk            <= not clk     after c_clk_per/2;
+	clk            <= not clk     after c_clk_per/2   ;
 	rx_clk         <= not rx_clk  after c_rx_clk_per/2;
 
 --! dut

@@ -67,10 +67,10 @@ architecture rtl of lan is
 
 --! signals on tx channel
 
-  signal s_dat_tready  : std_logic;
-  signal s_dat_tdata   : std_logic_vector(7 downto 0);
-  signal s_dat_tlast   : std_logic;
-  signal s_dat_tvalid  : std_logic;
+  signal s_tx_dat_tready  : std_logic;
+  signal s_tx_dat_tdata   : std_logic_vector(7 downto 0);
+  signal s_tx_dat_tlast   : std_logic;
+  signal s_tx_dat_tvalid  : std_logic;
 
   signal sof, eof     : std_logic;
   signal ctxdata      : std_logic_vector(7 downto 0);
@@ -97,22 +97,34 @@ architecture rtl of lan is
   signal AXI_STR_RXD_0_tlast  : STD_LOGIC;
   signal AXI_STR_RXD_0_tready : STD_LOGIC;
   signal AXI_STR_RXD_0_tvalid : STD_LOGIC;
+
   signal AXI_STR_TXD_0_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal AXI_STR_TXD_0_tlast  : STD_LOGIC;
   signal AXI_STR_TXD_0_tready : STD_LOGIC;
   signal AXI_STR_TXD_0_tvalid : STD_LOGIC;
-    
+
+
 --! spare signals on block design
   signal interrupt_0              :   STD_LOGIC;
   signal mm2s_prmry_reset_out_n_0 :   STD_LOGIC;
   signal s2mm_prmry_reset_out_n_0 :   STD_LOGIC;
-    
-  -- attribute MARK_DEBUG : string;
+
+  attribute MARK_DEBUG : string;
+  
   -- attribute MARK_DEBUG of sof           : signal is "TRUE";
   -- attribute MARK_DEBUG of eof           : signal is "TRUE";
   -- attribute MARK_DEBUG of cenettxdata   : signal is "TRUE";
   -- attribute MARK_DEBUG of cenettxen     : signal is "TRUE";
   -- attribute MARK_DEBUG of cenettxerr    : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_RXD_0_tdata  : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_RXD_0_tlast  : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_RXD_0_tready : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_RXD_0_tvalid : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_TXD_0_tdata  : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_TXD_0_tlast  : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_TXD_0_tready : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_TXD_0_tvalid : signal is "TRUE";
+
 
 begin
 
@@ -133,10 +145,10 @@ begin
     port map (
       clk           => clk_eth,
       rst_n         => rst_n,
-      m_dat_tready  => s_dat_tready,
-      m_dat_tdata   => s_dat_tdata ,
-      m_dat_tlast   => s_dat_tlast ,
-      m_dat_tvalid  => s_dat_tvalid
+      m_dat_tready  => s_tx_dat_tready,
+      m_dat_tdata   => s_tx_dat_tdata ,
+      m_dat_tlast   => s_tx_dat_tlast ,
+      m_dat_tvalid  => s_tx_dat_tvalid
     );
 
   --! user logic to tx_fifo
@@ -144,10 +156,10 @@ begin
     port map (
       s_clk         => clk_eth,
       s_rst_n       => rst_n,
-      s_dat_tready  => s_dat_tready,
-      s_dat_tdata   => s_dat_tdata ,
-      s_dat_tlast   => s_dat_tlast ,
-      s_dat_tvalid  => s_dat_tvalid,
+      s_dat_tready  => AXI_STR_TXD_0_tready,
+      s_dat_tdata   => AXI_STR_TXD_0_tdata(7 downto 0),
+      s_dat_tlast   => AXI_STR_TXD_0_tlast,
+      s_dat_tvalid  => AXI_STR_TXD_0_tvalid,
 
       m_clk         => clk_eth,
       m_rst_n       => rst_n,
@@ -176,29 +188,15 @@ begin
     );
 
   --! normal to reduced interface adapter
-  -- i_gmii_to_rgmii: entity work.gmii_to_rgmii
-    -- port map (
-      -- idelay_clk   => '0',
-      -- rst          => rst,
-      -- gmii_txc     => clk_eth,
-      -- gmii_tx_dv   => cenettxen,
-      -- gmii_tx_err  => cenettxerr,
-      -- gmii_td      => cenettxdata,
-      -- rgmii_txc    => rgmii_txc   ,
-      -- rgmii_tx_ctl => rgmii_tx_ctl,
-      -- rgmii_td     => rgmii_td
-    -- );
-
-  --! normal to reduced interface adapter
   i_rgmii_tx_ddr: entity work.rgmii_tx_ddr
     port map (
       rst          => rst,
       clk          => clk_eth,
-      
+
       gmii_td      => cenettxdata,
       gmii_tx_en   => cenettxen,
       gmii_tx_err  => cenettxerr,
-      
+
       rgmii_txc    => rgmii_txc   ,
       rgmii_tx_ctl => rgmii_tx_ctl,
       rgmii_td     => rgmii_td
@@ -256,12 +254,13 @@ begin
 
     m_clk         => rgmii_rxc,
     m_rst_n       => rst_n,
-    m_dat_tready  => '1',
-    m_dat_tdata   => open,
-    m_dat_tlast   => open,
-    m_dat_tvalid  => open
+    m_dat_tready  => AXI_STR_RXD_0_tready,
+    m_dat_tdata   => AXI_STR_RXD_0_tdata(7 downto 0),
+    m_dat_tlast   => AXI_STR_RXD_0_tlast,
+    m_dat_tvalid  => AXI_STR_RXD_0_tvalid
     );
 
+    AXI_STR_RXD_0_tdata(31 downto 8) <= ( others => '0');
 
 --! we need a pll to make 125.0 mhz from the 50 mhz
 --! that ratio is x2.5 , pll needs a number that is with a granularity off 0.125
@@ -333,25 +332,19 @@ begin
    );
 
 
---! for now tie off the signals
-  AXI_STR_RXD_0_tdata  <= (others => '0');
-  AXI_STR_RXD_0_tlast  <= '0';
-  AXI_STR_RXD_0_tvalid <= '0';
-  
-  AXI_STR_TXD_0_tready <= '1';
-  
-  
 --! add the block design containing the processor
   bd_base_i: entity work.bd_base
-    port map (       
+    port map (
       AXI_STR_RXD_0_tdata(31 downto 0) => AXI_STR_RXD_0_tdata(31 downto 0),
       AXI_STR_RXD_0_tlast => AXI_STR_RXD_0_tlast,
       AXI_STR_RXD_0_tready => AXI_STR_RXD_0_tready,
       AXI_STR_RXD_0_tvalid => AXI_STR_RXD_0_tvalid,
+
       AXI_STR_TXD_0_tdata(31 downto 0) => AXI_STR_TXD_0_tdata(31 downto 0),
       AXI_STR_TXD_0_tlast => AXI_STR_TXD_0_tlast,
       AXI_STR_TXD_0_tready => AXI_STR_TXD_0_tready,
       AXI_STR_TXD_0_tvalid => AXI_STR_TXD_0_tvalid,
+
       DDR_addr(14 downto 0) => DDR_addr(14 downto 0),
       DDR_ba(2 downto 0) => DDR_ba(2 downto 0),
       DDR_cas_n => DDR_cas_n,
@@ -377,5 +370,5 @@ begin
       mm2s_prmry_reset_out_n_0 => mm2s_prmry_reset_out_n_0,
       s2mm_prmry_reset_out_n_0 => s2mm_prmry_reset_out_n_0
     );
-    
+
 end rtl;
