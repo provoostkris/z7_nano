@@ -18,3 +18,7 @@ release/vivado/lan.runs/synth_1/*
 release/vivado/lan.runs/impl_1/*
 !release/vivado/lan.runs/impl_1/*.bit
 !release/vivado/lan.runs/impl_1/*.rpt
+
+release/vitis/*
+!release/vitis/network
+!release/vitis/network_system
