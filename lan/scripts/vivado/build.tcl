@@ -43,12 +43,18 @@ update_compile_order -fileset sources_1
 # Launch Synthesis
 launch_runs synth_1
 wait_on_run synth_1
-#open_run synth_1 -name netlist_1
+open_run synth_1 -name netlist_1
+source add_debug.tcl
 
 #
 # Launch Implementation
 launch_runs impl_1 -to_step write_bitstream
 wait_on_run impl_1
+
+
+#
+# Export for Vitis development
+write_hw_platform -fixed -include_bit -force -file lan.xsa
 
 
 set duration [expr [clock seconds]-$CompilationStart]

@@ -41,3 +41,4 @@ Plug in the USB-ETH adapter and give it an IP in the free range.
 Open wireshark and start sniffing.
 With a dummy packet , the wireshark is able to recieve about 200 Mbps in a setup
 FPGA ETH TX >> ETH2USB >> LAN 
+where the Ethernet adapter is from a cheap brand and suspected to cause the drop in bandwidth

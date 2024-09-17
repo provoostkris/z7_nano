@@ -48,7 +48,7 @@ architecture rtl of eth_rx_fifo is
   attribute syn_encoding of t_state : type is "safe,onehot";
 
   signal s_rst        : std_logic;
-  signal rst_delay    : std_logic_vector(6 downto 0);   -- fifo reauires reset to be low for 5 clocks
+  signal rst_delay    : std_logic_vector(6 downto 0);   -- fifo requires reset to be low for 5 clocks
   signal fifo_a_empty : std_logic; -- almost empty
   signal fifo_c_empty : std_logic; -- complete empty
   signal fifo_a_full  : std_logic; -- almost full
