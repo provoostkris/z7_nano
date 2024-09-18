@@ -2,7 +2,7 @@
 --Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
---Date        : Wed Sep 11 22:08:18 2024
+--Date        : Wed Sep 18 20:24:42 2024
 --Host        : vivobook running 64-bit major release  (build 9200)
 --Command     : generate_target bd_base.bd
 --Design      : bd_base
@@ -602,6 +602,7 @@ entity bd_base is
     DDR_ras_n : inout STD_LOGIC;
     DDR_reset_n : inout STD_LOGIC;
     DDR_we_n : inout STD_LOGIC;
+    FCLK_CLK0_0 : out STD_LOGIC;
     FIXED_IO_ddr_vrn : inout STD_LOGIC;
     FIXED_IO_ddr_vrp : inout STD_LOGIC;
     FIXED_IO_mio : inout STD_LOGIC_VECTOR ( 53 downto 0 );
@@ -759,7 +760,7 @@ architecture STRUCTURE of bd_base is
   signal processing_system7_0_DDR_RAS_N : STD_LOGIC;
   signal processing_system7_0_DDR_RESET_N : STD_LOGIC;
   signal processing_system7_0_DDR_WE_N : STD_LOGIC;
-  signal processing_system7_0_FCLK_CLK0 : STD_LOGIC;
+  signal processing_system7_0_FCLK_CLK1 : STD_LOGIC;
   signal processing_system7_0_FCLK_RESET0_N : STD_LOGIC;
   signal processing_system7_0_FIXED_IO_DDR_VRN : STD_LOGIC;
   signal processing_system7_0_FIXED_IO_DDR_VRP : STD_LOGIC;
@@ -843,8 +844,10 @@ architecture STRUCTURE of bd_base is
   attribute X_INTERFACE_INFO of DDR_ras_n : signal is "xilinx.com:interface:ddrx:1.0 DDR RAS_N";
   attribute X_INTERFACE_INFO of DDR_reset_n : signal is "xilinx.com:interface:ddrx:1.0 DDR RESET_N";
   attribute X_INTERFACE_INFO of DDR_we_n : signal is "xilinx.com:interface:ddrx:1.0 DDR WE_N";
-  attribute X_INTERFACE_INFO of FIXED_IO_ddr_vrn : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO DDR_VRN";
+  attribute X_INTERFACE_INFO of FCLK_CLK0_0 : signal is "xilinx.com:signal:clock:1.0 CLK.FCLK_CLK0_0 CLK";
   attribute X_INTERFACE_PARAMETER : string;
+  attribute X_INTERFACE_PARAMETER of FCLK_CLK0_0 : signal is "XIL_INTERFACENAME CLK.FCLK_CLK0_0, CLK_DOMAIN bd_base_processing_system7_0_0_FCLK_CLK0, FREQ_HZ 50000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0";
+  attribute X_INTERFACE_INFO of FIXED_IO_ddr_vrn : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO DDR_VRN";
   attribute X_INTERFACE_PARAMETER of FIXED_IO_ddr_vrn : signal is "XIL_INTERFACENAME FIXED_IO, CAN_DEBUG false";
   attribute X_INTERFACE_INFO of FIXED_IO_ddr_vrp : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO DDR_VRP";
   attribute X_INTERFACE_INFO of FIXED_IO_ps_clk : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO PS_CLK";
@@ -876,6 +879,7 @@ begin
   AXI_STR_TXD_0_tdata(31 downto 0) <= axi_fifo_mm_s_0_AXI_STR_TXD_TDATA(31 downto 0);
   AXI_STR_TXD_0_tlast <= axi_fifo_mm_s_0_AXI_STR_TXD_TLAST;
   AXI_STR_TXD_0_tvalid <= axi_fifo_mm_s_0_AXI_STR_TXD_TVALID;
+  FCLK_CLK0_0 <= processing_system7_0_FCLK_CLK1;
   axi_fifo_mm_s_0_AXI_STR_TXD_TREADY <= AXI_STR_TXD_0_tready;
   interrupt_0 <= axi_fifo_mm_s_0_interrupt;
   mm2s_prmry_reset_out_n_0 <= axi_fifo_mm_s_0_mm2s_prmry_reset_out_n;
@@ -893,7 +897,7 @@ axi_fifo_mm_s_0: component bd_base_axi_fifo_mm_s_0_0
       interrupt => axi_fifo_mm_s_0_interrupt,
       mm2s_prmry_reset_out_n => axi_fifo_mm_s_0_mm2s_prmry_reset_out_n,
       s2mm_prmry_reset_out_n => axi_fifo_mm_s_0_s2mm_prmry_reset_out_n,
-      s_axi_aclk => processing_system7_0_FCLK_CLK0,
+      s_axi_aclk => processing_system7_0_FCLK_CLK1,
       s_axi_araddr(31 downto 0) => ps7_0_axi_periph_M00_AXI_ARADDR(31 downto 0),
       s_axi_aresetn => rst_ps7_0_50M_peripheral_aresetn(0),
       s_axi_arready => ps7_0_axi_periph_M00_AXI_ARREADY,
@@ -932,10 +936,10 @@ processing_system7_0: component bd_base_processing_system7_0_0
       DDR_VRN => FIXED_IO_ddr_vrn,
       DDR_VRP => FIXED_IO_ddr_vrp,
       DDR_WEB => DDR_we_n,
-      FCLK_CLK0 => processing_system7_0_FCLK_CLK0,
+      FCLK_CLK0 => processing_system7_0_FCLK_CLK1,
       FCLK_RESET0_N => processing_system7_0_FCLK_RESET0_N,
       MIO(53 downto 0) => FIXED_IO_mio(53 downto 0),
-      M_AXI_GP0_ACLK => processing_system7_0_FCLK_CLK0,
+      M_AXI_GP0_ACLK => processing_system7_0_FCLK_CLK1,
       M_AXI_GP0_ARADDR(31 downto 0) => processing_system7_0_M_AXI_GP0_ARADDR(31 downto 0),
       M_AXI_GP0_ARBURST(1 downto 0) => processing_system7_0_M_AXI_GP0_ARBURST(1 downto 0),
       M_AXI_GP0_ARCACHE(3 downto 0) => processing_system7_0_M_AXI_GP0_ARCACHE(3 downto 0),
@@ -980,9 +984,9 @@ processing_system7_0: component bd_base_processing_system7_0_0
     );
 ps7_0_axi_periph: entity work.bd_base_ps7_0_axi_periph_0
      port map (
-      ACLK => processing_system7_0_FCLK_CLK0,
+      ACLK => processing_system7_0_FCLK_CLK1,
       ARESETN => rst_ps7_0_50M_interconnect_aresetn(0),
-      M00_ACLK => processing_system7_0_FCLK_CLK0,
+      M00_ACLK => processing_system7_0_FCLK_CLK1,
       M00_ARESETN => rst_ps7_0_50M_interconnect_aresetn(0),
       M00_AXI_araddr(31 downto 0) => ps7_0_axi_periph_M00_AXI_ARADDR(31 downto 0),
       M00_AXI_arready => ps7_0_axi_periph_M00_AXI_ARREADY,
@@ -1001,7 +1005,7 @@ ps7_0_axi_periph: entity work.bd_base_ps7_0_axi_periph_0
       M00_AXI_wready => ps7_0_axi_periph_M00_AXI_WREADY,
       M00_AXI_wstrb(3 downto 0) => ps7_0_axi_periph_M00_AXI_WSTRB(3 downto 0),
       M00_AXI_wvalid => ps7_0_axi_periph_M00_AXI_WVALID,
-      S00_ACLK => processing_system7_0_FCLK_CLK0,
+      S00_ACLK => processing_system7_0_FCLK_CLK1,
       S00_ARESETN => rst_ps7_0_50M_interconnect_aresetn(0),
       S00_AXI_araddr(31 downto 0) => processing_system7_0_M_AXI_GP0_ARADDR(31 downto 0),
       S00_AXI_arburst(1 downto 0) => processing_system7_0_M_AXI_GP0_ARBURST(1 downto 0),
@@ -1053,6 +1057,6 @@ rst_ps7_0_50M: component bd_base_rst_ps7_0_50M_0
       mb_reset => NLW_rst_ps7_0_50M_mb_reset_UNCONNECTED,
       peripheral_aresetn(0) => rst_ps7_0_50M_peripheral_aresetn(0),
       peripheral_reset(0) => NLW_rst_ps7_0_50M_peripheral_reset_UNCONNECTED(0),
-      slowest_sync_clk => processing_system7_0_FCLK_CLK0
+      slowest_sync_clk => processing_system7_0_FCLK_CLK1
     );
 end STRUCTURE;

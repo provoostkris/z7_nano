@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed Sep 11 22:08:33 2024" VIVADOVERSION="2023.1">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Wed Sep 18 20:24:58 2024" VIVADOVERSION="2023.1">
 
   <SYSTEMINFO ARCH="zynq" DEVICE="7z020" NAME="bd_base" PACKAGE="clg400" SPEEDGRADE="-2"/>
 
@@ -162,6 +162,11 @@
     <PORT DIR="O" NAME="s2mm_prmry_reset_out_n_0" POLARITY="ACTIVE_LOW" SIGIS="rst" SIGNAME="axi_fifo_mm_s_0_s2mm_prmry_reset_out_n">
       <CONNECTIONS>
         <CONNECTION INSTANCE="axi_fifo_mm_s_0" PORT="s2mm_prmry_reset_out_n"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT CLKFREQUENCY="50000000" DIR="O" NAME="FCLK_CLK0_0" SIGIS="clk" SIGNAME="processing_system7_0_FCLK_CLK0">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="processing_system7_0" PORT="FCLK_CLK0"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>
@@ -2413,6 +2418,7 @@
         </PORT>
         <PORT CLKFREQUENCY="50000000" DIR="O" NAME="FCLK_CLK0" SIGIS="clk" SIGNAME="processing_system7_0_FCLK_CLK0">
           <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="FCLK_CLK0_0"/>
             <CONNECTION INSTANCE="processing_system7_0" PORT="M_AXI_GP0_ACLK"/>
             <CONNECTION INSTANCE="rst_ps7_0_50M" PORT="slowest_sync_clk"/>
             <CONNECTION INSTANCE="ps7_0_axi_periph" PORT="ACLK"/>
