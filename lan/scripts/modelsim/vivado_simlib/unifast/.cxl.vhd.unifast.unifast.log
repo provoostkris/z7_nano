@@ -1,5 +1,5 @@
 Model Technology ModelSim SE-64 vcom 10.5 Compiler 2016.02 Feb 13 2016
-Start time: 21:51:18 on Sep 16,2024
+Start time: 21:14:16 on Sep 18,2024
 vcom -source -93 -work unifast -f D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/unifast/.cxl.vhd.unifast.unifast.cmf 
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -17,5 +17,5 @@ vcom -source -93 -work unifast -f D:\github\z7_nano\lan\scripts\modelsim\vivado_
 -- Compiling architecture PLLE2_ADV_V of PLLE2_ADV
 -- Compiling entity GTXE2_CHANNEL
 -- Compiling architecture GTXE2_CHANNEL_FAST_V of GTXE2_CHANNEL
-End time: 21:51:18 on Sep 16,2024, Elapsed time: 0:00:00
+End time: 21:14:17 on Sep 18,2024, Elapsed time: 0:00:01
 Errors: 0, Warnings: 0

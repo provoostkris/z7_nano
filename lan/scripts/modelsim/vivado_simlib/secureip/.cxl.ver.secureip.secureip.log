@@ -1,5 +1,5 @@
 Model Technology ModelSim SE-64 vlog 10.5 Compiler 2016.02 Feb 13 2016
-Start time: 21:51:04 on Sep 16,2024
+Start time: 21:13:50 on Sep 18,2024
 vlog -source -sv -svinputport=relaxed -suppress vlog-2583 -work secureip -f D:\github\z7_nano\lan\scripts\modelsim\vivado_simlib/secureip/.cxl.sv.secureip.secureip.cmf 
 Usage: vlog [options] files
 Options:

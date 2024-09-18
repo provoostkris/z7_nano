@@ -23,7 +23,6 @@ set_property simulator_language VHDL [current_project]
    -family zynq \
    -language vhdl \
    -library unisim \
-   -library xpm \
    -dir {../modelsim/vivado_simlib} \
    -no_ip_compile \
    -verbose
