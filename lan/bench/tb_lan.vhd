@@ -102,6 +102,9 @@ begin
 
 --! dut
 dut: entity work.lan(rtl)
+  generic map (
+    g_sim             => true
+  )
   port map (
     clk               => clk,
     reset_n           => rst_n,
