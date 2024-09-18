@@ -55,11 +55,22 @@ echo "Compiling design"
 
   set path_bd "../../bd_base/prj_bd_base.gen/sources_1/bd/bd_base/ip"
 
-    # vcom -2008 -work work $path_bd/bd_base_auto_pc_0/bd_base_auto_pc_0_sim_netlist.vhdl
-    # vcom -2008 -work work $path_bd/bd_base_axi_fifo_mm_s_0_0/bd_base_axi_fifo_mm_s_0_0_sim_netlist.vhdl
-    # vcom -2008 -work work $path_bd/bd_base_processing_system7_0_0/bd_base_processing_system7_0_0_sim_netlist.vhdl
-    # vcom -2008 -work work $path_bd/bd_base_rst_ps7_0_50M_0/bd_base_rst_ps7_0_50M_0_sim_netlist.vhdl
-
+  set handle 2
+  if {$handle == 0 } { 
+  }
+  if {$handle == 1 } { 
+    vlog  -work work $path_bd/bd_base_auto_pc_0/bd_base_auto_pc_0_sim_netlist.v
+    vlog  -work work $path_bd/bd_base_axi_fifo_mm_s_0_0/bd_base_axi_fifo_mm_s_0_0_sim_netlist.v
+    vlog  -work work $path_bd/bd_base_processing_system7_0_0/bd_base_processing_system7_0_0_sim_netlist.v
+    vlog  -work work $path_bd/bd_base_rst_ps7_0_50M_0/bd_base_rst_ps7_0_50M_0_sim_netlist.v
+  }
+  if {$handle == 2 } { 
+    vcom -2008 -work work $path_bd/bd_base_auto_pc_0/bd_base_auto_pc_0_sim_netlist.vhdl
+    vcom -2008 -work work $path_bd/bd_base_axi_fifo_mm_s_0_0/bd_base_axi_fifo_mm_s_0_0_sim_netlist.vhdl
+    vcom -2008 -work work $path_bd/bd_base_processing_system7_0_0/bd_base_processing_system7_0_0_sim_netlist.vhdl
+    vcom -2008 -work work $path_bd/bd_base_rst_ps7_0_50M_0/bd_base_rst_ps7_0_50M_0_sim_netlist.vhdl
+  }
+  
   set path_bd "../../bd_base/prj_bd_base.gen/sources_1/bd/bd_base/sim"
 
     vcom -2008 -work work $path_bd/bd_base.vhd

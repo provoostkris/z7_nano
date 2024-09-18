@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date         : Tue Sep 17 21:21:34 2024
+| Date         : Wed Sep 18 21:03:30 2024
 | Host         : vivobook running 64-bit major release  (build 9200)
 | Command      : report_drc -file lan_drc_opted.rpt -pb lan_drc_opted.pb -rpx lan_drc_opted.rpx
 | Design       : lan

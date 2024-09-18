@@ -58,12 +58,13 @@ end lan;
 architecture rtl of lan is
 
 --! clock and reset tree signals
-  signal  reset      : std_logic;
-  signal  locked     : std_logic;
-  signal  rst        : std_logic;
-  signal  rst_n      : std_logic;
-  signal  clkfb      : std_logic;
-  signal  clk_eth   : std_logic;
+  signal  reset      : std_logic; --! inverted reset input port
+  signal  locked     : std_logic; --! lock output from the local PLL
+  signal  rst        : std_logic; --! PLL locked inverted
+  signal  rst_n      : std_logic; --! PLL locked copy
+  signal  clkfb      : std_logic; --! required feedback clock for PLL
+  signal  clk_eth    : std_logic; --! local clock the ethernet design
+  signal  fclk_clk   : std_logic; --! exported clock from the PS
 
 --! signals on tx channel
 
@@ -110,20 +111,20 @@ architecture rtl of lan is
   signal s2mm_prmry_reset_out_n_0 :   STD_LOGIC;
 
   attribute MARK_DEBUG : string;
-  
+
   -- attribute MARK_DEBUG of sof           : signal is "TRUE";
   -- attribute MARK_DEBUG of eof           : signal is "TRUE";
   -- attribute MARK_DEBUG of cenettxdata   : signal is "TRUE";
   -- attribute MARK_DEBUG of cenettxen     : signal is "TRUE";
   -- attribute MARK_DEBUG of cenettxerr    : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_RXD_0_tdata  : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_RXD_0_tlast  : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_RXD_0_tready : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_RXD_0_tvalid : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_TXD_0_tdata  : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_TXD_0_tlast  : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_TXD_0_tready : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_TXD_0_tvalid : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_RXD_0_tdata  : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_RXD_0_tlast  : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_RXD_0_tready : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_RXD_0_tvalid : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tdata  : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tlast  : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tready : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tvalid : signal is "TRUE";
 
 
 begin
@@ -154,7 +155,7 @@ begin
   --! user logic to tx_fifo
   i_rgmii_tx_fifo : entity work.rgmii_tx_fifo
     port map (
-      s_clk         => clk_eth,
+      s_clk         => fclk_clk,
       s_rst_n       => rst_n,
       s_dat_tready  => AXI_STR_TXD_0_tready,
       s_dat_tdata   => AXI_STR_TXD_0_tdata(7 downto 0),
@@ -252,7 +253,7 @@ begin
     s_rxdata      => crxdata,
     s_rxdv        => crxdv,
 
-    m_clk         => rgmii_rxc,
+    m_clk         => fclk_clk,
     m_rst_n       => rst_n,
     m_dat_tready  => AXI_STR_RXD_0_tready,
     m_dat_tdata   => AXI_STR_RXD_0_tdata(7 downto 0),
@@ -335,6 +336,9 @@ begin
 --! add the block design containing the processor
   bd_base_i: entity work.bd_base
     port map (
+
+      FCLK_CLK0_0 => fclk_clk,
+
       AXI_STR_RXD_0_tdata(31 downto 0) => AXI_STR_RXD_0_tdata(31 downto 0),
       AXI_STR_RXD_0_tlast => AXI_STR_RXD_0_tlast,
       AXI_STR_RXD_0_tready => AXI_STR_RXD_0_tready,

@@ -5,6 +5,11 @@ Make use of the *ETH PORT* connected via the PL fabric. The design makes use of 
 *DDR I/O* is used for dubble edge sampling. The reference frequency is multiplied by an embedded PLL.
 Frequency is fixed to perform at 1 Gbps. 
 
+The design is running a base block design that includes the processing system. 
+the system is kept to a very minimal setup and shown below:
+![block_design](/img/bd_base.png)
+
+
 ### Features
 PHY : 1 Gbps
 

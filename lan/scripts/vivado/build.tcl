@@ -44,7 +44,7 @@ update_compile_order -fileset sources_1
 launch_runs synth_1
 wait_on_run synth_1
 open_run synth_1 -name netlist_1
-source add_debug.tcl
+# source add_debug.tcl
 
 #
 # Launch Implementation
