@@ -2,12 +2,12 @@
 # In Vitis IDE create a Single Application Debug launch configuration,
 # change the debug type to 'Attach to running target' and provide this 
 # tcl script in 'Execute Script' option.
-# Path of this script: D:\github\z7_nano\lan\release\vitis\network_system\_ide\scripts\systemdebugger_network_system_standalone.tcl
+# Path of this script: D:\github\z7_nano\lan\release\vitis\network_system\_ide\scripts\debugger_network-default.tcl
 # 
 # 
 # Usage with xsct:
 # To debug using xsct, launch xsct and run below command
-# source D:\github\z7_nano\lan\release\vitis\network_system\_ide\scripts\systemdebugger_network_system_standalone.tcl
+# source D:\github\z7_nano\lan\release\vitis\network_system\_ide\scripts\debugger_network-default.tcl
 # 
 connect -url tcp:127.0.0.1:3121
 targets -set -nocase -filter {name =~"APU*"}
