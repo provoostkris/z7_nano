@@ -13,6 +13,7 @@ use     unisim.vcomponents.all;
 
 entity lan is
   generic (
+    g_sim             : boolean := false;
     my_mac            : std_logic_vector(47 downto 0) := x"02AABBCCDDEE"
   );
   port(
@@ -58,20 +59,22 @@ end lan;
 architecture rtl of lan is
 
 --! clock and reset tree signals
-  signal  reset      : std_logic; --! inverted reset input port
-  signal  locked     : std_logic; --! lock output from the local PLL
-  signal  rst        : std_logic; --! PLL locked inverted
-  signal  rst_n      : std_logic; --! PLL locked copy
-  signal  clkfb      : std_logic; --! required feedback clock for PLL
-  signal  clk_eth    : std_logic; --! local clock the ethernet design
-  signal  fclk_clk   : std_logic; --! exported clock from the PS
+  signal reset      : std_logic; --! inverted reset input port
+  signal locked     : std_logic; --! lock output from the local PLL
+  signal rst        : std_logic; --! PLL locked inverted
+  signal rst_n      : std_logic; --! PLL locked copy
+  signal clkfb      : std_logic; --! required feedback clock for PLL
+  signal clk_eth    : std_logic; --! PLL output 125 MHz
+  signal fclk_clk   : std_logic; --! exported clock from the PS
+  signal clk_slow   : std_logic; --! PLL output  50 MHz
+  signal clk_txfr   : std_logic; --! clock for transfer between PS and PL
 
 --! signals on tx channel
 
-  signal s_tx_dat_tready  : std_logic;
-  signal s_tx_dat_tdata   : std_logic_vector(7 downto 0);
-  signal s_tx_dat_tlast   : std_logic;
-  signal s_tx_dat_tvalid  : std_logic;
+  -- signal s_tx_dat_tready  : std_logic;
+  -- signal s_tx_dat_tdata   : std_logic_vector(7 downto 0);
+  -- signal s_tx_dat_tlast   : std_logic;
+  -- signal s_tx_dat_tvalid  : std_logic;
 
   signal sof, eof     : std_logic;
   signal ctxdata      : std_logic_vector(7 downto 0);
@@ -117,14 +120,14 @@ architecture rtl of lan is
   -- attribute MARK_DEBUG of cenettxdata   : signal is "TRUE";
   -- attribute MARK_DEBUG of cenettxen     : signal is "TRUE";
   -- attribute MARK_DEBUG of cenettxerr    : signal is "TRUE";
-  -- attribute MARK_DEBUG of  AXI_STR_RXD_0_tdata  : signal is "TRUE";
-  -- attribute MARK_DEBUG of  AXI_STR_RXD_0_tlast  : signal is "TRUE";
-  -- attribute MARK_DEBUG of  AXI_STR_RXD_0_tready : signal is "TRUE";
-  -- attribute MARK_DEBUG of  AXI_STR_RXD_0_tvalid : signal is "TRUE";
-  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tdata  : signal is "TRUE";
-  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tlast  : signal is "TRUE";
-  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tready : signal is "TRUE";
-  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tvalid : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_RXD_0_tdata  : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_RXD_0_tlast  : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_RXD_0_tready : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_RXD_0_tvalid : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_TXD_0_tdata  : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_TXD_0_tlast  : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_TXD_0_tready : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_TXD_0_tvalid : signal is "TRUE";
 
 
 begin
@@ -134,6 +137,14 @@ begin
   rst      <= not locked;
   rst_n    <=     locked;
   pll_lock <=     locked;
+  
+  gen_ps_clk: if g_sim = false generate
+    clk_txfr <= fclk_clk;
+  end generate;
+
+  gen_pl_clk: if g_sim = true generate
+    clk_txfr <= clk_slow;
+  end generate;
 
 --! indicate the board is running
   i_pwm: entity work.pwm
@@ -142,20 +153,20 @@ begin
 
 
   --! user logic with ROM
-  i_rom_tx : entity work.rom_tx
-    port map (
-      clk           => clk_eth,
-      rst_n         => rst_n,
-      m_dat_tready  => s_tx_dat_tready,
-      m_dat_tdata   => s_tx_dat_tdata ,
-      m_dat_tlast   => s_tx_dat_tlast ,
-      m_dat_tvalid  => s_tx_dat_tvalid
-    );
+  -- i_rom_tx : entity work.rom_tx
+    -- port map (
+      -- clk           => clk_eth,
+      -- rst_n         => rst_n,
+      -- m_dat_tready  => s_tx_dat_tready,
+      -- m_dat_tdata   => s_tx_dat_tdata ,
+      -- m_dat_tlast   => s_tx_dat_tlast ,
+      -- m_dat_tvalid  => s_tx_dat_tvalid
+    -- );
 
   --! user logic to tx_fifo
   i_rgmii_tx_fifo : entity work.rgmii_tx_fifo
     port map (
-      s_clk         => fclk_clk,
+      s_clk         => clk_txfr,
       s_rst_n       => rst_n,
       s_dat_tready  => AXI_STR_TXD_0_tready,
       s_dat_tdata   => AXI_STR_TXD_0_tdata(7 downto 0),
@@ -253,7 +264,7 @@ begin
     s_rxdata      => crxdata,
     s_rxdv        => crxdv,
 
-    m_clk         => fclk_clk,
+    m_clk         => clk_txfr,
     m_rst_n       => rst_n,
     m_dat_tready  => AXI_STR_RXD_0_tready,
     m_dat_tdata   => AXI_STR_RXD_0_tdata(7 downto 0),
@@ -278,7 +289,7 @@ begin
       clkin1_period => 20.0,      -- input clock period in ns to ps resolution (i.e. 33.333 is 30 mhz).
       -- clkout0_divide - clkout6_divide: divide amount for each clkout (1-128)
       clkout1_divide => 10,
-      clkout2_divide => 1,
+      clkout2_divide => 25,
       clkout3_divide => 1,
       clkout4_divide => 1,
       clkout5_divide => 1,
@@ -311,7 +322,7 @@ begin
       clkout0b => open,   -- 1-bit output: inverted clkout0
       clkout1 => clk_eth,     -- 1-bit output: clkout1
       clkout1b => open,   -- 1-bit output: inverted clkout1
-      clkout2 => open,     -- 1-bit output: clkout2
+      clkout2 => clk_slow,     -- 1-bit output: clkout2
       clkout2b => open,   -- 1-bit output: inverted clkout2
       clkout3 => open,     -- 1-bit output: clkout3
       clkout3b => open,   -- 1-bit output: inverted clkout3
