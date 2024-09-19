@@ -7,12 +7,13 @@ Frequency is fixed to perform at 1 Gbps.
 
 The design is running a base block design that includes the processing system. 
 the system is kept to a very minimal setup and shown below:
-![block_design](/img/bd_base.png)
+![block_design](img/bd_base.png)
 
 
 ### Features
-PHY : 1 Gbps
-
+PHY itf : 1 Gbps
+MAC itf : RGMII @ 4 x 125 MHz DDR
+MAC : Layer 2 frame processing TX and RX
 
 ### [I/O](constraints)
 - PL ETH 
