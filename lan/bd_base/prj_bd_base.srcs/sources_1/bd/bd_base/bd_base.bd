@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xAB7E073FE39E5D83",
+      "boundary_crc": "0xAB7E073FB30BB313",
       "device": "xc7z020clg400-2",
       "gen_directory": "../../../../prj_bd_base.gen/sources_1/bd/bd_base",
       "name": "bd_base",
@@ -508,17 +508,41 @@
           "PCW_EN_EMIO_ENET0": {
             "value": "0"
           },
+          "PCW_EN_EMIO_UART0": {
+            "value": "0"
+          },
           "PCW_EN_ENET0": {
             "value": "1"
           },
           "PCW_EN_SDIO0": {
             "value": "1"
           },
-          "PCW_EN_UART1": {
+          "PCW_EN_UART0": {
             "value": "1"
+          },
+          "PCW_EN_UART1": {
+            "value": "0"
           },
           "PCW_FPGA_FCLK0_ENABLE": {
             "value": "1"
+          },
+          "PCW_MIO_14_IOTYPE": {
+            "value": "LVCMOS 3.3V"
+          },
+          "PCW_MIO_14_PULLUP": {
+            "value": "enabled"
+          },
+          "PCW_MIO_14_SLEW": {
+            "value": "slow"
+          },
+          "PCW_MIO_15_IOTYPE": {
+            "value": "LVCMOS 3.3V"
+          },
+          "PCW_MIO_15_PULLUP": {
+            "value": "enabled"
+          },
+          "PCW_MIO_15_SLEW": {
+            "value": "slow"
           },
           "PCW_MIO_16_IOTYPE": {
             "value": "LVCMOS 1.8V"
@@ -682,33 +706,15 @@
           "PCW_MIO_45_SLEW": {
             "value": "slow"
           },
-          "PCW_MIO_48_IOTYPE": {
-            "value": "LVCMOS 1.8V"
-          },
-          "PCW_MIO_48_PULLUP": {
-            "value": "enabled"
-          },
-          "PCW_MIO_48_SLEW": {
-            "value": "slow"
-          },
-          "PCW_MIO_49_IOTYPE": {
-            "value": "LVCMOS 1.8V"
-          },
-          "PCW_MIO_49_PULLUP": {
-            "value": "enabled"
-          },
-          "PCW_MIO_49_SLEW": {
-            "value": "slow"
-          },
           "PCW_MIO_TREE_PERIPHERALS": {
             "value": [
-              "unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#Enet 0#Enet 0#Enet",
-              "0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#SD",
-              "0#SD 0#SD 0#SD 0#SD 0#SD 0#unassigned#unassigned#UART 1#UART 1#unassigned#unassigned#unassigned#unassigned"
+              "unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#UART 0#UART 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet",
+              "0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#Enet 0#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#SD 0#SD 0#SD 0#SD",
+              "0#SD 0#SD 0#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned"
             ]
           },
           "PCW_MIO_TREE_SIGNALS": {
-            "value": "unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#tx_clk#txd[0]#txd[1]#txd[2]#txd[3]#tx_ctl#rx_clk#rxd[0]#rxd[1]#rxd[2]#rxd[3]#rx_ctl#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#clk#cmd#data[0]#data[1]#data[2]#data[3]#unassigned#unassigned#tx#rx#unassigned#unassigned#unassigned#unassigned"
+            "value": "unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#rx#tx#tx_clk#txd[0]#txd[1]#txd[2]#txd[3]#tx_ctl#rx_clk#rxd[0]#rxd[1]#rxd[2]#rxd[3]#rx_ctl#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#clk#cmd#data[0]#data[1]#data[2]#data[3]#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned"
           },
           "PCW_PRESET_BANK1_VOLTAGE": {
             "value": "LVCMOS 1.8V"
@@ -734,14 +740,17 @@
           "PCW_SDIO_PERIPHERAL_VALID": {
             "value": "1"
           },
-          "PCW_UART1_GRP_FULL_ENABLE": {
+          "PCW_UART0_GRP_FULL_ENABLE": {
             "value": "0"
           },
-          "PCW_UART1_PERIPHERAL_ENABLE": {
+          "PCW_UART0_PERIPHERAL_ENABLE": {
             "value": "1"
           },
-          "PCW_UART1_UART1_IO": {
-            "value": "MIO 48 .. 49"
+          "PCW_UART0_UART0_IO": {
+            "value": "MIO 14 .. 15"
+          },
+          "PCW_UART1_PERIPHERAL_ENABLE": {
+            "value": "0"
           },
           "PCW_UART_PERIPHERAL_FREQMHZ": {
             "value": "100"

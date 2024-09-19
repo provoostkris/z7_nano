@@ -2,7 +2,7 @@
 -- Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
--- Date        : Wed Sep 18 20:26:02 2024
+-- Date        : Thu Sep 19 21:40:17 2024
 -- Host        : vivobook running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
 --               d:/github/z7_nano/lan/bd_base/prj_bd_base.gen/sources_1/bd/bd_base/ip/bd_base_rst_ps7_0_50M_0/bd_base_rst_ps7_0_50M_0_sim_netlist.vhdl
