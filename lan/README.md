@@ -11,9 +11,9 @@ the system is kept to a very minimal setup and shown below:
 
 
 ### Features
-PHY itf : 1 Gbps
-MAC itf : RGMII @ 4 x 125 MHz DDR
-MAC : Layer 2 frame processing TX and RX
+- PHY itf : 1 Gbps
+- MAC itf : RGMII @ 4 x 125 MHz DDR
+- MAC : Layer 2 frame processing TX and RX
 
 ### [I/O](constraints)
 - PL ETH 

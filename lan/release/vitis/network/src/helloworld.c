@@ -45,17 +45,61 @@
  *   ps7_uart    115200 (configured by bootrom/bsp)
  */
 
+#include <xil_io.h>
+
 #include <stdio.h>
 #include "platform.h"
 #include "xil_printf.h"
 
 
+#define AXIS_FIFO_BASE_ADDR 0x43C00000
+#define XUARTPS_BASE_ADDR   0xE0000000
+#define XTTCPS_BASE_ADDR    0xF8001000
+
 int main()
 {
     init_platform();
 
-    print("Hello World\n\r");
-    print("Successfully ran Hello World application");
+    u32 data;
+
+    print("UART 0 regs\n");
+    data = Xil_In32(XUARTPS_BASE_ADDR+0x0000);
+    xil_printf("%x\n", data);
+    print("TTC 0 regs\n");
+    data = Xil_In32(XTTCPS_BASE_ADDR+0x0010);
+    xil_printf("%x\n", data);
+
+    print("AXIS TX 64 bytes \n");
+    data = 0x11111111;
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+    data = 0x22222222;
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+    data = 0x33333333;
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+    data = 0x44444444;
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
+
+    data = Xil_In32(AXIS_FIFO_BASE_ADDR+0x000C);
+    xil_printf("%x\n", data);
+
+    data = 0x40;
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x14, data);
+
+    data = Xil_In32(AXIS_FIFO_BASE_ADDR+0x0000);
+    xil_printf("%x\n", data);
+
     cleanup_platform();
     return 0;
 }
