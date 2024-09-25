@@ -22,6 +22,13 @@ the system is kept to a very minimal setup and shown below:
   - on  = active
 - RESET button press = send a dummy frame
 
+### Development environment
+- Windows 11 
+- Vivado 2023.1
+- Vitis 2023.1
+- Modelsim 10.5
+- Notepadd++
+- Wireshark
 
 ### Simulation
 The [scripts/modelsim](scripts/modelsim/) folder contains the required do files to be loaded by modelsim.
@@ -30,13 +37,19 @@ The [scripts/modelsim](scripts/modelsim/) folder contains the required do files 
 Note : The first time the simulation is started, the vivado is required to build the simulation libraries containing the primitives
 to do this , use gen_sim_libs.tcl in [scripts/vivado](scripts/vivado/) to create the xilinx libraries
 
-### Releasing
+### FPGA release
 The [scripts/vivado](scripts/vivado/) folder contains the required tcl files to be loaded by vivado.
   - Open vivado 
   - Select run script from the menu
   - Select build.tcl
+The script will create the project and output files and save into [release/vivado/](release/vivado/)
 Note : The first time the build is started, the block design must be generated
 to do this , use bd_base.tcl in [scripts/vivado/](scripts/vivado/) to create the base block design
+
+### SW release
+The application is currently a demonstration , to be ran on the first core of the PS system.
+For now the GUI is used to write the code and load into the device. Relevant Vitis files are
+stored in the [release/vitis/](release/vitis/)
 
 ### Testing
 For testing a [wireshark](https://www.wireshark.org/) is installed on a normal windows laptop.
@@ -48,3 +61,7 @@ Open wireshark and start sniffing.
 With a dummy packet , the wireshark is able to recieve about 200 Mbps in a setup
 FPGA ETH TX >> ETH2USB >> LAN 
 where the Ethernet adapter is from a cheap brand and suspected to cause the drop in bandwidth
+
+When the application is loaded, it will send 1 useless frame
+the packet can be found in Wireshark
+![wireshark_01](img/wireshark_01.png)
