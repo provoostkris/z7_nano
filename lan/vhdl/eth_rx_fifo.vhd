@@ -56,13 +56,14 @@ architecture rtl of eth_rx_fifo is
   signal fifo_di      : std_logic_vector(8 downto 0);
   signal fifo_do      : std_logic_vector(8 downto 0);
   signal fifo_rden    : std_logic;
+  signal fifo_rd_valid: std_logic;
 
 begin
 
 -- signal assignments
   s_rst         <= not s_rst_n;
   fifo_di       <= s_eof & s_rxdata;
-  fifo_rden     <= m_dat_tready when s_ctrl = stream else 
+  fifo_rden     <= m_dat_tready when s_ctrl = stream else
                    '0';
 
    -- FIFO_DUALCLOCK_MACRO: Dual-Clock First-In, First-Out (FIFO) RAM Buffer
@@ -106,6 +107,7 @@ begin
         m_dat_tdata   <= ( others => '0');
         m_dat_tlast   <= '0';
         m_dat_tvalid  <= '0';
+        fifo_rd_valid <= '0';
       elsif rising_edge(m_clk) then
         case s_ctrl is
 
@@ -118,7 +120,7 @@ begin
           when idle =>
             m_dat_tdata   <= ( others => '0');
             m_dat_tlast   <= '0';
-            m_dat_tvalid  <= '0';
+            fifo_rd_valid <= '0';
 
             if fifo_a_empty = '0' then
               s_ctrl     <= stream;
@@ -128,17 +130,20 @@ begin
             if m_dat_tready = '1' then
               m_dat_tdata   <= fifo_do(7 downto 0);
               m_dat_tlast   <= fifo_do(8);
-              m_dat_tvalid  <= '1';
+              fifo_rd_valid <= '1';
             else
               m_dat_tdata   <= ( others => '0');
               m_dat_tlast   <= '0';
-              m_dat_tvalid  <= '0';
+              fifo_rd_valid <= '0';
             end if;
 
             if fifo_do(8) = '1' then
               s_ctrl     <= idle;
             end if;
         end case;
+
+        -- extra cycle needed to catch data from the FIFO
+        m_dat_tvalid  <= fifo_rd_valid;
       end if;
   end process;
 
