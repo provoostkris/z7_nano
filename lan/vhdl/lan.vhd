@@ -70,11 +70,14 @@ architecture rtl of lan is
   signal clk_txfr   : std_logic; --! clock for transfer between PS and PL
 
 --! signals on tx channel
-
-  -- signal s_tx_dat_tready  : std_logic;
-  -- signal s_tx_dat_tdata   : std_logic_vector(7 downto 0);
-  -- signal s_tx_dat_tlast   : std_logic;
-  -- signal s_tx_dat_tvalid  : std_logic;
+  signal s_tx_dat_tready  : std_logic;
+  signal s_tx_dat_tdata   : std_logic_vector(7 downto 0);
+  signal s_tx_dat_tkeep   : std_logic_vector(0 downto 0);
+  signal s_tx_dat_tlast   : std_logic;
+  signal s_tx_dat_tvalid  : std_logic;
+  signal s_tx_dat_tid     : std_logic_vector(0 downto 0);
+  signal s_tx_dat_tdest   : std_logic_vector(0 downto 0);
+  signal s_tx_dat_tuser   : std_logic_vector(0 downto 0);
 
   signal sof, eof     : std_logic;
   signal ctxdata      : std_logic_vector(7 downto 0);
@@ -85,6 +88,11 @@ architecture rtl of lan is
   signal cenettxerr   : std_logic;
 
 --! signals on rx channel
+  signal s_rx_dat_tready  : std_logic;
+  signal s_rx_dat_tdata   : std_logic_vector(7 downto 0);
+  signal s_rx_dat_tlast   : std_logic;
+  signal s_rx_dat_tvalid  : std_logic;
+
   signal csof        : std_logic;
   signal ceof        : std_logic;
   signal cerrlen     : std_logic;
@@ -98,9 +106,13 @@ architecture rtl of lan is
 
 --! signals for AXIS CH 0
   signal AXI_STR_RXD_0_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_RXD_0_tkeep  : STD_LOGIC_VECTOR (  3 downto 0 );
   signal AXI_STR_RXD_0_tlast  : STD_LOGIC;
   signal AXI_STR_RXD_0_tready : STD_LOGIC;
   signal AXI_STR_RXD_0_tvalid : STD_LOGIC;
+  signal AXI_STR_RXD_0_tid    : STD_LOGIC_VECTOR (  0 downto 0 );
+  signal AXI_STR_RXD_0_tdest  : STD_LOGIC_VECTOR (  0 downto 0 );
+  signal AXI_STR_RXD_0_tuser  : STD_LOGIC_VECTOR (  0 downto 0 );
 
   signal AXI_STR_TXD_0_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal AXI_STR_TXD_0_tlast  : STD_LOGIC;
@@ -137,7 +149,7 @@ begin
   rst      <= not locked;
   rst_n    <=     locked;
   pll_lock <=     locked;
-  
+
   gen_ps_clk: if g_sim = false generate
     clk_txfr <= fclk_clk;
   end generate;
@@ -163,15 +175,44 @@ begin
       -- m_dat_tvalid  => s_tx_dat_tvalid
     -- );
 
+  i_axis_width_converter_tx : entity work.axis_adapter
+    generic map (
+      S_DATA_WIDTH    => 32,
+      M_DATA_WIDTH    => 8
+      )
+    port map (
+      -- Usual ports
+      clk      => clk_txfr,
+      rst      => rst,
+      -- AXI stream input
+      s_axis_tready => AXI_STR_TXD_0_tready,
+      s_axis_tdata  => AXI_STR_TXD_0_tdata,
+      s_axis_tkeep  => "1111",
+      s_axis_tvalid => AXI_STR_TXD_0_tvalid,
+      s_axis_tlast  => AXI_STR_TXD_0_tlast,
+      s_axis_tid    => "1",
+      s_axis_tdest  => "1",
+      s_axis_tuser  => "1",
+      -- AXI stream output
+      m_axis_tready => s_tx_dat_tready,
+      m_axis_tdata  => s_tx_dat_tdata,
+      m_axis_tkeep  => s_tx_dat_tkeep,
+      m_axis_tvalid => s_tx_dat_tvalid,
+      m_axis_tlast  => s_tx_dat_tlast,
+      m_axis_tid    => s_tx_dat_tid,
+      m_axis_tdest  => s_tx_dat_tdest,
+      m_axis_tuser  => s_tx_dat_tuser
+    );
+
   --! user logic to tx_fifo
   i_rgmii_tx_fifo : entity work.rgmii_tx_fifo
     port map (
       s_clk         => clk_txfr,
       s_rst_n       => rst_n,
-      s_dat_tready  => AXI_STR_TXD_0_tready,
-      s_dat_tdata   => AXI_STR_TXD_0_tdata(7 downto 0),
-      s_dat_tlast   => AXI_STR_TXD_0_tlast,
-      s_dat_tvalid  => AXI_STR_TXD_0_tvalid,
+      s_dat_tready  => s_tx_dat_tready,
+      s_dat_tdata   => s_tx_dat_tdata ,
+      s_dat_tlast   => s_tx_dat_tlast ,
+      s_dat_tvalid  => s_tx_dat_tvalid,
 
       m_clk         => clk_eth,
       m_rst_n       => rst_n,
@@ -199,7 +240,7 @@ begin
       otxerr       => cenettxerr
     );
 
-  --! normal to reduced interface adapter
+  --! RGMII TX PHY : normal to reduced interface adapter
   i_rgmii_tx_ddr: entity work.rgmii_tx_ddr
     port map (
       rst          => rst,
@@ -214,7 +255,7 @@ begin
       rgmii_td     => rgmii_td
     );
 
-  --! reduced to normal interface adapter
+  --! RGMII RX PHY : reduced to normal interface adapter
   i_rgmii_rx_ddr: entity work.rgmii_rx_ddr
     port map(
 
@@ -229,10 +270,9 @@ begin
       gmii_rd     => cenetrxdata
     );
 
-  --! ethernet frame reciever
+  --! ethernet frame reciever : check ethernet header
   i_eth_frm_rx : entity work.eth_frm_rx
     port map (
-      -- iclk               => clk_eth,
       iclk               => rgmii_rxc,
       irst_n             => rst_n,
 
@@ -254,7 +294,7 @@ begin
       orxdv              => crxdv
     );
 
-  --! ethernet frame fifo
+  --! RX frame fifo : buffer before sending to block design
   i_eth_rx_fifo : entity work.eth_rx_fifo
     port map (
     s_clk         => rgmii_rxc,
@@ -266,13 +306,41 @@ begin
 
     m_clk         => clk_txfr,
     m_rst_n       => rst_n,
-    m_dat_tready  => AXI_STR_RXD_0_tready,
-    m_dat_tdata   => AXI_STR_RXD_0_tdata(7 downto 0),
-    m_dat_tlast   => AXI_STR_RXD_0_tlast,
-    m_dat_tvalid  => AXI_STR_RXD_0_tvalid
+    m_dat_tready  => s_rx_dat_tready,
+    m_dat_tdata   => s_rx_dat_tdata,
+    m_dat_tlast   => s_rx_dat_tlast,
+    m_dat_tvalid  => s_rx_dat_tvalid
     );
 
-    AXI_STR_RXD_0_tdata(31 downto 8) <= ( others => '0');
+  --! convert from byte to word
+  i_axis_width_converter_rx : entity work.axis_adapter
+    generic map (
+      S_DATA_WIDTH    => 8,
+      M_DATA_WIDTH   => 32
+      )
+    port map (
+      -- Usual ports
+      clk      => clk_txfr,
+      rst      => rst,
+      -- AXI stream input
+      s_axis_tready => s_rx_dat_tready,
+      s_axis_tdata  => s_rx_dat_tdata,
+      s_axis_tkeep  => "1",
+      s_axis_tvalid => s_rx_dat_tvalid,
+      s_axis_tlast  => s_rx_dat_tlast,
+      s_axis_tid    => "1",
+      s_axis_tdest  => "1",
+      s_axis_tuser  => "1",
+      -- AXI stream output
+      m_axis_tready => AXI_STR_RXD_0_tready,
+      m_axis_tdata  => AXI_STR_RXD_0_tdata,
+      m_axis_tkeep  => AXI_STR_RXD_0_tkeep,
+      m_axis_tvalid => AXI_STR_RXD_0_tvalid,
+      m_axis_tlast  => AXI_STR_RXD_0_tlast,
+      m_axis_tid    => AXI_STR_RXD_0_tid,
+      m_axis_tdest  => AXI_STR_RXD_0_tdest,
+      m_axis_tuser  => AXI_STR_RXD_0_tuser
+    );
 
 --! we need a pll to make 125.0 mhz from the 50 mhz
 --! that ratio is x2.5 , pll needs a number that is with a granularity off 0.125
