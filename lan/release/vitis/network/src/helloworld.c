@@ -46,6 +46,7 @@
  */
 
 #include <xil_io.h>
+#include <sleep.h>
 
 #include <stdio.h>
 #include "platform.h"
@@ -60,45 +61,59 @@ int main()
 {
     init_platform();
 
-    u32 data;
+    int i;
+    int j;
+    u8 data[64];
+
+    //mac_dst
+    data[0] = 0x21;
+    data[1] = 0x22;
+    data[2] = 0x23;
+    data[3] = 0x24;
+    data[4] = 0x25;
+    data[5] = 0x26;
+    //mac_src
+    data[6]  = 0x11;
+    data[7]  = 0x12;
+    data[8]  = 0x13;
+    data[9]  = 0x14;
+    data[10] = 0x15;
+    data[11] = 0x16;
+    for (i=12; i<64; i++){
+    	data[i] = i;
+    }
+
+    u32 wr_data;
+    u32 rd_data;
 
     print("UART 0 regs\n");
-    data = Xil_In32(XUARTPS_BASE_ADDR+0x0000);
-    xil_printf("%x\n", data);
+    rd_data = Xil_In32(XUARTPS_BASE_ADDR+0x0000);
+    xil_printf("%x\n", rd_data);
     print("TTC 0 regs\n");
-    data = Xil_In32(XTTCPS_BASE_ADDR+0x0010);
-    xil_printf("%x\n", data);
+    rd_data = Xil_In32(XTTCPS_BASE_ADDR+0x0010);
+    xil_printf("%x\n", rd_data);
 
-    print("AXIS TX 64 bytes \n");
-    data = 0x11111111;
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-    data = 0x22222222;
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-    data = 0x33333333;
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-    data = 0x44444444;
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, data);
 
-    data = Xil_In32(AXIS_FIFO_BASE_ADDR+0x000C);
-    xil_printf("%x\n", data);
+    for (j=0; j<99; j++){
+		print("AXIS TX dummy packet \n");
 
-    data = 0x40;
-	Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x14, data);
+		for (i=0; i<64; i=i+4){
+			uint32_t wr_data = ((data[i+3]<<24) | (data[i+2]<<16) | (data[i+1]<<8) | (data[i+0]<<0));
+			Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, wr_data);
+			xil_printf("%x  : %x\n", i , wr_data);
+		}
 
-    data = Xil_In32(AXIS_FIFO_BASE_ADDR+0x0000);
-    xil_printf("%x\n", data);
+		rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+0x000C);
+		xil_printf("%x\n", rd_data);
+
+		wr_data = 0x40;
+		Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x14, wr_data);
+
+		rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+0x0000);
+		xil_printf("%x\n", rd_data);
+
+		sleep(1);
+    }
 
     cleanup_platform();
     return 0;
