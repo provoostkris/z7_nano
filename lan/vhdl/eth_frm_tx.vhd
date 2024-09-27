@@ -2,7 +2,7 @@
 -- Title      : 
 -- Project    : 
 -------------------------------------------------------------------------------
--- File       : rgmii_tx.vhd
+-- File       : eth_frm_tx.vhd
 -- Author     : liyi  <alxiuyain@foxmail.com>
 -- Company    : OE@HUST
 -- Created    : 2012-11-15
@@ -22,28 +22,28 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 -------------------------------------------------------------------------------
-ENTITY rgmii_tx IS
+ENTITY eth_frm_tx IS
 
   PORT (
     iClk   : IN STD_LOGIC;
     iRst_n : IN STD_LOGIC;
 
-    -- from fifo
-    iTxData     : IN  STD_LOGIC_VECTOR(7 DOWNTO 0);
-    oSOF        : OUT STD_LOGIC;
-    iEOF        : IN  STD_LOGIC;
-    iGenFrame   : IN  STD_LOGIC;
+    -- signal from stream
+    iTxData      : IN  STD_LOGIC_VECTOR(7 DOWNTO 0);
+    oSOF         : OUT STD_LOGIC;
+    iEOF         : IN  STD_LOGIC;
+    iGenFrame    : IN  STD_LOGIC;
     oGenFrameAck : OUT STD_LOGIC;
 
     -- signals TO PHY
-    oTxData : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-    oTxEn   : OUT STD_LOGIC;
-    oTxErr  : OUT STD_LOGIC
+    oTxData      : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+    oTxEn        : OUT STD_LOGIC;
+    oTxErr       : OUT STD_LOGIC
     );
 
-END ENTITY rgmii_tx;
+END ENTITY eth_frm_tx;
 -------------------------------------------------------------------------------
-ARCHITECTURE rtl OF rgmii_tx IS
+ARCHITECTURE rtl OF eth_frm_tx IS
 
   TYPE state_t IS (IDLE, PREAMBLE, SEND_DATA, PAD, SEND_CRC, IPG);
   SIGNAL state                      : state_t;
