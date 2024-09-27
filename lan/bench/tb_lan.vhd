@@ -222,6 +222,9 @@ with test_mode select
       -- wait until the clocks are running and reset is over
       wait until pll_lock = '1';
  	    proc_wait_clk(rx_clk, 5);
+      -- for i in 0 to v_len + 7 loop
+        -- report to_string(eth_pkt(i));
+      -- end loop;
 
       -- then transmit the packet
  	    for i in 0 to v_len + 7 loop
@@ -271,10 +274,15 @@ with test_mode select
       v_eth_pkt(0 to v_len - 1) := f_eth_create_pkt(v_header, v_payload);               -- create the packet
       v_eth_pkt(0 to v_len + 7) := f_concat(C_ETH_PREAMBLE, v_eth_pkt(0 to v_len - 1)); -- add preamble
 
-      -- create packet for transmission and wait for PLL to lock
+      -- create packet for transmission
 	    proc_reset(3);
       eth_pkt       <= v_eth_pkt;
- 	    proc_wait_clk(rx_clk, 250);
+      -- wait until the clocks are running and reset is over
+      wait until pll_lock = '1';
+ 	    proc_wait_clk(rx_clk, 5);
+      -- for i in 0 to v_len + 7 loop
+        -- report to_string(eth_pkt(i));
+      -- end loop;
 
       -- then transmit the packet
  	    for i in 0 to v_len + 7 loop
