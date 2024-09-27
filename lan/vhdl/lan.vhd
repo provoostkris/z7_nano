@@ -113,11 +113,25 @@ architecture rtl of lan is
   signal AXI_STR_RXD_0_tid    : STD_LOGIC_VECTOR (  0 downto 0 );
   signal AXI_STR_RXD_0_tdest  : STD_LOGIC_VECTOR (  0 downto 0 );
   signal AXI_STR_RXD_0_tuser  : STD_LOGIC_VECTOR (  0 downto 0 );
+  
+  signal AXI_STR_RXD_DBG_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_RXD_DBG_tkeep  : STD_LOGIC_VECTOR (  3 downto 0 );
+  signal AXI_STR_RXD_DBG_tlast  : STD_LOGIC;
+  signal AXI_STR_RXD_DBG_tready : STD_LOGIC;
+  signal AXI_STR_RXD_DBG_tvalid : STD_LOGIC;
+  signal AXI_STR_RXD_DBG_tid    : STD_LOGIC_VECTOR (  0 downto 0 );
+  signal AXI_STR_RXD_DBG_tdest  : STD_LOGIC_VECTOR (  0 downto 0 );
+  signal AXI_STR_RXD_DBG_tuser  : STD_LOGIC_VECTOR (  0 downto 0 );
 
   signal AXI_STR_TXD_0_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal AXI_STR_TXD_0_tlast  : STD_LOGIC;
   signal AXI_STR_TXD_0_tready : STD_LOGIC;
   signal AXI_STR_TXD_0_tvalid : STD_LOGIC;
+
+  signal AXI_STR_TXD_DBG_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_TXD_DBG_tlast  : STD_LOGIC;
+  signal AXI_STR_TXD_DBG_tready : STD_LOGIC;
+  signal AXI_STR_TXD_DBG_tvalid : STD_LOGIC;
 
 
 --! spare signals on block design
@@ -165,15 +179,15 @@ begin
 
 
   --! user logic with ROM
-  -- i_rom_tx : entity work.rom_tx
-    -- port map (
-      -- clk           => clk_eth,
-      -- rst_n         => rst_n,
-      -- m_dat_tready  => s_tx_dat_tready,
-      -- m_dat_tdata   => s_tx_dat_tdata ,
-      -- m_dat_tlast   => s_tx_dat_tlast ,
-      -- m_dat_tvalid  => s_tx_dat_tvalid
-    -- );
+  i_rom_tx : entity work.rom_tx
+    port map (
+      clk           => clk_txfr,
+      rst_n         => rst_n,
+      m_dat_tready  => AXI_STR_TXD_DBG_tready,
+      m_dat_tdata   => AXI_STR_TXD_DBG_tdata ,
+      m_dat_tlast   => AXI_STR_TXD_DBG_tlast ,
+      m_dat_tvalid  => AXI_STR_TXD_DBG_tvalid
+    );
 
   i_axis_width_converter_tx : entity work.axis_adapter
     generic map (
@@ -185,11 +199,11 @@ begin
       clk      => clk_txfr,
       rst      => rst,
       -- AXI stream input
-      s_axis_tready => AXI_STR_TXD_0_tready,
-      s_axis_tdata  => AXI_STR_TXD_0_tdata,
+      s_axis_tready => AXI_STR_TXD_DBG_tready,
+      s_axis_tdata  => AXI_STR_TXD_DBG_tdata,
       s_axis_tkeep  => "1111",
-      s_axis_tvalid => AXI_STR_TXD_0_tvalid,
-      s_axis_tlast  => AXI_STR_TXD_0_tlast,
+      s_axis_tvalid => AXI_STR_TXD_DBG_tvalid,
+      s_axis_tlast  => AXI_STR_TXD_DBG_tlast,
       s_axis_tid    => "1",
       s_axis_tdest  => "1",
       s_axis_tuser  => "1",
@@ -332,15 +346,17 @@ begin
       s_axis_tdest  => "1",
       s_axis_tuser  => "1",
       -- AXI stream output
-      m_axis_tready => AXI_STR_RXD_0_tready,
-      m_axis_tdata  => AXI_STR_RXD_0_tdata,
-      m_axis_tkeep  => AXI_STR_RXD_0_tkeep,
-      m_axis_tvalid => AXI_STR_RXD_0_tvalid,
-      m_axis_tlast  => AXI_STR_RXD_0_tlast,
-      m_axis_tid    => AXI_STR_RXD_0_tid,
-      m_axis_tdest  => AXI_STR_RXD_0_tdest,
-      m_axis_tuser  => AXI_STR_RXD_0_tuser
+      m_axis_tready => AXI_STR_RXD_DBG_tready,
+      m_axis_tdata  => AXI_STR_RXD_DBG_tdata,
+      m_axis_tkeep  => AXI_STR_RXD_DBG_tkeep,
+      m_axis_tvalid => AXI_STR_RXD_DBG_tvalid,
+      m_axis_tlast  => AXI_STR_RXD_DBG_tlast,
+      m_axis_tid    => AXI_STR_RXD_DBG_tid,
+      m_axis_tdest  => AXI_STR_RXD_DBG_tdest,
+      m_axis_tuser  => AXI_STR_RXD_DBG_tuser
     );
+    
+    AXI_STR_RXD_DBG_tready <= '1';
 
 --! we need a pll to make 125.0 mhz from the 50 mhz
 --! that ratio is x2.5 , pll needs a number that is with a granularity off 0.125
