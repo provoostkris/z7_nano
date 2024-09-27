@@ -6,7 +6,7 @@
 library ieee;
 use     ieee.std_logic_1164.all;
 use     ieee.numeric_std.all;
-use     work.eth_pkg.all;
+use     work.lan_pkg.all;
 -------------------------------------------------------------------------------
 entity eth_frm_rx is
 
@@ -214,7 +214,6 @@ begin
         when source_mac =>
           -- raise a flag when the frame was for me
           if destmacaddr = my_dest_mac           -- unicast
-          or destmacaddr = mac_addr_ctrl         -- multicast for flow control
           or destmacaddr = x"ffffffffffff" then  -- broadcast
             mac_match <= '1';
           end if;
