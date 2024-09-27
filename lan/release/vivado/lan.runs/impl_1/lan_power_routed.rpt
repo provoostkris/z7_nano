@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date             : Wed Sep 25 21:43:23 2024
+| Date             : Fri Sep 27 15:37:15 2024
 | Host             : vivobook running 64-bit major release  (build 9200)
 | Command          : report_power -file lan_power_routed.rpt -pb lan_power_summary_routed.pb -rpx lan_power_routed.rpx
 | Design           : lan
@@ -53,15 +53,15 @@ Table of Contents
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
 | Clocks                   |     0.012 |        9 |       --- |             --- |
-| Slice Logic              |     0.002 |     7812 |       --- |             --- |
-|   LUT as Logic           |     0.002 |     2411 |     53200 |            4.53 |
-|   Register               |    <0.001 |     3676 |    106400 |            3.45 |
+| Slice Logic              |     0.002 |     7814 |       --- |             --- |
+|   LUT as Logic           |     0.002 |     2410 |     53200 |            4.53 |
+|   Register               |    <0.001 |     3677 |    106400 |            3.46 |
 |   CARRY4                 |    <0.001 |      132 |     13300 |            0.99 |
 |   LUT as Shift Register  |    <0.001 |      225 |     17400 |            1.29 |
 |   LUT as Distributed RAM |    <0.001 |       80 |     17400 |            0.46 |
 |   F7/F8 Muxes            |    <0.001 |       20 |     53200 |            0.04 |
 |   Others                 |     0.000 |      548 |       --- |             --- |
-| Signals                  |     0.003 |     5485 |       --- |             --- |
+| Signals                  |     0.003 |     5488 |       --- |             --- |
 | Block RAM                |     0.002 |        5 |       140 |            3.57 |
 | MMCM                     |     0.119 |        1 |         4 |           25.00 |
 | I/O                      |     0.059 |       17 |       125 |           13.60 |
@@ -169,7 +169,7 @@ Table of Contents
 |   dbg_hub                |     0.002 |
 |     inst                 |     0.002 |
 |       BSCANID.u_xsdbm_id |     0.002 |
-|   i_eth_frm_rx           |     0.001 |
+|   i_eth_frm_rx           |     0.002 |
 |   i_rgmii_tx             |     0.003 |
 |     i_eth_crc32          |     0.002 |
 |   i_rgmii_tx_fifo        |     0.001 |

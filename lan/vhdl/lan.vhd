@@ -199,11 +199,11 @@ begin
       clk      => clk_txfr,
       rst      => rst,
       -- AXI stream input
-      s_axis_tready => AXI_STR_TXD_DBG_tready,
-      s_axis_tdata  => AXI_STR_TXD_DBG_tdata,
+      s_axis_tready => AXI_STR_TXD_0_tready,
+      s_axis_tdata  => AXI_STR_TXD_0_tdata,
       s_axis_tkeep  => "1111",
-      s_axis_tvalid => AXI_STR_TXD_DBG_tvalid,
-      s_axis_tlast  => AXI_STR_TXD_DBG_tlast,
+      s_axis_tvalid => AXI_STR_TXD_0_tvalid,
+      s_axis_tlast  => AXI_STR_TXD_0_tlast,
       s_axis_tid    => "1",
       s_axis_tdest  => "1",
       s_axis_tuser  => "1",
@@ -346,14 +346,14 @@ begin
       s_axis_tdest  => "1",
       s_axis_tuser  => "1",
       -- AXI stream output
-      m_axis_tready => AXI_STR_RXD_DBG_tready,
-      m_axis_tdata  => AXI_STR_RXD_DBG_tdata,
-      m_axis_tkeep  => AXI_STR_RXD_DBG_tkeep,
-      m_axis_tvalid => AXI_STR_RXD_DBG_tvalid,
-      m_axis_tlast  => AXI_STR_RXD_DBG_tlast,
-      m_axis_tid    => AXI_STR_RXD_DBG_tid,
-      m_axis_tdest  => AXI_STR_RXD_DBG_tdest,
-      m_axis_tuser  => AXI_STR_RXD_DBG_tuser
+      m_axis_tready => AXI_STR_RXD_0_tready,
+      m_axis_tdata  => AXI_STR_RXD_0_tdata,
+      m_axis_tkeep  => AXI_STR_RXD_0_tkeep,
+      m_axis_tvalid => AXI_STR_RXD_0_tvalid,
+      m_axis_tlast  => AXI_STR_RXD_0_tlast,
+      m_axis_tid    => AXI_STR_RXD_0_tid,
+      m_axis_tdest  => AXI_STR_RXD_0_tdest,
+      m_axis_tuser  => AXI_STR_RXD_0_tuser
     );
     
     AXI_STR_RXD_DBG_tready <= '1';
