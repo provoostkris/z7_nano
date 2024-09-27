@@ -14,7 +14,7 @@ library unimacro;
 use     unimacro.vcomponents.all;
 
 -------------------------------------------------------------------------------
-entity rgmii_tx_fifo is
+entity eth_tx_fifo is
 
   port (
     -- axis interface from user logic
@@ -35,9 +35,9 @@ entity rgmii_tx_fifo is
     m_genframeack : in  std_logic
     );
 
-end entity rgmii_tx_fifo;
+end entity eth_tx_fifo;
 -------------------------------------------------------------------------------
-architecture rtl of rgmii_tx_fifo is
+architecture rtl of eth_tx_fifo is
 
   type t_state is ( tx_frame_req,
                     tx_frame_ack,
