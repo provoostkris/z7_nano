@@ -130,13 +130,12 @@ begin
             if m_dat_tready = '1' then
               m_dat_tdata   <= fifo_do(7 downto 0);
               m_dat_tlast   <= fifo_do(8);
-              fifo_rd_valid <= '1';
-            else
-              m_dat_tdata   <= ( others => '0');
-              m_dat_tlast   <= '0';
-              fifo_rd_valid <= '0';
             end if;
 
+            -- data is only valid when there was a read
+            fifo_rd_valid <= m_dat_tready;
+
+            -- upper bit correspons to the tlast signal
             if fifo_do(8) = '1' then
               s_ctrl     <= idle;
             end if;
