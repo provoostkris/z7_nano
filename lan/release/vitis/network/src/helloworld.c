@@ -66,19 +66,19 @@ int main()
     u8 data[64];
 
     //mac_dst
-    data[0] = 0x21;
+    data[0] = 0x02;
     data[1] = 0x22;
     data[2] = 0x23;
     data[3] = 0x24;
     data[4] = 0x25;
     data[5] = 0x26;
     //mac_src
-    data[6]  = 0x11;
-    data[7]  = 0x12;
-    data[8]  = 0x13;
-    data[9]  = 0x14;
-    data[10] = 0x15;
-    data[11] = 0x16;
+    data[6]  = 0x06;
+    data[7]  = 0x62;
+    data[8]  = 0x63;
+    data[9]  = 0x64;
+    data[10] = 0x65;
+    data[11] = 0x66;
     for (i=12; i<64; i++){
     	data[i] = i;
     }
