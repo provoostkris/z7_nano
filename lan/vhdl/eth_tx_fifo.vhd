@@ -107,7 +107,7 @@ begin
           when tx_frame_req =>
             m_txdata   <= ( others => '0');
             m_eof      <= '0';
-            if fifo_empty = '0' then
+            if s_dat_tlast = '1' then
               m_genframe <= '1';
               s_ctrl     <= tx_frame_ack;
             end if;
@@ -139,7 +139,12 @@ begin
       if s_rst_n='0' then
         s_dat_tready  <= '0';
       elsif rising_edge(s_clk) then
-        s_dat_tready  <= not fifo_a_full;
+        -- for now simple control logic , only process one frame at a time
+        if s_ctrl = tx_frame_req then
+          s_dat_tready  <= not fifo_a_full;
+        else
+          s_dat_tready  <= '0';
+        end if;
       end if;
   end process;
 
