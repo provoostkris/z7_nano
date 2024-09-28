@@ -60,13 +60,16 @@ architecture rtl of lan is
 
 --! clock and reset tree signals
   signal reset      : std_logic; --! inverted reset input port
-  signal locked     : std_logic; --! lock output from the local PLL
+  signal lock_1     : std_logic; --! lock output from the local PLL
+  signal lock_2     : std_logic; --! lock output from the local PLL
   signal rst        : std_logic; --! PLL locked inverted
   signal rst_n      : std_logic; --! PLL locked copy
-  signal clkfb      : std_logic; --! required feedback clock for PLL
+  signal clkfb1     : std_logic; --! required feedback clock for PLL
+  signal clkfb2     : std_logic; --! required feedback clock for PLL
   signal clk_eth    : std_logic; --! PLL output 125 MHz
   signal fclk_clk   : std_logic; --! exported clock from the PS
   signal clk_slow   : std_logic; --! PLL output  50 MHz
+  signal clk_calib  : std_logic; --! PLL output 200 MHz
   signal clk_txfr   : std_logic; --! clock for transfer between PS and PL
 
 --! signals on tx channel
@@ -95,16 +98,18 @@ architecture rtl of lan is
   signal s_rx_dat_tlast   : std_logic;
   signal s_rx_dat_tvalid  : std_logic;
 
-  signal csof        : std_logic;
-  signal ceof        : std_logic;
-  signal cerrlen     : std_logic;
-  signal cerrchecksum : std_logic;
-  signal cpayloadlen : unsigned(15 downto 0);
-  signal crxdata     : std_logic_vector(7 downto 0);
-  signal crxdv       : std_logic;
-  signal cenetrxdata : std_logic_vector(7 downto 0);
-  signal cenetrxdv   : std_logic;
-  signal cenetrxerr  : std_logic;
+  signal fifo_rx_sof      : std_logic;
+  signal fifo_rx_eof      : std_logic;
+  signal fifo_rx_data     : std_logic_vector(7 downto 0);
+  signal fifo_rx_valid    : std_logic;
+  
+  signal frm_rx_len_err : std_logic;
+  signal frm_rx_crc_err : std_logic;
+  signal frm_rx_pay_len : unsigned(15 downto 0);
+  
+  signal frm_rx_rxdata : std_logic_vector(7 downto 0);
+  signal frm_rx_rxdv   : std_logic;
+  signal frm_rx_rxerr  : std_logic;
 
 --! signals for AXIS CH 0
   signal AXI_STR_RXD_0_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
@@ -167,9 +172,9 @@ begin
 
   phy_rst_n <= '1';
   reset    <= not reset_n;
-  rst      <= not locked;
-  rst_n    <=     locked;
-  pll_lock <=     locked;
+  rst      <= not lock_1;
+  rst_n    <=     lock_1;
+  pll_lock <=     lock_1;
 
   gen_ps_clk: if g_sim = false generate
     clk_txfr <= fclk_clk;
@@ -268,6 +273,8 @@ begin
       rst          => rst,
       clk          => clk_eth,
 
+      ref_clk      => clk_calib,
+
       gmii_td      => frm_tx_data,
       gmii_tx_en   => frm_tx_en,
       gmii_tx_err  => frm_tx_err,
@@ -280,16 +287,15 @@ begin
   --! RGMII RX PHY : reduced to normal interface adapter
   i_rgmii_rx_ddr: entity work.rgmii_rx_ddr
     port map(
-
       rst         => rst,
 
       rgmii_rxc   => rgmii_rxc,
       rgmii_rx_ctl=> rgmii_rx_ctl,
       rgmii_rd    => rgmii_rd    ,
 
-      gmii_rx_dv  => cenetrxdv   ,
-      gmii_rx_err => cenetrxerr  ,
-      gmii_rd     => cenetrxdata
+      gmii_rx_dv  => frm_rx_rxdv   ,
+      gmii_rx_err => frm_rx_rxerr  ,
+      gmii_rd     => frm_rx_rxdata
     );
 
   --! ethernet frame reciever : check ethernet header
@@ -298,22 +304,22 @@ begin
       iclk               => rgmii_rxc,
       irst_n             => rst_n,
 
-      irxdata            => cenetrxdata,
-      irxdv              => cenetrxdv,
-      irxer              => cenetrxerr,
+      irxdata            => frm_rx_rxdata,
+      irxdv              => frm_rx_rxdv,
+      irxer              => frm_rx_rxerr,
 
       orxerr             => open,
-      olenerr            => cerrlen,
-      ochecksumerr       => cerrchecksum,
-      opayloadlen        => cpayloadlen,
+      olenerr            => frm_rx_len_err,
+      ochecksumerr       => frm_rx_crc_err,
+      opayloadlen        => frm_rx_pay_len,
 
       my_dest_mac        => my_mac,
       mac_match          => open,
 
-      osof               => csof,
-      oeof               => ceof,
-      orxdata            => crxdata,
-      orxdv              => crxdv
+      osof               => fifo_rx_sof,
+      oeof               => fifo_rx_eof,
+      orxdata            => fifo_rx_data,
+      orxdv              => fifo_rx_valid
     );
 
   --! RX frame fifo : buffer before sending to block design
@@ -321,10 +327,10 @@ begin
     port map (
     s_clk         => rgmii_rxc,
     s_rst_n       => rst_n,
-    s_sof         => csof,
-    s_eof         => ceof,
-    s_rxdata      => crxdata,
-    s_rxdv        => crxdv,
+    s_sof         => fifo_rx_sof,
+    s_eof         => fifo_rx_eof,
+    s_rxdata      => fifo_rx_data,
+    s_rxdv        => fifo_rx_valid,
 
     m_clk         => clk_txfr,
     m_rst_n       => rst_n,
@@ -373,7 +379,7 @@ begin
    --              artix-7
    -- xilinx hdl language template, version 2023.1
 
-   mmcme2_base_inst : mmcme2_base
+   mmcme2_base_inst1 : mmcme2_base
    generic map (
       bandwidth => "optimized",  -- jitter programming (optimized, high, low)
       clkfbout_mult_f => 25.0,    -- multiply value for all clkout (2.000-64.000).
@@ -422,17 +428,88 @@ begin
       clkout5 => open,     -- 1-bit output: clkout5
       clkout6 => open,     -- 1-bit output: clkout6
       -- feedback clocks: 1-bit (each) output: clock feedback ports
-      clkfbout => clkfb,   -- 1-bit output: feedback clock
+      clkfbout => clkfb1,   -- 1-bit output: feedback clock
       clkfboutb => open, -- 1-bit output: inverted clkfbout
       -- status ports: 1-bit (each) output: mmcm status ports
-      locked => locked,       -- 1-bit output: lock
+      locked => lock_1,       -- 1-bit output: lock
       -- clock inputs: 1-bit (each) input: clock input
       clkin1 => clk,       -- 1-bit input: clock
       -- control ports: 1-bit (each) input: mmcm control ports
       pwrdwn => '0',       -- 1-bit input: power-down
       rst => reset,             -- 1-bit input: reset
       -- feedback clocks: 1-bit (each) input: clock feedback ports
-      clkfbin => clkfb      -- 1-bit input: feedback clock
+      clkfbin => clkfb1      -- 1-bit input: feedback clock
+   );
+
+
+
+--! we need a pll to make 200.0 mhz from the 50 mhz
+--! that ratio is x4.0 , pll needs a number that is with a granularity off 0.125
+
+   -- mmcme2_base: base mixed mode clock manager
+   --              artix-7
+   -- xilinx hdl language template, version 2023.1
+
+   mmcme2_base_inst2 : mmcme2_base
+   generic map (
+      bandwidth => "optimized",  -- jitter programming (optimized, high, low)
+      clkfbout_mult_f => 20.0,    -- multiply value for all clkout (2.000-64.000).
+      clkfbout_phase => 0.0,     -- phase offset in degrees of clkfb (-360.000-360.000).
+      clkin1_period => 20.0,      -- input clock period in ns to ps resolution (i.e. 33.333 is 30 mhz).
+      -- clkout0_divide - clkout6_divide: divide amount for each clkout (1-128)
+      clkout1_divide => 5,
+      clkout2_divide => 1,
+      clkout3_divide => 1,
+      clkout4_divide => 1,
+      clkout5_divide => 1,
+      clkout6_divide => 1,
+      clkout0_divide_f => 1.0,   -- divide amount for clkout0 (1.000-128.000).
+      -- clkout0_duty_cycle - clkout6_duty_cycle: duty cycle for each clkout (0.01-0.99).
+      clkout0_duty_cycle => 0.5,
+      clkout1_duty_cycle => 0.5,
+      clkout2_duty_cycle => 0.5,
+      clkout3_duty_cycle => 0.5,
+      clkout4_duty_cycle => 0.5,
+      clkout5_duty_cycle => 0.5,
+      clkout6_duty_cycle => 0.5,
+      -- clkout0_phase - clkout6_phase: phase offset for each clkout (-360.000-360.000).
+      clkout0_phase => 0.0,
+      clkout1_phase => 0.0,
+      clkout2_phase => 0.0,
+      clkout3_phase => 0.0,
+      clkout4_phase => 0.0,
+      clkout5_phase => 0.0,
+      clkout6_phase => 0.0,
+      clkout4_cascade => false,  -- cascade clkout4 counter with clkout6 (false, true)
+      divclk_divide => 1,        -- master division value (1-106)
+      ref_jitter1 => 0.0,        -- reference input jitter in ui (0.000-0.999).
+      startup_wait => false      -- delays done until mmcm is locked (false, true)
+   )
+   port map (
+      -- clock outputs: 1-bit (each) output: user configurable clock outputs
+      clkout0 => open, -- 1-bit output: clkout0
+      clkout0b => open,   -- 1-bit output: inverted clkout0
+      clkout1 => clk_calib,     -- 1-bit output: clkout1
+      clkout1b => open,   -- 1-bit output: inverted clkout1
+      clkout2 => open,     -- 1-bit output: clkout2
+      clkout2b => open,   -- 1-bit output: inverted clkout2
+      clkout3 => open,     -- 1-bit output: clkout3
+      clkout3b => open,   -- 1-bit output: inverted clkout3
+      clkout4 => open,     -- 1-bit output: clkout4
+      clkout5 => open,     -- 1-bit output: clkout5
+      clkout6 => open,     -- 1-bit output: clkout6
+      -- feedback clocks: 1-bit (each) output: clock feedback ports
+      clkfbout => clkfb2,   -- 1-bit output: feedback clock
+      clkfboutb => open, -- 1-bit output: inverted clkfbout
+      -- status ports: 1-bit (each) output: mmcm status ports
+      locked => lock_2,       -- 1-bit output: lock
+      -- clock inputs: 1-bit (each) input: clock input
+      clkin1 => clk,       -- 1-bit input: clock
+      -- control ports: 1-bit (each) input: mmcm control ports
+      pwrdwn => '0',       -- 1-bit input: power-down
+      rst => reset,             -- 1-bit input: reset
+      -- feedback clocks: 1-bit (each) input: clock feedback ports
+      clkfbin => clkfb2      -- 1-bit input: feedback clock
    );
 
 

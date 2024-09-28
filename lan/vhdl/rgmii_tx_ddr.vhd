@@ -15,6 +15,8 @@ entity rgmii_tx_ddr is
   port (
     rst         : in  std_logic;
     clk         : in  std_logic;
+    
+    ref_clk     : in  std_logic;
 
     gmii_td     : in  std_logic_vector(7 downto 0);
     gmii_tx_en  : in  std_logic;
@@ -33,6 +35,14 @@ architecture rtl of rgmii_tx_ddr is
   signal gmii_qf      : std_logic_vector(3 downto 0);
   signal gmii_ctl_qr  : std_logic;
   signal gmii_ctl_qf  : std_logic;
+
+  attribute IODELAY_GROUP : STRING;
+  -- attribute IODELAY_GROUP of gen_io[0].ODDR_inst  : label is "rgmii_tx_dly";
+  -- attribute IODELAY_GROUP of gen_io[1].ODDR_inst  : label is "rgmii_tx_dly";
+  -- attribute IODELAY_GROUP of gen_io[2].ODDR_inst  : label is "rgmii_tx_dly";
+  -- attribute IODELAY_GROUP of gen_io[3].ODDR_inst  : label is "rgmii_tx_dly";
+  attribute IODELAY_GROUP of i_rgmii_tx_ctl       : label is "rgmii_tx_dly";
+  attribute IODELAY_GROUP of i_rgmii_txc          : label is "rgmii_tx_dly";
 
 begin
 
@@ -107,5 +117,17 @@ end generate gen_io;
       R => rst,    -- 1-bit reset input
       S => '0'     -- 1-bit set input
    );
+
+   -- IDELAYCTRL: IDELAYE2/ODELAYE2 Tap Delay Value Control
+   --             Artix-7
+   -- Xilinx HDL Language Template, version 2023.1
+
+   IDELAYCTRL_inst : IDELAYCTRL
+   port map (
+      RDY => open,       -- 1-bit output: Ready output
+      REFCLK => ref_clk, -- 1-bit input: Reference clock input
+      RST => rst        -- 1-bit input: Active high reset input
+   );
+
 
 end architecture rtl;
