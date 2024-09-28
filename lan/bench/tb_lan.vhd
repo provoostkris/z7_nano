@@ -199,7 +199,7 @@ with test_mode select
     if c_ena_tst_2 then
 	  report " RUN TST.02 ";
     report " .. a test packet is crafted and sent to the DUT";
-    report " .. the DUT is first resetted and a 250 clk cycles is waited for the PLL to lock";
+    report " .. the DUT is first resetted and waited for the PLL to lock";
     report " .. after the packet the IPG sequence is sent to respect the protocol";
 
       mdl_rgmii_rx_ctl <= '0';
@@ -251,14 +251,14 @@ with test_mode select
       mdl_rgmii_rx_ctl <= '0';
       mdl_rgmii_rd     <= ( others => '0');
 
- 	    proc_wait_clk(rx_clk, 250);
+ 	    proc_wait_clk(rx_clk, 450);
 	  report " END TST.02 ";
     end if;
 
     if c_ena_tst_3 then
 	  report " RUN TST.03 ";
     report " .. a dummy packet is crafted x'FE' and sent to the DUT";
-    report " .. the DUT is first resetted and a 250 clk cycles is waited for the PLL to lock";
+    report " .. the DUT is first resetted and waited for the PLL to lock";
     report " .. after the packet the IPG sequence is sent to respect the protocol";
 
       mdl_rgmii_rx_ctl <= '0';
@@ -309,7 +309,7 @@ with test_mode select
       mdl_rgmii_rx_ctl <= '0';
       mdl_rgmii_rd     <= ( others => '0');
 
- 	    proc_wait_clk(rx_clk, 250);
+ 	    proc_wait_clk(rx_clk, 450);
     end if;
 
 	  report " END of test bench" severity failure;
