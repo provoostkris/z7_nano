@@ -79,13 +79,15 @@ architecture rtl of lan is
   signal s_tx_dat_tdest   : std_logic_vector(0 downto 0);
   signal s_tx_dat_tuser   : std_logic_vector(0 downto 0);
 
-  signal sof, eof     : std_logic;
-  signal ctxdata      : std_logic_vector(7 downto 0);
-  signal cgenframe    : std_logic;
-  signal cgenframeack : std_logic;
-  signal cenettxdata  : std_logic_vector(7 downto 0);
-  signal cenettxen    : std_logic;
-  signal cenettxerr   : std_logic;
+  signal fifo_tx_sof      : std_logic;
+  signal fifo_tx_eof      : std_logic;
+  signal fifo_tx_data     : std_logic_vector(7 downto 0);
+  signal fifo_tx_req_frm  : std_logic;
+  signal fifo_tx_ack_frm  : std_logic;
+
+  signal frm_tx_data      : std_logic_vector(7 downto 0);
+  signal frm_tx_en        : std_logic;
+  signal frm_tx_err       : std_logic;
 
 --! signals on rx channel
   signal s_rx_dat_tready  : std_logic;
@@ -113,7 +115,7 @@ architecture rtl of lan is
   signal AXI_STR_RXD_0_tid    : STD_LOGIC_VECTOR (  0 downto 0 );
   signal AXI_STR_RXD_0_tdest  : STD_LOGIC_VECTOR (  0 downto 0 );
   signal AXI_STR_RXD_0_tuser  : STD_LOGIC_VECTOR (  0 downto 0 );
-  
+
   signal AXI_STR_RXD_DBG_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal AXI_STR_RXD_DBG_tkeep  : STD_LOGIC_VECTOR (  3 downto 0 );
   signal AXI_STR_RXD_DBG_tlast  : STD_LOGIC;
@@ -123,10 +125,10 @@ architecture rtl of lan is
   signal AXI_STR_RXD_DBG_tdest  : STD_LOGIC_VECTOR (  0 downto 0 );
   signal AXI_STR_RXD_DBG_tuser  : STD_LOGIC_VECTOR (  0 downto 0 );
 
-  signal AXI_STR_TXD_0_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
-  signal AXI_STR_TXD_0_tlast  : STD_LOGIC;
-  signal AXI_STR_TXD_0_tready : STD_LOGIC;
-  signal AXI_STR_TXD_0_tvalid : STD_LOGIC;
+  signal AXI_STR_TXD_0_tdata    : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_TXD_0_tlast    : STD_LOGIC;
+  signal AXI_STR_TXD_0_tready   : STD_LOGIC;
+  signal AXI_STR_TXD_0_tvalid   : STD_LOGIC;
 
   signal AXI_STR_TXD_DBG_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal AXI_STR_TXD_DBG_tlast  : STD_LOGIC;
@@ -141,20 +143,25 @@ architecture rtl of lan is
 
   attribute MARK_DEBUG : string;
 
-  -- attribute MARK_DEBUG of sof           : signal is "TRUE";
-  -- attribute MARK_DEBUG of eof           : signal is "TRUE";
-  -- attribute MARK_DEBUG of cenettxdata   : signal is "TRUE";
-  -- attribute MARK_DEBUG of cenettxen     : signal is "TRUE";
-  -- attribute MARK_DEBUG of cenettxerr    : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_RXD_0_tdata  : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_RXD_0_tlast  : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_RXD_0_tready : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_RXD_0_tvalid : signal is "TRUE";
   attribute MARK_DEBUG of  AXI_STR_TXD_0_tdata  : signal is "TRUE";
   attribute MARK_DEBUG of  AXI_STR_TXD_0_tlast  : signal is "TRUE";
   attribute MARK_DEBUG of  AXI_STR_TXD_0_tready : signal is "TRUE";
   attribute MARK_DEBUG of  AXI_STR_TXD_0_tvalid : signal is "TRUE";
 
+  attribute MARK_DEBUG of  s_tx_dat_tready      : signal is "TRUE";
+  attribute MARK_DEBUG of  s_tx_dat_tdata       : signal is "TRUE";
+  attribute MARK_DEBUG of  s_tx_dat_tlast       : signal is "TRUE";
+  attribute MARK_DEBUG of  s_tx_dat_tvalid      : signal is "TRUE";
+
+  attribute MARK_DEBUG of  fifo_tx_data         : signal is "TRUE";
+  attribute MARK_DEBUG of  fifo_tx_sof          : signal is "TRUE";
+  attribute MARK_DEBUG of  fifo_tx_eof          : signal is "TRUE";
+  attribute MARK_DEBUG of  fifo_tx_req_frm      : signal is "TRUE";
+  attribute MARK_DEBUG of  fifo_tx_ack_frm      : signal is "TRUE";
+
+  attribute MARK_DEBUG of  frm_tx_data          : signal is "TRUE";
+  attribute MARK_DEBUG of  frm_tx_en            : signal is "TRUE";
+  attribute MARK_DEBUG of  frm_tx_err           : signal is "TRUE";
 
 begin
 
@@ -189,6 +196,7 @@ begin
       m_dat_tvalid  => AXI_STR_TXD_DBG_tvalid
     );
 
+  --! change the stream data width
   i_axis_width_converter_tx : entity work.axis_adapter
     generic map (
       S_DATA_WIDTH    => 32,
@@ -201,9 +209,9 @@ begin
       -- AXI stream input
       s_axis_tready => AXI_STR_TXD_0_tready,
       s_axis_tdata  => AXI_STR_TXD_0_tdata,
-      s_axis_tkeep  => "1111",
       s_axis_tvalid => AXI_STR_TXD_0_tvalid,
       s_axis_tlast  => AXI_STR_TXD_0_tlast,
+      s_axis_tkeep  => "1111",
       s_axis_tid    => "1",
       s_axis_tdest  => "1",
       s_axis_tuser  => "1",
@@ -218,8 +226,8 @@ begin
       m_axis_tuser  => s_tx_dat_tuser
     );
 
-  --! user logic to tx_fifo
-  i_rgmii_tx_fifo : entity work.rgmii_tx_fifo
+  --! data stream to tranmit fifo stream
+  i_eth_tx_fifo : entity work.eth_tx_fifo
     port map (
       s_clk         => clk_txfr,
       s_rst_n       => rst_n,
@@ -230,28 +238,28 @@ begin
 
       m_clk         => clk_eth,
       m_rst_n       => rst_n,
-      m_txdata      => ctxdata,
-      m_sof         => sof,
-      m_eof         => eof,
-      m_genframe    => cgenframe,
-      m_genframeack => cgenframeack
+      m_txdata      => fifo_tx_data,
+      m_sof         => fifo_tx_sof,
+      m_eof         => fifo_tx_eof,
+      m_genframe    => fifo_tx_req_frm,
+      m_genframeack => fifo_tx_ack_frm
     );
 
-  --! tx_fifo to rgmii
-  i_rgmii_tx : entity work.rgmii_tx
+  --! from fifo stream to ethernet frame
+  i_eth_frm_tx : entity work.eth_frm_tx
     port map (
       iclk         => clk_eth,
       irst_n       => rst_n,
 
-      itxdata      => ctxdata,
-      osof         => sof,
-      ieof         => eof,
-      igenframe    => cgenframe,
-      ogenframeack => cgenframeack,
+      itxdata      => fifo_tx_data,
+      osof         => fifo_tx_sof,
+      ieof         => fifo_tx_eof,
+      igenframe    => fifo_tx_req_frm,
+      ogenframeack => fifo_tx_ack_frm,
 
-      otxdata      => cenettxdata,
-      otxen        => cenettxen,
-      otxerr       => cenettxerr
+      otxdata      => frm_tx_data,
+      otxen        => frm_tx_en,
+      otxerr       => frm_tx_err
     );
 
   --! RGMII TX PHY : normal to reduced interface adapter
@@ -260,9 +268,9 @@ begin
       rst          => rst,
       clk          => clk_eth,
 
-      gmii_td      => cenettxdata,
-      gmii_tx_en   => cenettxen,
-      gmii_tx_err  => cenettxerr,
+      gmii_td      => frm_tx_data,
+      gmii_tx_en   => frm_tx_en,
+      gmii_tx_err  => frm_tx_err,
 
       rgmii_txc    => rgmii_txc   ,
       rgmii_tx_ctl => rgmii_tx_ctl,
@@ -329,7 +337,7 @@ begin
   --! convert from byte to word
   i_axis_width_converter_rx : entity work.axis_adapter
     generic map (
-      S_DATA_WIDTH    => 8,
+      S_DATA_WIDTH   => 8,
       M_DATA_WIDTH   => 32
       )
     port map (
@@ -346,16 +354,16 @@ begin
       s_axis_tdest  => "1",
       s_axis_tuser  => "1",
       -- AXI stream output
-      m_axis_tready => AXI_STR_RXD_0_tready,
-      m_axis_tdata  => AXI_STR_RXD_0_tdata,
-      m_axis_tkeep  => AXI_STR_RXD_0_tkeep,
-      m_axis_tvalid => AXI_STR_RXD_0_tvalid,
-      m_axis_tlast  => AXI_STR_RXD_0_tlast,
-      m_axis_tid    => AXI_STR_RXD_0_tid,
-      m_axis_tdest  => AXI_STR_RXD_0_tdest,
-      m_axis_tuser  => AXI_STR_RXD_0_tuser
+      m_axis_tready => AXI_STR_RXD_DBG_tready,
+      m_axis_tdata  => AXI_STR_RXD_DBG_tdata,
+      m_axis_tkeep  => AXI_STR_RXD_DBG_tkeep,
+      m_axis_tvalid => AXI_STR_RXD_DBG_tvalid,
+      m_axis_tlast  => AXI_STR_RXD_DBG_tlast,
+      m_axis_tid    => AXI_STR_RXD_DBG_tid,
+      m_axis_tdest  => AXI_STR_RXD_DBG_tdest,
+      m_axis_tuser  => AXI_STR_RXD_DBG_tuser
     );
-    
+
     AXI_STR_RXD_DBG_tready <= '1';
 
 --! we need a pll to make 125.0 mhz from the 50 mhz
