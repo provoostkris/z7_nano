@@ -15,7 +15,7 @@ entity rgmii_tx_ddr is
   port (
     rst         : in  std_logic;
     clk         : in  std_logic;
-    
+
     ref_clk     : in  std_logic;
 
     gmii_td     : in  std_logic_vector(7 downto 0);
@@ -37,12 +37,12 @@ architecture rtl of rgmii_tx_ddr is
   signal gmii_ctl_qf  : std_logic;
 
   attribute IODELAY_GROUP : STRING;
-  -- attribute IODELAY_GROUP of gen_io[0].ODDR_inst  : label is "rgmii_tx_dly";
-  -- attribute IODELAY_GROUP of gen_io[1].ODDR_inst  : label is "rgmii_tx_dly";
-  -- attribute IODELAY_GROUP of gen_io[2].ODDR_inst  : label is "rgmii_tx_dly";
-  -- attribute IODELAY_GROUP of gen_io[3].ODDR_inst  : label is "rgmii_tx_dly";
-  attribute IODELAY_GROUP of i_rgmii_tx_ctl       : label is "rgmii_tx_dly";
-  attribute IODELAY_GROUP of i_rgmii_txc          : label is "rgmii_tx_dly";
+  attribute IODELAY_GROUP of ODDR_0           : label is "rgmii_tx_dly";
+  attribute IODELAY_GROUP of ODDR_1           : label is "rgmii_tx_dly";
+  attribute IODELAY_GROUP of ODDR_2           : label is "rgmii_tx_dly";
+  attribute IODELAY_GROUP of ODDR_3           : label is "rgmii_tx_dly";
+  attribute IODELAY_GROUP of i_rgmii_tx_ctl   : label is "rgmii_tx_dly";
+  attribute IODELAY_GROUP of i_rgmii_txc      : label is "rgmii_tx_dly";
 
 begin
 
@@ -54,29 +54,66 @@ begin
   gmii_ctl_qr   <= gmii_tx_en;
   gmii_ctl_qf   <= gmii_tx_en xor gmii_tx_err;
 
-gen_io: for i in rgmii_td'range generate
 
-   -- ODDR: Output Double Data Rate Output Register with Set, Reset
-   --       and Clock Enable.
-   --       Artix-7
-   -- Xilinx HDL Language Template, version 2023.1
-
-   ODDR_inst : ODDR
+   ODDR_0 : ODDR
    generic map(
       DDR_CLK_EDGE => "SAME_EDGE", -- "OPPOSITE_EDGE" or "SAME_EDGE"
       INIT => '0',   -- Initial value for Q port ('1' or '0')
       SRTYPE => "SYNC") -- Reset Type ("ASYNC" or "SYNC")
    port map (
-      Q => rgmii_td(i),   -- 1-bit DDR output
+      Q => rgmii_td(0),   -- 1-bit DDR output
       C => clk,    -- 1-bit clock input
       CE => '1',  -- 1-bit clock enable input
-      D1 => gmii_qr(i),  -- 1-bit data input (positive edge)
-      D2 => gmii_qf(i),  -- 1-bit data input (negative edge)
+      D1 => gmii_qr(0),  -- 1-bit data input (positive edge)
+      D2 => gmii_qf(0),  -- 1-bit data input (negative edge)
       R => rst,    -- 1-bit reset input
       S => '0'     -- 1-bit set input
    );
 
-end generate gen_io;
+   ODDR_1 : ODDR
+   generic map(
+      DDR_CLK_EDGE => "SAME_EDGE", -- "OPPOSITE_EDGE" or "SAME_EDGE"
+      INIT => '0',   -- Initial value for Q port ('1' or '0')
+      SRTYPE => "SYNC") -- Reset Type ("ASYNC" or "SYNC")
+   port map (
+      Q => rgmii_td(1),   -- 1-bit DDR output
+      C => clk,    -- 1-bit clock input
+      CE => '1',  -- 1-bit clock enable input
+      D1 => gmii_qr(1),  -- 1-bit data input (positive edge)
+      D2 => gmii_qf(1),  -- 1-bit data input (negative edge)
+      R => rst,    -- 1-bit reset input
+      S => '0'     -- 1-bit set input
+   );
+
+   ODDR_2 : ODDR
+   generic map(
+      DDR_CLK_EDGE => "SAME_EDGE", -- "OPPOSITE_EDGE" or "SAME_EDGE"
+      INIT => '0',   -- Initial value for Q port ('1' or '0')
+      SRTYPE => "SYNC") -- Reset Type ("ASYNC" or "SYNC")
+   port map (
+      Q => rgmii_td(2),   -- 1-bit DDR output
+      C => clk,    -- 1-bit clock input
+      CE => '1',  -- 1-bit clock enable input
+      D1 => gmii_qr(2),  -- 1-bit data input (positive edge)
+      D2 => gmii_qf(2),  -- 1-bit data input (negative edge)
+      R => rst,    -- 1-bit reset input
+      S => '0'     -- 1-bit set input
+   );
+
+   ODDR_3 : ODDR
+   generic map(
+      DDR_CLK_EDGE => "SAME_EDGE", -- "OPPOSITE_EDGE" or "SAME_EDGE"
+      INIT => '0',   -- Initial value for Q port ('1' or '0')
+      SRTYPE => "SYNC") -- Reset Type ("ASYNC" or "SYNC")
+   port map (
+      Q => rgmii_td(3),   -- 1-bit DDR output
+      C => clk,    -- 1-bit clock input
+      CE => '1',  -- 1-bit clock enable input
+      D1 => gmii_qr(3),  -- 1-bit data input (positive edge)
+      D2 => gmii_qf(3),  -- 1-bit data input (negative edge)
+      R => rst,    -- 1-bit reset input
+      S => '0'     -- 1-bit set input
+   );
 
    -- ODDR: Output Double Data Rate Output Register with Set, Reset
    --       and Clock Enable.
