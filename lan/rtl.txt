@@ -1,5 +1,6 @@
 verilog/axis_adapter.v
 vhdl/lan_pkg.vhd
+vhdl/shift_reg.vhd
 vhdl/eth_crc32.vhd
 vhdl/rgmii_rx_ddr.vhd
 vhdl/rgmii_tx_ddr.vhd
