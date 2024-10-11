@@ -167,4 +167,10 @@ begin
    );
 
 
+  -- ODELAYE2: Output Fixed or Variable Delay Element
+  --           7 Series
+  -- Xilinx HDL Language Template, version 2024.1
+
+
+
 end architecture rtl;
