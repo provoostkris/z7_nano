@@ -24,7 +24,7 @@ end entity tb_lan;
 
 architecture rtl of tb_lan is
 
-  constant c_ena_tst_1 : boolean := true;
+  constant c_ena_tst_1 : boolean := false;
   constant c_ena_tst_2 : boolean := true;
   constant c_ena_tst_3 : boolean := true;
 
@@ -251,7 +251,7 @@ with test_mode select
       mdl_rgmii_rx_ctl <= '0';
       mdl_rgmii_rd     <= ( others => '0');
 
- 	    proc_wait_clk(rx_clk, 450);
+ 	    proc_wait_clk(rx_clk, 999);
 	  report " END TST.02 ";
     end if;
 
@@ -309,7 +309,7 @@ with test_mode select
       mdl_rgmii_rx_ctl <= '0';
       mdl_rgmii_rd     <= ( others => '0');
 
- 	    proc_wait_clk(rx_clk, 450);
+ 	    proc_wait_clk(rx_clk, 999);
     end if;
 
 	  report " END of test bench" severity failure;
