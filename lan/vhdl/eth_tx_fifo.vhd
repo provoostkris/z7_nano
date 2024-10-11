@@ -44,16 +44,18 @@ architecture rtl of eth_tx_fifo is
                     tx_frame_sof,
                     tx_frame_data
                   );
-  signal s_ctrl                      : t_state;
+  signal s_ctrl                     : t_state;
   attribute syn_encoding            : string;
   attribute syn_encoding of t_state : type is "safe,onehot";
 
-  signal s_rst        : std_logic;
-  signal fifo_empty   : std_logic;
-  signal fifo_a_full  : std_logic;
-  signal fifo_di      : std_logic_vector(8 downto 0);
-  signal fifo_do      : std_logic_vector(8 downto 0);
-  signal fifo_rden    : std_logic;
+  signal s_rst          : std_logic;
+  signal fifo_empty     : std_logic;
+  signal fifo_a_full    : std_logic;
+  signal fifo_di        : std_logic_vector(8 downto 0);
+  signal fifo_do        : std_logic_vector(8 downto 0);
+  signal fifo_rden      : std_logic;
+  signal m_tx_frame_req : std_logic;
+  signal s_tx_frame_req : std_logic;
 
 begin
 
@@ -131,7 +133,13 @@ begin
         end case;
       end if;
   end process;
+  
+  -- trqnsfer request between clocks
+  i_cdc_s_dat_tready : entity work.shift_reg(rtl)
+  generic map   (g_del => 2)
+  port map      (s_clk , s_rst_n, m_tx_frame_req, s_tx_frame_req);
 
+  m_tx_frame_req <= '1' when s_ctrl = tx_frame_req else '0';
 
   --! slave flow control
   process(s_rst_n, s_clk) is
@@ -140,7 +148,7 @@ begin
         s_dat_tready  <= '0';
       elsif rising_edge(s_clk) then
         -- for now simple control logic , only process one frame at a time
-        if s_ctrl = tx_frame_req then
+        if s_tx_frame_req = '1' then
           s_dat_tready  <= not fifo_a_full;
         else
           s_dat_tready  <= '0';
