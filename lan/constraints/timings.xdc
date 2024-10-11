@@ -8,6 +8,9 @@
 
   set_false_path -to                [get_ports led]
   set_false_path -to                [get_ports pll_lock]
+  
+  set_false_path -to                [get_pins -hier *shift_reg*/D]
+
 
 # Definitions and groups
 
