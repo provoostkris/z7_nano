@@ -66,9 +66,11 @@ architecture rtl of lan is
   signal rst_n      : std_logic; --! PLL locked copy
   signal clkfb1     : std_logic; --! required feedback clock for PLL
   signal clkfb2     : std_logic; --! required feedback clock for PLL
-  signal clk_eth    : std_logic; --! PLL output 125 MHz
+  signal clk_125    : std_logic; --! PLL output 125.0 MHz
+  signal clk_050    : std_logic; --! PLL output  50.0 MHz
+  signal clk_025    : std_logic; --! PLL output  25.0 MHz
+  signal clk_012    : std_logic; --! PLL output  12.5 MHz
   signal fclk_clk   : std_logic; --! exported clock from the PS
-  signal clk_slow   : std_logic; --! PLL output  50 MHz
   signal clk_calib  : std_logic; --! PLL output 200 MHz
   signal clk_txfr   : std_logic; --! clock for transfer between PS and PL
 
@@ -181,13 +183,13 @@ begin
   end generate;
 
   gen_pl_clk: if g_sim = true generate
-    clk_txfr <= clk_slow;
+    clk_txfr <= clk_050;
   end generate;
 
 --! indicate the board is running
   i_pwm: entity work.pwm
   generic map (45)
-  port    map (clk_eth, rst_n,led);
+  port    map (clk_125, rst_n,led);
 
 
   --! user logic with ROM
@@ -241,7 +243,7 @@ begin
       s_dat_tlast   => s_tx_dat_tlast ,
       s_dat_tvalid  => s_tx_dat_tvalid,
 
-      m_clk         => clk_eth,
+      m_clk         => clk_012,
       m_rst_n       => rst_n,
       m_txdata      => fifo_tx_data,
       m_sof         => fifo_tx_sof,
@@ -253,7 +255,7 @@ begin
   --! from fifo stream to ethernet frame
   i_eth_frm_tx : entity work.eth_frm_tx
     port map (
-      iclk         => clk_eth,
+      iclk         => clk_012,
       irst_n       => rst_n,
 
       itxdata      => fifo_tx_data,
@@ -271,7 +273,7 @@ begin
   i_rgmii_tx_ddr: entity work.rgmii_tx_ddr
     port map (
       rst          => rst,
-      clk          => clk_eth,
+      clk          => clk_012,
 
       ref_clk      => clk_calib,
 
@@ -279,10 +281,14 @@ begin
       gmii_tx_en   => frm_tx_en,
       gmii_tx_err  => frm_tx_err,
 
-      rgmii_txc    => rgmii_txc   ,
+      rgmii_txc    => open   ,
       rgmii_tx_ctl => rgmii_tx_ctl,
       rgmii_td     => rgmii_td
     );
+    
+    -- for 100 Mbps use the 25 MHz clock
+    -- use the DDR 125 MHz clock for 1000 Mbps
+    rgmii_txc <= clk_025;
 
   --! RGMII RX PHY : reduced to normal interface adapter
   i_rgmii_rx_ddr: entity work.rgmii_rx_ddr
@@ -388,8 +394,8 @@ begin
       -- clkout0_divide - clkout6_divide: divide amount for each clkout (1-128)
       clkout1_divide => 10,
       clkout2_divide => 25,
-      clkout3_divide => 1,
-      clkout4_divide => 1,
+      clkout3_divide => 50,
+      clkout4_divide => 100,
       clkout5_divide => 1,
       clkout6_divide => 1,
       clkout0_divide_f => 1.0,   -- divide amount for clkout0 (1.000-128.000).
@@ -418,13 +424,13 @@ begin
       -- clock outputs: 1-bit (each) output: user configurable clock outputs
       clkout0 => open, -- 1-bit output: clkout0
       clkout0b => open,   -- 1-bit output: inverted clkout0
-      clkout1 => clk_eth,     -- 1-bit output: clkout1
+      clkout1 => clk_125,     -- 1-bit output: clkout1
       clkout1b => open,   -- 1-bit output: inverted clkout1
-      clkout2 => clk_slow,     -- 1-bit output: clkout2
+      clkout2 => clk_050,     -- 1-bit output: clkout2
       clkout2b => open,   -- 1-bit output: inverted clkout2
-      clkout3 => open,     -- 1-bit output: clkout3
+      clkout3 => clk_025,     -- 1-bit output: clkout3
       clkout3b => open,   -- 1-bit output: inverted clkout3
-      clkout4 => open,     -- 1-bit output: clkout4
+      clkout4 => clk_012,     -- 1-bit output: clkout4
       clkout5 => open,     -- 1-bit output: clkout5
       clkout6 => open,     -- 1-bit output: clkout6
       -- feedback clocks: 1-bit (each) output: clock feedback ports
