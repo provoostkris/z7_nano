@@ -94,7 +94,7 @@ int main()
     xil_printf("%x\n", rd_data);
 
 
-    for (j=0; j<99; j++){
+    for (j=0; j<180; j++){
 		print("AXIS TX dummy packet \n");
 
 		for (i=0; i<64; i=i+4){

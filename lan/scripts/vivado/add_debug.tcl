@@ -1,4 +1,3 @@
-
 create_debug_core u_ila_0 ila
 set_property C_DATA_DEPTH 1024 [get_debug_cores u_ila_0]
 set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
@@ -10,9 +9,8 @@ set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
 set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_0]
 startgroup 
 set_property C_EN_STRG_QUAL true [get_debug_cores u_ila_0 ]
-set_property C_ADV_TRIGGER true [get_debug_cores u_ila_0 ]
 set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0 ]
-set_property ALL_PROBE_SAME_MU_CNT 4 [get_debug_cores u_ila_0 ]
+set_property ALL_PROBE_SAME_MU_CNT 2 [get_debug_cores u_ila_0 ]
 endgroup
 create_debug_core u_ila_1 ila
 set_property C_DATA_DEPTH 1024 [get_debug_cores u_ila_1]
@@ -25,9 +23,8 @@ set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_1]
 set_property ALL_PROBE_SAME_MU_CNT 1 [get_debug_cores u_ila_1]
 startgroup 
 set_property C_EN_STRG_QUAL true [get_debug_cores u_ila_1 ]
-set_property C_ADV_TRIGGER true [get_debug_cores u_ila_1 ]
 set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_1 ]
-set_property ALL_PROBE_SAME_MU_CNT 4 [get_debug_cores u_ila_1 ]
+set_property ALL_PROBE_SAME_MU_CNT 2 [get_debug_cores u_ila_1 ]
 endgroup
 connect_debug_port u_ila_0/clk [get_nets [list bd_base_i/processing_system7_0/inst/FCLK_CLK0 ]]
 connect_debug_port u_ila_1/clk [get_nets [list clk_012 ]]
@@ -64,11 +61,11 @@ set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe7]
 connect_debug_port u_ila_0/probe7 [get_nets [list s_tx_dat_tvalid ]]
 set_property port_width 8 [get_debug_ports u_ila_1/probe0]
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_1/probe0]
-connect_debug_port u_ila_1/probe0 [get_nets [list {fifo_tx_data[0]} {fifo_tx_data[1]} {fifo_tx_data[2]} {fifo_tx_data[3]} {fifo_tx_data[4]} {fifo_tx_data[5]} {fifo_tx_data[6]} {fifo_tx_data[7]} ]]
+connect_debug_port u_ila_1/probe0 [get_nets [list {frm_tx_data[0]} {frm_tx_data[1]} {frm_tx_data[2]} {frm_tx_data[3]} {frm_tx_data[4]} {frm_tx_data[5]} {frm_tx_data[6]} {frm_tx_data[7]} ]]
 create_debug_port u_ila_1 probe
 set_property port_width 8 [get_debug_ports u_ila_1/probe1]
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_1/probe1]
-connect_debug_port u_ila_1/probe1 [get_nets [list {frm_tx_data[0]} {frm_tx_data[1]} {frm_tx_data[2]} {frm_tx_data[3]} {frm_tx_data[4]} {frm_tx_data[5]} {frm_tx_data[6]} {frm_tx_data[7]} ]]
+connect_debug_port u_ila_1/probe1 [get_nets [list {fifo_tx_data[0]} {fifo_tx_data[1]} {fifo_tx_data[2]} {fifo_tx_data[3]} {fifo_tx_data[4]} {fifo_tx_data[5]} {fifo_tx_data[6]} {fifo_tx_data[7]} ]]
 create_debug_port u_ila_1 probe
 set_property port_width 1 [get_debug_ports u_ila_1/probe2]
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_1/probe2]
