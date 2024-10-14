@@ -1,4 +1,6 @@
 verilog/axis_adapter.v
+verilog/axis_async_fifo.v
+verilog/axis_async_fifo_adapter.v
 vhdl/lan_pkg.vhd
 vhdl/shift_reg.vhd
 vhdl/eth_crc32.vhd
@@ -7,7 +9,6 @@ vhdl/rgmii_tx_ddr.vhd
 vhdl/eth_frm_rx.vhd
 vhdl/eth_frm_tx.vhd
 vhdl/eth_rx_fifo.vhd
-vhdl/eth_tx_fifo.vhd
 vhdl/rom_tx.vhd
 vhdl/pwm.vhd
 vhdl/lan.vhd
