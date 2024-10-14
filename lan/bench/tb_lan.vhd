@@ -143,6 +143,17 @@ dut: entity work.lan(rtl)
     FIXED_IO_ps_srstb => open 
   );
 
+
+--! dut
+rgmii_rx_model: entity work.rgmii_rx_model(slow)
+  port map (
+    rst_n             => rst_n,
+    
+    rgmii_rxc         => rgmii_txc    ,
+    rgmii_rx_ctl      => rgmii_tx_ctl ,
+    rgmii_rd          => rgmii_td     
+  );
+  
 --! test modes
 with test_mode select
   rgmii_rxc     <=  rgmii_txc           when loopback,
