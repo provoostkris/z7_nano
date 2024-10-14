@@ -28,8 +28,7 @@ echo "adding waves"
   add wave    -group "i_eth_frm_rx"                  /tb_lan/dut/i_eth_frm_rx/*
   add wave    -group "i_rgmii_rx_ddr"                /tb_lan/dut/i_rgmii_rx_ddr/*
 
-  add wave    -group "i_axis_width_converter_tx"     /tb_lan/dut/i_axis_width_converter_tx/*
-  add wave    -group "i_eth_tx_fifo"                 /tb_lan/dut/i_eth_tx_fifo/*
+  add wave    -group "i_axis_width_converter_tx"     /tb_lan/dut/i_axis_async_fifo_adapter_tx/*
   add wave    -group "i_eth_frm_tx"                  /tb_lan/dut/i_eth_frm_tx/*
   add wave    -group "i_rgmii_tx_ddr"                /tb_lan/dut/i_rgmii_tx_ddr/*
 
