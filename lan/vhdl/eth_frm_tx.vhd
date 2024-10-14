@@ -1,156 +1,139 @@
--------------------------------------------------------------------------------
--- Title      : 
--- Project    : 
--------------------------------------------------------------------------------
--- File       : eth_frm_tx.vhd
--- Author     : liyi  <alxiuyain@foxmail.com>
--- Company    : OE@HUST
--- Created    : 2012-11-15
--- Last update: 2013-05-07
--- Platform   : 
--- Standard   : VHDL'93/02
--------------------------------------------------------------------------------
--- Description: 
--------------------------------------------------------------------------------
--- Copyright (c) 2012 OE@HUST
--------------------------------------------------------------------------------
--- Revisions  :
--- Date        Version  Author  Description
--- 2012-11-15  1.0      root    Created
--------------------------------------------------------------------------------
-LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
-USE ieee.numeric_std.ALL;
--------------------------------------------------------------------------------
-ENTITY eth_frm_tx IS
+------------------------------------------------------------------------------
+--  ETH TX framer
+--  rev. 1.0 : 2024 provoost kris
+------------------------------------------------------------------------------
 
-  PORT (
-    iClk   : IN STD_LOGIC;
-    iRst_n : IN STD_LOGIC;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+-------------------------------------------------------------------------------
+entity eth_frm_tx is
 
-    -- signal from stream
-    iTxData      : IN  STD_LOGIC_VECTOR(7 DOWNTO 0);
-    oSOF         : OUT STD_LOGIC;
-    iEOF         : IN  STD_LOGIC;
-    iGenFrame    : IN  STD_LOGIC;
-    oGenFrameAck : OUT STD_LOGIC;
+  port (
 
-    -- signals TO PHY
-    oTxData      : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-    oTxEn        : OUT STD_LOGIC;
-    oTxErr       : OUT STD_LOGIC
+    clk          : in  std_logic;
+    rst_n        : in  std_logic;
+    -- signal from axis stream
+    dat_tready   : out std_logic;
+    dat_tdata    : in  std_logic_vector(7 downto 0);
+    dat_tlast    : in  std_logic;
+    dat_tvalid   : in  std_logic;
+    -- signals to phy
+    txdata       : out std_logic_vector(7 downto 0);
+    txen         : out std_logic;
+    txerr        : out std_logic
     );
 
-END ENTITY eth_frm_tx;
+end entity eth_frm_tx;
 -------------------------------------------------------------------------------
-ARCHITECTURE rtl OF eth_frm_tx IS
+architecture rtl of eth_frm_tx is
 
-  TYPE state_t IS (IDLE, PREAMBLE, SEND_DATA, PAD, SEND_CRC, IPG);
-  SIGNAL state                      : state_t;
-  ATTRIBUTE syn_encoding            : STRING;
-  ATTRIBUTE syn_encoding OF state_t : TYPE IS "safe,onehot";
+  type state_t is ( idle,
+                    preamble,
+                    delimit,
+                    send_data,
+                    pad,
+                    send_crc,
+                    ipg
+                  );
+  signal state                      : state_t;
+  attribute syn_encoding            : string;
+  attribute syn_encoding of state_t : type is "safe,onehot";
 
-  SIGNAL byteCnt : UNSIGNED(15 DOWNTO 0);
+  signal cnt_bytes : unsigned(15 downto 0);
 
-  SIGNAL crcInit : STD_LOGIC;
-  SIGNAL crcEn   : STD_LOGIC;
-  SIGNAL crc     : STD_LOGIC_VECTOR(31 DOWNTO 0);
-  
-BEGIN  -- ARCHITECTURE rtl
+  signal crcinit   : std_logic;
+  signal crcen     : std_logic;
+  signal crc       : std_logic_vector(31 downto 0);
 
-  --! calculate the CRC 32
+begin  -- architecture rtl
+
+  --! calculate the crc 32
   i_eth_crc32 : entity work.eth_crc32
     port map (
-      iclk    => iclk,
-      irst_n  => irst_n,
+      iclk    => clk,
+      irst_n  => rst_n,
       iinit   => crcinit,
-      icalcen => crcen,
-      idata   => itxdata,
+      icalcen => dat_tvalid,
+      idata   => dat_tdata,
       ocrc    => crc
     );
 
-  oTxErr <= '0';
+  -- no error use for TX framer
+  txerr        <= '0';
 
-  PROCESS (iClk, iRst_n) IS
-  BEGIN
-    IF iRst_n = '0' THEN
-      state        <= IDLE;
-      oSOF         <= '0';
-      byteCnt      <= (OTHERS => '0');
-      oGenFrameAck <= '0';
-      crcInit      <= '0';
-      crcEn        <= '0';
-      oTxData      <= (OTHERS => '0');
-      oTxEn        <= '0';
-    ELSIF rising_edge(iClk) THEN
-      oGenFrameAck <= '0';
-      crcInit      <= '0';
-      oSOF         <= '0';
-      byteCnt      <= byteCnt + 1;
-      CASE state IS
-        WHEN IDLE =>
-          byteCnt <= (OTHERS => '0');
-          IF iGenFrame = '1' THEN
-            crcInit      <= '1';
-            oGenFrameAck <= '1';
-            state        <= PREAMBLE;
-          END IF;
+  process (clk, rst_n) is
+  begin
+    if rst_n = '0' then
+      state        <= idle;
+      cnt_bytes      <= (others => '0');
+      crcinit      <= '0';
+      crcen        <= '0';
+      dat_tready   <= '0';
+      txdata       <= (others => '0');
+      txen         <= '0';
+    elsif rising_edge(clk) then
+      case state is
         -----------------------------------------------------------------------
-        WHEN PREAMBLE =>
-          oTxEn   <= '1';
-          oTxData <= X"55";
-          CASE byteCnt(2 DOWNTO 0) IS
-            WHEN B"101" => oSOF <= '1';
-            WHEN B"111" =>
-              oTxData <= X"D5";
-              crcEn   <= '1';
-              state   <= SEND_DATA;
-              byteCnt <= (OTHERS => '0');
-            WHEN OTHERS => NULL;
-          END CASE;
+        when idle =>
+          crcinit      <= '0';
+          cnt_bytes    <= to_unsigned(0,cnt_bytes'length);
+          -- if the TX contains data , then start framing
+          if dat_tvalid = '1' then
+            state        <= preamble;
+          end if;
         -----------------------------------------------------------------------
-        WHEN SEND_DATA =>
-          oTxData <= iTxData;
-          IF iEOF = '1' THEN
-            IF byteCnt < X"003B" THEN
-              state <= PAD;
-            ELSE
-              state <= SEND_CRC;
-              crcEn <= '0';
-              byteCnt <= (OTHERS => '0');
-            END IF;
-          END IF;
+        when preamble =>
+          crcinit      <= '1';
+          txen         <= '1';
+          txdata       <= x"55";
+          cnt_bytes    <= cnt_bytes + to_unsigned(1,cnt_bytes'length) ;
+          if cnt_bytes = to_unsigned(6,cnt_bytes'length) then
+            state        <= delimit;
+          end if;
         -----------------------------------------------------------------------
-        WHEN PAD =>
-          oTxData <= iTxData;
-          IF byteCnt(7 DOWNTO 0) = X"3B" THEN
-            crcEn   <= '0';
-            state   <= SEND_CRC;
-            byteCnt <= (OTHERS => '0');
-          END IF;
+        when delimit =>
+          crcinit      <= '0';
+          txen         <= '1';
+          txdata       <= x"d5";
+          crcen        <= '1';
+          dat_tready   <= '1';
+          state        <= send_data;
         -----------------------------------------------------------------------
-        WHEN SEND_CRC =>
-          CASE byteCnt(1 DOWNTO 0) IS
-            WHEN B"00" => oTxData <= crc(31 DOWNTO 24);
-            WHEN B"01" => oTxData <= crc(23 DOWNTO 16);
-            WHEN B"10" => oTxData <= crc(15 DOWNTO 8);
-            WHEN B"11" =>
-              oTxData <= crc(7 DOWNTO 0);
-              state   <= IPG;
-              byteCnt <= (OTHERS => '0');
-            WHEN OTHERS => NULL;
-          END CASE;
-        -----------------------------------------------------------------------
-        WHEN IPG =>                     -- 96 bits(12 Bytes) time
-          oTxEn <= '0';
-          IF byteCnt(3 DOWNTO 0) = X"B" THEN
-            state   <= IDLE;
-            byteCnt <= (OTHERS => '0');
-          END IF;
-        -----------------------------------------------------------------------
-        WHEN OTHERS => NULL;
-      END CASE;
-    END IF;
-  END PROCESS;
+        when send_data =>
+          cnt_bytes    <= to_unsigned(0,cnt_bytes'length);
 
-END ARCHITECTURE rtl;
+          txen         <= dat_tvalid;
+          txdata       <= dat_tdata;
+
+          if dat_tlast = '1' then
+            state        <= send_crc;
+            crcen        <= '0';
+            dat_tready   <= '0';
+          end if;
+        -----------------------------------------------------------------------
+        when send_crc =>
+          txen         <= '1';
+          cnt_bytes    <= cnt_bytes + to_unsigned(1,cnt_bytes'length) ;
+          case cnt_bytes(1 downto 0) is
+            when b"00"  => txdata <= crc(31 downto 24);
+            when b"01"  => txdata <= crc(23 downto 16);
+            when b"10"  => txdata <= crc(15 downto 08);
+            when others => txdata <= crc(07 downto 00);
+                           state  <= ipg;
+          end case;
+        -----------------------------------------------------------------------
+        when ipg =>                     -- 96 bits(12 bytes) time
+          txen         <= '0';
+          txdata       <= ( others => '0');
+          cnt_bytes    <= cnt_bytes + to_unsigned(1,cnt_bytes'length) ;
+          if cnt_bytes = to_unsigned(15,cnt_bytes'length) then
+            state     <= idle;
+          end if;
+        -----------------------------------------------------------------------
+        when others => null;
+      end case;
+    end if;
+  end process;
+
+end architecture rtl;

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date             : Sat Sep 28 17:48:56 2024
+| Date             : Mon Oct 14 15:59:59 2024
 | Host             : vivobook running 64-bit major release  (build 9200)
 | Command          : report_power -file lan_power_routed.rpt -pb lan_power_summary_routed.pb -rpx lan_power_routed.rpx
 | Design           : lan
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 1.657        |
+| Total On-Chip Power (W)  | 1.541        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 1.514        |
-| Device Static (W)        | 0.143        |
+| Dynamic (W)              | 1.401        |
+| Device Static (W)        | 0.140        |
 | Effective TJA (C/W)      | 11.5         |
-| Max Ambient (C)          | 65.9         |
-| Junction Temperature (C) | 44.1         |
+| Max Ambient (C)          | 67.2         |
+| Junction Temperature (C) | 42.8         |
 | Confidence Level         | Medium       |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -52,22 +52,21 @@ Table of Contents
 +--------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
-| Clocks                   |     0.063 |        9 |       --- |             --- |
-| Slice Logic              |     0.008 |    29390 |       --- |             --- |
-|   LUT as Logic           |     0.007 |     7755 |     53200 |           14.58 |
-|   Register               |    <0.001 |    13507 |    106400 |           12.69 |
-|   LUT as Distributed RAM |    <0.001 |      336 |     17400 |            1.93 |
-|   CARRY4                 |    <0.001 |      605 |     13300 |            4.55 |
-|   LUT as Shift Register  |    <0.001 |     1695 |     17400 |            9.74 |
-|   F7/F8 Muxes            |    <0.001 |      321 |     53200 |            0.60 |
-|   Others                 |     0.000 |     2301 |       --- |             --- |
-| Signals                  |     0.010 |    20271 |       --- |             --- |
-| Block RAM                |     0.003 |        5 |       140 |            3.57 |
+| Clocks                   |     0.004 |        9 |       --- |             --- |
+| Slice Logic              |    <0.001 |     2982 |       --- |             --- |
+|   LUT as Logic           |    <0.001 |     1036 |     53200 |            1.95 |
+|   CARRY4                 |    <0.001 |       75 |     13300 |            0.56 |
+|   Register               |    <0.001 |     1211 |    106400 |            1.14 |
+|   LUT as Shift Register  |    <0.001 |       61 |     17400 |            0.35 |
+|   Others                 |     0.000 |      252 |       --- |             --- |
+|   LUT as Distributed RAM |     0.000 |       56 |     17400 |            0.32 |
+| Signals                  |     0.001 |     2063 |       --- |             --- |
+| Block RAM                |     0.001 |        3 |       140 |            2.14 |
 | MMCM                     |     0.119 |        1 |         4 |           25.00 |
-| I/O                      |     0.043 |       11 |       125 |            8.80 |
+| I/O                      |     0.007 |       11 |       125 |            8.80 |
 | PS7                      |     1.269 |        1 |       --- |             --- |
-| Static Power             |     0.143 |          |           |                 |
-| Total                    |     1.657 |          |           |                 |
+| Static Power             |     0.140 |          |           |                 |
+| Total                    |     1.541 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -77,9 +76,9 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.099 |       0.084 |      0.015 |       NA    | Unspecified | NA         |
-| Vccaux    |       1.800 |     0.082 |       0.067 |      0.015 |       NA    | Unspecified | NA         |
-| Vcco33    |       3.300 |     0.013 |       0.012 |      0.001 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.021 |       0.007 |      0.014 |       NA    | Unspecified | NA         |
+| Vccaux    |       1.800 |     0.081 |       0.066 |      0.015 |       NA    | Unspecified | NA         |
+| Vcco33    |       3.300 |     0.003 |       0.002 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -90,7 +89,7 @@ Table of Contents
 | MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | MGTVccaux |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-| Vccpint   |       1.000 |     0.691 |       0.661 |      0.030 |       NA    | Unspecified | NA         |
+| Vccpint   |       1.000 |     0.690 |       0.661 |      0.028 |       NA    | Unspecified | NA         |
 | Vccpaux   |       1.800 |     0.036 |       0.026 |      0.010 |       NA    | Unspecified | NA         |
 | Vccpll    |       1.800 |     0.017 |       0.014 |      0.003 |       NA    | Unspecified | NA         |
 | Vcco_ddr  |       1.500 |     0.356 |       0.354 |      0.002 |       NA    | Unspecified | NA         |
@@ -137,15 +136,16 @@ Table of Contents
 2.2 Clock Constraints
 ---------------------
 
-+--------------------------------------------------------------------------------------------+-------------------------------------------------------------------+-----------------+
-| Clock                                                                                      | Domain                                                            | Constraint (ns) |
-+--------------------------------------------------------------------------------------------+-------------------------------------------------------------------+-----------------+
-| CLKFBIN                                                                                    | CLKFBIN                                                           |            20.0 |
-| clk                                                                                        | clk                                                               |            20.0 |
-| clk_eth                                                                                    | clk_eth                                                           |             8.0 |
-| clk_fpga_0                                                                                 | bd_base_i/processing_system7_0/inst/FCLK_CLK_unbuffered[0]        |            20.0 |
-| dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_inst/SERIES7_BSCAN.bscan_inst/TCK | dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_inst/TCK |            33.0 |
-+--------------------------------------------------------------------------------------------+-------------------------------------------------------------------+-----------------+
++----------------+------------------------------------------------------------+-----------------+
+| Clock          | Domain                                                     | Constraint (ns) |
++----------------+------------------------------------------------------------+-----------------+
+| CLKFBIN        | CLKFBIN                                                    |            20.0 |
+| clk            | clk                                                        |            20.0 |
+| clk_012        | clk_012                                                    |            80.0 |
+| clk_125        | clk_125                                                    |             8.0 |
+| clk_fpga_0     | bd_base_i/processing_system7_0/inst/FCLK_CLK_unbuffered[0] |            20.0 |
+| rgmii_txc_OBUF | rgmii_txc_OBUF                                             |            40.0 |
++----------------+------------------------------------------------------------+-----------------+
 
 
 3. Detailed Reports
@@ -157,26 +157,14 @@ Table of Contents
 +--------------------------+-----------+
 | Name                     | Power (W) |
 +--------------------------+-----------+
-| lan                      |     1.514 |
-|   bd_base_i              |     1.274 |
+| lan                      |     1.401 |
+|   bd_base_i              |     1.273 |
 |     axi_fifo_mm_s_0      |     0.003 |
 |       U0                 |     0.003 |
 |     processing_system7_0 |     1.269 |
 |       inst               |     1.269 |
 |     ps7_0_axi_periph     |     0.002 |
 |       s00_couplers       |     0.002 |
-|   dbg_hub                |     0.003 |
-|     inst                 |     0.003 |
-|       BSCANID.u_xsdbm_id |     0.003 |
-|   i_eth_frm_tx           |     0.002 |
-|     i_eth_crc32          |     0.001 |
-|   i_eth_tx_fifo          |     0.001 |
-|   u_ila_0                |     0.034 |
-|     inst                 |     0.034 |
-|       ila_core_inst      |     0.034 |
-|   u_ila_1                |     0.037 |
-|     inst                 |     0.037 |
-|       ila_core_inst      |     0.037 |
 +--------------------------+-----------+
 
 

@@ -75,24 +75,23 @@ architecture rtl of lan is
   signal clk_txfr   : std_logic; --! clock for transfer between PS and PL
 
 --! signals on tx channel
-  signal s_tx_dat_tready  : std_logic;
-  signal s_tx_dat_tdata   : std_logic_vector(7 downto 0);
-  signal s_tx_dat_tkeep   : std_logic_vector(0 downto 0);
-  signal s_tx_dat_tlast   : std_logic;
-  signal s_tx_dat_tvalid  : std_logic;
-  signal s_tx_dat_tid     : std_logic_vector(0 downto 0);
-  signal s_tx_dat_tdest   : std_logic_vector(0 downto 0);
-  signal s_tx_dat_tuser   : std_logic_vector(0 downto 0);
+  signal s_tx_dat_tready            : std_logic;
+  signal s_tx_dat_tdata             : std_logic_vector(7 downto 0);
+  signal s_tx_dat_tkeep             : std_logic_vector(0 downto 0);
+  signal s_tx_dat_tlast             : std_logic;
+  signal s_tx_dat_tvalid            : std_logic;
+  -- unused ports                   
+  signal s_tx_dat_tid               : std_logic_vector(0 downto 0);
+  signal s_tx_dat_tdest             : std_logic_vector(0 downto 0);
+  signal s_tx_dat_tuser             : std_logic_vector(0 downto 0);
+  signal s_tx_status_depth          : std_logic_vector(10 downto 0);
+  signal s_tx_status_depth_commit   : std_logic_vector(10 downto 0);
+  signal m_tx_status_depth          : std_logic_vector(10 downto 0);
+  signal m_tx_status_depth_commit   : std_logic_vector(10 downto 0);
 
-  signal fifo_tx_sof      : std_logic;
-  signal fifo_tx_eof      : std_logic;
-  signal fifo_tx_data     : std_logic_vector(7 downto 0);
-  signal fifo_tx_req_frm  : std_logic;
-  signal fifo_tx_ack_frm  : std_logic;
-
-  signal frm_tx_data      : std_logic_vector(7 downto 0);
-  signal frm_tx_en        : std_logic;
-  signal frm_tx_err       : std_logic;
+  signal frm_tx_data                : std_logic_vector(7 downto 0);
+  signal frm_tx_en                  : std_logic;
+  signal frm_tx_err                 : std_logic;
 
 --! signals on rx channel
   signal s_rx_dat_tready  : std_logic;
@@ -150,25 +149,15 @@ architecture rtl of lan is
 
   attribute MARK_DEBUG : string;
 
-  attribute MARK_DEBUG of  AXI_STR_TXD_0_tdata  : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_TXD_0_tlast  : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_TXD_0_tready : signal is "TRUE";
-  attribute MARK_DEBUG of  AXI_STR_TXD_0_tvalid : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tdata  : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tlast  : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tready : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tvalid : signal is "TRUE";
 
-  attribute MARK_DEBUG of  s_tx_dat_tready      : signal is "TRUE";
-  attribute MARK_DEBUG of  s_tx_dat_tdata       : signal is "TRUE";
-  attribute MARK_DEBUG of  s_tx_dat_tlast       : signal is "TRUE";
-  attribute MARK_DEBUG of  s_tx_dat_tvalid      : signal is "TRUE";
-
-  attribute MARK_DEBUG of  fifo_tx_data         : signal is "TRUE";
-  attribute MARK_DEBUG of  fifo_tx_sof          : signal is "TRUE";
-  attribute MARK_DEBUG of  fifo_tx_eof          : signal is "TRUE";
-  attribute MARK_DEBUG of  fifo_tx_req_frm      : signal is "TRUE";
-  attribute MARK_DEBUG of  fifo_tx_ack_frm      : signal is "TRUE";
-
-  attribute MARK_DEBUG of  frm_tx_data          : signal is "TRUE";
-  attribute MARK_DEBUG of  frm_tx_en            : signal is "TRUE";
-  attribute MARK_DEBUG of  frm_tx_err           : signal is "TRUE";
+  -- attribute MARK_DEBUG of  s_tx_dat_tready      : signal is "TRUE";
+  -- attribute MARK_DEBUG of  s_tx_dat_tdata       : signal is "TRUE";
+  -- attribute MARK_DEBUG of  s_tx_dat_tlast       : signal is "TRUE";
+  -- attribute MARK_DEBUG of  s_tx_dat_tvalid      : signal is "TRUE";
 
 begin
 
@@ -204,69 +193,72 @@ begin
     );
 
   --! change the stream data width
-  i_axis_width_converter_tx : entity work.axis_adapter
+  --! change the stream data width
+  i_axis_async_fifo_adapter_tx : entity work.axis_async_fifo_adapter
     generic map (
+      DEPTH           => 2**10,
       S_DATA_WIDTH    => 32,
-      M_DATA_WIDTH    => 8
+      M_DATA_WIDTH    => 8,
+      ID_WIDTH        => 1,
+      DEST_WIDTH      => 1,
+      USER_ENABLE     => 0
       )
     port map (
-      -- Usual ports
-      clk      => clk_txfr,
-      rst      => rst,
       -- AXI stream input
-      s_axis_tready => AXI_STR_TXD_0_tready,
-      s_axis_tdata  => AXI_STR_TXD_0_tdata,
-      s_axis_tvalid => AXI_STR_TXD_0_tvalid,
-      s_axis_tlast  => AXI_STR_TXD_0_tlast,
-      s_axis_tkeep  => "1111",
-      s_axis_tid    => "1",
-      s_axis_tdest  => "1",
-      s_axis_tuser  => "1",
+      s_clk                   => clk_txfr,
+      s_rst                   => rst,
+      s_axis_tready           => AXI_STR_TXD_0_tready,
+      s_axis_tdata            => AXI_STR_TXD_0_tdata,
+      s_axis_tvalid           => AXI_STR_TXD_0_tvalid,
+      s_axis_tlast            => AXI_STR_TXD_0_tlast,
+      s_axis_tkeep            => "1111",
+      s_axis_tid              => "1",
+      s_axis_tdest            => "1",
+      s_axis_tuser            => "1",
       -- AXI stream output
-      m_axis_tready => s_tx_dat_tready,
-      m_axis_tdata  => s_tx_dat_tdata,
-      m_axis_tkeep  => s_tx_dat_tkeep,
-      m_axis_tvalid => s_tx_dat_tvalid,
-      m_axis_tlast  => s_tx_dat_tlast,
-      m_axis_tid    => s_tx_dat_tid,
-      m_axis_tdest  => s_tx_dat_tdest,
-      m_axis_tuser  => s_tx_dat_tuser
-    );
-
-  --! data stream to tranmit fifo stream
-  i_eth_tx_fifo : entity work.eth_tx_fifo
-    port map (
-      s_clk         => clk_txfr,
-      s_rst_n       => rst_n,
-      s_dat_tready  => s_tx_dat_tready,
-      s_dat_tdata   => s_tx_dat_tdata ,
-      s_dat_tlast   => s_tx_dat_tlast ,
-      s_dat_tvalid  => s_tx_dat_tvalid,
-
-      m_clk         => clk_012,
-      m_rst_n       => rst_n,
-      m_txdata      => fifo_tx_data,
-      m_sof         => fifo_tx_sof,
-      m_eof         => fifo_tx_eof,
-      m_genframe    => fifo_tx_req_frm,
-      m_genframeack => fifo_tx_ack_frm
+      m_clk                   => clk_012,
+      m_rst                   => rst,
+      m_axis_tready           => s_tx_dat_tready,
+      m_axis_tdata            => s_tx_dat_tdata,
+      m_axis_tkeep            => s_tx_dat_tkeep,
+      m_axis_tvalid           => s_tx_dat_tvalid,
+      m_axis_tlast            => s_tx_dat_tlast,
+      m_axis_tid              => s_tx_dat_tid,
+      m_axis_tdest            => s_tx_dat_tdest,
+      m_axis_tuser            => s_tx_dat_tuser,
+      -- pause                
+      s_pause_req             => '0',
+      s_pause_ack             => open,
+      m_pause_req             => '0',
+      m_pause_ack             => open,
+      -- status
+      s_status_depth          => s_tx_status_depth,
+      s_status_depth_commit   => s_tx_status_depth_commit,
+      s_status_overflow       => open,
+      s_status_bad_frame      => open,
+      s_status_good_frame     => open,
+      m_status_depth          => m_tx_status_depth,
+      m_status_depth_commit   => m_tx_status_depth_commit,
+      m_status_overflow       => open,
+      m_status_bad_frame      => open,
+      m_status_good_frame     => open
+    
     );
 
   --! from fifo stream to ethernet frame
   i_eth_frm_tx : entity work.eth_frm_tx
     port map (
-      iclk         => clk_012,
-      irst_n       => rst_n,
+      clk          => clk_012,
+      rst_n        => rst_n,
 
-      itxdata      => fifo_tx_data,
-      osof         => fifo_tx_sof,
-      ieof         => fifo_tx_eof,
-      igenframe    => fifo_tx_req_frm,
-      ogenframeack => fifo_tx_ack_frm,
+      dat_tready   => s_tx_dat_tready,
+      dat_tdata    => s_tx_dat_tdata,
+      dat_tlast    => s_tx_dat_tlast,
+      dat_tvalid   => s_tx_dat_tvalid,
 
-      otxdata      => frm_tx_data,
-      otxen        => frm_tx_en,
-      otxerr       => frm_tx_err
+      txdata       => frm_tx_data,
+      txen         => frm_tx_en,
+      txerr        => frm_tx_err
     );
 
   --! RGMII TX PHY : normal to reduced interface adapter
