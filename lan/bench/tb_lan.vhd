@@ -27,6 +27,9 @@ architecture rtl of tb_lan is
   constant c_ena_tst_1 : boolean := false;
   constant c_ena_tst_2 : boolean := true;
   constant c_ena_tst_3 : boolean := true;
+  
+  constant c_rx_mdl_speed     : natural   := 1000 ;
+  constant c_rx_mdl_size      : natural   := 80 ;
 
 
   -- ethernet packet from https://github.com/jwbensley/Ethernet-CRC32
@@ -144,8 +147,12 @@ dut: entity work.lan(rtl)
   );
 
 
---! dut
-rgmii_rx_model: entity work.rgmii_rx_model(slow)
+--! models
+rgmii_rx_model: entity work.rgmii_rx_model(sim)
+  generic map (
+    g_speed           => c_rx_mdl_speed,
+    g_size            => c_rx_mdl_size
+  )
   port map (
     rst_n             => rst_n,
     
@@ -153,6 +160,7 @@ rgmii_rx_model: entity work.rgmii_rx_model(slow)
     rgmii_rx_ctl      => rgmii_tx_ctl ,
     rgmii_rd          => rgmii_td     
   );
+
   
 --! test modes
 with test_mode select
