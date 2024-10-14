@@ -14,6 +14,7 @@ use     unisim.vcomponents.all;
 entity lan is
   generic (
     g_sim             : boolean := false;
+    g_speed           : integer range 100 to 1000 := 1000;
     my_mac            : std_logic_vector(47 downto 0) := x"02AABBCCDDEE"
   );
   port(
@@ -72,7 +73,9 @@ architecture rtl of lan is
   signal clk_012    : std_logic; --! PLL output  12.5 MHz
   signal fclk_clk   : std_logic; --! exported clock from the PS
   signal clk_calib  : std_logic; --! PLL output 200 MHz
-  signal clk_txfr   : std_logic; --! clock for transfer between PS and PL
+  
+  signal clk_sel_pl   : std_logic; --! clock for transfer between PS and PL
+  signal clk_sel_tx   : std_logic; --! clock for TX ethernet
 
 --! signals on tx channel
   signal s_tx_dat_tready            : std_logic;
@@ -80,7 +83,7 @@ architecture rtl of lan is
   signal s_tx_dat_tkeep             : std_logic_vector(0 downto 0);
   signal s_tx_dat_tlast             : std_logic;
   signal s_tx_dat_tvalid            : std_logic;
-  -- unused ports                   
+  -- unused ports
   signal s_tx_dat_tid               : std_logic_vector(0 downto 0);
   signal s_tx_dat_tdest             : std_logic_vector(0 downto 0);
   signal s_tx_dat_tuser             : std_logic_vector(0 downto 0);
@@ -103,11 +106,11 @@ architecture rtl of lan is
   signal fifo_rx_eof      : std_logic;
   signal fifo_rx_data     : std_logic_vector(7 downto 0);
   signal fifo_rx_valid    : std_logic;
-  
+
   signal frm_rx_len_err : std_logic;
   signal frm_rx_crc_err : std_logic;
   signal frm_rx_pay_len : unsigned(15 downto 0);
-  
+
   signal frm_rx_rxdata : std_logic_vector(7 downto 0);
   signal frm_rx_rxdv   : std_logic;
   signal frm_rx_rxerr  : std_logic;
@@ -141,6 +144,11 @@ architecture rtl of lan is
   signal AXI_STR_TXD_DBG_tready : STD_LOGIC;
   signal AXI_STR_TXD_DBG_tvalid : STD_LOGIC;
 
+  signal AXI_STR_TXD_SEL_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_TXD_SEL_tlast  : STD_LOGIC;
+  signal AXI_STR_TXD_SEL_tready : STD_LOGIC;
+  signal AXI_STR_TXD_SEL_tvalid : STD_LOGIC;
+
 
 --! spare signals on block design
   signal interrupt_0              :   STD_LOGIC;
@@ -167,24 +175,39 @@ begin
   rst_n    <=     lock_1;
   pll_lock <=     lock_1;
 
-  gen_ps_clk: if g_sim = false generate
-    clk_txfr <= fclk_clk;
+  gen_syn: if g_sim = false generate
+    clk_sel_pl                <= fclk_clk;
+    AXI_STR_TXD_0_tready    <= AXI_STR_TXD_SEL_tready;
+    AXI_STR_TXD_SEL_tdata   <= AXI_STR_TXD_0_tdata ;
+    AXI_STR_TXD_SEL_tlast   <= AXI_STR_TXD_0_tlast ;
+    AXI_STR_TXD_SEL_tvalid  <= AXI_STR_TXD_0_tvalid;
   end generate;
 
-  gen_pl_clk: if g_sim = true generate
-    clk_txfr <= clk_050;
+  gen_sim: if g_sim = true generate
+    clk_sel_pl                <= clk_050;
+    AXI_STR_TXD_DBG_tready  <= AXI_STR_TXD_SEL_tready;
+    AXI_STR_TXD_SEL_tdata   <= AXI_STR_TXD_DBG_tdata ;
+    AXI_STR_TXD_SEL_tlast   <= AXI_STR_TXD_DBG_tlast ;
+    AXI_STR_TXD_SEL_tvalid  <= AXI_STR_TXD_DBG_tvalid;
+  end generate;
+
+  gen_slow: if g_speed = 100 generate
+    clk_sel_tx              <= clk_012;
+  end generate;
+  
+  gen_fast: if g_speed = 1000 generate
+    clk_sel_tx              <= clk_125;
   end generate;
 
 --! indicate the board is running
   i_pwm: entity work.pwm
-  generic map (45)
-  port    map (clk_125, rst_n,led);
+  port    map (clk_sel_tx, rst_n,led);
 
 
   --! user logic with ROM
   i_rom_tx : entity work.rom_tx
     port map (
-      clk           => clk_txfr,
+      clk           => clk_sel_pl,
       rst_n         => rst_n,
       m_dat_tready  => AXI_STR_TXD_DBG_tready,
       m_dat_tdata   => AXI_STR_TXD_DBG_tdata ,
@@ -205,18 +228,18 @@ begin
       )
     port map (
       -- AXI stream input
-      s_clk                   => clk_txfr,
+      s_clk                   => clk_sel_pl,
       s_rst                   => rst,
-      s_axis_tready           => AXI_STR_TXD_0_tready,
-      s_axis_tdata            => AXI_STR_TXD_0_tdata,
-      s_axis_tvalid           => AXI_STR_TXD_0_tvalid,
-      s_axis_tlast            => AXI_STR_TXD_0_tlast,
+      s_axis_tready           => AXI_STR_TXD_SEL_tready,
+      s_axis_tdata            => AXI_STR_TXD_SEL_tdata,
+      s_axis_tvalid           => AXI_STR_TXD_SEL_tvalid,
+      s_axis_tlast            => AXI_STR_TXD_SEL_tlast,
       s_axis_tkeep            => "1111",
       s_axis_tid              => "1",
       s_axis_tdest            => "1",
       s_axis_tuser            => "1",
       -- AXI stream output
-      m_clk                   => clk_012,
+      m_clk                   => clk_sel_tx,
       m_rst                   => rst,
       m_axis_tready           => s_tx_dat_tready,
       m_axis_tdata            => s_tx_dat_tdata,
@@ -226,7 +249,7 @@ begin
       m_axis_tid              => s_tx_dat_tid,
       m_axis_tdest            => s_tx_dat_tdest,
       m_axis_tuser            => s_tx_dat_tuser,
-      -- pause                
+      -- pause
       s_pause_req             => '0',
       s_pause_ack             => open,
       m_pause_req             => '0',
@@ -242,13 +265,13 @@ begin
       m_status_overflow       => open,
       m_status_bad_frame      => open,
       m_status_good_frame     => open
-    
+
     );
 
   --! from fifo stream to ethernet frame
   i_eth_frm_tx : entity work.eth_frm_tx
     port map (
-      clk          => clk_012,
+      clk          => clk_sel_tx,
       rst_n        => rst_n,
 
       dat_tready   => s_tx_dat_tready,
@@ -265,7 +288,7 @@ begin
   i_rgmii_tx_ddr: entity work.rgmii_tx_ddr
     port map (
       rst          => rst,
-      clk          => clk_012,
+      clk          => clk_sel_tx,
 
       ref_clk      => clk_calib,
 
@@ -273,14 +296,14 @@ begin
       gmii_tx_en   => frm_tx_en,
       gmii_tx_err  => frm_tx_err,
 
-      rgmii_txc    => open   ,
+      rgmii_txc    => rgmii_txc   ,
       rgmii_tx_ctl => rgmii_tx_ctl,
       rgmii_td     => rgmii_td
     );
-    
+
     -- for 100 Mbps use the 25 MHz clock
     -- use the DDR 125 MHz clock for 1000 Mbps
-    rgmii_txc <= clk_025;
+    -- rgmii_txc <= clk_025;
 
   --! RGMII RX PHY : reduced to normal interface adapter
   i_rgmii_rx_ddr: entity work.rgmii_rx_ddr
@@ -330,7 +353,7 @@ begin
     s_rxdata      => fifo_rx_data,
     s_rxdv        => fifo_rx_valid,
 
-    m_clk         => clk_txfr,
+    m_clk         => clk_sel_pl,
     m_rst_n       => rst_n,
     m_dat_tready  => s_rx_dat_tready,
     m_dat_tdata   => s_rx_dat_tdata,
@@ -346,7 +369,7 @@ begin
       )
     port map (
       -- Usual ports
-      clk      => clk_txfr,
+      clk      => clk_sel_pl,
       rst      => rst,
       -- AXI stream input
       s_axis_tready => s_rx_dat_tready,

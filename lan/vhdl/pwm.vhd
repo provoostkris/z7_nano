@@ -9,9 +9,6 @@ use     ieee.numeric_std.all;
 use     ieee.std_logic_misc.all;
 
 entity pwm is
-  generic(
-    g_pwm         : in  positive range 1 to 255 := 50 -- pwm value
-  );
   port(
     clk           : in  std_logic;  --system clock
     reset_n       : in  std_logic;  --active low reset
@@ -22,11 +19,14 @@ end pwm;
 
 architecture rtl of pwm is
 
-  signal cntr : unsigned( 7 downto 0);
+  constant c_cnt  : positive := 14;
+
+  signal cntr     : unsigned(c_cnt-1 downto 0);
+  signal beat     : unsigned(c_cnt-1 downto 0);
 
 begin
 
-  -- siple counter to bring led in visible frequency
+  -- simple counter for PWM driver
   process(reset_n, clk) is
   begin
       if reset_n='0' then
@@ -36,6 +36,18 @@ begin
       end if;
   end process;
 
-  led <= '1' when cntr > g_pwm else '0' ;
+  -- up down counter for beat controller
+  process(reset_n, clk) is
+  begin
+      if reset_n='0' then
+        beat  <= ( others => '0');
+      elsif rising_edge(clk) then
+      if or_reduce(std_logic_vector(cntr)) = '0' then
+        beat  <= beat + to_unsigned(1,beat'length);
+      end if;
+      end if;
+  end process;
+
+  led <= '1' when cntr > beat else '0' ;
 
 end rtl;
