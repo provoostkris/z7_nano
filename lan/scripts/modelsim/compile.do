@@ -87,6 +87,7 @@ echo "Compiling design"
 
 echo "Compiling test bench"
 
+  vcom  -2008 -quiet -work work $path_rtl/bench/rgmii_rx_model.vhd
   vcom  -2008 -quiet -work work $path_rtl/bench/tb_lan.vhd
 
 echo "Compilation script completed "
