@@ -71,7 +71,7 @@ module axis_async_fifo_adapter #
     // Frame FIFO mode - operate on frames instead of cycles
     // When set, m_axis_tvalid will not be deasserted within a frame
     // Requires LAST_ENABLE set
-    parameter FRAME_FIFO = 0,
+    parameter FRAME_FIFO = 1,
     // tuser value for bad frame marker
     parameter USER_BAD_FRAME_VALUE = 1'b1,
     // tuser mask for bad frame marker
