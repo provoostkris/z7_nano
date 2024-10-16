@@ -121,9 +121,6 @@ architecture rtl of lan is
   signal AXI_STR_RXD_0_tlast  : STD_LOGIC;
   signal AXI_STR_RXD_0_tready : STD_LOGIC;
   signal AXI_STR_RXD_0_tvalid : STD_LOGIC;
-  signal AXI_STR_RXD_0_tid    : STD_LOGIC_VECTOR (  0 downto 0 );
-  signal AXI_STR_RXD_0_tdest  : STD_LOGIC_VECTOR (  0 downto 0 );
-  signal AXI_STR_RXD_0_tuser  : STD_LOGIC_VECTOR (  0 downto 0 );
 
   signal AXI_STR_RXD_DBG_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal AXI_STR_RXD_DBG_tkeep  : STD_LOGIC_VECTOR (  3 downto 0 );
@@ -366,10 +363,10 @@ begin
       -- AXI stream output
       m_clk                   => clk_sel_pl,
       m_rst                   => rst,
-      m_axis_tready           => AXI_STR_RXD_DBG_tready,
-      m_axis_tdata            => AXI_STR_RXD_DBG_tdata,
-      m_axis_tkeep            => AXI_STR_RXD_DBG_tkeep,
-      m_axis_tvalid           => AXI_STR_RXD_DBG_tvalid,
+      m_axis_tready           => AXI_STR_RXD_0_tready,
+      m_axis_tdata            => AXI_STR_RXD_0_tdata,
+      m_axis_tkeep            => AXI_STR_RXD_0_tkeep,
+      m_axis_tvalid           => AXI_STR_RXD_0_tvalid,
       m_axis_tlast            => AXI_STR_RXD_DBG_tlast,
       m_axis_tid              => AXI_STR_RXD_DBG_tid,
       m_axis_tdest            => AXI_STR_RXD_DBG_tdest,
