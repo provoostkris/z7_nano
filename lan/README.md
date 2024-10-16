@@ -11,16 +11,17 @@ the system is kept to a very minimal setup and shown below:
 
 
 ### Features
-- PHY itf : 1 Gbps
+- PHY itf : 100/1000 Mbps (selectable)
 - MAC itf : RGMII @ 4 x 125 MHz DDR
 - MAC : Layer 2 frame processing TX and RX
 
 ### [I/O](constraints)
 - PL ETH 
 - LED : 
-  - off = reset
-  - on  = active
-- RESET button press = send a dummy frame
+  - heartbeat : proportional to ETH clock
+    - slow pulse : 100 Mbps
+    - fast pulse : 1000 Mbps
+- RESET button
 
 ### Development environment
 - Windows 11 

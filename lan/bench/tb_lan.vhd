@@ -25,11 +25,12 @@ end entity tb_lan;
 architecture rtl of tb_lan is
 
   constant c_ena_tst_1 : boolean := false;
-  constant c_ena_tst_2 : boolean := true;
+  constant c_ena_tst_2 : boolean := false;
   constant c_ena_tst_3 : boolean := true;
-  
+
   constant c_rx_mdl_speed     : natural   := 1000 ;
   constant c_rx_mdl_size      : natural   := 80 ;
+  constant c_tx_mdl_speed     : natural   := 1000 ;
 
 
   -- ethernet packet from https://github.com/jwbensley/Ethernet-CRC32
@@ -78,6 +79,10 @@ architecture rtl of tb_lan is
   signal mdl_rgmii_rx_ctl   : std_logic;
   signal mdl_rgmii_rd       : std_logic_vector(3 downto 0);
 
+  signal tx_header          : t_ethernet_header;               -- header record
+  signal tx_payload         : t_slv_arr(0 to C_ETH_PKT'high)(7 downto 0); -- packet payload
+  signal tx_ena             : std_logic := '0';
+
 --! procedures
 procedure proc_wait_clk  (
   signal    clk    : in std_logic ;
@@ -111,7 +116,7 @@ dut: entity work.lan(rtl)
   port map (
     clk               => clk,
     reset_n           => rst_n,
-    
+
     pll_lock          => pll_lock,
     led               => open,
 
@@ -143,7 +148,7 @@ dut: entity work.lan(rtl)
     FIXED_IO_mio      => open ,
     FIXED_IO_ps_clk   => open ,
     FIXED_IO_ps_porb  => open ,
-    FIXED_IO_ps_srstb => open 
+    FIXED_IO_ps_srstb => open
   );
 
 
@@ -155,18 +160,35 @@ rgmii_rx_model: entity work.rgmii_rx_model(sim)
   )
   port map (
     rst_n             => rst_n,
-    
+
     rgmii_rxc         => rgmii_txc    ,
     rgmii_rx_ctl      => rgmii_tx_ctl ,
-    rgmii_rd          => rgmii_td     
+    rgmii_rd          => rgmii_td
   );
 
-  
+rgmii_tx_model: entity work.rgmii_tx_model(sim)
+  generic map (
+    g_speed           => c_tx_mdl_speed,
+    g_size            => C_ETH_PKT'high
+  )
+  port map (
+    rst_n             => rst_n,
+
+    header            => tx_header,
+    payload           => tx_payload,
+    tx_ena            => tx_ena,
+
+    rgmii_txc         => rgmii_txc    ,
+    rgmii_tx_ctl      => mdl_rgmii_rx_ctl ,
+    rgmii_td          => mdl_rgmii_rd
+  );
+
+
 --! test modes
 with test_mode select
-  rgmii_rxc     <=  rgmii_txc           when loopback,
-                    rx_clk after c_t_pd when tx_model,
-                    '0'                 when others;
+  rgmii_rxc     <=  rgmii_txc              when loopback,
+                    rgmii_txc after c_t_pd when tx_model,
+                    '0'                    when others;
 with test_mode select
   rgmii_rd      <=  rgmii_td          when loopback,
                     mdl_rgmii_rd      when tx_model,
@@ -201,8 +223,6 @@ with test_mode select
     report " .. simple loop back test , the TX is wired to RX";
     report " .. then the simulation will run for 200 clk cycles";
 
-      mdl_rgmii_rx_ctl <= '0';
-      mdl_rgmii_rd     <= ( others => '0');
 	    proc_reset(3);
 
       -- create loop back condition
@@ -221,54 +241,21 @@ with test_mode select
     report " .. the DUT is first resetted and waited for the PLL to lock";
     report " .. after the packet the IPG sequence is sent to respect the protocol";
 
-      mdl_rgmii_rx_ctl <= '0';
-      mdl_rgmii_rd     <= ( others => '0');
-	    proc_reset(3);
-
       -- configure test mode
       test_mode <= tx_model ;
-      
-      v_payload                 := C_ETH_PKT;
-      v_header                  := C_DEFAULT_ETH_HEADER;                                -- copy default header
-      v_header.mac_dest         := f_eth_mac_2_slv_arr("02:AA:BB:CC:DD:EE");            -- change destination MAC
-      v_len                     := f_eth_create_pkt_len(v_header, v_payload);           -- calculate total packet length
-      v_eth_pkt(0 to v_len - 1) := f_eth_create_pkt(v_header, v_payload);               -- create the packet
-      v_eth_pkt(0 to v_len + 7) := f_concat(C_ETH_PREAMBLE, v_eth_pkt(0 to v_len - 1)); -- add preamble
 
-      -- create packet for transmission and wait for PLL to lock
+      tx_payload                 <= C_ETH_PKT;
+      tx_header                  <= C_DEFAULT_ETH_HEADER;                                -- copy default header
+      tx_header.mac_dest         <= f_eth_mac_2_slv_arr("02:AA:BB:CC:DD:EE");            -- change destination MAC
+
+      -- start from reset
 	    proc_reset(3);
-      eth_pkt       <= v_eth_pkt;
       -- wait until the clocks are running and reset is over
       wait until pll_lock = '1';
  	    proc_wait_clk(rx_clk, 5);
-      -- for i in 0 to v_len + 7 loop
-        -- report to_string(eth_pkt(i));
-      -- end loop;
-
-      -- then transmit the packet
- 	    for i in 0 to v_len + 7 loop
-        -- first nibble
-        proc_wait_clk_edge(rx_clk, '1');
-        mdl_rgmii_rd     <= eth_pkt(i)(3 downto 0);
-        mdl_rgmii_rx_ctl <= c_tx_ena;
-        proc_wait_clk_edge(rx_clk, '0');
-        mdl_rgmii_rd     <= eth_pkt(i)(7 downto 4);
-        mdl_rgmii_rx_ctl <= c_tx_ena xor c_tx_err;
-      end loop;
-      -- followed by the IPG
- 	    for i in 0 to c_ipg_len-1 loop
-        -- first nibble
-        proc_wait_clk_edge(rx_clk, '1');
-        mdl_rgmii_rd     <= ( others => '1');
-        mdl_rgmii_rx_ctl <= not c_tx_ena;
-        proc_wait_clk_edge(rx_clk, '0');
-        mdl_rgmii_rd     <= ( others => '1');
-        mdl_rgmii_rx_ctl <= not c_tx_ena xor c_tx_err;
-      end loop;
-
-      proc_wait_clk_edge(rx_clk, '1');
-      mdl_rgmii_rx_ctl <= '0';
-      mdl_rgmii_rd     <= ( others => '0');
+      tx_ena <= '1';
+ 	    proc_wait_clk(rx_clk, 5);
+      tx_ena <= '0';
 
  	    proc_wait_clk(rx_clk, 999);
 	  report " END TST.02 ";
@@ -280,55 +267,26 @@ with test_mode select
     report " .. the DUT is first resetted and waited for the PLL to lock";
     report " .. after the packet the IPG sequence is sent to respect the protocol";
 
-      mdl_rgmii_rx_ctl <= '0';
-      mdl_rgmii_rd     <= ( others => '0');
-	    proc_reset(3);
+      -- configure test mode
+      test_mode <= tx_model ;
 
       for i in C_ETH_PKT'range loop
-        v_payload(i)            := x"F0";
+        tx_payload(i)            <= x"F0";
       end loop;
-      v_header                  := C_DEFAULT_ETH_HEADER;                                -- copy default header
-      v_header.mac_dest         := f_eth_mac_2_slv_arr("02:AA:BB:CC:DD:EE");            -- change destination MAC
-      v_len                     := f_eth_create_pkt_len(v_header, v_payload);           -- calculate total packet length
-      v_eth_pkt(0 to v_len - 1) := f_eth_create_pkt(v_header, v_payload);               -- create the packet
-      v_eth_pkt(0 to v_len + 7) := f_concat(C_ETH_PREAMBLE, v_eth_pkt(0 to v_len - 1)); -- add preamble
+      tx_header                  <= C_DEFAULT_ETH_HEADER;                                -- copy default header
+      tx_header.mac_dest         <= f_eth_mac_2_slv_arr("02:AA:BB:CC:DD:EE");            -- change destination MAC
 
-      -- create packet for transmission
+      -- start from reset
 	    proc_reset(3);
-      eth_pkt       <= v_eth_pkt;
       -- wait until the clocks are running and reset is over
       wait until pll_lock = '1';
  	    proc_wait_clk(rx_clk, 5);
-      -- for i in 0 to v_len + 7 loop
-        -- report to_string(eth_pkt(i));
-      -- end loop;
-
-      -- then transmit the packet
- 	    for i in 0 to v_len + 7 loop
-        -- first nibble
-        proc_wait_clk_edge(rx_clk, '1');
-        mdl_rgmii_rd     <= eth_pkt(i)(3 downto 0);
-        mdl_rgmii_rx_ctl <= c_tx_ena;
-        proc_wait_clk_edge(rx_clk, '0');
-        mdl_rgmii_rd     <= eth_pkt(i)(7 downto 4);
-        mdl_rgmii_rx_ctl <= c_tx_ena xor c_tx_err;
-      end loop;
-      -- followed by the IPG
- 	    for i in 0 to c_ipg_len-1 loop
-        -- first nibble
-        proc_wait_clk_edge(rx_clk, '1');
-        mdl_rgmii_rd     <= ( others => '1');
-        mdl_rgmii_rx_ctl <= not c_tx_ena;
-        proc_wait_clk_edge(rx_clk, '0');
-        mdl_rgmii_rd     <= ( others => '1');
-        mdl_rgmii_rx_ctl <= not c_tx_ena xor c_tx_err;
-      end loop;
-
-      proc_wait_clk_edge(rx_clk, '1');
-      mdl_rgmii_rx_ctl <= '0';
-      mdl_rgmii_rd     <= ( others => '0');
+      tx_ena <= '1';
+ 	    proc_wait_clk(rx_clk, 5);
+      tx_ena <= '0';
 
  	    proc_wait_clk(rx_clk, 999);
+	  report " END TST.03 ";
     end if;
 
 	  report " END of test bench" severity failure;
