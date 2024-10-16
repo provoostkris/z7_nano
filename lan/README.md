@@ -37,6 +37,7 @@ The [scripts/modelsim](scripts/modelsim/) folder contains the required do files 
   - Run the simulate.do file
 Note : The first time the simulation is started, the vivado is required to build the simulation libraries containing the primitives
 to do this , use gen_sim_libs.tcl in [scripts/vivado](scripts/vivado/) to create the xilinx libraries
+The test bench will perform a few tests with either loopback (TX <> RX) or makes use of some reference frames
 
 ### FPGA release
 The [scripts/vivado](scripts/vivado/) folder contains the required tcl files to be loaded by vivado.

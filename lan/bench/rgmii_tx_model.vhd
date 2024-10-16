@@ -63,6 +63,7 @@ gen_fast: if g_speed = 1000 generate
     rgmii_tx_ctl <= '0';
     wait until rst_n = '1';
     while rst_n = '1' loop
+      proc_wait_clk_edge(rgmii_txc, '1');
       wait until tx_ena = '1' ;
       -- dynamically create the packet
       v_len                                 := f_eth_create_pkt_len(header, payload);           -- calculate total packet length

@@ -24,8 +24,8 @@ end entity tb_lan;
 
 architecture rtl of tb_lan is
 
-  constant c_ena_tst_1 : boolean := false;
-  constant c_ena_tst_2 : boolean := false;
+  constant c_ena_tst_1 : boolean := true;
+  constant c_ena_tst_2 : boolean := true;
   constant c_ena_tst_3 : boolean := true;
 
   constant c_rx_mdl_speed     : natural   := 1000 ;
@@ -230,7 +230,7 @@ with test_mode select
       -- wait until the clocks are running and reset is over
       wait until pll_lock = '1';
 
- 	    proc_wait_clk(rx_clk, 250);
+ 	    proc_wait_clk(rx_clk, 999);
 
 	  report " END TST.01 ";
     end if;
@@ -282,8 +282,6 @@ with test_mode select
       wait until pll_lock = '1';
  	    proc_wait_clk(rx_clk, 5);
       tx_ena <= '1';
- 	    proc_wait_clk(rx_clk, 5);
-      tx_ena <= '0';
 
  	    proc_wait_clk(rx_clk, 999);
 	  report " END TST.03 ";
