@@ -8,7 +8,6 @@ vhdl/rgmii_rx_ddr.vhd
 vhdl/rgmii_tx_ddr.vhd
 vhdl/eth_frm_rx.vhd
 vhdl/eth_frm_tx.vhd
-vhdl/eth_rx_fifo.vhd
 vhdl/rom_tx.vhd
 vhdl/pwm.vhd
 vhdl/lan.vhd

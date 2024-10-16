@@ -22,11 +22,12 @@ echo "adding waves"
   add wave    -group "rgmii_rx_model"                /tb_lan/rgmii_rx_model/*
   add wave    -group "rgmii_tx_model"                /tb_lan/rgmii_tx_model/*
 
+  add wave    -divider "RX"
   add wave    -group "i_axis_width_converter_rx"     /tb_lan/dut/i_axis_width_converter_rx/*
-  add wave    -group "i_eth_rx_fifo"                 /tb_lan/dut/i_eth_rx_fifo/*
   add wave    -group "i_eth_frm_rx"                  /tb_lan/dut/i_eth_frm_rx/*
   add wave    -group "i_rgmii_rx_ddr"                /tb_lan/dut/i_rgmii_rx_ddr/*
 
+  add wave    -divider "TX"
   add wave    -group "i_axis_width_converter_tx"     /tb_lan/dut/i_axis_async_fifo_adapter_tx/*
   add wave    -group "i_eth_frm_tx"                  /tb_lan/dut/i_eth_frm_tx/*
   add wave    -group "i_rgmii_tx_ddr"                /tb_lan/dut/i_rgmii_tx_ddr/*

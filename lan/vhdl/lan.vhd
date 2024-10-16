@@ -73,7 +73,7 @@ architecture rtl of lan is
   signal clk_012    : std_logic; --! PLL output  12.5 MHz
   signal fclk_clk   : std_logic; --! exported clock from the PS
   signal clk_calib  : std_logic; --! PLL output 200 MHz
-  
+
   signal clk_sel_pl   : std_logic; --! clock for transfer between PS and PL
   signal clk_sel_tx   : std_logic; --! clock for TX ethernet
 
@@ -101,11 +101,11 @@ architecture rtl of lan is
   signal s_rx_dat_tdata   : std_logic_vector(7 downto 0);
   signal s_rx_dat_tlast   : std_logic;
   signal s_rx_dat_tvalid  : std_logic;
-
-  signal fifo_rx_sof      : std_logic;
-  signal fifo_rx_eof      : std_logic;
-  signal fifo_rx_data     : std_logic_vector(7 downto 0);
-  signal fifo_rx_valid    : std_logic;
+  -- unused ports
+  signal s_rx_status_depth          : std_logic_vector(10 downto 0);
+  signal s_rx_status_depth_commit   : std_logic_vector(10 downto 0);
+  signal m_rx_status_depth          : std_logic_vector(10 downto 0);
+  signal m_rx_status_depth_commit   : std_logic_vector(10 downto 0);
 
   signal frm_rx_len_err : std_logic;
   signal frm_rx_crc_err : std_logic;
@@ -194,7 +194,7 @@ begin
   gen_slow: if g_speed = 100 generate
     clk_sel_tx              <= clk_012;
   end generate;
-  
+
   gen_fast: if g_speed = 1000 generate
     clk_sel_tx              <= clk_125;
   end generate;
@@ -215,7 +215,6 @@ begin
       m_dat_tvalid  => AXI_STR_TXD_DBG_tvalid
     );
 
-  --! change the stream data width
   --! change the stream data width
   i_axis_async_fifo_adapter_tx : entity work.axis_async_fifo_adapter
     generic map (
@@ -265,7 +264,6 @@ begin
       m_status_overflow       => open,
       m_status_bad_frame      => open,
       m_status_good_frame     => open
-
     );
 
   --! from fifo stream to ethernet frame
@@ -337,58 +335,61 @@ begin
       my_dest_mac        => my_mac,
       mac_match          => open,
 
-      osof               => fifo_rx_sof,
-      oeof               => fifo_rx_eof,
-      orxdata            => fifo_rx_data,
-      orxdv              => fifo_rx_valid
-    );
-
-  --! RX frame fifo : buffer before sending to block design
-  i_eth_rx_fifo : entity work.eth_rx_fifo
-    port map (
-    s_clk         => rgmii_rxc,
-    s_rst_n       => rst_n,
-    s_sof         => fifo_rx_sof,
-    s_eof         => fifo_rx_eof,
-    s_rxdata      => fifo_rx_data,
-    s_rxdv        => fifo_rx_valid,
-
-    m_clk         => clk_sel_pl,
-    m_rst_n       => rst_n,
-    m_dat_tready  => s_rx_dat_tready,
-    m_dat_tdata   => s_rx_dat_tdata,
-    m_dat_tlast   => s_rx_dat_tlast,
-    m_dat_tvalid  => s_rx_dat_tvalid
+      osof               => open,
+      oeof               => s_rx_dat_tlast,
+      orxdata            => s_rx_dat_tdata,
+      orxdv              => s_rx_dat_tvalid
     );
 
   --! convert from byte to word
-  i_axis_width_converter_rx : entity work.axis_adapter
+  i_axis_width_converter_rx : entity work.axis_async_fifo_adapter
     generic map (
-      S_DATA_WIDTH   => 8,
-      M_DATA_WIDTH   => 32
+      DEPTH           => 2**10,
+      S_DATA_WIDTH    => 8,
+      M_DATA_WIDTH    => 32,
+      ID_WIDTH        => 1,
+      DEST_WIDTH      => 1,
+      USER_ENABLE     => 0
       )
     port map (
-      -- Usual ports
-      clk      => clk_sel_pl,
-      rst      => rst,
       -- AXI stream input
-      s_axis_tready => s_rx_dat_tready,
-      s_axis_tdata  => s_rx_dat_tdata,
-      s_axis_tkeep  => "1",
-      s_axis_tvalid => s_rx_dat_tvalid,
-      s_axis_tlast  => s_rx_dat_tlast,
-      s_axis_tid    => "1",
-      s_axis_tdest  => "1",
-      s_axis_tuser  => "1",
+      s_clk                   => rgmii_rxc,
+      s_rst                   => rst,
+      s_axis_tready           => s_rx_dat_tready,
+      s_axis_tdata            => s_rx_dat_tdata,
+      s_axis_tvalid           => s_rx_dat_tvalid,
+      s_axis_tlast            => s_rx_dat_tlast,
+      s_axis_tkeep            => "1",
+      s_axis_tid              => "1",
+      s_axis_tdest            => "1",
+      s_axis_tuser            => "1",
       -- AXI stream output
-      m_axis_tready => AXI_STR_RXD_DBG_tready,
-      m_axis_tdata  => AXI_STR_RXD_DBG_tdata,
-      m_axis_tkeep  => AXI_STR_RXD_DBG_tkeep,
-      m_axis_tvalid => AXI_STR_RXD_DBG_tvalid,
-      m_axis_tlast  => AXI_STR_RXD_DBG_tlast,
-      m_axis_tid    => AXI_STR_RXD_DBG_tid,
-      m_axis_tdest  => AXI_STR_RXD_DBG_tdest,
-      m_axis_tuser  => AXI_STR_RXD_DBG_tuser
+      m_clk                   => clk_sel_pl,
+      m_rst                   => rst,
+      m_axis_tready           => AXI_STR_RXD_DBG_tready,
+      m_axis_tdata            => AXI_STR_RXD_DBG_tdata,
+      m_axis_tkeep            => AXI_STR_RXD_DBG_tkeep,
+      m_axis_tvalid           => AXI_STR_RXD_DBG_tvalid,
+      m_axis_tlast            => AXI_STR_RXD_DBG_tlast,
+      m_axis_tid              => AXI_STR_RXD_DBG_tid,
+      m_axis_tdest            => AXI_STR_RXD_DBG_tdest,
+      m_axis_tuser            => AXI_STR_RXD_DBG_tuser,
+      -- pause
+      s_pause_req             => '0',
+      s_pause_ack             => open,
+      m_pause_req             => '0',
+      m_pause_ack             => open,
+      -- status
+      s_status_depth          => s_rx_status_depth,
+      s_status_depth_commit   => s_rx_status_depth_commit,
+      s_status_overflow       => open,
+      s_status_bad_frame      => open,
+      s_status_good_frame     => open,
+      m_status_depth          => m_rx_status_depth,
+      m_status_depth_commit   => m_rx_status_depth_commit,
+      m_status_overflow       => open,
+      m_status_bad_frame      => open,
+      m_status_good_frame     => open
     );
 
     AXI_STR_RXD_DBG_tready <= '1';
