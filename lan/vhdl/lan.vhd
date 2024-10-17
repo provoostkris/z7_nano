@@ -127,6 +127,7 @@ architecture rtl of lan is
   signal AXI_STR_RXD_DBG_tlast  : STD_LOGIC;
   signal AXI_STR_RXD_DBG_tready : STD_LOGIC;
   signal AXI_STR_RXD_DBG_tvalid : STD_LOGIC;
+  --unused ports
   signal AXI_STR_RXD_DBG_tid    : STD_LOGIC_VECTOR (  0 downto 0 );
   signal AXI_STR_RXD_DBG_tdest  : STD_LOGIC_VECTOR (  0 downto 0 );
   signal AXI_STR_RXD_DBG_tuser  : STD_LOGIC_VECTOR (  0 downto 0 );
@@ -173,7 +174,7 @@ begin
   pll_lock <=     lock_1;
 
   gen_syn: if g_sim = false generate
-    clk_sel_pl                <= fclk_clk;
+    clk_sel_pl              <= fclk_clk;
     AXI_STR_TXD_0_tready    <= AXI_STR_TXD_SEL_tready;
     AXI_STR_TXD_SEL_tdata   <= AXI_STR_TXD_0_tdata ;
     AXI_STR_TXD_SEL_tlast   <= AXI_STR_TXD_0_tlast ;
@@ -181,7 +182,7 @@ begin
   end generate;
 
   gen_sim: if g_sim = true generate
-    clk_sel_pl                <= clk_050;
+    clk_sel_pl              <= clk_050;
     AXI_STR_TXD_DBG_tready  <= AXI_STR_TXD_SEL_tready;
     AXI_STR_TXD_SEL_tdata   <= AXI_STR_TXD_DBG_tdata ;
     AXI_STR_TXD_SEL_tlast   <= AXI_STR_TXD_DBG_tlast ;
@@ -367,7 +368,7 @@ begin
       m_axis_tdata            => AXI_STR_RXD_0_tdata,
       m_axis_tkeep            => AXI_STR_RXD_0_tkeep,
       m_axis_tvalid           => AXI_STR_RXD_0_tvalid,
-      m_axis_tlast            => AXI_STR_RXD_DBG_tlast,
+      m_axis_tlast            => AXI_STR_RXD_0_tlast,
       m_axis_tid              => AXI_STR_RXD_DBG_tid,
       m_axis_tdest            => AXI_STR_RXD_DBG_tdest,
       m_axis_tuser            => AXI_STR_RXD_DBG_tuser,
