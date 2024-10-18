@@ -25,13 +25,14 @@ echo "adding waves"
   add wave    -divider "RX"
   add wave    -group "i_axis_width_converter_rx"     /tb_lan/dut/i_axis_width_converter_rx/*
   add wave    -group "i_eth_frm_rx"                  /tb_lan/dut/i_eth_frm_rx/*
-  add wave    -group "i_rgmii_rx_ddr"                /tb_lan/dut/i_rgmii_rx_ddr/*
+  add wave    -group "i_rgmii_rx_sdr"                /tb_lan/dut/gen_slow_rx/i_rgmii_rx_sdr/*
 
   add wave    -divider "TX"
   add wave    -group "i_axis_width_converter_tx"     /tb_lan/dut/i_axis_async_fifo_adapter_tx/*
   add wave    -group "i_eth_frm_tx"                  /tb_lan/dut/i_eth_frm_tx/*
   add wave    -group "i_rgmii_tx_ddr"                /tb_lan/dut/i_rgmii_tx_ddr/*
 
+  add wave    -divider "BD"
   add wave    -group "bd_base_i"           -ports    /tb_lan/dut/bd_base_i/*
 
 echo "view wave forms"
