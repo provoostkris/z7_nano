@@ -54,7 +54,7 @@ begin  -- architecture rtl
       iclk    => clk,
       irst_n  => rst_n,
       iinit   => crcinit,
-      icalcen => dat_tvalid,
+      icalcen => crcen,
       idata   => dat_tdata,
       ocrc    => crc
     );
