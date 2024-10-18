@@ -14,7 +14,7 @@ use     unisim.vcomponents.all;
 entity lan is
   generic (
     g_sim             : boolean := false;
-    g_speed           : integer range 100 to 1000 := 1000;
+    g_speed           : integer range 100 to 1000 := 100;
     my_mac            : std_logic_vector(47 downto 0) := x"02AABBCCDDEE"
   );
   port(
@@ -96,6 +96,8 @@ architecture rtl of lan is
   signal frm_tx_en                  : std_logic;
   signal frm_tx_err                 : std_logic;
 
+  signal rgmii_tx_clk               : std_logic;
+
 --! signals on rx channel
   signal s_rx_dat_tready  : std_logic;
   signal s_rx_dat_tdata   : std_logic_vector(7 downto 0);
@@ -111,9 +113,11 @@ architecture rtl of lan is
   signal frm_rx_crc_err : std_logic;
   signal frm_rx_pay_len : unsigned(15 downto 0);
 
-  signal frm_rx_rxdata : std_logic_vector(7 downto 0);
   signal frm_rx_rxdv   : std_logic;
   signal frm_rx_rxerr  : std_logic;
+  signal frm_rx_ena    : std_logic;
+  signal frm_rx_lst    : std_logic;
+  signal frm_rx_rxdata : std_logic_vector(7 downto 0);
 
 --! signals for AXIS CH 0
   signal AXI_STR_RXD_0_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
@@ -131,6 +135,12 @@ architecture rtl of lan is
   signal AXI_STR_RXD_DBG_tid    : STD_LOGIC_VECTOR (  0 downto 0 );
   signal AXI_STR_RXD_DBG_tdest  : STD_LOGIC_VECTOR (  0 downto 0 );
   signal AXI_STR_RXD_DBG_tuser  : STD_LOGIC_VECTOR (  0 downto 0 );
+
+  signal AXI_STR_RXD_SEL_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_RXD_SEL_tkeep  : STD_LOGIC_VECTOR (  3 downto 0 );
+  signal AXI_STR_RXD_SEL_tlast  : STD_LOGIC;
+  signal AXI_STR_RXD_SEL_tready : STD_LOGIC;
+  signal AXI_STR_RXD_SEL_tvalid : STD_LOGIC;
 
   signal AXI_STR_TXD_0_tdata    : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal AXI_STR_TXD_0_tlast    : STD_LOGIC;
@@ -175,18 +185,32 @@ begin
 
   gen_syn: if g_sim = false generate
     clk_sel_pl              <= fclk_clk;
+
     AXI_STR_TXD_0_tready    <= AXI_STR_TXD_SEL_tready;
     AXI_STR_TXD_SEL_tdata   <= AXI_STR_TXD_0_tdata ;
     AXI_STR_TXD_SEL_tlast   <= AXI_STR_TXD_0_tlast ;
     AXI_STR_TXD_SEL_tvalid  <= AXI_STR_TXD_0_tvalid;
+
+    AXI_STR_RXD_SEL_tready  <= AXI_STR_RXD_0_tready;
+    AXI_STR_RXD_0_tdata     <= AXI_STR_RXD_SEL_tdata ;
+    AXI_STR_RXD_0_tkeep     <= AXI_STR_RXD_SEL_tkeep ;
+    AXI_STR_RXD_0_tlast     <= AXI_STR_RXD_SEL_tlast ;
+    AXI_STR_RXD_0_tvalid    <= AXI_STR_RXD_SEL_tvalid;
   end generate;
 
   gen_sim: if g_sim = true generate
     clk_sel_pl              <= clk_050;
+
     AXI_STR_TXD_DBG_tready  <= AXI_STR_TXD_SEL_tready;
     AXI_STR_TXD_SEL_tdata   <= AXI_STR_TXD_DBG_tdata ;
     AXI_STR_TXD_SEL_tlast   <= AXI_STR_TXD_DBG_tlast ;
     AXI_STR_TXD_SEL_tvalid  <= AXI_STR_TXD_DBG_tvalid;
+
+    AXI_STR_RXD_SEL_tready  <= AXI_STR_RXD_DBG_tready;
+    AXI_STR_RXD_DBG_tdata   <= AXI_STR_RXD_SEL_tdata ;
+    AXI_STR_RXD_DBG_tkeep   <= AXI_STR_RXD_SEL_tkeep ;
+    AXI_STR_RXD_DBG_tlast   <= AXI_STR_RXD_SEL_tlast ;
+    AXI_STR_RXD_DBG_tvalid  <= AXI_STR_RXD_SEL_tvalid;
   end generate;
 
   gen_slow: if g_speed = 100 generate
@@ -292,16 +316,34 @@ begin
       gmii_tx_en   => frm_tx_en,
       gmii_tx_err  => frm_tx_err,
 
-      rgmii_txc    => rgmii_txc   ,
+      rgmii_txc    => rgmii_tx_clk,
       rgmii_tx_ctl => rgmii_tx_ctl,
       rgmii_td     => rgmii_td
     );
 
     -- for 100 Mbps use the 25 MHz clock
-    -- use the DDR 125 MHz clock for 1000 Mbps
-    -- rgmii_txc <= clk_025;
+    -- use the 125 MHz clock for 1000 Mbps
+    rgmii_txc <= clk_025 when g_speed = 100 else rgmii_tx_clk;
 
   --! RGMII RX PHY : reduced to normal interface adapter
+  gen_slow_rx: if g_speed = 100 generate
+  i_rgmii_rx_sdr: entity work.rgmii_rx_sdr
+    port map(
+      rst         => rst,
+
+      rgmii_rxc   => rgmii_rxc,
+      rgmii_rx_ctl=> rgmii_rx_ctl,
+      rgmii_rd    => rgmii_rd    ,
+
+      gmii_rx_dv  => frm_rx_rxdv   ,
+      gmii_rx_err => frm_rx_rxerr  ,
+      gmii_rx_ena => frm_rx_ena    ,
+      gmii_rx_lst => frm_rx_lst    ,
+      gmii_rd     => frm_rx_rxdata
+    );
+   end generate gen_slow_rx;
+
+  gen_fast_rx: if g_speed = 1000 generate
   i_rgmii_rx_ddr: entity work.rgmii_rx_ddr
     port map(
       rst         => rst,
@@ -314,6 +356,8 @@ begin
       gmii_rx_err => frm_rx_rxerr  ,
       gmii_rd     => frm_rx_rxdata
     );
+    frm_rx_ena <= '1';
+   end generate gen_fast_rx;
 
   --! ethernet frame reciever : check ethernet header
   i_eth_frm_rx : entity work.eth_frm_rx
@@ -321,6 +365,8 @@ begin
       iclk               => rgmii_rxc,
       irst_n             => rst_n,
 
+      irx_lst            => frm_rx_lst,
+      irx_ena            => frm_rx_ena,
       irxdata            => frm_rx_rxdata,
       irxdv              => frm_rx_rxdv,
       irxer              => frm_rx_rxerr,
@@ -364,11 +410,11 @@ begin
       -- AXI stream output
       m_clk                   => clk_sel_pl,
       m_rst                   => rst,
-      m_axis_tready           => AXI_STR_RXD_0_tready,
-      m_axis_tdata            => AXI_STR_RXD_0_tdata,
-      m_axis_tkeep            => AXI_STR_RXD_0_tkeep,
-      m_axis_tvalid           => AXI_STR_RXD_0_tvalid,
-      m_axis_tlast            => AXI_STR_RXD_0_tlast,
+      m_axis_tready           => AXI_STR_RXD_SEL_tready,
+      m_axis_tdata            => AXI_STR_RXD_SEL_tdata,
+      m_axis_tkeep            => AXI_STR_RXD_SEL_tkeep,
+      m_axis_tvalid           => AXI_STR_RXD_SEL_tvalid,
+      m_axis_tlast            => AXI_STR_RXD_SEL_tlast,
       m_axis_tid              => AXI_STR_RXD_DBG_tid,
       m_axis_tdest            => AXI_STR_RXD_DBG_tdest,
       m_axis_tuser            => AXI_STR_RXD_DBG_tuser,
@@ -389,7 +435,8 @@ begin
       m_status_bad_frame      => open,
       m_status_good_frame     => open
     );
-
+    
+    --! just for debugging always consume data
     AXI_STR_RXD_DBG_tready <= '1';
 
 --! we need a pll to make 125.0 mhz from the 50 mhz

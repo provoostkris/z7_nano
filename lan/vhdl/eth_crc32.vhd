@@ -1,16 +1,16 @@
 -------------------------------------------------------------------------------
--- Title      : 
--- Project    : 
+-- Title      :
+-- Project    :
 -------------------------------------------------------------------------------
 -- File       : eth_crc32.vhd
 -- Author     : liyi  <alxiuyain@foxmail.com>
 -- Company    : OE@HUST
 -- Created    : 2012-11-04
 -- Last update: 2012-11-06
--- Platform   : 
+-- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
--- Description: 
+-- Description:
 -------------------------------------------------------------------------------
 -- Copyright (c) 2012 OE@HUST
 -------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ END ENTITY eth_crc32;
 ARCHITECTURE rtl OF eth_crc32 IS
 
   SIGNAL crc, nxtCrc : STD_LOGIC_VECTOR(31 DOWNTO 0);
-  
+
 BEGIN  -- ARCHITECTURE rtl
 
   nxtCrc(0) <= crc(24) XOR crc(30) XOR iData(1) XOR iData(7);
@@ -74,22 +74,22 @@ BEGIN  -- ARCHITECTURE rtl
   nxtCrc(30) <= crc(22) XOR crc(31) XOR iData(0) XOR crc(28) XOR iData(3);
   nxtCrc(31) <= crc(23) XOR crc(29) XOR iData(2);
 
-  PROCESS (iClk,iRst_n) IS 
-  BEGIN 
-   IF iRst_n = '0' THEN 
-    crc <= (OTHERS => '0');
+  PROCESS (iClk,iRst_n) IS
+  BEGIN
+   IF iRst_n = '0' THEN
+    crc    <= (OTHERS => '0');
    ELSIF rising_edge(iClk) THEN
      IF iInit = '1' THEN
        crc <= (OTHERS => '1');
      ELSIF iCalcEn = '1' THEN
-       crc <= nxtCrc;
+        crc <= nxtCrc;
      END IF;
    END IF;
   END PROCESS;
-  
+
   oCRC(31 DOWNTO 24)  <= NOT (crc(24)&crc(25)&crc(26)&crc(27)&crc(28)&crc(29)&crc(30)&crc(31));
   oCRC(23 DOWNTO 16)  <= NOT (crc(16)&crc(17)&crc(18)&crc(19)&crc(20)&crc(21)&crc(22)&crc(23));
   oCRC(15 DOWNTO 8)   <= NOT (crc(8)&crc(9)&crc(10)&crc(11)&crc(12)&crc(13)&crc(14)&crc(15));
   oCRC(7 DOWNTO 0)    <= NOT (crc(0)&crc(1)&crc(2)&crc(3)&crc(4)&crc(5)&crc(6)&crc(7));
-  
+
 END ARCHITECTURE rtl;
