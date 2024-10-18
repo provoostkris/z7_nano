@@ -28,9 +28,8 @@ architecture rtl of tb_lan is
   constant c_ena_tst_2 : boolean := true;
   constant c_ena_tst_3 : boolean := true;
 
-  constant c_rx_mdl_speed     : natural   := 1000 ;
+  constant c_speed     : natural   range 100 to 1000 := 100 ;
   constant c_rx_mdl_size      : natural   := 80 ;
-  constant c_tx_mdl_speed     : natural   := 1000 ;
 
 
   -- ethernet packet from https://github.com/jwbensley/Ethernet-CRC32
@@ -49,7 +48,6 @@ architecture rtl of tb_lan is
                                                            x"36", x"37", x"e6", x"4c", x"b4", x"86");
 
   constant c_clk_per     : time      := 20 ns ;
-  constant c_rx_clk_per  : time      :=  8 ns ;
   constant c_t_pd        : time      :=  2 ns ;  -- propagation delay added by the PHY
 
   constant c_tx_ena      : std_logic := '1';
@@ -58,7 +56,6 @@ architecture rtl of tb_lan is
 
   signal rst_n        : std_ulogic :='0';
   signal clk          : std_ulogic :='0';
-  signal rx_clk       : std_ulogic :='0';
 
 --! dut signals
   signal pll_lock          : std_logic;
@@ -106,12 +103,12 @@ begin
 
 --! standard signals
 	clk            <= not clk     after c_clk_per/2   ;
-	rx_clk         <= not rx_clk  after c_rx_clk_per/2;
 
 --! dut
 dut: entity work.lan(rtl)
   generic map (
-    g_sim             => true
+    g_sim             => true,
+    g_speed           => c_speed
   )
   port map (
     clk               => clk,
@@ -155,7 +152,7 @@ dut: entity work.lan(rtl)
 --! models
 rgmii_rx_model: entity work.rgmii_rx_model(sim)
   generic map (
-    g_speed           => c_rx_mdl_speed,
+    g_speed           => c_speed,
     g_size            => c_rx_mdl_size
   )
   port map (
@@ -168,7 +165,7 @@ rgmii_rx_model: entity work.rgmii_rx_model(sim)
 
 rgmii_tx_model: entity work.rgmii_tx_model(sim)
   generic map (
-    g_speed           => c_tx_mdl_speed,
+    g_speed           => c_speed,
     g_size            => C_ETH_PKT'high
   )
   port map (
@@ -186,7 +183,7 @@ rgmii_tx_model: entity work.rgmii_tx_model(sim)
 
 --! test modes
 with test_mode select
-  rgmii_rxc     <=  rgmii_txc              when loopback,
+  rgmii_rxc     <=  rgmii_txc after c_t_pd when loopback,
                     rgmii_txc after c_t_pd when tx_model,
                     '0'                    when others;
 with test_mode select
@@ -230,7 +227,7 @@ with test_mode select
       -- wait until the clocks are running and reset is over
       wait until pll_lock = '1';
 
- 	    proc_wait_clk(rx_clk, 999);
+ 	    proc_wait_clk(clk, 999);
 
 	  report " END TST.01 ";
     end if;
@@ -252,12 +249,12 @@ with test_mode select
 	    proc_reset(3);
       -- wait until the clocks are running and reset is over
       wait until pll_lock = '1';
- 	    proc_wait_clk(rx_clk, 5);
+ 	    proc_wait_clk(clk, 5);
       tx_ena <= '1';
- 	    proc_wait_clk(rx_clk, 5);
+ 	    proc_wait_clk(clk, 5);
       tx_ena <= '0';
 
- 	    proc_wait_clk(rx_clk, 999);
+ 	    proc_wait_clk(clk, 999);
 	  report " END TST.02 ";
     end if;
 
@@ -280,10 +277,10 @@ with test_mode select
 	    proc_reset(3);
       -- wait until the clocks are running and reset is over
       wait until pll_lock = '1';
- 	    proc_wait_clk(rx_clk, 5);
+ 	    proc_wait_clk(clk, 5);
       tx_ena <= '1';
 
- 	    proc_wait_clk(rx_clk, 999);
+ 	    proc_wait_clk(clk, 999);
 	  report " END TST.03 ";
     end if;
 
