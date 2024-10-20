@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date         : Mon Oct 14 18:01:17 2024
+| Date         : Sun Oct 20 20:47:46 2024
 | Host         : vivobook running 64-bit major release  (build 9200)
 | Command      : report_methodology -file lan_methodology_drc_routed.rpt -pb lan_methodology_drc_routed.pb -rpx lan_methodology_drc_routed.rpx
 | Design       : lan
@@ -23,70 +23,102 @@ Table of Contents
           Floorplan: checkpoint_lan
       Design limits: <entire design considered>
              Max violations: <unlimited>
-             Violations found: 9
-+----------+------------------+------------------------------------------------+------------+
-| Rule     | Severity         | Description                                    | Violations |
-+----------+------------------+------------------------------------------------+------------+
-| TIMING-6 | Critical Warning | No common primary clock between related clocks | 2          |
-| TIMING-7 | Critical Warning | No common node between related clocks          | 2          |
-| XDCH-2   | Warning          | Same min and max delay values on IO port       | 5          |
-+----------+------------------+------------------------------------------------+------------+
+             Violations found: 15
++-----------+------------------+------------------------------------------------+------------+
+| Rule      | Severity         | Description                                    | Violations |
++-----------+------------------+------------------------------------------------+------------+
+| TIMING-6  | Critical Warning | No common primary clock between related clocks | 2          |
+| TIMING-7  | Critical Warning | No common node between related clocks          | 2          |
+| TIMING-10 | Warning          | Missing property on synchronizer               | 1          |
+| TIMING-15 | Warning          | Large hold violation                           | 5          |
+| XDCH-2    | Warning          | Same min and max delay values on IO port       | 5          |
++-----------+------------------+------------------------------------------------+------------+
 
 2. REPORT DETAILS
 -----------------
 TIMING-6#1 Critical Warning
 No common primary clock between related clocks  
-The clocks clk_125 and clk_fpga_0 are related (timed together) but they have no common primary clock. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks clk_125] -to [get_clocks clk_fpga_0]
+The clocks clk_fpga_0 and clk_012 are related (timed together) but they have no common primary clock. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks clk_fpga_0] -to [get_clocks clk_012]
 Related violations: <none>
 
 TIMING-6#2 Critical Warning
 No common primary clock between related clocks  
-The clocks clk_fpga_0 and clk_125 are related (timed together) but they have no common primary clock. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks clk_fpga_0] -to [get_clocks clk_125]
+The clocks rgmii_rxc and clk_fpga_0 are related (timed together) but they have no common primary clock. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks rgmii_rxc] -to [get_clocks clk_fpga_0]
 Related violations: <none>
 
 TIMING-7#1 Critical Warning
 No common node between related clocks  
-The clocks clk_125 and clk_fpga_0 are related (timed together) but they have no common node. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks clk_125] -to [get_clocks clk_fpga_0]
+The clocks clk_fpga_0 and clk_012 are related (timed together) but they have no common node. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks clk_fpga_0] -to [get_clocks clk_012]
 Related violations: <none>
 
 TIMING-7#2 Critical Warning
 No common node between related clocks  
-The clocks clk_fpga_0 and clk_125 are related (timed together) but they have no common node. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks clk_fpga_0] -to [get_clocks clk_125]
+The clocks rgmii_rxc and clk_fpga_0 are related (timed together) but they have no common node. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks rgmii_rxc] -to [get_clocks clk_fpga_0]
+Related violations: <none>
+
+TIMING-10#1 Warning
+Missing property on synchronizer  
+One or more logic synchronizer has been detected between 2 clock domains but the synchronizer does not have the property ASYNC_REG defined on one or both registers. It is recommended to run report_cdc for a complete and detailed CDC coverage
+Related violations: <none>
+
+TIMING-15#1 Warning
+Large hold violation  
+There is a large clock skew of 6.413 ns between rgmii_rx_ctl (clocked by rgmii_rxc) and gen_slow_rx.i_rgmii_rx_sdr/IDDR_inst/D (clocked by rgmii_rxc) that results in large hold timing violation(s) of -5.249 ns. Fixing large hold violations during routing might impact setup slack and result in more difficult timing closure
+Related violations: <none>
+
+TIMING-15#2 Warning
+Large hold violation  
+There is a large clock skew of 6.422 ns between rgmii_rd[2] (clocked by rgmii_rxc) and gen_slow_rx.i_rgmii_rx_sdr/gen_io[2].IDDR_inst/D (clocked by rgmii_rxc) that results in large hold timing violation(s) of -5.204 ns. Fixing large hold violations during routing might impact setup slack and result in more difficult timing closure
+Related violations: <none>
+
+TIMING-15#3 Warning
+Large hold violation  
+There is a large clock skew of 6.422 ns between rgmii_rd[3] (clocked by rgmii_rxc) and gen_slow_rx.i_rgmii_rx_sdr/gen_io[3].IDDR_inst/D (clocked by rgmii_rxc) that results in large hold timing violation(s) of -5.191 ns. Fixing large hold violations during routing might impact setup slack and result in more difficult timing closure
+Related violations: <none>
+
+TIMING-15#4 Warning
+Large hold violation  
+There is a large clock skew of 6.427 ns between rgmii_rd[0] (clocked by rgmii_rxc) and gen_slow_rx.i_rgmii_rx_sdr/gen_io[0].IDDR_inst/D (clocked by rgmii_rxc) that results in large hold timing violation(s) of -5.187 ns. Fixing large hold violations during routing might impact setup slack and result in more difficult timing closure
+Related violations: <none>
+
+TIMING-15#5 Warning
+Large hold violation  
+There is a large clock skew of 6.427 ns between rgmii_rd[1] (clocked by rgmii_rxc) and gen_slow_rx.i_rgmii_rx_sdr/gen_io[1].IDDR_inst/D (clocked by rgmii_rxc) that results in large hold timing violation(s) of -5.183 ns. Fixing large hold violations during routing might impact setup slack and result in more difficult timing closure
 Related violations: <none>
 
 XDCH-2#1 Warning
 Same min and max delay values on IO port  
 The same input delay of -1.000 ns has been defined on port 'rgmii_rd[0]' relative to clock rgmii_rxc for both max and min. Make sure this reflects the design intent.
 set_input_delay -clock [get_clocks rgmii_rxc] -clock_fall -min -add_delay -1.000 [get_ports {rgmii_rd[*]}]
-D:/github/z7_nano/lan/constraints/timings.xdc (Line: 50)
+D:/github/z7_nano/lan/constraints/timings.xdc (Line: 52)
 Related violations: <none>
 
 XDCH-2#2 Warning
 Same min and max delay values on IO port  
 The same input delay of -1.000 ns has been defined on port 'rgmii_rd[1]' relative to clock rgmii_rxc for both max and min. Make sure this reflects the design intent.
 set_input_delay -clock [get_clocks rgmii_rxc] -clock_fall -min -add_delay -1.000 [get_ports {rgmii_rd[*]}]
-D:/github/z7_nano/lan/constraints/timings.xdc (Line: 50)
+D:/github/z7_nano/lan/constraints/timings.xdc (Line: 52)
 Related violations: <none>
 
 XDCH-2#3 Warning
 Same min and max delay values on IO port  
 The same input delay of -1.000 ns has been defined on port 'rgmii_rd[2]' relative to clock rgmii_rxc for both max and min. Make sure this reflects the design intent.
 set_input_delay -clock [get_clocks rgmii_rxc] -clock_fall -min -add_delay -1.000 [get_ports {rgmii_rd[*]}]
-D:/github/z7_nano/lan/constraints/timings.xdc (Line: 50)
+D:/github/z7_nano/lan/constraints/timings.xdc (Line: 52)
 Related violations: <none>
 
 XDCH-2#4 Warning
 Same min and max delay values on IO port  
 The same input delay of -1.000 ns has been defined on port 'rgmii_rd[3]' relative to clock rgmii_rxc for both max and min. Make sure this reflects the design intent.
 set_input_delay -clock [get_clocks rgmii_rxc] -clock_fall -min -add_delay -1.000 [get_ports {rgmii_rd[*]}]
-D:/github/z7_nano/lan/constraints/timings.xdc (Line: 50)
+D:/github/z7_nano/lan/constraints/timings.xdc (Line: 52)
 Related violations: <none>
 
 XDCH-2#5 Warning
 Same min and max delay values on IO port  
 The same input delay of -1.000 ns has been defined on port 'rgmii_rx_ctl' relative to clock rgmii_rxc for both max and min. Make sure this reflects the design intent.
 set_input_delay -clock [get_clocks rgmii_rxc] -clock_fall -min -add_delay -1.000 [get_ports rgmii_rx_ctl]
-D:/github/z7_nano/lan/constraints/timings.xdc (Line: 55)
+D:/github/z7_nano/lan/constraints/timings.xdc (Line: 57)
 Related violations: <none>
 
 
