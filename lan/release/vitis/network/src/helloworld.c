@@ -56,6 +56,7 @@
 #define AXIS_FIFO_BASE_ADDR 0x43C00000
 #define ISR                 0x00000000
 #define RDFO                0x0000001C
+#define RDFD                0x00000020
 #define RLR                 0x00000024
 #define RDR                 0x00000030
 
@@ -91,6 +92,7 @@ int main()
 
     u32 wr_data;
     u32 rd_data;
+    u32 rd_fifo_len;
 
     print("UART 0 regs\n");
     rd_data = Xil_In32(XUARTPS_BASE_ADDR+0x0000);
@@ -122,26 +124,33 @@ int main()
 		print("AXIS RX dump packets \n");
 
 			rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+ISR);
-			xil_printf("%x\n", rd_data);
+			xil_printf("ISR : %x\n", rd_data);
 
 			wr_data = 0x0FFFFFFF;
 			Xil_Out32(AXIS_FIFO_BASE_ADDR + ISR, wr_data);
 
 			rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+ISR);
-			xil_printf("%x\n", rd_data);
+			xil_printf("ISR : %x\n", rd_data);
 
 			rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDFO);
-			xil_printf("%x\n", rd_data);
+			xil_printf("RDFO:%x\n", rd_data);
 
 			if (rd_data != 0x0) {
 				rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RLR);
-				xil_printf("%x\n", rd_data);
+				xil_printf("RLR :%x\n", rd_data);
+				rd_fifo_len = rd_data;
 
 				rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDR);
-				xil_printf("%x\n", rd_data);
+				xil_printf("RDR: %x\n", rd_data);
 
 				rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDFO);
-				xil_printf("%x\n", rd_data);
+				xil_printf("RDFO:%x\n", rd_data);
+
+				for (i=0; i<rd_fifo_len; i=i+4){
+					rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDFD);
+					xil_printf("RDFD:%x  : %x\n", i, rd_data);
+				}
+
 			} else {
 			  print(" Nothing recieved \n");
 			}
