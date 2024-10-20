@@ -165,16 +165,25 @@ architecture rtl of lan is
 
   attribute MARK_DEBUG : string;
 
-  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tdata  : signal is "TRUE";
-  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tlast  : signal is "TRUE";
-  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tready : signal is "TRUE";
-  -- attribute MARK_DEBUG of  AXI_STR_TXD_0_tvalid : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_SEL_tdata  : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_SEL_tlast  : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_SEL_tready : signal is "TRUE";
+  -- attribute MARK_DEBUG of  AXI_STR_TXD_SEL_tvalid : signal is "TRUE";
 
-  -- attribute MARK_DEBUG of  s_tx_dat_tready      : signal is "TRUE";
-  -- attribute MARK_DEBUG of  s_tx_dat_tdata       : signal is "TRUE";
-  -- attribute MARK_DEBUG of  s_tx_dat_tlast       : signal is "TRUE";
-  -- attribute MARK_DEBUG of  s_tx_dat_tvalid      : signal is "TRUE";
-
+  attribute MARK_DEBUG of  AXI_STR_RXD_SEL_tdata  : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_RXD_SEL_tlast  : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_RXD_SEL_tready : signal is "TRUE";
+  attribute MARK_DEBUG of  AXI_STR_RXD_SEL_tvalid : signal is "TRUE";
+  
+  attribute MARK_DEBUG of  frm_rx_rxdv   : signal is "TRUE";
+  attribute MARK_DEBUG of  frm_rx_rxerr  : signal is "TRUE";
+  attribute MARK_DEBUG of  frm_rx_ena    : signal is "TRUE";
+  attribute MARK_DEBUG of  frm_rx_lst    : signal is "TRUE";
+  attribute MARK_DEBUG of  frm_rx_rxdata : signal is "TRUE";
+  
+  attribute MARK_DEBUG of  rgmii_rd      : signal is "TRUE";
+  attribute MARK_DEBUG of  rgmii_rx_ctl  : signal is "TRUE";
+                           
 begin
 
   phy_rst_n <= '1';
@@ -213,11 +222,11 @@ begin
     AXI_STR_RXD_DBG_tvalid  <= AXI_STR_RXD_SEL_tvalid;
   end generate;
 
-  gen_slow: if g_speed = 100 generate
+  gen_slow_tx: if g_speed = 100 generate
     clk_sel_tx              <= clk_012;
   end generate;
 
-  gen_fast: if g_speed = 1000 generate
+  gen_fast_tx: if g_speed = 1000 generate
     clk_sel_tx              <= clk_125;
   end generate;
 
