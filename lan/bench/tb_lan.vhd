@@ -17,6 +17,9 @@ library nw_ethernet;
 use     nw_ethernet.nw_ethernet_pkg.all;
 
 entity tb_lan is
+	generic(
+    g_speed  :  in  natural   range 100 to 1000
+  );
 	port(
 		y        :  out std_logic
 	);
@@ -28,7 +31,6 @@ architecture rtl of tb_lan is
   constant c_ena_tst_2 : boolean := true;
   constant c_ena_tst_3 : boolean := true;
 
-  constant c_speed     : natural   range 100 to 1000 := 100 ;
   constant c_rx_mdl_size      : natural   := 80 ;
 
 
@@ -108,7 +110,7 @@ begin
 dut: entity work.lan(rtl)
   generic map (
     g_sim             => true,
-    g_speed           => c_speed
+    g_speed           => g_speed
   )
   port map (
     clk               => clk,
@@ -152,7 +154,7 @@ dut: entity work.lan(rtl)
 --! models
 rgmii_rx_model: entity work.rgmii_rx_model(sim)
   generic map (
-    g_speed           => c_speed,
+    g_speed           => g_speed,
     g_size            => c_rx_mdl_size
   )
   port map (
@@ -165,7 +167,7 @@ rgmii_rx_model: entity work.rgmii_rx_model(sim)
 
 rgmii_tx_model: entity work.rgmii_tx_model(sim)
   generic map (
-    g_speed           => c_speed,
+    g_speed           => g_speed,
     g_size            => C_ETH_PKT'high
   )
   port map (
