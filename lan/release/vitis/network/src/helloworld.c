@@ -93,6 +93,7 @@ int main()
     u32 wr_data;
     u32 rd_data;
     u32 rd_fifo_len;
+    u8  rd_fifo_dat[1500];
 
     print("UART 0 regs\n");
     rd_data = Xil_In32(XUARTPS_BASE_ADDR+0x0000);
@@ -109,8 +110,17 @@ int main()
 			for (i=0; i<64; i=i+4){
 				uint32_t wr_data = ((data[i+3]<<24) | (data[i+2]<<16) | (data[i+1]<<8) | (data[i+0]<<0));
 				Xil_Out32(AXIS_FIFO_BASE_ADDR + 0x10, wr_data);
-				xil_printf("%x  : %x\n", i , wr_data);
 			}
+			for (i=0; i<64; i=i+1){
+				xil_printf("%02x",data[i]);
+			    if (i % 4 == 3) {
+			      print(" ");
+				}
+			    if (i % 16 == 15) {
+			      print("\n");
+				}
+			}
+			print("\n");
 
 			rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+0x000C);
 			xil_printf("%x\n", rd_data);
@@ -146,10 +156,24 @@ int main()
 				rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDFO);
 				xil_printf("RDFO:%x\n", rd_data);
 
+			    print(" Packet(s) recieved : \n");
 				for (i=0; i<rd_fifo_len; i=i+4){
 					rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDFD);
-					xil_printf("RDFD:%x  : %x\n", i, rd_data);
+					rd_fifo_dat[i+3] = rd_data>>24;
+					rd_fifo_dat[i+2] = rd_data>>16;
+					rd_fifo_dat[i+1] = rd_data>>8;
+					rd_fifo_dat[i+0] = rd_data>>0;
 				}
+				for (i=0; i<rd_fifo_len; i=i+1){
+					xil_printf("%02x",rd_fifo_dat[i]);
+					if (i % 4 == 3) {
+					  print(" ");
+					}
+					if (i % 16 == 15) {
+					  print("\n");
+					}
+				}
+			    print("\n");
 
 			} else {
 			  print(" Nothing recieved \n");
