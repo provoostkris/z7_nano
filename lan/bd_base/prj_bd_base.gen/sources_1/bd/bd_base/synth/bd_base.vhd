@@ -2,7 +2,7 @@
 --Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
---Date        : Thu Sep 19 21:39:08 2024
+--Date        : Fri Oct 25 19:09:02 2024
 --Host        : vivobook running 64-bit major release  (build 9200)
 --Command     : generate_target bd_base.bd
 --Design      : bd_base
@@ -580,10 +580,12 @@ use UNISIM.VCOMPONENTS.ALL;
 entity bd_base is
   port (
     AXI_STR_RXD_0_tdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    AXI_STR_RXD_0_tkeep : in STD_LOGIC_VECTOR ( 3 downto 0 );
     AXI_STR_RXD_0_tlast : in STD_LOGIC;
     AXI_STR_RXD_0_tready : out STD_LOGIC;
     AXI_STR_RXD_0_tvalid : in STD_LOGIC;
     AXI_STR_TXD_0_tdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    AXI_STR_TXD_0_tkeep : out STD_LOGIC_VECTOR ( 3 downto 0 );
     AXI_STR_TXD_0_tlast : out STD_LOGIC;
     AXI_STR_TXD_0_tready : in STD_LOGIC;
     AXI_STR_TXD_0_tvalid : out STD_LOGIC;
@@ -613,10 +615,10 @@ entity bd_base is
     mm2s_prmry_reset_out_n_0 : out STD_LOGIC;
     s2mm_prmry_reset_out_n_0 : out STD_LOGIC
   );
-  attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of bd_base : entity is "bd_base,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=bd_base,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=6,numReposBlks=4,numNonXlnxBlks=0,numHierBlks=2,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
-  attribute HW_HANDOFF : string;
-  attribute HW_HANDOFF of bd_base : entity is "bd_base.hwdef";
+  attribute core_generation_info : string;
+  attribute core_generation_info of bd_base : entity is "bd_base,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=bd_base,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=6,numReposBlks=4,numNonXlnxBlks=0,numHierBlks=2,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=USER,synth_mode=OOC_per_IP}";
+  attribute hw_handoff : string;
+  attribute hw_handoff of bd_base : entity is "bd_base.hwdef";
 end bd_base;
 
 architecture STRUCTURE of bd_base is
@@ -726,19 +728,23 @@ architecture STRUCTURE of bd_base is
     axi_str_txd_tvalid : out STD_LOGIC;
     axi_str_txd_tready : in STD_LOGIC;
     axi_str_txd_tlast : out STD_LOGIC;
+    axi_str_txd_tkeep : out STD_LOGIC_VECTOR ( 3 downto 0 );
     axi_str_txd_tdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
     s2mm_prmry_reset_out_n : out STD_LOGIC;
     axi_str_rxd_tvalid : in STD_LOGIC;
     axi_str_rxd_tready : out STD_LOGIC;
     axi_str_rxd_tlast : in STD_LOGIC;
+    axi_str_rxd_tkeep : in STD_LOGIC_VECTOR ( 3 downto 0 );
     axi_str_rxd_tdata : in STD_LOGIC_VECTOR ( 31 downto 0 )
   );
   end component bd_base_axi_fifo_mm_s_0_0;
   signal AXI_STR_RXD_0_1_TDATA : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_RXD_0_1_TKEEP : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal AXI_STR_RXD_0_1_TLAST : STD_LOGIC;
   signal AXI_STR_RXD_0_1_TREADY : STD_LOGIC;
   signal AXI_STR_RXD_0_1_TVALID : STD_LOGIC;
   signal axi_fifo_mm_s_0_AXI_STR_TXD_TDATA : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal axi_fifo_mm_s_0_AXI_STR_TXD_TKEEP : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal axi_fifo_mm_s_0_AXI_STR_TXD_TLAST : STD_LOGIC;
   signal axi_fifo_mm_s_0_AXI_STR_TXD_TREADY : STD_LOGIC;
   signal axi_fifo_mm_s_0_AXI_STR_TXD_TVALID : STD_LOGIC;
@@ -828,55 +834,59 @@ architecture STRUCTURE of bd_base is
   signal NLW_rst_ps7_0_50M_mb_reset_UNCONNECTED : STD_LOGIC;
   signal NLW_rst_ps7_0_50M_bus_struct_reset_UNCONNECTED : STD_LOGIC_VECTOR ( 0 to 0 );
   signal NLW_rst_ps7_0_50M_peripheral_reset_UNCONNECTED : STD_LOGIC_VECTOR ( 0 to 0 );
-  attribute X_INTERFACE_INFO : string;
-  attribute X_INTERFACE_INFO of AXI_STR_RXD_0_tlast : signal is "xilinx.com:interface:axis:1.0 AXI_STR_RXD_0 TLAST";
-  attribute X_INTERFACE_INFO of AXI_STR_RXD_0_tready : signal is "xilinx.com:interface:axis:1.0 AXI_STR_RXD_0 TREADY";
-  attribute X_INTERFACE_INFO of AXI_STR_RXD_0_tvalid : signal is "xilinx.com:interface:axis:1.0 AXI_STR_RXD_0 TVALID";
-  attribute X_INTERFACE_INFO of AXI_STR_TXD_0_tlast : signal is "xilinx.com:interface:axis:1.0 AXI_STR_TXD_0 TLAST";
-  attribute X_INTERFACE_INFO of AXI_STR_TXD_0_tready : signal is "xilinx.com:interface:axis:1.0 AXI_STR_TXD_0 TREADY";
-  attribute X_INTERFACE_INFO of AXI_STR_TXD_0_tvalid : signal is "xilinx.com:interface:axis:1.0 AXI_STR_TXD_0 TVALID";
-  attribute X_INTERFACE_INFO of DDR_cas_n : signal is "xilinx.com:interface:ddrx:1.0 DDR CAS_N";
-  attribute X_INTERFACE_INFO of DDR_ck_n : signal is "xilinx.com:interface:ddrx:1.0 DDR CK_N";
-  attribute X_INTERFACE_INFO of DDR_ck_p : signal is "xilinx.com:interface:ddrx:1.0 DDR CK_P";
-  attribute X_INTERFACE_INFO of DDR_cke : signal is "xilinx.com:interface:ddrx:1.0 DDR CKE";
-  attribute X_INTERFACE_INFO of DDR_cs_n : signal is "xilinx.com:interface:ddrx:1.0 DDR CS_N";
-  attribute X_INTERFACE_INFO of DDR_odt : signal is "xilinx.com:interface:ddrx:1.0 DDR ODT";
-  attribute X_INTERFACE_INFO of DDR_ras_n : signal is "xilinx.com:interface:ddrx:1.0 DDR RAS_N";
-  attribute X_INTERFACE_INFO of DDR_reset_n : signal is "xilinx.com:interface:ddrx:1.0 DDR RESET_N";
-  attribute X_INTERFACE_INFO of DDR_we_n : signal is "xilinx.com:interface:ddrx:1.0 DDR WE_N";
-  attribute X_INTERFACE_INFO of FCLK_CLK0_0 : signal is "xilinx.com:signal:clock:1.0 CLK.FCLK_CLK0_0 CLK";
-  attribute X_INTERFACE_PARAMETER : string;
-  attribute X_INTERFACE_PARAMETER of FCLK_CLK0_0 : signal is "XIL_INTERFACENAME CLK.FCLK_CLK0_0, CLK_DOMAIN bd_base_processing_system7_0_0_FCLK_CLK0, FREQ_HZ 50000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0";
-  attribute X_INTERFACE_INFO of FIXED_IO_ddr_vrn : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO DDR_VRN";
-  attribute X_INTERFACE_PARAMETER of FIXED_IO_ddr_vrn : signal is "XIL_INTERFACENAME FIXED_IO, CAN_DEBUG false";
-  attribute X_INTERFACE_INFO of FIXED_IO_ddr_vrp : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO DDR_VRP";
-  attribute X_INTERFACE_INFO of FIXED_IO_ps_clk : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO PS_CLK";
-  attribute X_INTERFACE_INFO of FIXED_IO_ps_porb : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO PS_PORB";
-  attribute X_INTERFACE_INFO of FIXED_IO_ps_srstb : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO PS_SRSTB";
-  attribute X_INTERFACE_INFO of interrupt_0 : signal is "xilinx.com:signal:interrupt:1.0 INTR.INTERRUPT_0 INTERRUPT";
-  attribute X_INTERFACE_PARAMETER of interrupt_0 : signal is "XIL_INTERFACENAME INTR.INTERRUPT_0, PortWidth 1, SENSITIVITY LEVEL_HIGH";
-  attribute X_INTERFACE_INFO of mm2s_prmry_reset_out_n_0 : signal is "xilinx.com:signal:reset:1.0 RST.MM2S_PRMRY_RESET_OUT_N_0 RST";
-  attribute X_INTERFACE_PARAMETER of mm2s_prmry_reset_out_n_0 : signal is "XIL_INTERFACENAME RST.MM2S_PRMRY_RESET_OUT_N_0, INSERT_VIP 0, POLARITY ACTIVE_LOW";
-  attribute X_INTERFACE_INFO of s2mm_prmry_reset_out_n_0 : signal is "xilinx.com:signal:reset:1.0 RST.S2MM_PRMRY_RESET_OUT_N_0 RST";
-  attribute X_INTERFACE_PARAMETER of s2mm_prmry_reset_out_n_0 : signal is "XIL_INTERFACENAME RST.S2MM_PRMRY_RESET_OUT_N_0, INSERT_VIP 0, POLARITY ACTIVE_LOW";
-  attribute X_INTERFACE_INFO of AXI_STR_RXD_0_tdata : signal is "xilinx.com:interface:axis:1.0 AXI_STR_RXD_0 TDATA";
-  attribute X_INTERFACE_PARAMETER of AXI_STR_RXD_0_tdata : signal is "XIL_INTERFACENAME AXI_STR_RXD_0, FREQ_HZ 50000000, HAS_TKEEP 0, HAS_TLAST 1, HAS_TREADY 1, HAS_TSTRB 0, INSERT_VIP 0, LAYERED_METADATA undef, PHASE 0.0, TDATA_NUM_BYTES 4, TDEST_WIDTH 0, TID_WIDTH 0, TUSER_WIDTH 0";
-  attribute X_INTERFACE_INFO of AXI_STR_TXD_0_tdata : signal is "xilinx.com:interface:axis:1.0 AXI_STR_TXD_0 TDATA";
-  attribute X_INTERFACE_PARAMETER of AXI_STR_TXD_0_tdata : signal is "XIL_INTERFACENAME AXI_STR_TXD_0, FREQ_HZ 50000000, HAS_TKEEP 0, HAS_TLAST 1, HAS_TREADY 1, HAS_TSTRB 0, INSERT_VIP 0, LAYERED_METADATA undef, PHASE 0.0, TDATA_NUM_BYTES 4, TDEST_WIDTH 0, TID_WIDTH 0, TUSER_WIDTH 0";
-  attribute X_INTERFACE_INFO of DDR_addr : signal is "xilinx.com:interface:ddrx:1.0 DDR ADDR";
-  attribute X_INTERFACE_PARAMETER of DDR_addr : signal is "XIL_INTERFACENAME DDR, AXI_ARBITRATION_SCHEME TDM, BURST_LENGTH 8, CAN_DEBUG false, CAS_LATENCY 11, CAS_WRITE_LATENCY 11, CS_ENABLED true, DATA_MASK_ENABLED true, DATA_WIDTH 8, MEMORY_TYPE COMPONENTS, MEM_ADDR_MAP ROW_COLUMN_BANK, SLOT Single, TIMEPERIOD_PS 1250";
-  attribute X_INTERFACE_INFO of DDR_ba : signal is "xilinx.com:interface:ddrx:1.0 DDR BA";
-  attribute X_INTERFACE_INFO of DDR_dm : signal is "xilinx.com:interface:ddrx:1.0 DDR DM";
-  attribute X_INTERFACE_INFO of DDR_dq : signal is "xilinx.com:interface:ddrx:1.0 DDR DQ";
-  attribute X_INTERFACE_INFO of DDR_dqs_n : signal is "xilinx.com:interface:ddrx:1.0 DDR DQS_N";
-  attribute X_INTERFACE_INFO of DDR_dqs_p : signal is "xilinx.com:interface:ddrx:1.0 DDR DQS_P";
-  attribute X_INTERFACE_INFO of FIXED_IO_mio : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO MIO";
+  attribute x_interface_info : string;
+  attribute x_interface_info of AXI_STR_RXD_0_tlast : signal is "xilinx.com:interface:axis:1.0 AXI_STR_RXD_0 TLAST";
+  attribute x_interface_info of AXI_STR_RXD_0_tready : signal is "xilinx.com:interface:axis:1.0 AXI_STR_RXD_0 TREADY";
+  attribute x_interface_info of AXI_STR_RXD_0_tvalid : signal is "xilinx.com:interface:axis:1.0 AXI_STR_RXD_0 TVALID";
+  attribute x_interface_info of AXI_STR_TXD_0_tlast : signal is "xilinx.com:interface:axis:1.0 AXI_STR_TXD_0 TLAST";
+  attribute x_interface_info of AXI_STR_TXD_0_tready : signal is "xilinx.com:interface:axis:1.0 AXI_STR_TXD_0 TREADY";
+  attribute x_interface_info of AXI_STR_TXD_0_tvalid : signal is "xilinx.com:interface:axis:1.0 AXI_STR_TXD_0 TVALID";
+  attribute x_interface_info of DDR_cas_n : signal is "xilinx.com:interface:ddrx:1.0 DDR CAS_N";
+  attribute x_interface_info of DDR_ck_n : signal is "xilinx.com:interface:ddrx:1.0 DDR CK_N";
+  attribute x_interface_info of DDR_ck_p : signal is "xilinx.com:interface:ddrx:1.0 DDR CK_P";
+  attribute x_interface_info of DDR_cke : signal is "xilinx.com:interface:ddrx:1.0 DDR CKE";
+  attribute x_interface_info of DDR_cs_n : signal is "xilinx.com:interface:ddrx:1.0 DDR CS_N";
+  attribute x_interface_info of DDR_odt : signal is "xilinx.com:interface:ddrx:1.0 DDR ODT";
+  attribute x_interface_info of DDR_ras_n : signal is "xilinx.com:interface:ddrx:1.0 DDR RAS_N";
+  attribute x_interface_info of DDR_reset_n : signal is "xilinx.com:interface:ddrx:1.0 DDR RESET_N";
+  attribute x_interface_info of DDR_we_n : signal is "xilinx.com:interface:ddrx:1.0 DDR WE_N";
+  attribute x_interface_info of FCLK_CLK0_0 : signal is "xilinx.com:signal:clock:1.0 CLK.FCLK_CLK0_0 CLK";
+  attribute x_interface_parameter : string;
+  attribute x_interface_parameter of FCLK_CLK0_0 : signal is "XIL_INTERFACENAME CLK.FCLK_CLK0_0, CLK_DOMAIN bd_base_processing_system7_0_0_FCLK_CLK0, FREQ_HZ 50000000, FREQ_TOLERANCE_HZ 0, INSERT_VIP 0, PHASE 0.0";
+  attribute x_interface_info of FIXED_IO_ddr_vrn : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO DDR_VRN";
+  attribute x_interface_parameter of FIXED_IO_ddr_vrn : signal is "XIL_INTERFACENAME FIXED_IO, CAN_DEBUG false";
+  attribute x_interface_info of FIXED_IO_ddr_vrp : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO DDR_VRP";
+  attribute x_interface_info of FIXED_IO_ps_clk : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO PS_CLK";
+  attribute x_interface_info of FIXED_IO_ps_porb : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO PS_PORB";
+  attribute x_interface_info of FIXED_IO_ps_srstb : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO PS_SRSTB";
+  attribute x_interface_info of interrupt_0 : signal is "xilinx.com:signal:interrupt:1.0 INTR.INTERRUPT_0 INTERRUPT";
+  attribute x_interface_parameter of interrupt_0 : signal is "XIL_INTERFACENAME INTR.INTERRUPT_0, PortWidth 1, SENSITIVITY LEVEL_HIGH";
+  attribute x_interface_info of mm2s_prmry_reset_out_n_0 : signal is "xilinx.com:signal:reset:1.0 RST.MM2S_PRMRY_RESET_OUT_N_0 RST";
+  attribute x_interface_parameter of mm2s_prmry_reset_out_n_0 : signal is "XIL_INTERFACENAME RST.MM2S_PRMRY_RESET_OUT_N_0, INSERT_VIP 0, POLARITY ACTIVE_LOW";
+  attribute x_interface_info of s2mm_prmry_reset_out_n_0 : signal is "xilinx.com:signal:reset:1.0 RST.S2MM_PRMRY_RESET_OUT_N_0 RST";
+  attribute x_interface_parameter of s2mm_prmry_reset_out_n_0 : signal is "XIL_INTERFACENAME RST.S2MM_PRMRY_RESET_OUT_N_0, INSERT_VIP 0, POLARITY ACTIVE_LOW";
+  attribute x_interface_info of AXI_STR_RXD_0_tdata : signal is "xilinx.com:interface:axis:1.0 AXI_STR_RXD_0 TDATA";
+  attribute x_interface_parameter of AXI_STR_RXD_0_tdata : signal is "XIL_INTERFACENAME AXI_STR_RXD_0, FREQ_HZ 50000000, HAS_TKEEP 0, HAS_TLAST 1, HAS_TREADY 1, HAS_TSTRB 0, INSERT_VIP 0, LAYERED_METADATA undef, PHASE 0.0, TDATA_NUM_BYTES 4, TDEST_WIDTH 0, TID_WIDTH 0, TUSER_WIDTH 0";
+  attribute x_interface_info of AXI_STR_RXD_0_tkeep : signal is "xilinx.com:interface:axis:1.0 AXI_STR_RXD_0 TKEEP";
+  attribute x_interface_info of AXI_STR_TXD_0_tdata : signal is "xilinx.com:interface:axis:1.0 AXI_STR_TXD_0 TDATA";
+  attribute x_interface_parameter of AXI_STR_TXD_0_tdata : signal is "XIL_INTERFACENAME AXI_STR_TXD_0, FREQ_HZ 50000000, HAS_TKEEP 1, HAS_TLAST 1, HAS_TREADY 1, HAS_TSTRB 0, INSERT_VIP 0, LAYERED_METADATA undef, PHASE 0.0, TDATA_NUM_BYTES 4, TDEST_WIDTH 0, TID_WIDTH 0, TUSER_WIDTH 0";
+  attribute x_interface_info of AXI_STR_TXD_0_tkeep : signal is "xilinx.com:interface:axis:1.0 AXI_STR_TXD_0 TKEEP";
+  attribute x_interface_info of DDR_addr : signal is "xilinx.com:interface:ddrx:1.0 DDR ADDR";
+  attribute x_interface_parameter of DDR_addr : signal is "XIL_INTERFACENAME DDR, AXI_ARBITRATION_SCHEME TDM, BURST_LENGTH 8, CAN_DEBUG false, CAS_LATENCY 11, CAS_WRITE_LATENCY 11, CS_ENABLED true, DATA_MASK_ENABLED true, DATA_WIDTH 8, MEMORY_TYPE COMPONENTS, MEM_ADDR_MAP ROW_COLUMN_BANK, SLOT Single, TIMEPERIOD_PS 1250";
+  attribute x_interface_info of DDR_ba : signal is "xilinx.com:interface:ddrx:1.0 DDR BA";
+  attribute x_interface_info of DDR_dm : signal is "xilinx.com:interface:ddrx:1.0 DDR DM";
+  attribute x_interface_info of DDR_dq : signal is "xilinx.com:interface:ddrx:1.0 DDR DQ";
+  attribute x_interface_info of DDR_dqs_n : signal is "xilinx.com:interface:ddrx:1.0 DDR DQS_N";
+  attribute x_interface_info of DDR_dqs_p : signal is "xilinx.com:interface:ddrx:1.0 DDR DQS_P";
+  attribute x_interface_info of FIXED_IO_mio : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO MIO";
 begin
   AXI_STR_RXD_0_1_TDATA(31 downto 0) <= AXI_STR_RXD_0_tdata(31 downto 0);
+  AXI_STR_RXD_0_1_TKEEP(3 downto 0) <= AXI_STR_RXD_0_tkeep(3 downto 0);
   AXI_STR_RXD_0_1_TLAST <= AXI_STR_RXD_0_tlast;
   AXI_STR_RXD_0_1_TVALID <= AXI_STR_RXD_0_tvalid;
   AXI_STR_RXD_0_tready <= AXI_STR_RXD_0_1_TREADY;
   AXI_STR_TXD_0_tdata(31 downto 0) <= axi_fifo_mm_s_0_AXI_STR_TXD_TDATA(31 downto 0);
+  AXI_STR_TXD_0_tkeep(3 downto 0) <= axi_fifo_mm_s_0_AXI_STR_TXD_TKEEP(3 downto 0);
   AXI_STR_TXD_0_tlast <= axi_fifo_mm_s_0_AXI_STR_TXD_TLAST;
   AXI_STR_TXD_0_tvalid <= axi_fifo_mm_s_0_AXI_STR_TXD_TVALID;
   FCLK_CLK0_0 <= processing_system7_0_FCLK_CLK1;
@@ -887,10 +897,12 @@ begin
 axi_fifo_mm_s_0: component bd_base_axi_fifo_mm_s_0_0
      port map (
       axi_str_rxd_tdata(31 downto 0) => AXI_STR_RXD_0_1_TDATA(31 downto 0),
+      axi_str_rxd_tkeep(3 downto 0) => AXI_STR_RXD_0_1_TKEEP(3 downto 0),
       axi_str_rxd_tlast => AXI_STR_RXD_0_1_TLAST,
       axi_str_rxd_tready => AXI_STR_RXD_0_1_TREADY,
       axi_str_rxd_tvalid => AXI_STR_RXD_0_1_TVALID,
       axi_str_txd_tdata(31 downto 0) => axi_fifo_mm_s_0_AXI_STR_TXD_TDATA(31 downto 0),
+      axi_str_txd_tkeep(3 downto 0) => axi_fifo_mm_s_0_AXI_STR_TXD_TKEEP(3 downto 0),
       axi_str_txd_tlast => axi_fifo_mm_s_0_AXI_STR_TXD_TLAST,
       axi_str_txd_tready => axi_fifo_mm_s_0_AXI_STR_TXD_TREADY,
       axi_str_txd_tvalid => axi_fifo_mm_s_0_AXI_STR_TXD_TVALID,

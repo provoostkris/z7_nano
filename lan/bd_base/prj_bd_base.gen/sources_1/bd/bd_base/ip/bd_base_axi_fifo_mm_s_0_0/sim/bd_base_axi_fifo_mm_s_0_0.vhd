@@ -82,11 +82,13 @@ ENTITY bd_base_axi_fifo_mm_s_0_0 IS
     axi_str_txd_tvalid : OUT STD_LOGIC;
     axi_str_txd_tready : IN STD_LOGIC;
     axi_str_txd_tlast : OUT STD_LOGIC;
+    axi_str_txd_tkeep : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     axi_str_txd_tdata : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
     s2mm_prmry_reset_out_n : OUT STD_LOGIC;
     axi_str_rxd_tvalid : IN STD_LOGIC;
     axi_str_rxd_tready : OUT STD_LOGIC;
     axi_str_rxd_tlast : IN STD_LOGIC;
+    axi_str_rxd_tkeep : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
     axi_str_rxd_tdata : IN STD_LOGIC_VECTOR(31 DOWNTO 0)
   );
 END bd_base_axi_fifo_mm_s_0_0;
@@ -223,14 +225,16 @@ ARCHITECTURE bd_base_axi_fifo_mm_s_0_0_arch OF bd_base_axi_fifo_mm_s_0_0 IS
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER : STRING;
   ATTRIBUTE X_INTERFACE_INFO OF axi_str_rxd_tdata: SIGNAL IS "xilinx.com:interface:axis:1.0 AXI_STR_RXD TDATA";
+  ATTRIBUTE X_INTERFACE_INFO OF axi_str_rxd_tkeep: SIGNAL IS "xilinx.com:interface:axis:1.0 AXI_STR_RXD TKEEP";
   ATTRIBUTE X_INTERFACE_INFO OF axi_str_rxd_tlast: SIGNAL IS "xilinx.com:interface:axis:1.0 AXI_STR_RXD TLAST";
   ATTRIBUTE X_INTERFACE_INFO OF axi_str_rxd_tready: SIGNAL IS "xilinx.com:interface:axis:1.0 AXI_STR_RXD TREADY";
-  ATTRIBUTE X_INTERFACE_PARAMETER OF axi_str_rxd_tvalid: SIGNAL IS "XIL_INTERFACENAME AXI_STR_RXD, TDATA_NUM_BYTES 4, TDEST_WIDTH 0, TID_WIDTH 0, TUSER_WIDTH 0, HAS_TREADY 1, HAS_TSTRB 0, HAS_TKEEP 0, HAS_TLAST 1, FREQ_HZ 50000000, PHASE 0.0, CLK_DOMAIN bd_base_processing_system7_0_0_FCLK_CLK0, LAYERED_METADATA undef, INSERT_VIP 0";
+  ATTRIBUTE X_INTERFACE_PARAMETER OF axi_str_rxd_tvalid: SIGNAL IS "XIL_INTERFACENAME AXI_STR_RXD, TDATA_NUM_BYTES 4, TDEST_WIDTH 0, TID_WIDTH 0, TUSER_WIDTH 0, HAS_TREADY 1, HAS_TSTRB 0, HAS_TKEEP 1, HAS_TLAST 1, FREQ_HZ 50000000, PHASE 0.0, CLK_DOMAIN bd_base_processing_system7_0_0_FCLK_CLK0, LAYERED_METADATA undef, INSERT_VIP 0";
   ATTRIBUTE X_INTERFACE_INFO OF axi_str_rxd_tvalid: SIGNAL IS "xilinx.com:interface:axis:1.0 AXI_STR_RXD TVALID";
   ATTRIBUTE X_INTERFACE_INFO OF axi_str_txd_tdata: SIGNAL IS "xilinx.com:interface:axis:1.0 AXI_STR_TXD TDATA";
+  ATTRIBUTE X_INTERFACE_INFO OF axi_str_txd_tkeep: SIGNAL IS "xilinx.com:interface:axis:1.0 AXI_STR_TXD TKEEP";
   ATTRIBUTE X_INTERFACE_INFO OF axi_str_txd_tlast: SIGNAL IS "xilinx.com:interface:axis:1.0 AXI_STR_TXD TLAST";
   ATTRIBUTE X_INTERFACE_INFO OF axi_str_txd_tready: SIGNAL IS "xilinx.com:interface:axis:1.0 AXI_STR_TXD TREADY";
-  ATTRIBUTE X_INTERFACE_PARAMETER OF axi_str_txd_tvalid: SIGNAL IS "XIL_INTERFACENAME AXI_STR_TXD, TDATA_NUM_BYTES 4, TDEST_WIDTH 0, TID_WIDTH 0, TUSER_WIDTH 0, HAS_TREADY 1, HAS_TSTRB 0, HAS_TKEEP 0, HAS_TLAST 1, FREQ_HZ 50000000, PHASE 0.0, CLK_DOMAIN bd_base_processing_system7_0_0_FCLK_CLK0, LAYERED_METADATA undef, INSERT_VIP 0";
+  ATTRIBUTE X_INTERFACE_PARAMETER OF axi_str_txd_tvalid: SIGNAL IS "XIL_INTERFACENAME AXI_STR_TXD, TDATA_NUM_BYTES 4, TDEST_WIDTH 0, TID_WIDTH 0, TUSER_WIDTH 0, HAS_TREADY 1, HAS_TSTRB 0, HAS_TKEEP 1, HAS_TLAST 1, FREQ_HZ 50000000, PHASE 0.0, CLK_DOMAIN bd_base_processing_system7_0_0_FCLK_CLK0, LAYERED_METADATA undef, INSERT_VIP 0";
   ATTRIBUTE X_INTERFACE_INFO OF axi_str_txd_tvalid: SIGNAL IS "xilinx.com:interface:axis:1.0 AXI_STR_TXD TVALID";
   ATTRIBUTE X_INTERFACE_PARAMETER OF interrupt: SIGNAL IS "XIL_INTERFACENAME interrupt_intf, SENSITIVITY LEVEL_HIGH, PORTWIDTH 1";
   ATTRIBUTE X_INTERFACE_INFO OF interrupt: SIGNAL IS "xilinx.com:signal:interrupt:1.0 interrupt_intf INTERRUPT";
@@ -269,14 +273,14 @@ BEGIN
       C_S_AXI_ADDR_WIDTH => 32,
       C_S_AXI_DATA_WIDTH => 32,
       C_S_AXI4_DATA_WIDTH => 32,
-      C_TX_FIFO_DEPTH => 512,
-      C_RX_FIFO_DEPTH => 512,
+      C_TX_FIFO_DEPTH => 2048,
+      C_RX_FIFO_DEPTH => 2048,
       C_TX_CASCADE_HEIGHT => 0,
       C_RX_CASCADE_HEIGHT => 0,
-      C_TX_FIFO_PF_THRESHOLD => 507,
-      C_TX_FIFO_PE_THRESHOLD => 5,
-      C_RX_FIFO_PF_THRESHOLD => 507,
-      C_RX_FIFO_PE_THRESHOLD => 5,
+      C_TX_FIFO_PF_THRESHOLD => 2040,
+      C_TX_FIFO_PE_THRESHOLD => 8,
+      C_RX_FIFO_PF_THRESHOLD => 2040,
+      C_RX_FIFO_PE_THRESHOLD => 8,
       C_USE_TX_CUT_THROUGH => 0,
       C_DATA_INTERFACE_TYPE => 0,
       C_TX_ENABLE_ECC => 0,
@@ -291,7 +295,7 @@ BEGIN
       C_HAS_AXIS_TDEST => 0,
       C_HAS_AXIS_TUSER => 0,
       C_HAS_AXIS_TSTRB => 0,
-      C_HAS_AXIS_TKEEP => 0,
+      C_HAS_AXIS_TKEEP => 1,
       C_AXIS_TID_WIDTH => 4,
       C_AXIS_TDEST_WIDTH => 4,
       C_AXIS_TUSER_WIDTH => 4,
@@ -349,13 +353,14 @@ BEGIN
       axi_str_txd_tvalid => axi_str_txd_tvalid,
       axi_str_txd_tready => axi_str_txd_tready,
       axi_str_txd_tlast => axi_str_txd_tlast,
+      axi_str_txd_tkeep => axi_str_txd_tkeep,
       axi_str_txd_tdata => axi_str_txd_tdata,
       axi_str_txc_tready => '0',
       s2mm_prmry_reset_out_n => s2mm_prmry_reset_out_n,
       axi_str_rxd_tvalid => axi_str_rxd_tvalid,
       axi_str_rxd_tready => axi_str_rxd_tready,
       axi_str_rxd_tlast => axi_str_rxd_tlast,
-      axi_str_rxd_tkeep => STD_LOGIC_VECTOR(TO_UNSIGNED(0, 4)),
+      axi_str_rxd_tkeep => axi_str_rxd_tkeep,
       axi_str_rxd_tdata => axi_str_rxd_tdata,
       axi_str_rxd_tstrb => STD_LOGIC_VECTOR(TO_UNSIGNED(0, 4)),
       axi_str_rxd_tdest => STD_LOGIC_VECTOR(TO_UNSIGNED(0, 4)),

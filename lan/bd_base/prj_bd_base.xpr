@@ -7,7 +7,7 @@
 <Project Product="Vivado" Version="7" Minor="63" Path="D:/github/z7_nano/lan/bd_base/prj_bd_base.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="7a7ca1466e2e464cbe45fd262fbaf0ba"/>
+    <Option Name="Id" Val="1c0ed3710fe74b82aa0881f601f81c4b"/>
     <Option Name="Part" Val="xc7z020clg400-2"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
@@ -103,11 +103,11 @@
         <CompFileExtendedInfo CompFileName="bd_base.bd" FileRelPathName="ip/bd_base_processing_system7_0_0/bd_base_processing_system7_0_0.xci">
           <Proxy FileSetName="bd_base_processing_system7_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="bd_base.bd" FileRelPathName="ip/bd_base_axi_fifo_mm_s_0_0/bd_base_axi_fifo_mm_s_0_0.xci">
-          <Proxy FileSetName="bd_base_axi_fifo_mm_s_0_0"/>
-        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="bd_base.bd" FileRelPathName="ip/bd_base_auto_pc_0/bd_base_auto_pc_0.xci">
           <Proxy FileSetName="bd_base_auto_pc_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="bd_base.bd" FileRelPathName="ip/bd_base_axi_fifo_mm_s_0_0/bd_base_axi_fifo_mm_s_0_0.xci">
+          <Proxy FileSetName="bd_base_axi_fifo_mm_s_0_0"/>
         </CompFileExtendedInfo>
       </File>
       <Config>

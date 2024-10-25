@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xAB7E073FB30BB313",
+      "boundary_crc": "0xE50567E7E5504FA1",
       "device": "xc7z020clg400-2",
       "gen_directory": "../../../../prj_bd_base.gen/sources_1/bd/bd_base",
       "name": "bd_base",
@@ -198,7 +198,7 @@
             "value": "50000000"
           },
           "HAS_TKEEP": {
-            "value": "0",
+            "value": "1",
             "value_src": "auto_prop"
           },
           "HAS_TLAST": {
@@ -247,6 +247,12 @@
             "physical_name": "AXI_STR_TXD_0_tdata",
             "direction": "O",
             "left": "31",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "AXI_STR_TXD_0_tkeep",
+            "direction": "O",
+            "left": "3",
             "right": "0"
           },
           "TLAST": {
@@ -312,6 +318,12 @@
             "physical_name": "AXI_STR_RXD_0_tdata",
             "direction": "I",
             "left": "31",
+            "right": "0"
+          },
+          "TKEEP": {
+            "physical_name": "AXI_STR_RXD_0_tkeep",
+            "direction": "I",
+            "left": "3",
             "right": "0"
           },
           "TLAST": {
@@ -1127,6 +1139,27 @@
         "xci_path": "ip\\bd_base_axi_fifo_mm_s_0_0\\bd_base_axi_fifo_mm_s_0_0.xci",
         "inst_hier_path": "axi_fifo_mm_s_0",
         "parameters": {
+          "C_HAS_AXIS_TKEEP": {
+            "value": "true"
+          },
+          "C_RX_FIFO_DEPTH": {
+            "value": "2048"
+          },
+          "C_RX_FIFO_PE_THRESHOLD": {
+            "value": "8"
+          },
+          "C_RX_FIFO_PF_THRESHOLD": {
+            "value": "2040"
+          },
+          "C_TX_FIFO_DEPTH": {
+            "value": "2048"
+          },
+          "C_TX_FIFO_PE_THRESHOLD": {
+            "value": "8"
+          },
+          "C_TX_FIFO_PF_THRESHOLD": {
+            "value": "2040"
+          },
           "C_USE_TX_CTRL": {
             "value": "0"
           }

@@ -9,6 +9,7 @@
 						"ACLK": { "actual": "s_axi_aclk"},
 						"ARESETN": { "actual": "s_axi_aresetn"},
 						"TDATA": { "actual": "axi_str_rxd_tdata"},
+						"TKEEP": { "actual": "axi_str_rxd_tkeep"},
 						"TLAST": { "actual": "axi_str_rxd_tlast"},
 						"TREADY": { "actual": "axi_str_rxd_tready"},
 						"TVALID": { "actual": "axi_str_rxd_tvalid"}
@@ -20,6 +21,7 @@
 						"ACLK": { "actual": "s_axi_aclk"},
 						"ARESETN": { "actual": "s_axi_aresetn"},
 						"TDATA": { "actual": "axi_str_txd_tdata"},
+						"TKEEP": { "actual": "axi_str_txd_tkeep"},
 						"TLAST": { "actual": "axi_str_txd_tlast"},
 						"TREADY": { "actual": "axi_str_txd_tready"},
 						"TVALID": { "actual": "axi_str_txd_tvalid"}
