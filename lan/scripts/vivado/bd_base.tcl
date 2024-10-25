@@ -368,7 +368,16 @@ proc create_root_design { parentCell } {
 
   # Create instance: axi_fifo_mm_s_0, and set properties
   set axi_fifo_mm_s_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_fifo_mm_s:4.3 axi_fifo_mm_s_0 ]
-  set_property CONFIG.C_USE_TX_CTRL {0} $axi_fifo_mm_s_0
+  set_property -dict [list \
+    CONFIG.C_HAS_AXIS_TKEEP {true} \
+    CONFIG.C_RX_FIFO_DEPTH {2048} \
+    CONFIG.C_RX_FIFO_PE_THRESHOLD {8} \
+    CONFIG.C_RX_FIFO_PF_THRESHOLD {2040} \
+    CONFIG.C_TX_FIFO_DEPTH {2048} \
+    CONFIG.C_TX_FIFO_PE_THRESHOLD {8} \
+    CONFIG.C_TX_FIFO_PF_THRESHOLD {2040} \
+    CONFIG.C_USE_TX_CTRL {0} \
+  ] $axi_fifo_mm_s_0
 
 
   # Create interface connections
