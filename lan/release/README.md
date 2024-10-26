@@ -16,5 +16,5 @@ The PL design can be instrumendted with internal logic analyzers to capture data
 Example of TX and RX traffic verified with debugging serial link and wireshark 
 
 
-![wireshark_02](../../img/wireshark_02.png)
+![wireshark_02](../img/wireshark_02.png)
 

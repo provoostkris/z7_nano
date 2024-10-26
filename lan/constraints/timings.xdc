@@ -12,6 +12,8 @@
   #set_false_path -to                [get_pins -hier *shift_reg*/D]
   set_false_path -to                [get_pins -hier *_sync1_reg*/D]
   set_false_path -to                [get_pins -hier *s_rst_sync2_reg*/D]
+  #set_false_path -to                [get_pins -hier *wr_ptr_gray_sync1_reg*/D]
+  set_false_path -to                [get_pins -hier *wr_ptr_commit_sync_reg*/D]
 
 
 # Definitions and groups

@@ -143,16 +143,19 @@ architecture rtl of lan is
   signal AXI_STR_RXD_SEL_tvalid : STD_LOGIC;
 
   signal AXI_STR_TXD_0_tdata    : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_TXD_0_tkeep    : STD_LOGIC_VECTOR (  3 downto 0 );
   signal AXI_STR_TXD_0_tlast    : STD_LOGIC;
   signal AXI_STR_TXD_0_tready   : STD_LOGIC;
   signal AXI_STR_TXD_0_tvalid   : STD_LOGIC;
 
   signal AXI_STR_TXD_DBG_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_TXD_DBG_tkeep  : STD_LOGIC_VECTOR (  3 downto 0 );
   signal AXI_STR_TXD_DBG_tlast  : STD_LOGIC;
   signal AXI_STR_TXD_DBG_tready : STD_LOGIC;
   signal AXI_STR_TXD_DBG_tvalid : STD_LOGIC;
 
   signal AXI_STR_TXD_SEL_tdata  : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal AXI_STR_TXD_SEL_tkeep  : STD_LOGIC_VECTOR (  3 downto 0 );
   signal AXI_STR_TXD_SEL_tlast  : STD_LOGIC;
   signal AXI_STR_TXD_SEL_tready : STD_LOGIC;
   signal AXI_STR_TXD_SEL_tvalid : STD_LOGIC;
@@ -174,16 +177,16 @@ architecture rtl of lan is
   attribute MARK_DEBUG of  AXI_STR_RXD_SEL_tlast  : signal is "TRUE";
   attribute MARK_DEBUG of  AXI_STR_RXD_SEL_tready : signal is "TRUE";
   attribute MARK_DEBUG of  AXI_STR_RXD_SEL_tvalid : signal is "TRUE";
-  
+
   attribute MARK_DEBUG of  frm_rx_rxdv   : signal is "TRUE";
   attribute MARK_DEBUG of  frm_rx_rxerr  : signal is "TRUE";
   attribute MARK_DEBUG of  frm_rx_ena    : signal is "TRUE";
   attribute MARK_DEBUG of  frm_rx_lst    : signal is "TRUE";
   attribute MARK_DEBUG of  frm_rx_rxdata : signal is "TRUE";
-  
+
   attribute MARK_DEBUG of  rgmii_rd      : signal is "TRUE";
   attribute MARK_DEBUG of  rgmii_rx_ctl  : signal is "TRUE";
-                           
+
 begin
 
   phy_rst_n <= '1';
@@ -197,6 +200,7 @@ begin
 
     AXI_STR_TXD_0_tready    <= AXI_STR_TXD_SEL_tready;
     AXI_STR_TXD_SEL_tdata   <= AXI_STR_TXD_0_tdata ;
+    AXI_STR_TXD_SEL_tkeep   <= AXI_STR_TXD_0_tkeep ;
     AXI_STR_TXD_SEL_tlast   <= AXI_STR_TXD_0_tlast ;
     AXI_STR_TXD_SEL_tvalid  <= AXI_STR_TXD_0_tvalid;
 
@@ -212,6 +216,7 @@ begin
 
     AXI_STR_TXD_DBG_tready  <= AXI_STR_TXD_SEL_tready;
     AXI_STR_TXD_SEL_tdata   <= AXI_STR_TXD_DBG_tdata ;
+    AXI_STR_TXD_SEL_tkeep   <= AXI_STR_TXD_DBG_tkeep ;
     AXI_STR_TXD_SEL_tlast   <= AXI_STR_TXD_DBG_tlast ;
     AXI_STR_TXD_SEL_tvalid  <= AXI_STR_TXD_DBG_tvalid;
 
@@ -246,6 +251,9 @@ begin
       m_dat_tvalid  => AXI_STR_TXD_DBG_tvalid
     );
 
+    -- cheat for now
+    AXI_STR_TXD_DBG_tkeep <= ( others => '0');
+
   --! change the stream data width
   i_axis_async_fifo_adapter_tx : entity work.axis_async_fifo_adapter
     generic map (
@@ -264,7 +272,7 @@ begin
       s_axis_tdata            => AXI_STR_TXD_SEL_tdata,
       s_axis_tvalid           => AXI_STR_TXD_SEL_tvalid,
       s_axis_tlast            => AXI_STR_TXD_SEL_tlast,
-      s_axis_tkeep            => "1111",
+      s_axis_tkeep            => AXI_STR_TXD_SEL_tkeep,
       s_axis_tid              => "1",
       s_axis_tdest            => "1",
       s_axis_tuser            => "1",
@@ -444,7 +452,7 @@ begin
       m_status_bad_frame      => open,
       m_status_good_frame     => open
     );
-    
+
     --! just for debugging always consume data
     AXI_STR_RXD_DBG_tready <= '1';
 
@@ -596,11 +604,13 @@ begin
       FCLK_CLK0_0 => fclk_clk,
 
       AXI_STR_RXD_0_tdata(31 downto 0) => AXI_STR_RXD_0_tdata(31 downto 0),
+      AXI_STR_RXD_0_tkeep => AXI_STR_RXD_0_tkeep,
       AXI_STR_RXD_0_tlast => AXI_STR_RXD_0_tlast,
       AXI_STR_RXD_0_tready => AXI_STR_RXD_0_tready,
       AXI_STR_RXD_0_tvalid => AXI_STR_RXD_0_tvalid,
 
       AXI_STR_TXD_0_tdata(31 downto 0) => AXI_STR_TXD_0_tdata(31 downto 0),
+      AXI_STR_TXD_0_tkeep => AXI_STR_TXD_0_tkeep,
       AXI_STR_TXD_0_tlast => AXI_STR_TXD_0_tlast,
       AXI_STR_TXD_0_tready => AXI_STR_TXD_0_tready,
       AXI_STR_TXD_0_tvalid => AXI_STR_TXD_0_tvalid,
