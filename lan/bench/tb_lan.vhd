@@ -27,9 +27,10 @@ end entity tb_lan;
 
 architecture rtl of tb_lan is
 
-  constant c_ena_tst_1 : boolean := true;
-  constant c_ena_tst_2 : boolean := true;
-  constant c_ena_tst_3 : boolean := true;
+  constant c_ena_tst_1 : boolean := false;
+  constant c_ena_tst_2 : boolean := false;
+  constant c_ena_tst_3 : boolean := false;
+  constant c_ena_tst_4 : boolean := true;
 
   constant c_rx_mdl_size      : natural   := 80 ;
 
@@ -80,6 +81,7 @@ architecture rtl of tb_lan is
 
   signal tx_header          : t_ethernet_header;               -- header record
   signal tx_payload         : t_slv_arr(0 to C_ETH_PKT'high)(7 downto 0); -- packet payload
+  signal tx_pay_len         : integer;
   signal tx_ena             : std_logic := '0';
 
 --! procedures
@@ -175,6 +177,7 @@ rgmii_tx_model: entity work.rgmii_tx_model(sim)
 
     header            => tx_header,
     payload           => tx_payload,
+    pay_len           => tx_pay_len,
     tx_ena            => tx_ena,
 
     rgmii_txc         => rgmii_txc    ,
@@ -220,7 +223,7 @@ with test_mode select
     if c_ena_tst_1 then
 	  report " RUN TST.01 ";
     report " .. simple loop back test , the TX is wired to RX";
-    report " .. then the simulation will run for 200 clk cycles";
+    report " .. then the simulation will run for 999 clk cycles";
 
 	    proc_reset(3);
 
@@ -238,12 +241,12 @@ with test_mode select
 	  report " RUN TST.02 ";
     report " .. a test packet is crafted and sent to the DUT";
     report " .. the DUT is first resetted and waited for the PLL to lock";
-    report " .. after the packet the IPG sequence is sent to respect the protocol";
 
       -- configure test mode
       test_mode <= tx_model ;
 
       tx_payload                 <= C_ETH_PKT;
+      tx_pay_len                 <= C_ETH_PKT'high;
       tx_header                  <= C_DEFAULT_ETH_HEADER;                                -- copy default header
       tx_header.mac_dest         <= f_eth_mac_2_slv_arr("02:AA:BB:CC:DD:EE");            -- change destination MAC
 
@@ -264,7 +267,6 @@ with test_mode select
 	  report " RUN TST.03 ";
     report " .. a dummy packet is crafted x'FE' and sent to the DUT";
     report " .. the DUT is first resetted and waited for the PLL to lock";
-    report " .. after the packet the IPG sequence is sent to respect the protocol";
 
       -- configure test mode
       test_mode <= tx_model ;
@@ -272,6 +274,7 @@ with test_mode select
       for i in C_ETH_PKT'range loop
         tx_payload(i)            <= x"F0";
       end loop;
+      tx_pay_len                 <= C_ETH_PKT'high;
       tx_header                  <= C_DEFAULT_ETH_HEADER;                                -- copy default header
       tx_header.mac_dest         <= f_eth_mac_2_slv_arr("02:AA:BB:CC:DD:EE");            -- change destination MAC
 
@@ -284,6 +287,33 @@ with test_mode select
 
  	    proc_wait_clk(clk, 999);
 	  report " END TST.03 ";
+    end if;
+    
+    if c_ena_tst_4 then
+	  report " RUN TST.04 ";
+    report " .. a dummy packet is crafted with a counter and sent to the DUT";
+    report " .. the DUT is first resetted and waited for the PLL to lock";
+
+      -- configure test mode
+      test_mode <= tx_model ;
+
+      for i in 0 to 64 loop
+        tx_payload(i)            <= std_logic_vector(to_unsigned(i,8));
+      end loop;
+      tx_pay_len                 <= 65;
+      tx_header                  <= C_DEFAULT_ETH_HEADER;                                -- copy default header
+      tx_header.mac_dest         <= f_eth_mac_2_slv_arr("99:AA:BB:CC:DD:EE");            -- change destination MAC
+      tx_header.mac_src          <= f_eth_mac_2_slv_arr("66:77:88:99:AA:BB");            -- change source MAC
+
+      -- start from reset
+	    proc_reset(3);
+      -- wait until the clocks are running and reset is over
+      wait until pll_lock = '1';
+ 	    proc_wait_clk(clk, 5);
+      tx_ena <= '1';
+
+ 	    proc_wait_clk(clk, 999);
+	  report " END TST.04 ";
     end if;
 
 	  report " END of test bench" severity failure;

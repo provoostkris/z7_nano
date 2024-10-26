@@ -25,8 +25,9 @@ entity rgmii_tx_model is
   port (
     rst_n       : in  std_logic;
 
-    header      : t_ethernet_header;                  -- header record
-    payload     : t_slv_arr(0 to g_size)(7 downto 0); -- packet payload
+    header      : in t_ethernet_header;                  -- header record
+    payload     : in t_slv_arr(0 to g_size)(7 downto 0); -- packet payload
+    pay_len     : in integer;
     tx_ena      : in  std_logic;
 
     rgmii_txc   : in  std_logic;
@@ -70,7 +71,8 @@ gen_fast: if g_speed = 1000 generate
       v_eth_pkt(0 to v_len - 1)             := f_eth_create_pkt(header, payload);               -- create the packet
       v_eth_pkt(0 to v_len + 7)             := f_concat(C_ETH_PREAMBLE, v_eth_pkt(0 to v_len - 1)); -- add preamble
       -- start transmitter
- 	    for i in 0 to v_len + 7 loop
+      -- 14 hdr bytes , pqyload requested , and preamble
+ 	    for i in 0 to 14 + pay_len + 7 loop
         -- first nibble
         proc_wait_clk_edge(rgmii_txc, '1');
         rgmii_td     <= v_eth_pkt(i)(3 downto 0);
@@ -123,7 +125,8 @@ gen_slow: if g_speed = 100 generate
       v_eth_pkt(0 to v_len - 1)             := f_eth_create_pkt(header, payload);               -- create the packet
       v_eth_pkt(0 to v_len + 7)             := f_concat(C_ETH_PREAMBLE, v_eth_pkt(0 to v_len - 1)); -- add preamble
       -- start transmitter
- 	    for i in 0 to v_len + 7 loop
+      -- 14 hdr bytes , pqyload requested , and preamble
+ 	    for i in 0 to 14 + pay_len + 7 loop
         -- first nibble
         proc_wait_clk_edge(rgmii_txc, '1');
         rgmii_td     <= v_eth_pkt(i)(3 downto 0);
