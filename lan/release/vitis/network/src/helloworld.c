@@ -67,12 +67,9 @@
 #define XUARTPS_BASE_ADDR   0xE0000000
 #define XTTCPS_BASE_ADDR    0xF8001000
 
-int main()
-{
-    init_platform();
+void f_tx_eth() {
 
     int i;
-    int j;
     u8 data[64];
 
     //mac_dst
@@ -95,93 +92,103 @@ int main()
 
     u32 wr_data;
     u32 rd_data;
+
+	print("AXIS TX dummy packet \n");
+
+		for (i=0; i<64; i=i+4){
+			uint32_t wr_data = ((data[i+3]<<24) | (data[i+2]<<16) | (data[i+1]<<8) | (data[i+0]<<0));
+			Xil_Out32(AXIS_FIFO_BASE_ADDR + TDFD, wr_data);
+		}
+		for (i=0; i<64; i=i+1){
+			xil_printf("%02x ",data[i]);
+			if (i % 8 == 7) {
+			  print(" ");
+			}
+			if (i % 16 == 15) {
+			  print("\n");
+			}
+		}
+		print("\n");
+
+		rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+TDFV);
+		xil_printf("TDFV:%x\n", rd_data);
+
+		wr_data = 0x40;
+		Xil_Out32(AXIS_FIFO_BASE_ADDR + TLF, wr_data);
+
+		rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+ISR);
+		xil_printf("ISR :%x\n", rd_data);
+}
+
+void f_rx_eth() {
+
+    int i;
+
+    u32 wr_data;
+    u32 rd_data;
     u32 rd_fifo_len;
     u8  rd_fifo_dat[1500];
 
-    print("UART 0 regs\n");
-    rd_data = Xil_In32(XUARTPS_BASE_ADDR+0x0000);
-    xil_printf("%x\n", rd_data);
-    print("TTC 0 regs\n");
-    rd_data = Xil_In32(XTTCPS_BASE_ADDR+0x0010);
-    xil_printf("%x\n", rd_data);
+	print("AXIS RX dump packets \n");
 
+	rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+ISR);
+	xil_printf("ISR : %x\n", rd_data);
+
+	wr_data = 0x0FFFFFFF;
+	Xil_Out32(AXIS_FIFO_BASE_ADDR + ISR, wr_data);
+
+	rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+ISR);
+	xil_printf("ISR : %x\n", rd_data);
+
+	rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDFO);
+	xil_printf("RDFO:%x\n", rd_data);
+
+	if (rd_data != 0x0) {
+		rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RLR);
+		xil_printf("RLR :%x\n", rd_data);
+		rd_fifo_len = rd_data;
+
+		rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDR);
+		xil_printf("RDR: %x\n", rd_data);
+
+		rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDFO);
+		xil_printf("RDFO:%x\n", rd_data);
+
+		print(" Packet(s) received : \n");
+		for (i=0; i<rd_fifo_len; i=i+4){
+			rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDFD);
+			rd_fifo_dat[i+3] = rd_data>>24;
+			rd_fifo_dat[i+2] = rd_data>>16;
+			rd_fifo_dat[i+1] = rd_data>>8;
+			rd_fifo_dat[i+0] = rd_data>>0;
+		}
+		for (i=0; i<rd_fifo_len; i=i+1){
+			xil_printf("%02x ",rd_fifo_dat[i]);
+			if (i % 8 == 7) {
+			  print(" ");
+			}
+			if (i % 16 == 15) {
+			  print("\n");
+			}
+		}
+		print("\n");
+
+	} else {
+	  print(" Nothing received \n");
+	}
+}
+
+
+int main()
+{
+    init_platform();
+
+    int j;
 
     for (j=0; j<180; j++){
 
-		print("AXIS TX dummy packet \n");
-
-			for (i=0; i<64; i=i+4){
-				uint32_t wr_data = ((data[i+3]<<24) | (data[i+2]<<16) | (data[i+1]<<8) | (data[i+0]<<0));
-				Xil_Out32(AXIS_FIFO_BASE_ADDR + TDFD, wr_data);
-			}
-			for (i=0; i<64; i=i+1){
-				xil_printf("%02x",data[i]);
-			    if (i % 4 == 3) {
-			      print(" ");
-				}
-			    if (i % 16 == 15) {
-			      print("\n");
-				}
-			}
-			print("\n");
-
-			rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+TDFV);
-			xil_printf("TDFV:%x\n", rd_data);
-
-			wr_data = 0x40;
-			Xil_Out32(AXIS_FIFO_BASE_ADDR + TLF, wr_data);
-
-			rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+ISR);
-			xil_printf("ISR :%x\n", rd_data);
-
-		print("AXIS RX dump packets \n");
-
-			rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+ISR);
-			xil_printf("ISR : %x\n", rd_data);
-
-			wr_data = 0x0FFFFFFF;
-			Xil_Out32(AXIS_FIFO_BASE_ADDR + ISR, wr_data);
-
-			rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+ISR);
-			xil_printf("ISR : %x\n", rd_data);
-
-			rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDFO);
-			xil_printf("RDFO:%x\n", rd_data);
-
-			if (rd_data != 0x0) {
-				rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RLR);
-				xil_printf("RLR :%x\n", rd_data);
-				rd_fifo_len = rd_data;
-
-				rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDR);
-				xil_printf("RDR: %x\n", rd_data);
-
-				rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDFO);
-				xil_printf("RDFO:%x\n", rd_data);
-
-			    print(" Packet(s) received : \n");
-				for (i=0; i<rd_fifo_len; i=i+4){
-					rd_data = Xil_In32(AXIS_FIFO_BASE_ADDR+RDFD);
-					rd_fifo_dat[i+3] = rd_data>>24;
-					rd_fifo_dat[i+2] = rd_data>>16;
-					rd_fifo_dat[i+1] = rd_data>>8;
-					rd_fifo_dat[i+0] = rd_data>>0;
-				}
-				for (i=0; i<rd_fifo_len; i=i+1){
-					xil_printf("%02x",rd_fifo_dat[i]);
-					if (i % 4 == 3) {
-					  print(" ");
-					}
-					if (i % 16 == 15) {
-					  print("\n");
-					}
-				}
-			    print("\n");
-
-			} else {
-			  print(" Nothing received \n");
-			}
-
+		f_tx_eth();
+		f_rx_eth();
 		sleep(1);
     }
 
