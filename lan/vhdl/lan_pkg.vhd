@@ -40,6 +40,4 @@ end package lan_pkg;
 -------------------------------------------------------------------------------
 package body lan_pkg is
 
-
-
 end package body lan_pkg;

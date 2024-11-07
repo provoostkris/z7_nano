@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
---  on off pwm
---  rev. 1.0 : 2024 provoost kris
+--!  on off pwm
+--!  rev. 1.0 : 2024 provoost kris
 ------------------------------------------------------------------------------
 
 library ieee;
@@ -26,7 +26,7 @@ architecture rtl of pwm is
 
 begin
 
-  -- simple counter for PWM driver
+  --! simple counter for PWM driver
   process(reset_n, clk) is
   begin
       if reset_n='0' then
@@ -36,7 +36,7 @@ begin
       end if;
   end process;
 
-  -- up down counter for beat controller
+  --! up down counter for beat controller
   process(reset_n, clk) is
   begin
       if reset_n='0' then

@@ -14,10 +14,10 @@ entity eth_frm_tx is
     clk          : in  std_logic;
     rst_n        : in  std_logic;
     -- signal from axis stream
-    dat_tready   : out std_logic;
-    dat_tdata    : in  std_logic_vector(7 downto 0);
-    dat_tlast    : in  std_logic;
-    dat_tvalid   : in  std_logic;
+    s_tready     : out std_logic;
+    s_tdata      : in  std_logic_vector(7 downto 0);
+    s_tdata      : in  std_logic;
+    s_tvalid     : in  std_logic;
     -- signals to phy
     txdata       : out std_logic_vector(7 downto 0);
     txen         : out std_logic;
@@ -55,7 +55,7 @@ begin  -- architecture rtl
       irst_n  => rst_n,
       iinit   => crcinit,
       icalcen => crcen,
-      idata   => dat_tdata,
+      idata   => s_tdata,
       ocrc    => crc
     );
 
@@ -69,7 +69,7 @@ begin  -- architecture rtl
       cnt_bytes      <= (others => '0');
       crcinit      <= '0';
       crcen        <= '0';
-      dat_tready   <= '0';
+      s_tready     <= '0';
       txdata       <= (others => '0');
       txen         <= '0';
     elsif rising_edge(clk) then
@@ -79,7 +79,7 @@ begin  -- architecture rtl
           crcinit      <= '0';
           cnt_bytes    <= to_unsigned(0,cnt_bytes'length);
           -- if the TX contains data , then start framing
-          if dat_tvalid = '1' then
+          if s_tvalid = '1' then
             state        <= preamble;
           end if;
         -----------------------------------------------------------------------
@@ -97,19 +97,19 @@ begin  -- architecture rtl
           txen         <= '1';
           txdata       <= x"d5";
           crcen        <= '1';
-          dat_tready   <= '1';
+          s_tready     <= '1';
           state        <= send_data;
         -----------------------------------------------------------------------
         when send_data =>
           cnt_bytes    <= to_unsigned(0,cnt_bytes'length);
 
-          txen         <= dat_tvalid;
-          txdata       <= dat_tdata;
+          txen         <= s_tvalid;
+          txdata       <= s_tdata;
 
-          if dat_tlast = '1' then
+          if s_tdata = '1' then
             state        <= send_crc;
             crcen        <= '0';
-            dat_tready   <= '0';
+            s_tready     <= '0';
           end if;
         -----------------------------------------------------------------------
         when send_crc =>
