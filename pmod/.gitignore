@@ -1,2 +1,5 @@
-scripts/modelsim/work/
-scripts/vivado/output/
+scripts/modelsim/*
+!scripts/modelsim/*.do
+
+scripts/vivado/*
+!scripts/vivado/*.tcl
