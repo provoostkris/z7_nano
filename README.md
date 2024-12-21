@@ -19,3 +19,6 @@ Adding the HDMI demonstration, making use of the on board HDMI connector
 
 ### [LAN](/lan)
 Adding LAN (wired network) over the PL ETH port on a RGMII interface
+
+### [PMOD](/pmod)
+simple PMOD modules interface[s]
