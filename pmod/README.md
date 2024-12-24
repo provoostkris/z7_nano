@@ -11,6 +11,7 @@ PMOD support is forseen for
 - [ ] PMOD-TFCARD: [memory card interface](https://wiki.sipeed.com/hardware/en/tang/tang-PMOD/FPGA_PMOD.html#PMOD_TF-CARD)
 - [ ] PMOD-LCD   : [display module](https://www.tindie.com/products/johnnywu/pmod-lcd-096-expansion-board/)
  [driver](https://files.waveshare.com/upload/e/e2/ST7735S_V1.1_20111121.pdf)
+ [wiki](https://www.waveshare.com/wiki/0.96inch_LCD_Module)
 
 ### [I/O](constraints)
 - The PL push button is the reset

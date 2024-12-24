@@ -25,7 +25,10 @@ signal rst_n        : std_ulogic :='0';
 
 signal led     : std_logic_vector(7 downto 0);
 signal seg     : std_logic_vector(7 downto 0);
-
+signal cs      : std_logic;
+signal sda     : std_logic;
+signal sck     : std_logic;
+signal rst     : std_logic;
 
 --! procedures
 procedure proc_wait_clk
@@ -50,7 +53,11 @@ port map (
   clk     => clk,
   reset_n => rst_n,
   led     => led,
-  seg     => seg
+  seg     => seg,
+  cs      => cs,
+  sda     => sda,
+  sck     => sck,
+  rst     => rst
 );
 
 

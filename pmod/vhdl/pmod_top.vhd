@@ -12,8 +12,15 @@ entity pmod_top is
     clk           : in  std_logic;  --system clock
     reset_n       : in  std_logic;  --active low reset
 
+    -- PMOD LED
     led           : out std_logic_vector(7 downto 0);
-    seg           : out std_logic_vector(7 downto 0)
+    -- PMOD SEG
+    seg           : out std_logic_vector(7 downto 0);
+    -- PMOD LCD
+    cs            : out std_logic;
+    sda           : out std_logic;
+    sck           : out std_logic;
+    rst           : out std_logic
   );
 end pmod_top;
 
@@ -22,20 +29,15 @@ architecture rtl of pmod_top is
   constant c_led : integer := 6;
   constant c_hex : std_logic_vector(3 downto 0) := x"B";
 
-  signal cs      : std_logic;
-  signal sda     : std_logic;
-  signal sck     : std_logic;
-  signal rst     : std_logic;
-
 begin
 
 --! pmod_led
-  --i_pmod_led : entity work.pmod_led
-  --port    map (c_led,led);
+  i_pmod_led : entity work.pmod_led
+  port    map (c_led,led);
 
 --! pmod_seg
-  --i_pmod_seg : entity work.pmod_seg
-  --port    map (c_hex,seg);
+  i_pmod_seg : entity work.pmod_seg
+  port    map (c_hex,seg);
 
 --! pmod_lcd
   i_pmod_lcd : entity work.pmod_lcd
