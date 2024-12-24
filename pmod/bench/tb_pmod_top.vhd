@@ -18,7 +18,7 @@ end entity tb_pmod_top;
 
 architecture rtl of tb_pmod_top is
 
-constant c_clk_per  : time      := 50 ns ;
+constant c_clk_per  : time      := 20 ns ;
 
 signal clk          : std_ulogic :='0';
 signal rst_n        : std_ulogic :='0';
@@ -40,7 +40,7 @@ begin
 
 	--! not using TB output now
 	y <= '0';
-	
+
 --! standard signals
 	clk            <= not clk  after c_clk_per/2;
 
@@ -71,7 +71,7 @@ port map (
 
 	  report " RUN TST.01 ";
 	    proc_reset(3);
-	    proc_wait_clk(10**2);
+	    proc_wait_clk(10**6);
 
 	  report " END of test bench" severity failure;
 

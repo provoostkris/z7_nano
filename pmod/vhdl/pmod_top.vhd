@@ -19,17 +19,34 @@ end pmod_top;
 
 architecture rtl of pmod_top is
 
-  constant c_led  : integer := 6;
-  constant c_hex  : std_logic_vector(3 downto 0) := x"B";
+  constant c_led : integer := 6;
+  constant c_hex : std_logic_vector(3 downto 0) := x"B";
+
+  signal cs      : std_logic;
+  signal sda     : std_logic;
+  signal sck     : std_logic;
+  signal rst     : std_logic;
 
 begin
 
 --! pmod_led
-  i_pmod_led: entity work.pmod_led
-  port    map (c_led,led);
+  --i_pmod_led : entity work.pmod_led
+  --port    map (c_led,led);
 
 --! pmod_seg
-  i_pmod_seg: entity work.pmod_seg
-  port    map (c_hex,seg);
+  --i_pmod_seg : entity work.pmod_seg
+  --port    map (c_hex,seg);
+
+--! pmod_lcd
+  i_pmod_lcd : entity work.pmod_lcd
+  port map (
+    clk     => clk,
+    reset_n => reset_n,
+    cs      => cs,
+    sda     => sda,
+    sck     => sck,
+    rst     => rst
+  );
+
 
 end rtl;
