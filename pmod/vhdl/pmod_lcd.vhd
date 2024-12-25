@@ -34,10 +34,12 @@ architecture rtl of pmod_lcd is
 
   --! controller
   signal fsm_spi      : t_fsm_spi;
-  signal rgb          : std_logic_vector(c_bits-1 downto 0);
+  signal rgb_hor      : t_pixl_arr(0 to c_vert-1);
+  signal rgb_ver      : std_logic_vector(c_bits-1 downto 0);
   signal cnt_bit      : integer range 0 to c_bits-1 ;
   signal cnt_pix      : integer range 0 to c_pixl-1 ;
-  -- signal pixl_mem     : t_pixl_arr( 0 to c_pixl-1) ;
+  signal cnt_hor      : integer range 0 to c_hori-1 ;
+  signal cnt_ver      : integer range 0 to c_vert-1 ;
 
 -- lookup some rgb value in the ROM , and return the corresponding raw value
 function f_rgb_to_raw(x : natural) return std_logic_vector is
@@ -54,6 +56,27 @@ begin
   y := r & g & b ;
   return y;
 end function f_rgb_to_raw;
+
+-- lookup some rgb value in the ROM , and return the corresponding raw value
+function f_rgb_to_row(x : natural) return t_pixl_arr is
+  variable r  : std_logic_vector( 4 downto 0) := ( others => '0');
+  variable g  : std_logic_vector( 5 downto 0) := ( others => '0');
+  variable b  : std_logic_vector( 4 downto 0) := ( others => '0');
+  variable y  : std_logic_vector(15 downto 0) := ( others => '0');
+  variable res: t_pixl_arr(0 to c_vert-1 ):= ( others => ( others => '0'));
+begin
+  for i in 0 to c_vert-1 loop
+    -- take the color and rescale them in 5 or 6 bit values
+    r := std_logic_vector(to_unsigned(c_color_map(x+i*c_hori)(0)/2**3,r'length));
+    g := std_logic_vector(to_unsigned(c_color_map(x+i*c_hori)(1)/2**2,g'length));
+    b := std_logic_vector(to_unsigned(c_color_map(x+i*c_hori)(2)/2**3,b'length));
+    -- concat and return
+    y := r & g & b ;
+    res(i) := y;
+  end loop;
+
+  return res;
+end function f_rgb_to_row;
 
 begin
 
@@ -74,8 +97,23 @@ begin
   rst    <= '1';
 
   -- TODO , check data sheet for image and char display
-  sda    <= rgb(cnt_bit);
-  rgb    <= f_rgb_to_raw(cnt_pix);
+  -- from the pixel counter , derive the row and column location
+  cnt_hor <= cnt_pix mod c_hori;
+  cnt_ver <= cnt_pix /   c_hori;
+
+  process(reset_n, clk) is
+    begin
+        if reset_n='0' then
+          rgb_hor  <= ( others => ( others => '0'));
+          rgb_ver  <= ( others => '0');
+        elsif rising_edge(clk) then
+          rgb_hor  <= f_rgb_to_row(cnt_hor);
+          rgb_ver  <= rgb_hor(cnt_ver);
+        end if;
+  end process;
+  -- shift out data bits
+  sda    <= rgb_ver(cnt_bit);
+
 
   -- SPI controller
   process(reset_n, clk) is
@@ -91,15 +129,15 @@ begin
               fsm_spi <= s_send;
               cs        <= '0';
               cnt_bit   <= c_bits-1;
-              cnt_pix   <= c_pixl-1;
+              cnt_pix   <= 0 ;
             when s_send =>
               if cnt_bit = 0 then
                 cnt_bit   <= c_bits-1;
-                if cnt_pix = 0 then
+                if cnt_pix = c_pixl-1 then
                   fsm_spi <= s_done;
                   cs      <= '1';
                 else
-                  cnt_pix   <= cnt_pix - 1;
+                  cnt_pix   <= cnt_pix + 1;
                 end if;
               else
                 cnt_bit    <= cnt_bit - 1;
