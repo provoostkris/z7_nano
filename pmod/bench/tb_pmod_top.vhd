@@ -52,7 +52,7 @@ dut : entity work.pmod_top
 port map (
   clk     => clk,
   reset_n => rst_n,
-  led     => led,
+  leds    => led,
   seg     => seg,
   cs      => cs,
   sda     => sda,

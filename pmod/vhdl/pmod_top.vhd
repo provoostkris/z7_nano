@@ -13,7 +13,7 @@ entity pmod_top is
     reset_n       : in  std_logic;  --active low reset
 
     -- PMOD LED
-    led           : out std_logic_vector(7 downto 0);
+    leds          : out std_logic_vector(7 downto 0);
     -- PMOD SEG
     seg           : out std_logic_vector(7 downto 0);
     -- PMOD LCD
@@ -33,7 +33,7 @@ begin
 
 --! pmod_led
   i_pmod_led : entity work.pmod_led
-  port    map (c_led,led);
+  port    map (c_led,leds);
 
 --! pmod_seg
   i_pmod_seg : entity work.pmod_seg
