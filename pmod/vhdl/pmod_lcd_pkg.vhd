@@ -4,11 +4,18 @@ use ieee.numeric_std.all;
 -------------------------------------------------------------------------------
 package pmod_lcd_pkg is
 
+  -- factor for the clock divider , to reduce the SPI clock from the system clock
+  constant c_clk_reduce             : integer := 1;
+
   -- constants found in the LCD controller datasheet
   constant c_bits             : integer := 16;
   constant c_hori             : integer := 160;   --! Horizontal amount of pixels
   constant c_vert             : integer := 80;    --! Vertical amount of pixels
   constant c_pixl             : integer := c_hori * c_vert;  --! total amount of pixels
+
+  constant c_off_h            : integer := 2;   --! offset to 1st pixel in hori
+  constant c_off_v            : integer := 27;  --! offset to 1st pixel in vert
+
 
   -- create arrays for pixel map stores
   type t_raw_arr  is array (integer range <>) of std_logic_vector(c_bits-1 downto 0); -- raw pixel map

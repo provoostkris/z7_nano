@@ -18,6 +18,7 @@ entity pmod_top is
     seg           : out std_logic_vector(7 downto 0);
     -- PMOD LCD
     cs            : out std_logic;
+    dc            : out std_logic;
     sda           : out std_logic;
     sck           : out std_logic;
     rst           : out std_logic
@@ -45,6 +46,7 @@ begin
     clk     => clk,
     reset_n => reset_n,
     cs      => cs,
+    dc      => dc,
     sda     => sda,
     sck     => sck,
     rst     => rst

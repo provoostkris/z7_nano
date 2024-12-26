@@ -17,6 +17,7 @@ echo "adding waves"
   add wave  -expand             -group "bench"                         /tb_pmod_top/*
 
   add wave                      -group "dut"                           /tb_pmod_top/dut/*
+
   add wave                      -group "led"                           /tb_pmod_top/dut/i_pmod_led/*
   add wave                      -group "seg"                           /tb_pmod_top/dut/i_pmod_seg/*
   add wave                      -group "lcd"                           /tb_pmod_top/dut/i_pmod_lcd/*

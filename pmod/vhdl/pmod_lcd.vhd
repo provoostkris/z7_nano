@@ -15,6 +15,7 @@ entity pmod_lcd is
     reset_n       : in  std_logic;  --active low reset
 
     cs            : out std_logic;
+    dc            : out std_logic;
     sda           : out std_logic;
     sck           : out std_logic;
     rst           : out std_logic
@@ -29,7 +30,7 @@ architecture rtl of pmod_lcd is
   );
 
   --! clock reduction
-  signal cntr         : unsigned(1 downto 0);
+  signal cntr         : unsigned(c_clk_reduce downto 0);
   signal spi_clk_ena  : std_logic;
   signal spi_clk_div  : std_logic;
   signal spi_cs_n     : std_logic;
@@ -42,6 +43,8 @@ architecture rtl of pmod_lcd is
   signal cnt_pix      : integer range 0 to c_pixl-1 ;
   signal cnt_hor      : integer range 0 to c_hori-1 ;
   signal cnt_ver      : integer range 0 to c_vert-1 ;
+  signal cnt_off_h    : integer range 0 to c_hori-1 ;
+  signal cnt_off_v    : integer range 0 to c_vert-1 ;
 
 -- lookup some rgb value in the ROM , and return the corresponding raw value
 function f_rgb_to_raw(x : natural) return std_logic_vector is
@@ -108,11 +111,15 @@ begin
 
   -- see data sheet rst must be always high
   rst    <= '1';
+  -- see data sheet dc must be high for pixel data
+  dc     <= '1';
 
-  -- TODO , check data sheet for image and char display
   -- from the pixel counter , derive the row and column location
   cnt_hor <= cnt_pix mod c_hori;
   cnt_ver <= cnt_pix /   c_hori;
+  -- add the offset for the first pixel lookup
+  cnt_off_h <= (cnt_hor + c_off_h) mod c_hori;
+  cnt_off_v <= (cnt_ver + c_off_v) mod c_vert;
 
   process(reset_n, clk) is
     begin
