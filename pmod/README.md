@@ -16,3 +16,8 @@ PMOD support is forseen for
 ### [I/O](constraints)
 - The PL push button is the reset
 - The clock is directly from the on board crystal
+
+
+#### PMOD LCD
+Display a picture on the module , that is converted to RGB array, with a free on line tool.
+The image should look like ![colors](img/color.jpg)

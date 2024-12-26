@@ -12,6 +12,7 @@ entity pmod_top is
     clk           : in  std_logic;  --system clock
     reset_n       : in  std_logic;  --active low reset
 
+    led           : out std_logic;
     -- PMOD LED
     leds          : out std_logic_vector(7 downto 0);
     -- PMOD SEG
@@ -30,7 +31,17 @@ architecture rtl of pmod_top is
   constant c_led : integer := 6;
   constant c_hex : std_logic_vector(3 downto 0) := x"B";
 
+
+  attribute MARK_DEBUG : string;
+  attribute MARK_DEBUG of  cs  : signal is "TRUE";
+  attribute MARK_DEBUG of  dc  : signal is "TRUE";
+  attribute MARK_DEBUG of  sda : signal is "TRUE";
+  attribute MARK_DEBUG of  sck : signal is "TRUE";
+  attribute MARK_DEBUG of  rst : signal is "TRUE";
+
 begin
+--! just glow the led
+  led <= clk and not reset_n;
 
 --! pmod_led
   i_pmod_led : entity work.pmod_led

@@ -5,10 +5,7 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_misc.all;
 use ieee.numeric_std.all;
--- just for random functions
-use ieee.math_real.all;
 
 entity tb_pmod_top is
 	port(
@@ -80,7 +77,7 @@ port map (
 
 	  report " RUN TST.01 ";
 	    proc_reset(3);
-	    proc_wait_clk(10**6);
+	    proc_wait_clk(3*10**6);
 
 	  report " END of test bench" severity failure;
 

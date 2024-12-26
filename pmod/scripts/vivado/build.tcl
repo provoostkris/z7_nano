@@ -8,7 +8,7 @@ cd $loc_folder
 set CompilationStart [clock seconds]
 
 # Create the project and directory structure
-create_project -force led_blink ./output -part xc7z020clg400-2
+create_project -force pmod ./output -part xc7z020clg400-2
 
 set_property target_language VHDL [current_project]
 set_property simulator_language VHDL [current_project]
@@ -25,7 +25,7 @@ while {-1 != [gets $fp line]} {
 #
 # Add various constraints to the project
 add_files ../../constraints/pin_constraints.xdc
-    
+
 #
 # Update to set top and file compile order
 update_compile_order -fileset sources_1

@@ -25,6 +25,8 @@ end pmod_lcd;
 architecture rtl of pmod_lcd is
 
   type   t_fsm_spi    is (  s_idle,   --! out of reset
+                            s_reset,  --! release reset
+                            s_cs,     --! release cs
                             s_send,   --! send data
                             s_done    --! close transmission
   );
@@ -34,6 +36,9 @@ architecture rtl of pmod_lcd is
   signal spi_clk_ena  : std_logic;
   signal spi_clk_div  : std_logic;
   signal spi_cs_n     : std_logic;
+
+  --! reset pulse timer
+  signal cnt_reset    : integer range 0 to c_rst_time-1 ;
 
   --! controller
   signal fsm_spi      : t_fsm_spi;
@@ -47,42 +52,45 @@ architecture rtl of pmod_lcd is
   signal cnt_off_v    : integer range 0 to c_vert-1 ;
 
 -- lookup some rgb value in the ROM , and return the corresponding raw value
-function f_rgb_to_raw(x : natural) return std_logic_vector is
-  variable r  : std_logic_vector( 4 downto 0) := ( others => '0');
-  variable g  : std_logic_vector( 5 downto 0) := ( others => '0');
-  variable b  : std_logic_vector( 4 downto 0) := ( others => '0');
-  variable y  : std_logic_vector(15 downto 0) := ( others => '0');
-begin
-  -- take the color and rescale them in 5 or 6 bit values
-  r := std_logic_vector(to_unsigned(c_color_map(x)(0)/2**3,r'length));
-  g := std_logic_vector(to_unsigned(c_color_map(x)(1)/2**2,g'length));
-  b := std_logic_vector(to_unsigned(c_color_map(x)(2)/2**3,b'length));
-  -- concat and return
-  y := r & g & b ;
-  return y;
-end function f_rgb_to_raw;
-
--- lookup some rgb value in the ROM , for all rows concurrent
--- and return the corresponding raw value
-function f_rgb_to_row(x : natural) return t_raw_arr is
-  variable r  : std_logic_vector( 4 downto 0) := ( others => '0');
-  variable g  : std_logic_vector( 5 downto 0) := ( others => '0');
-  variable b  : std_logic_vector( 4 downto 0) := ( others => '0');
-  variable y  : std_logic_vector(15 downto 0) := ( others => '0');
+function f_rgb_to_raw(x : natural) return t_raw_arr is
+  variable r  : std_logic_vector( 7 downto 0) := ( others => '0');
+  variable g  : std_logic_vector( 7 downto 0) := ( others => '0');
+  variable b  : std_logic_vector( 7 downto 0) := ( others => '0');
+  variable y  : std_logic_vector(24-1 downto 0) := ( others => '0');
   variable res: t_raw_arr(0 to c_vert-1 ):= ( others => ( others => '0'));
 begin
   for i in 0 to c_vert-1 loop
-    -- take the color and rescale them in 5 or 6 bit values
-    r := std_logic_vector(to_unsigned(c_color_map(x+i*c_hori)(0)/2**3,r'length));
-    g := std_logic_vector(to_unsigned(c_color_map(x+i*c_hori)(1)/2**2,g'length));
-    b := std_logic_vector(to_unsigned(c_color_map(x+i*c_hori)(2)/2**3,b'length));
+    -- lookup the color value in the ROM
+    r := std_logic_vector(to_unsigned(c_color_map(x)(0),r'length));
+    g := std_logic_vector(to_unsigned(c_color_map(x)(1),g'length));
+    b := std_logic_vector(to_unsigned(c_color_map(x)(2),b'length));
     -- concat and return
     y := r & g & b ;
     res(i) := y;
   end loop;
 
   return res;
-end function f_rgb_to_row;
+end function f_rgb_to_raw;
+
+function f_format_565(x : std_logic_vector) return std_logic_vector is
+  variable y  : std_logic_vector(c_bits_565-1 downto 0) := ( others => '0');
+begin
+    -- slice vector
+    y :=  x(24-1 downto 24-5) &
+          x(16-1 downto 16-6) &
+          x(08-1 downto 08-5) ;
+    return y;
+end function f_format_565;
+
+function f_format_666(x : std_logic_vector) return std_logic_vector is
+  variable y  : std_logic_vector(c_bits_666-1 downto 0) := ( others => '0');
+begin
+    -- slice vector
+    y :=  x(24-1 downto 24-6) & "00" &
+          x(16-1 downto 16-6) & "00" &
+          x(08-1 downto 08-6) & "00" ;
+    return y;
+end function f_format_666;
 
 begin
 
@@ -98,19 +106,19 @@ begin
 
   spi_clk_ena <= '1' when cntr = to_unsigned((2**cntr'length)-1,cntr'length) else '0' ;
   spi_clk_div <= '0' when cntr < to_unsigned(2**(cntr'length-1),cntr'length) else '1' ;
+
   process(reset_n, clk) is
     begin
         if reset_n='0' then
-          cs    <= '0';
+          cs    <= '1';
           sck   <= '0';
         elsif rising_edge(clk) then
           cs          <= spi_cs_n;
-          sck         <= spi_clk_div;
+          sck         <= spi_clk_div and not spi_cs_n;
         end if;
   end process;
 
-  -- see data sheet rst must be always high
-  rst    <= '1';
+
   -- see data sheet dc must be high for pixel data
   dc     <= '1';
 
@@ -121,31 +129,53 @@ begin
   cnt_off_h <= (cnt_hor + c_off_h) mod c_hori;
   cnt_off_v <= (cnt_ver + c_off_v) mod c_vert;
 
-  process(reset_n, clk) is
-    begin
-        if reset_n='0' then
-          rgb_hor  <= ( others => ( others => '0'));
-          rgb_ver  <= ( others => '0');
-        elsif rising_edge(clk) then
-          rgb_hor  <= f_rgb_to_row(cnt_hor);
-          rgb_ver  <= rgb_hor(cnt_ver);
-        end if;
-  end process;
+  -- process(reset_n, clk) is
+  --   begin
+  --       if reset_n='0' then
+  --         rgb_hor  <= ( others => ( others => '0'));
+  --         rgb_ver  <= ( others => '0');
+  --       elsif rising_edge(clk) then
+  --         rgb_hor  <= f_rgb_to_raw(cnt_hor);
+  --         rgb_ver  <= f_format_565(rgb_hor(cnt_ver));
+  --       end if;
+  -- end process;
+
   -- shift out data bits
-  sda    <= rgb_ver(cnt_bit(cnt_bit'high));
+  -- sda    <= rgb_ver(cnt_bit(cnt_bit'high));
+  sda    <= f_format_666(c_tst_colors)(cnt_bit(cnt_bit'high));
 
 
   -- SPI controller
   process(reset_n, clk) is
     begin
         if reset_n='0' then
+          rst        <= '0';
           spi_cs_n   <= '1';
           cnt_bit    <= ( others => 0);
           cnt_pix    <= 0;
+          cnt_reset  <= c_rst_time-1;
         elsif rising_edge(clk) then
         if spi_clk_ena = '1' then
           case fsm_spi is
             when s_idle =>
+              if cnt_reset = 0 then
+                fsm_spi   <= s_reset;
+                cnt_reset <= c_rst_time-1;
+              else
+                cnt_reset <= cnt_reset-1;
+              end if;
+              rst       <= '0';
+              spi_cs_n  <= '1';
+            when s_reset =>
+              if cnt_reset = 0 then
+                fsm_spi   <= s_cs;
+                cnt_reset <= c_rst_time-1;
+              else
+                cnt_reset <= cnt_reset-1;
+              end if;
+              rst       <= '1';
+              spi_cs_n  <= '1';
+            when s_cs =>
               fsm_spi   <= s_send;
               spi_cs_n  <= '0';
               cnt_bit(0)<= c_bits-1;
@@ -168,6 +198,7 @@ begin
               fsm_spi <= s_idle;
           end case;
         end if;
+        -- pipe
         cnt_bit(1 to cnt_bit'high)    <= cnt_bit(0 to cnt_bit'high-1);
         end if;
     end process;

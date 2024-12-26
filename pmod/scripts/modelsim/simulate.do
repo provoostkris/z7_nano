@@ -34,7 +34,7 @@ echo "view wave forms"
   run -all
 
 
-  configure wave -namecolwidth  370
+  configure wave -namecolwidth  500
   configure wave -valuecolwidth 180
   configure wave -justifyvalue right
   configure wave -signalnamewidth 2
