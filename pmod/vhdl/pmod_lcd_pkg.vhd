@@ -7,18 +7,31 @@ package pmod_lcd_pkg is
   -- factor for the clock divider , to reduce the SPI clock from the system clock
   constant c_clk_reduce             : integer := 2;
   -- proper reset time
-  constant c_rst_time               : integer := 2**10 ; -- minimum 10 us
+  -- 1 clk = 20 ns ==> 1 us = 50x
+  -- and divide by the clock reduction factor
+  constant c_rst_time_act           : integer :=    1000 * 50 / 2**(c_clk_reduce+1); -- minimum   1_000 us
+  constant c_rst_time_hld           : integer := 200_000 * 50 / 2**(c_clk_reduce+1); -- minimum 200_000 us
+  constant c_sleep_out              : integer := 150_000 * 50 / 2**(c_clk_reduce+1); -- minimum 150_000 us
 
   -- constants found in the LCD controller datasheet
   constant c_bits_565         : integer := 5+6+5;
   constant c_bits_666         : integer := 8+8+8;
-  constant c_bits             : integer := c_bits_666;
+  constant c_bits             : integer := c_bits_565;
   constant c_hori             : integer := 160;   --! Horizontal amount of pixels
   constant c_vert             : integer := 80;    --! Vertical amount of pixels
   constant c_pixl             : integer := c_hori * c_vert;  --! total amount of pixels
 
   constant c_off_h            : integer := 2;   --! offset to 1st pixel in hori
   constant c_off_v            : integer := 27;  --! offset to 1st pixel in vert
+
+  constant c_SLPOUT           : std_logic_vector(7 downto 0) := x"11";  --! sleep out
+  constant c_DISPOFF          : std_logic_vector(7 downto 0) := x"28";  --! display off
+  constant c_DISPON           : std_logic_vector(7 downto 0) := x"29";  --! display on
+  constant c_CASET            : std_logic_vector(7 downto 0) := x"2A";  --! column address set
+  constant c_RASET            : std_logic_vector(7 downto 0) := x"2B";  --! row address set
+  constant c_RAMWR            : std_logic_vector(7 downto 0) := x"2C";  --! RAM write
+  constant c_MADCTL           : std_logic_vector(7 downto 0) := x"36";  --! axis control
+  constant c_COLMOD           : std_logic_vector(7 downto 0) := x"3A";  --! color mode
 
   -- just some random values to driver the display for testing
   constant c_tst_colors       : std_logic_vector(24-1 downto 0) :=  "00001111" &

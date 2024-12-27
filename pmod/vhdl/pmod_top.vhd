@@ -28,16 +28,16 @@ end pmod_top;
 
 architecture rtl of pmod_top is
 
-  constant c_led : integer := 6;
+  constant c_led : integer := 2**8-1;
   constant c_hex : std_logic_vector(3 downto 0) := x"B";
 
 
-  attribute MARK_DEBUG : string;
-  attribute MARK_DEBUG of  cs  : signal is "TRUE";
-  attribute MARK_DEBUG of  dc  : signal is "TRUE";
-  attribute MARK_DEBUG of  sda : signal is "TRUE";
-  attribute MARK_DEBUG of  sck : signal is "TRUE";
-  attribute MARK_DEBUG of  rst : signal is "TRUE";
+  -- attribute MARK_DEBUG : string;
+  -- attribute MARK_DEBUG of  cs  : signal is "TRUE";
+  -- attribute MARK_DEBUG of  dc  : signal is "TRUE";
+  -- attribute MARK_DEBUG of  sda : signal is "TRUE";
+  -- attribute MARK_DEBUG of  sck : signal is "TRUE";
+  -- attribute MARK_DEBUG of  rst : signal is "TRUE";
 
 begin
 --! just glow the led

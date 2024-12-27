@@ -33,9 +33,8 @@ echo "view wave forms"
 
   run -all
 
-
-  configure wave -namecolwidth  500
-  configure wave -valuecolwidth 180
+  configure wave -namecolwidth  550
+  configure wave -valuecolwidth 190
   configure wave -justifyvalue right
   configure wave -signalnamewidth 2
   configure wave -snapdistance 10
@@ -47,6 +46,7 @@ echo "view wave forms"
   configure wave -griddelta 40
   configure wave -timeline 1
   configure wave -timelineunits us
+
   update
 
   wave zoom full
