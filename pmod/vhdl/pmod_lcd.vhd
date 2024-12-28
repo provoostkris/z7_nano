@@ -67,15 +67,12 @@ architecture rtl of pmod_lcd is
   signal cnt_pix      : integer range 0 to c_pixl-1 ;
   signal cnt_hor      : integer range 0 to c_hori-1 ;
   signal cnt_ver      : integer range 0 to c_vert-1 ;
-  signal cnt_off_h    : integer range 0 to c_hori-1 ;
-  signal cnt_off_v    : integer range 0 to c_vert-1 ;
 
   --! serializer
   signal ser_tx_now   : std_logic;
   signal ser_tx_req   : std_logic;
   signal ser_tx_ack   : std_logic;
   signal ser_bits     : integer range 0 to 24-1;
-
 
 -- lookup some rgb value in the ROM , and return the corresponding raw value
 function f_rgb_to_raw(x : natural) return t_raw_arr is
@@ -150,9 +147,7 @@ begin
   -- from the pixel counter , derive the row and column location
   cnt_hor <= cnt_pix mod c_hori;
   cnt_ver <= cnt_pix /   c_hori;
-  -- add the offset for the first pixel lookup
-  cnt_off_h <= (cnt_hor + c_off_h) mod c_hori;
-  cnt_off_v <= (cnt_ver + c_off_v) mod c_vert;
+
   -- pipe the lookup functions
   process(reset_n, clk) is
     begin
@@ -170,8 +165,14 @@ begin
   -- shift out data bits
   -- test 1 : rgb_ver(cnt_bit(cnt_bit'high));
   -- test 2 : f_format_565(c_tst_colors)(cnt_bit(cnt_bit'high));
-  spi_sda     <= write_cmd(cnt_bit(cnt_bit'high)) when spi_dc = '0' else f_format_666(c_tst_colors)(cnt_bit(cnt_bit'high));
-  sda         <= spi_sda when cnt_ver < c_vert / 2 else not spi_sda;
+  spi_sda     <=  write_cmd(cnt_bit(cnt_bit'high)) when spi_dc = '0' else
+                  '0'      when cnt_ver = 0    else
+                  '0'      when cnt_ver = c_vert/2 and cnt_hor = c_ras_xs else
+                  '0'      when cnt_ver = c_vert/2 and cnt_hor = c_ras_xe else
+                  '0'      when cnt_ver = c_vert-5  else
+                  '1'      ;
+
+  sda         <= spi_sda;
 
   -- SPI controller
   process(reset_n, clk) is
