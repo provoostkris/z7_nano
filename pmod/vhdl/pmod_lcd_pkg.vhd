@@ -11,25 +11,28 @@ package pmod_lcd_pkg is
   constant c_clk_per_us             : integer :=     50 ; -- clock cycles for 1 us
   constant c_rst_time_act           : integer :=      20 * c_clk_per_us ; -- $9.17   minimum      10 us
   constant c_rst_time_hld           : integer := 125_000 * c_clk_per_us ; -- $9.17   minimum 120_000 us
-  constant c_sleep_out              : integer := 125_000 * c_clk_per_us ; -- $9.19.2 minimum 120_000 us
+  constant c_sleep_out              : integer := 155_000 * c_clk_per_us ; -- $9.19.2 minimum 150_000 us
 
   -- constants found in the LCD controller datasheet
   constant c_bits_565         : integer := 5+6+5;
   constant c_bits_666         : integer := 8+8+8;
   constant c_bits             : integer := c_bits_666;
-  constant c_hori             : integer := 132;      --! Horizontal amount of pixels
-  constant c_vert             : integer := 162;      --! Vertical amount of pixels
-  constant c_pixl             : integer := c_hori * c_vert;  --! total amount of pixels
 
-  constant c_ras_xs           : integer := (132-80)/2 + 00;      --! RAS Xstart
-  constant c_ras_xe           : integer := (132-80)/2 + 79;      --! RAS Xend
-  constant c_cas_ys           : integer := 1;      --! CAS Ystart
-  constant c_cas_ye           : integer := 160;    --! CAS Yend
+  -- display area
+  -- the memory is X:132 x Y:162
+  -- The 80  center pixels are used for X axis
+  -- The 160 center pixels are used for Y axis
+  constant c_ras_xs           : integer := (132-80)/2 + 00; --! RAS Xstart
+  constant c_ras_xe           : integer := (132-80)/2 + 79; --! RAS Xend
+  constant c_cas_ys           : integer := 1;               --! CAS Ystart
+  constant c_cas_ye           : integer := 160;             --! CAS Yend
 
-  constant c_off_h            : integer := 2;   --! offset to 1st pixel in hori
-  constant c_off_v            : integer := 27;  --! offset to 1st pixel in vert
+  constant c_hori             : integer := 132;     --! X amount memory
+  constant c_vert             : integer := 162;     --! Y amount memory
+  constant c_pixl             : integer := c_hori * c_vert;       --! total amount of memories
 
   constant c_SLPOUT           : std_logic_vector(7 downto 0) := x"11";  --! sleep out
+  constant c_DISPINV          : std_logic_vector(7 downto 0) := x"21";  --! display inversion
   constant c_DISPOFF          : std_logic_vector(7 downto 0) := x"28";  --! display off
   constant c_DISPON           : std_logic_vector(7 downto 0) := x"29";  --! display on
   constant c_CASET            : std_logic_vector(7 downto 0) := x"2A";  --! column address set
@@ -39,9 +42,9 @@ package pmod_lcd_pkg is
   constant c_COLMOD           : std_logic_vector(7 downto 0) := x"3A";  --! color mode
 
   -- just some random values to driver the display for testing
-  constant c_tst_colors       : std_logic_vector(24-1 downto 0) :=  "00000000" &
-                                                                    "11111111" &
-                                                                    "00001111" ;
+  constant c_r_color       : std_logic_vector(24-1 downto 0) :=  "11111111" & "00000000" & "00000000" ;
+  constant c_g_color       : std_logic_vector(24-1 downto 0) :=  "00000000" & "11111111" & "00000000" ;
+  constant c_b_color       : std_logic_vector(24-1 downto 0) :=  "00000000" & "00000000" & "11111111" ;
 
   -- create arrays for pixel map stores
   type t_raw_arr  is array (integer range <>) of std_logic_vector(24-1 downto 0);     -- raw pixel map
