@@ -28,9 +28,12 @@ architecture rtl of pmod_lcd is
                             s_reset,  --! release reset
                             s_sleep,  --! out of sleep
                             s_wake,   --! time needed to wake up
-                            s_on,     --! put disply on
-                            s_cas_cmd,
-                            s_cas_p0,
+                            s_mad_cmd, --! MAD command
+                            s_mad_p0,  --! MAD param
+                            s_inv,    --! put display inverted
+                            s_on,     --! put display on
+                            s_cas_cmd, --! CAS command
+                            s_cas_p0,  --! MAD command
                             s_cas_p1,
                             s_ras_cmd,
                             s_ras_p0,
@@ -55,7 +58,7 @@ architecture rtl of pmod_lcd is
   signal spi_sda      : std_logic;
 
   --! reset pulse timer
-  signal cnt_delay    : integer range 0 to c_rst_time_hld-1 ;
+  signal cnt_delay    : integer range 0 to c_sleep_out-1 ;
 
   --! controller
   signal fsm_spi      : t_fsm_spi;
@@ -63,6 +66,7 @@ architecture rtl of pmod_lcd is
   signal rgb_hor      : t_raw_arr(0 to c_vert-1);
   signal rgb_ver      : std_logic_vector(c_bits-1 downto 0);
   signal write_cmd    : std_logic_vector(16-1 downto 0);
+  signal sel_cmd      : std_logic;
   signal cnt_bit      : t_cnt_arr(0 to 2);
   signal cnt_pix      : integer range 0 to c_pixl-1 ;
   signal cnt_hor      : integer range 0 to c_hori-1 ;
@@ -165,12 +169,13 @@ begin
   -- shift out data bits
   -- test 1 : rgb_ver(cnt_bit(cnt_bit'high));
   -- test 2 : f_format_565(c_tst_colors)(cnt_bit(cnt_bit'high));
-  spi_sda     <=  write_cmd(cnt_bit(cnt_bit'high)) when spi_dc = '0' else
-                  '0'      when cnt_ver = 0    else
-                  '0'      when cnt_ver = c_vert/2 and cnt_hor = c_ras_xs else
-                  '0'      when cnt_ver = c_vert/2 and cnt_hor = c_ras_xe else
-                  '0'      when cnt_ver = c_vert-5  else
-                  '1'      ;
+  spi_sda     <=  write_cmd(cnt_bit(cnt_bit'high)) when sel_cmd = '1' else
+                  '1'      when cnt_ver = c_cas_ys else
+                  '1'      when cnt_ver = c_cas_ye else
+                  '1'      when cnt_hor = c_ras_xs else
+                  '1'      when cnt_hor = c_ras_xe else
+                  '0'      when cnt_hor = cnt_ver  else
+                  f_format_666(c_b_color)(cnt_bit(cnt_bit'high))      ;
 
   sda         <= spi_sda;
 
@@ -184,6 +189,7 @@ begin
           cnt_pix    <= 0;
           cnt_delay  <= c_rst_time_act-1;
           write_cmd  <= ( others => '0');
+          sel_cmd    <= '0';
           ser_tx_req <= '0';
           ser_tx_now <= '0';
           ser_bits   <= 0;
@@ -198,6 +204,7 @@ begin
                 cnt_delay <= cnt_delay-1;
               end if;
               rst       <= '0';
+              sel_cmd   <= '1';
 
             when s_reset =>
               if cnt_delay = 0 then
@@ -221,9 +228,42 @@ begin
 
             when s_wake =>
               if cnt_delay = 0 then
-                fsm_spi   <= s_on;
+                fsm_spi   <= s_mad_cmd;
               else
                 cnt_delay <= cnt_delay-1;
+              end if;
+
+            when s_mad_cmd =>
+              ser_bits  <= c_MADCTL'high;
+              write_cmd(c_MADCTL'range) <= c_MADCTL;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_mad_p0;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_mad_p0 =>
+              ser_bits  <= 8-1;
+              write_cmd(c_MADCTL'range) <= x"08";
+              spi_dc    <= '1';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_inv;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_inv =>
+              ser_bits  <= c_DISPINV'high;
+              write_cmd(c_DISPINV'range) <= c_DISPINV;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_on;
+              else
+                ser_tx_req  <= '1';
               end if;
 
             when s_on =>
@@ -251,7 +291,7 @@ begin
             when s_cas_p0 =>
               ser_bits  <= 16-1;
               write_cmd <= std_logic_vector(to_unsigned(0,16));
-              spi_dc    <= '0';
+              spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
                 fsm_spi     <= s_cas_p1;
@@ -262,7 +302,7 @@ begin
             when s_cas_p1 =>
               ser_bits  <= 16-1;
               write_cmd <= std_logic_vector(to_unsigned(c_hori-1,16));
-              spi_dc    <= '0';
+              spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
                 fsm_spi     <= s_ras_cmd;
@@ -284,7 +324,7 @@ begin
             when s_ras_p0 =>
               ser_bits  <= 16-1;
               write_cmd <= std_logic_vector(to_unsigned(0,16));
-              spi_dc    <= '0';
+              spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
                 fsm_spi     <= s_ras_p1;
@@ -295,7 +335,7 @@ begin
             when s_ras_p1 =>
               ser_bits  <= 16-1;
               write_cmd <= std_logic_vector(to_unsigned(c_vert-1,16));
-              spi_dc    <= '0';
+              spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
                 fsm_spi     <= s_ramwr;
@@ -329,6 +369,7 @@ begin
               else
                 ser_tx_req <= '1';
               end if;
+              sel_cmd   <= '0';
 
             when s_done =>
               -- fsm_spi   <= s_idle;
