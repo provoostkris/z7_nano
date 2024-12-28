@@ -77,7 +77,7 @@ port map (
 
 	  report " RUN TST.01 ";
 	    proc_reset(3);
-	    proc_wait_clk(3*10**7);
+	    proc_wait_clk(2*10**7);
 
 	  report " END of test bench" severity failure;
 
