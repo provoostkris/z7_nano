@@ -7,7 +7,7 @@
 
 echo "start simulation"
 
-  vsim -gui -t ns -novopt work.tb_pmod_top
+  vsim -gui -t ns -novopt -wlfdeleteonquit work.tb_pmod_top
 
 echo "adding waves"
 

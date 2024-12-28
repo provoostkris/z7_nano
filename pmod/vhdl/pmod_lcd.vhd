@@ -28,6 +28,8 @@ architecture rtl of pmod_lcd is
                             s_reset,  --! release reset
                             s_sleep,  --! out of sleep
                             s_wake,   --! time needed to wake up
+                            s_invctr_cmd, --! INVCTR command
+                            s_invctr_p0,  --! INVCTR param
                             s_mad_cmd, --! MAD command
                             s_mad_p0,  --! MAD param
                             s_inv,    --! put display inverted
@@ -86,11 +88,11 @@ function f_rgb_to_raw(x : natural) return t_raw_arr is
   variable y  : std_logic_vector(24-1 downto 0) := ( others => '0');
   variable res: t_raw_arr(0 to c_vert-1 ):= ( others => ( others => '0'));
 begin
-  for i in 0 to c_vert-1 loop
+  for i in 0 to c_res_y-1 loop
     -- lookup the color value in the ROM
-    r := std_logic_vector(to_unsigned(c_color_map(x)(0),r'length));
-    g := std_logic_vector(to_unsigned(c_color_map(x)(1),g'length));
-    b := std_logic_vector(to_unsigned(c_color_map(x)(2),b'length));
+    r := std_logic_vector(to_unsigned(c_color_map(x+i*c_hori)(0),r'length));
+    g := std_logic_vector(to_unsigned(c_color_map(x+i*c_hori)(1),g'length));
+    b := std_logic_vector(to_unsigned(c_color_map(x+i*c_hori)(2),b'length));
     -- concat and return
     y := r & g & b ;
     res(i) := y;
@@ -159,23 +161,16 @@ begin
           rgb_hor  <= ( others => ( others => '0'));
           rgb_ver  <= ( others => '0');
         elsif rising_edge(clk) then
-        if spi_dc = '1' then
-          -- rgb_hor  <= f_rgb_to_raw(cnt_hor);
-          -- rgb_ver  <= f_format_666(rgb_hor(cnt_ver));
-        end if;
+          rgb_hor  <= f_rgb_to_raw(cnt_hor);
+          rgb_ver  <= f_format_666(rgb_hor(cnt_ver));
         end if;
   end process;
 
   -- shift out data bits
   -- test 1 : rgb_ver(cnt_bit(cnt_bit'high));
-  -- test 2 : f_format_565(c_tst_colors)(cnt_bit(cnt_bit'high));
+  -- test 2 : f_format_666(c_tst_colors)(cnt_bit(cnt_bit'high));
   spi_sda     <=  write_cmd(cnt_bit(cnt_bit'high)) when sel_cmd = '1' else
-                  '1'      when cnt_ver = c_cas_ys else
-                  '1'      when cnt_ver = c_cas_ye else
-                  '1'      when cnt_hor = c_ras_xs else
-                  '1'      when cnt_hor = c_ras_xe else
-                  '0'      when cnt_hor = cnt_ver  else
-                  f_format_666(c_b_color)(cnt_bit(cnt_bit'high))      ;
+                  rgb_ver(cnt_bit(cnt_bit'high));
 
   sda         <= spi_sda;
 
@@ -228,9 +223,33 @@ begin
 
             when s_wake =>
               if cnt_delay = 0 then
-                fsm_spi   <= s_mad_cmd;
+                fsm_spi   <= s_invctr_cmd;
               else
                 cnt_delay <= cnt_delay-1;
+              end if;
+              sel_cmd   <= '1';
+              cnt_pix   <= 0;
+
+            when s_invctr_cmd =>
+              ser_bits  <= c_INVCTR'high;
+              write_cmd(c_INVCTR'range) <= c_INVCTR;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_invctr_p0;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_invctr_p0 =>
+              ser_bits  <= c_INVCTR_P0'high;
+              write_cmd(c_INVCTR_P0'range) <= c_INVCTR_P0;
+              spi_dc    <= '1';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_mad_cmd;
+              else
+                ser_tx_req  <= '1';
               end if;
 
             when s_mad_cmd =>
@@ -245,8 +264,8 @@ begin
               end if;
 
             when s_mad_p0 =>
-              ser_bits  <= 8-1;
-              write_cmd(c_MADCTL'range) <= x"08";
+              ser_bits  <= c_MADCTL_P0'high;
+              write_cmd(c_MADCTL_P0'range) <= c_MADCTL_P0;
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -290,7 +309,7 @@ begin
 
             when s_cas_p0 =>
               ser_bits  <= 16-1;
-              write_cmd <= std_logic_vector(to_unsigned(0,16));
+              write_cmd <= std_logic_vector(to_unsigned(c_ras_xs,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -301,7 +320,7 @@ begin
 
             when s_cas_p1 =>
               ser_bits  <= 16-1;
-              write_cmd <= std_logic_vector(to_unsigned(c_hori-1,16));
+              write_cmd <= std_logic_vector(to_unsigned(c_ras_xe,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -323,7 +342,7 @@ begin
 
             when s_ras_p0 =>
               ser_bits  <= 16-1;
-              write_cmd <= std_logic_vector(to_unsigned(0,16));
+              write_cmd <= std_logic_vector(to_unsigned(c_cas_ys,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -334,7 +353,7 @@ begin
 
             when s_ras_p1 =>
               ser_bits  <= 16-1;
-              write_cmd <= std_logic_vector(to_unsigned(c_vert-1,16));
+              write_cmd <= std_logic_vector(to_unsigned(c_cas_ye,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -372,7 +391,7 @@ begin
               sel_cmd   <= '0';
 
             when s_done =>
-              -- fsm_spi   <= s_idle;
+              fsm_spi   <= s_wake;
               cnt_delay <= c_rst_time_act-1;
 
             when others =>

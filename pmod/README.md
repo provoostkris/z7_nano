@@ -25,7 +25,12 @@ PMOD LCD
 
 
 #### PMOD LCD
+The PMOD LCD can display a 80 width x 160 height images.
+The module is build with the ST7735 controller chip (or something very similar)
+The ST7735 can be used with various sizes of displays, therefore it is needed to configure the controller first, before sending images.
+
 Display a picture on the module , that is converted to RGB array, with a free on line tool.
 The image should look like
-![colors](img/color.jpg)
+![color](img/color.bmp)
 [initialization](http://w8bh.net/avr/AvrTFT.pdf)
+[free image converter](https://onlinetools.com/image/convert-image-to-rgb-values)
