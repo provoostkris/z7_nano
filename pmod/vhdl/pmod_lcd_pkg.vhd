@@ -8,17 +8,17 @@ package pmod_lcd_pkg is
   constant c_clk_reduce             : integer := 2;
   -- proper reset time
   -- 1 clk = 20 ns ==> 1 us = 50x
-  -- and divide by the clock reduction factor
-  constant c_rst_time_act           : integer :=    1000 * 50 / 2**(c_clk_reduce+1); -- minimum   1_000 us
-  constant c_rst_time_hld           : integer := 200_000 * 50 / 2**(c_clk_reduce+1); -- minimum 200_000 us
-  constant c_sleep_out              : integer := 150_000 * 50 / 2**(c_clk_reduce+1); -- minimum 150_000 us
+  constant c_clk_per_ns             : integer :=     50 ; -- clock period in ns
+  constant c_rst_time_act           : integer :=    1000 * c_clk_per_ns ; -- minimum   1_000 us
+  constant c_rst_time_hld           : integer := 200_000 * c_clk_per_ns ; -- minimum 200_000 us
+  constant c_sleep_out              : integer := 150_000 * c_clk_per_ns ; -- minimum 150_000 us
 
   -- constants found in the LCD controller datasheet
   constant c_bits_565         : integer := 5+6+5;
   constant c_bits_666         : integer := 8+8+8;
-  constant c_bits             : integer := c_bits_565;
-  constant c_hori             : integer := 160;   --! Horizontal amount of pixels
-  constant c_vert             : integer := 80;    --! Vertical amount of pixels
+  constant c_bits             : integer := c_bits_666;
+  constant c_hori             : integer := 160;     --! Horizontal amount of pixels
+  constant c_vert             : integer := 80;      --! Vertical amount of pixels
   constant c_pixl             : integer := c_hori * c_vert;  --! total amount of pixels
 
   constant c_off_h            : integer := 2;   --! offset to 1st pixel in hori
@@ -34,9 +34,9 @@ package pmod_lcd_pkg is
   constant c_COLMOD           : std_logic_vector(7 downto 0) := x"3A";  --! color mode
 
   -- just some random values to driver the display for testing
-  constant c_tst_colors       : std_logic_vector(24-1 downto 0) :=  "00001111" &
-                                                                    "11001100" &
-                                                                    "00110011" ;
+  constant c_tst_colors       : std_logic_vector(24-1 downto 0) :=  "11111111" &
+                                                                    "00000000" &
+                                                                    "00001111" ;
 
   -- create arrays for pixel map stores
   type t_raw_arr  is array (integer range <>) of std_logic_vector(24-1 downto 0); -- raw pixel map
