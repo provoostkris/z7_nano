@@ -30,6 +30,10 @@ architecture rtl of pmod_lcd is
                             s_wake,   --! time needed to wake up
                             s_invctr_cmd, --! INVCTR command
                             s_invctr_p0,  --! INVCTR param
+                            s_gmctrp_cmd, --! gamma correction
+                            s_gmctrp_p0, --! gamma parameters
+                            s_gmctrn_cmd, --! gamma correction
+                            s_gmctrn_p0, --! gamma parameters
                             s_mad_cmd, --! MAD command
                             s_mad_p0,  --! MAD param
                             s_inv,    --! put display inverted
@@ -67,7 +71,7 @@ architecture rtl of pmod_lcd is
   signal fsm_phy      : t_fsm_phy;
   signal rgb_hor      : t_raw_arr(0 to c_vert-1);
   signal rgb_ver      : std_logic_vector(c_bits-1 downto 0);
-  signal write_cmd    : std_logic_vector(16-1 downto 0);
+  signal write_cmd    : std_logic_vector(16*8-1 downto 0);
   signal sel_cmd      : std_logic;
   signal cnt_bit      : t_cnt_arr(0 to 2);
   signal cnt_pix      : integer range 0 to c_pixl-1 ;
@@ -78,7 +82,7 @@ architecture rtl of pmod_lcd is
   signal ser_tx_now   : std_logic;
   signal ser_tx_req   : std_logic;
   signal ser_tx_ack   : std_logic;
-  signal ser_bits     : integer range 0 to 24-1;
+  signal ser_bits     : integer range 0 to 16*8-1;
 
 -- lookup some rgb value in the ROM , and return the corresponding raw value
 function f_rgb_to_raw(x : natural) return t_raw_arr is
@@ -101,15 +105,15 @@ begin
   return res;
 end function f_rgb_to_raw;
 
-function f_format_565(x : std_logic_vector) return std_logic_vector is
-  variable y  : std_logic_vector(c_bits_565-1 downto 0) := ( others => '0');
-begin
-    -- slice vector
-    y :=  x(24-1 downto 24-5) & -- slice 5 bits
-          x(16-1 downto 16-6) & -- slice 6 bits
-          x(08-1 downto 08-5) ; -- slice 5 bits
-    return y;
-end function f_format_565;
+-- function f_format_565(x : std_logic_vector) return std_logic_vector is
+--   variable y  : std_logic_vector(c_bits_565-1 downto 0) := ( others => '0');
+-- begin
+--     -- slice vector
+--     y :=  x(24-1 downto 24-5) & -- slice 5 bits
+--           x(16-1 downto 16-6) & -- slice 6 bits
+--           x(08-1 downto 08-5) ; -- slice 5 bits
+--     return y;
+-- end function f_format_565;
 
 function f_format_666(x : std_logic_vector) return std_logic_vector is
   variable y  : std_logic_vector(c_bits_666-1 downto 0) := ( others => '0');
@@ -170,10 +174,9 @@ begin
   -- shift out data bits
   -- test 1 : rgb_ver(cnt_bit(cnt_bit'high));
   -- test 2 : f_format_666(c_tst_colors)(cnt_bit(cnt_bit'high));
+
+  -- data is command+parameter or pixel
   spi_sda     <=  write_cmd(cnt_bit(cnt_bit'high)) when sel_cmd = '1' else
-                  f_format_666(c_r_color)(cnt_bit(cnt_bit'high)) when cnt_ver < 4 else
-                  f_format_666(c_g_color)(cnt_bit(cnt_bit'high)) when cnt_ver < 8 else
-                  f_format_666(c_b_color)(cnt_bit(cnt_bit'high)) when cnt_ver < 12 else
                   rgb_ver(cnt_bit(cnt_bit'high));
 
   sda         <= spi_sda;
@@ -251,10 +254,54 @@ begin
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
-                fsm_spi     <= s_mad_cmd;
+                fsm_spi     <= s_gmctrp_cmd;
               else
                 ser_tx_req  <= '1';
               end if;
+
+          when s_gmctrp_cmd =>
+            ser_bits  <= c_GMCTRP1'high;
+            write_cmd(c_GMCTRP1'range) <= c_GMCTRP1;
+            spi_dc    <= '0';
+            if ser_tx_ack = '1' then
+              ser_tx_req  <= '0';
+              fsm_spi     <= s_gmctrp_p0;
+            else
+              ser_tx_req  <= '1';
+            end if;
+
+          when s_gmctrp_p0 =>
+            ser_bits  <= c_GMCTRP1_P0'high;
+            write_cmd(c_GMCTRP1_P0'range) <= c_GMCTRP1_P0;
+            spi_dc    <= '1';
+            if ser_tx_ack = '1' then
+              ser_tx_req  <= '0';
+              fsm_spi     <= s_gmctrn_cmd;
+            else
+              ser_tx_req  <= '1';
+            end if;
+
+          when s_gmctrn_cmd =>
+            ser_bits  <= c_GMCTRN1'high;
+            write_cmd(c_GMCTRN1'range) <= c_GMCTRN1;
+            spi_dc    <= '0';
+            if ser_tx_ack = '1' then
+              ser_tx_req  <= '0';
+              fsm_spi     <= s_gmctrn_p0;
+            else
+              ser_tx_req  <= '1';
+            end if;
+
+          when s_gmctrn_p0 =>
+            ser_bits  <= c_GMCTRN1_P0'high;
+            write_cmd(c_GMCTRN1_P0'range) <= c_GMCTRN1_P0;
+            spi_dc    <= '1';
+            if ser_tx_ack = '1' then
+              ser_tx_req  <= '0';
+              fsm_spi     <= s_mad_cmd;
+            else
+              ser_tx_req  <= '1';
+            end if;
 
             when s_mad_cmd =>
               ser_bits  <= c_MADCTL'high;
@@ -313,7 +360,7 @@ begin
 
             when s_cas_p0 =>
               ser_bits  <= 16-1;
-              write_cmd <= std_logic_vector(to_unsigned(c_ras_xs,16));
+              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_ras_xs,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -324,7 +371,7 @@ begin
 
             when s_cas_p1 =>
               ser_bits  <= 16-1;
-              write_cmd <= std_logic_vector(to_unsigned(c_ras_xe,16));
+              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_ras_xe,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -346,7 +393,7 @@ begin
 
             when s_ras_p0 =>
               ser_bits  <= 16-1;
-              write_cmd <= std_logic_vector(to_unsigned(c_cas_ys,16));
+              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_cas_ys,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -357,7 +404,7 @@ begin
 
             when s_ras_p1 =>
               ser_bits  <= 16-1;
-              write_cmd <= std_logic_vector(to_unsigned(c_cas_ye,16));
+              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_cas_ye,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';

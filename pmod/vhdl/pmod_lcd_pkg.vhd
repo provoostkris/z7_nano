@@ -43,11 +43,17 @@ package pmod_lcd_pkg is
   constant c_MADCTL           : std_logic_vector(7 downto 0) := x"36";  --! axis control
   constant c_COLMOD           : std_logic_vector(7 downto 0) := x"3A";  --! color mode
   constant c_INVCTR           : std_logic_vector(7 downto 0) := x"B4";  --! display inversion
+  constant c_GMCTRP1          : std_logic_vector(7 downto 0) := x"E0";  --! pos gamma
+  constant c_GMCTRN1          : std_logic_vector(7 downto 0) := x"E1";  --! neg gqmma
 
   -- set display as a landscape mode , and reverse RGB<>BGR
   constant c_MADCTL_P0        : std_logic_vector(7 downto 0) := x"78";  --! parameter 0
   -- set swap dot <> column
   constant c_INVCTR_P0        : std_logic_vector(7 downto 0) := x"03";  --! parameter 0
+  -- set gamma
+  constant c_GMCTRP1_P0       : std_logic_vector(16*8-1 downto 0) := x"070E080710070207090F253600080410";  --! parameter 0
+  -- set gamma
+  constant c_GMCTRN1_P0       : std_logic_vector(16*8-1 downto 0) := x"0A0D08070F070207090F253500090410";  --! parameter 0
 
   -- pre coded RGB values
   constant c_r_color       : std_logic_vector(24-1 downto 0) :=  "11111111" & "00000000" & "00000000" ;
@@ -58,7 +64,7 @@ package pmod_lcd_pkg is
   type t_raw_arr  is array (integer range <>) of std_logic_vector(24-1 downto 0);     -- raw pixel map
   type t_rgb_arr  is array (integer range <>) of integer range 0 to 255;              -- rgb array
   type t_clr_arr  is array (integer range <>) of t_rgb_arr( 0 to 2);                  -- color array
-  type t_cnt_arr  is array (integer range <>) of integer range 0 to c_bits-1;         -- counter array
+  type t_cnt_arr  is array (integer range <>) of integer range 0 to 16*8-1;           -- counter array
 
   constant c_test_map : t_clr_arr( 0 to c_pixl_img-1) :=
   (others => (255, 11, 255));
