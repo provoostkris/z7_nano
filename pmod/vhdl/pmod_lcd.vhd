@@ -178,7 +178,6 @@ begin
   -- data is command+parameter or pixel
   spi_sda     <=  write_cmd(cnt_bit(cnt_bit'high)) when sel_cmd = '1' else
                   rgb_ver(cnt_bit(cnt_bit'high));
-
   sda         <= spi_sda;
 
   -- SPI controller
