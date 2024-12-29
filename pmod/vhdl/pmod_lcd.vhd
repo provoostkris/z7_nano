@@ -157,7 +157,8 @@ begin
   -- pipe the lookup functions
   process(reset_n, clk) is
     begin
-        if reset_n='0' then
+        -- atypical reset added to speed up simulation
+        if reset_n='0' or sel_cmd = '1' then
           rgb_hor  <= ( others => ( others => '0'));
           rgb_ver  <= ( others => '0');
         elsif rising_edge(clk) then
@@ -170,6 +171,9 @@ begin
   -- test 1 : rgb_ver(cnt_bit(cnt_bit'high));
   -- test 2 : f_format_666(c_tst_colors)(cnt_bit(cnt_bit'high));
   spi_sda     <=  write_cmd(cnt_bit(cnt_bit'high)) when sel_cmd = '1' else
+                  f_format_666(c_r_color)(cnt_bit(cnt_bit'high)) when cnt_ver < 4 else
+                  f_format_666(c_g_color)(cnt_bit(cnt_bit'high)) when cnt_ver < 8 else
+                  f_format_666(c_b_color)(cnt_bit(cnt_bit'high)) when cnt_ver < 12 else
                   rgb_ver(cnt_bit(cnt_bit'high));
 
   sda         <= spi_sda;
