@@ -55,10 +55,11 @@ The bare essential commands are ticked , to be able to see some content on the s
 however it is highly likely, the size, color , orientation , etc will not be correct.
 Therefore the optional commands are added.
 
-Display a picture on the module , that is converted to RGB array, with a free on line tool.
-The image should look like
-
-references :
+The goal for the controller is to display a picture on the module>
+A random picture is converted to RGB array, with a free on line tool.
+Below is a comparison of the different images.
+It is difficult to see on the picture what is the benefit of gamma correction, since you can almost see every pixel.
+However in reality, from a distance the gamma correction allows more accurate colors.
 - image 1 : original used for RGB array creation
 - image 2 : displayed , with RGB reference bars , no gamma correction
 - image 3 : image with gamma correction
