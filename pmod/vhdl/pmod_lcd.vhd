@@ -64,7 +64,7 @@ architecture rtl of pmod_lcd is
   signal spi_sda      : std_logic;
 
   --! reset pulse timer
-  signal cnt_delay    : integer range 0 to c_sleep_out-1 ;
+  signal cnt_delay    : natural range 0 to c_sleep_out-1 ;
 
   --! controller
   signal fsm_spi      : t_fsm_spi;
@@ -74,15 +74,15 @@ architecture rtl of pmod_lcd is
   signal write_cmd    : std_logic_vector(16*8-1 downto 0);
   signal sel_cmd      : std_logic;
   signal cnt_bit      : t_cnt_arr(0 to 2);
-  signal cnt_pix      : integer range 0 to c_pixl-1 ;
-  signal cnt_hor      : integer range 0 to c_hori-1 ;
-  signal cnt_ver      : integer range 0 to c_vert-1 ;
+  signal cnt_pix      : natural range 0 to c_pixl-1 ;
+  signal cnt_hor      : natural range 0 to c_hori-1 ;
+  signal cnt_ver      : natural range 0 to c_vert-1 ;
 
   --! serializer
   signal ser_tx_now   : std_logic;
   signal ser_tx_req   : std_logic;
   signal ser_tx_ack   : std_logic;
-  signal ser_bits     : integer range 0 to 16*8-1;
+  signal ser_bits     : natural range 0 to 16*8-1;
 
 -- lookup some rgb value in the ROM , and return the corresponding raw value
 function f_rgb_to_raw(x : natural) return t_raw_arr is
@@ -159,7 +159,7 @@ begin
   cnt_ver <= cnt_pix /   c_hori;
 
   -- pipe the lookup functions
-  process(reset_n, clk) is
+  process(reset_n, sel_cmd, clk) is
     begin
         -- atypical reset added to speed up simulation
         if reset_n='0' or sel_cmd = '1' then

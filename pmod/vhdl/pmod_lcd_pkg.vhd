@@ -5,33 +5,33 @@ use ieee.numeric_std.all;
 package pmod_lcd_pkg is
 
   -- factor for the clock divider , to reduce the SPI clock from the system clock
-  constant c_clk_reduce             : integer := 3;
+  constant c_clk_reduce             : positive := 3;
   -- proper reset time
   -- 1 clk = 20 ns ==> 1 us = 50x
-  constant c_clk_per_us             : integer :=     50 ; -- clock cycles for 1 us
-  constant c_rst_time_act           : integer :=      20 * c_clk_per_us ; -- $9.17   minimum      10 us
-  constant c_rst_time_hld           : integer := 125_000 * c_clk_per_us ; -- $9.17   minimum 120_000 us
-  constant c_sleep_out              : integer := 125_000 * c_clk_per_us ; -- $9.19.2 minimum 120_000 us
+  constant c_clk_per_us             : positive :=     50 ; -- clock cycles for 1 us
+  constant c_rst_time_act           : positive :=      20 * c_clk_per_us ; -- $9.17   minimum      10 us
+  constant c_rst_time_hld           : positive := 125_000 * c_clk_per_us ; -- $9.17   minimum 120_000 us
+  constant c_sleep_out              : positive := 125_000 * c_clk_per_us ; -- $9.19.2 minimum 120_000 us
 
   -- constants found in the LCD controller datasheet
-  constant c_bits_565         : integer := 5+6+5;
-  constant c_bits_666         : integer := 8+8+8;
-  constant c_bits             : integer := c_bits_666;
+  constant c_bits_565         : positive := 5+6+5;
+  constant c_bits_666         : positive := 8+8+8;
+  constant c_bits             : positive := c_bits_666;
 
   -- memory area
   -- the memory is X:132 x Y:162
-  constant c_hori             : integer :=  160      ; --! display X
-  constant c_vert             : integer :=  132 -26  ; --! display Y
-  constant c_ras_xs           : integer :=  1   ;                    --! RAS Xstart
-  constant c_ras_xe           : integer :=  c_ras_xs +  c_hori - 1;  --! RAS Xend
-  constant c_cas_ys           : integer :=  26  ;                    --! CAS Ystart
-  constant c_cas_ye           : integer :=  c_cas_ys +  c_vert - 1;  --! CAS Yend
-  constant c_pixl             : integer :=  c_hori * c_vert;         --! total amount of pixels
+  constant c_hori             : positive :=  160      ; --! display X
+  constant c_vert             : positive :=  132 -26  ; --! display Y
+  constant c_ras_xs           : positive :=  1   ;                    --! RAS Xstart
+  constant c_ras_xe           : positive :=  c_ras_xs +  c_hori - 1;  --! RAS Xend
+  constant c_cas_ys           : positive :=  26  ;                    --! CAS Ystart
+  constant c_cas_ye           : positive :=  c_cas_ys +  c_vert - 1;  --! CAS Yend
+  constant c_pixl             : positive :=  c_hori * c_vert;         --! total amount of pixels
 
   -- display area
-  constant c_res_x            : integer :=  160      ; --! img X resolution
-  constant c_res_y            : integer :=   80      ; --! img Y resolution
-  constant c_pixl_img         : integer :=  c_res_x * c_res_y;         --! total amount of pixels
+  constant c_res_x            : positive :=  160      ; --! img X resolution
+  constant c_res_y            : positive :=   80      ; --! img Y resolution
+  constant c_pixl_img         : positive :=  c_res_x * c_res_y;         --! total amount of pixels
 
   constant c_SLPOUT           : std_logic_vector(7 downto 0) := x"11";  --! sleep out
   constant c_DISPINV          : std_logic_vector(7 downto 0) := x"21";  --! display inversion
@@ -61,10 +61,10 @@ package pmod_lcd_pkg is
   constant c_b_color       : std_logic_vector(24-1 downto 0) :=  "00000000" & "00000000" & "11111111" ;
 
   -- create arrays for pixel map stores
-  type t_raw_arr  is array (integer range <>) of std_logic_vector(24-1 downto 0);     -- raw pixel map
-  type t_rgb_arr  is array (integer range <>) of integer range 0 to 255;              -- rgb array
-  type t_clr_arr  is array (integer range <>) of t_rgb_arr( 0 to 2);                  -- color array
-  type t_cnt_arr  is array (integer range <>) of integer range 0 to 16*8-1;           -- counter array
+  type t_raw_arr  is array (natural range <>) of std_logic_vector(24-1 downto 0);     -- raw pixel map
+  type t_rgb_arr  is array (natural range <>) of natural range 0 to 255;              -- rgb array
+  type t_clr_arr  is array (natural range <>) of t_rgb_arr( 0 to 2);                  -- color array
+  type t_cnt_arr  is array (natural range <>) of natural range 0 to 16*8-1;           -- counter array
 
   constant c_test_map : t_clr_arr( 0 to c_pixl_img-1) :=
   (others => (255, 11, 255));
