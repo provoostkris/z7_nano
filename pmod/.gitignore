@@ -3,3 +3,12 @@ scripts/modelsim/*
 
 scripts/vivado/*
 !scripts/vivado/*.tcl
+
+release/vivado/*
+!release/vivado/*.xpr
+!release/vivado/pmod.runs/
+release/vivado/pmod.runs/.jobs/*
+release/vivado/pmod.runs/synth_1/*
+release/vivado/pmod.runs/impl_1/*
+!release/vivado/pmod.runs/impl_1/*.bit
+!release/vivado/pmod.runs/impl_1/*.rpt

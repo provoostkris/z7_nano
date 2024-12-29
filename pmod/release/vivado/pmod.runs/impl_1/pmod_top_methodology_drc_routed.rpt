@@ -1,0 +1,78 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
+| Date         : Sun Dec 29 15:14:34 2024
+| Host         : vivobook running 64-bit major release  (build 9200)
+| Command      : report_methodology -file pmod_top_methodology_drc_routed.rpt -pb pmod_top_methodology_drc_routed.pb -rpx pmod_top_methodology_drc_routed.rpx
+| Design       : pmod_top
+| Device       : xc7z020clg400-2
+| Speed File   : -2
+| Design State : Fully Routed
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Report Methodology
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: checkpoint_pmod_top
+      Design limits: <entire design considered>
+             Max violations: <unlimited>
+             Violations found: 7
++-----------+----------+-------------------------------+------------+
+| Rule      | Severity | Description                   | Violations |
++-----------+----------+-------------------------------+------------+
+| LUTAR-1   | Warning  | LUT drives async reset alert  | 1          |
+| TIMING-18 | Warning  | Missing input or output delay | 6          |
++-----------+----------+-------------------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+LUTAR-1#1 Warning
+LUT drives async reset alert  
+LUT cell i_pmod_lcd/rgb_hor[25][23]_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) i_pmod_lcd/rgb_ver_reg[13]/CLR, i_pmod_lcd/rgb_ver_reg[14]/CLR,
+i_pmod_lcd/rgb_ver_reg[15]/CLR, i_pmod_lcd/rgb_ver_reg[18]/CLR,
+i_pmod_lcd/rgb_ver_reg[19]/CLR, i_pmod_lcd/rgb_ver_reg[20]/CLR,
+i_pmod_lcd/rgb_ver_reg[21]/CLR, i_pmod_lcd/rgb_ver_reg[22]/CLR,
+i_pmod_lcd/rgb_ver_reg[23]/CLR, i_pmod_lcd/rgb_ver_reg[2]/CLR,
+i_pmod_lcd/rgb_ver_reg[3]/CLR, i_pmod_lcd/rgb_ver_reg[4]/CLR,
+i_pmod_lcd/rgb_ver_reg[5]/CLR, i_pmod_lcd/rgb_ver_reg[6]/CLR,
+i_pmod_lcd/rgb_ver_reg[7]/CLR (the first 15 of 1445 listed). The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+TIMING-18#1 Warning
+Missing input or output delay  
+An input delay is missing on reset_n relative to the rising and/or falling clock edge(s) of clk.
+Related violations: <none>
+
+TIMING-18#2 Warning
+Missing input or output delay  
+An output delay is missing on cs relative to the rising and/or falling clock edge(s) of clk.
+Related violations: <none>
+
+TIMING-18#3 Warning
+Missing input or output delay  
+An output delay is missing on dc relative to the rising and/or falling clock edge(s) of clk.
+Related violations: <none>
+
+TIMING-18#4 Warning
+Missing input or output delay  
+An output delay is missing on rst relative to the rising and/or falling clock edge(s) of clk.
+Related violations: <none>
+
+TIMING-18#5 Warning
+Missing input or output delay  
+An output delay is missing on sck relative to the rising and/or falling clock edge(s) of clk.
+Related violations: <none>
+
+TIMING-18#6 Warning
+Missing input or output delay  
+An output delay is missing on sda relative to the rising and/or falling clock edge(s) of clk.
+Related violations: <none>
+
+
