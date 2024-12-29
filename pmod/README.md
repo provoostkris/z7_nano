@@ -59,6 +59,13 @@ Therefore the optional commands are added.
 
 Display a picture on the module , that is converted to RGB array, with a free on line tool.
 The image should look like
+
 ![color](img/color.bmp)
+
+
+##### Credits
+The code for the bare minimum was inspired by a note from Bruce E. Hall, W8BH , who has done a great job in explaining how to get the module up and running
 [initialization](http://w8bh.net/avr/AvrTFT.pdf)
+
+A dummy image was converted to a RGB array, that is used in the VHDL files by a free tool :
 [free image converter](https://onlinetools.com/image/convert-image-to-rgb-values)
