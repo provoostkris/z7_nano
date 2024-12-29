@@ -9,9 +9,7 @@ PMOD support is forseen for
 - [ ] PMOD-DVI   : [HDMI interface](https://wiki.sipeed.com/hardware/en/tang/tang-PMOD/FPGA_PMOD.html#PMOD_DVI)
 - [ ] PMOD-BTNx4 : [4 push button and 4 slide button](https://wiki.sipeed.com/hardware/en/tang/tang-PMOD/FPGA_PMOD.html#PMOD_BTN4%2B4)
 - [ ] PMOD-TFCARD: [memory card interface](https://wiki.sipeed.com/hardware/en/tang/tang-PMOD/FPGA_PMOD.html#PMOD_TF-CARD)
-- [ ] PMOD-LCD   : [display module](https://www.tindie.com/products/johnnywu/pmod-lcd-096-expansion-board/)
- [driver](https://files.waveshare.com/upload/e/e2/ST7735S_V1.1_20111121.pdf)
- [wiki](https://www.waveshare.com/wiki/0.96inch_LCD_Module)
+- [x] PMOD-LCD   : [display module](https://www.tindie.com/products/johnnywu/pmod-lcd-096-expansion-board/)
 
 ### [I/O](constraints)
 - The PL push button is the reset
@@ -26,7 +24,7 @@ PMOD LCD
 
 #### PMOD LCD
 The PMOD LCD can display a 80 width x 160 height images.
-The module is build with the ST7735 controller chip (or something very similar)
+The module is build with the  [ST7735](https://files.waveshare.com/upload/e/e2/ST7735S_V1.1_20111121.pdf) controller chip (or something very similar)
 The ST7735 can be used with various sizes of displays, therefore it is needed to configure the controller first, before sending images.
 
 The configuration of the controller is done with the control FSM, and performs consecutively these steps :
@@ -60,10 +58,21 @@ Therefore the optional commands are added.
 Display a picture on the module , that is converted to RGB array, with a free on line tool.
 The image should look like
 
+references :
+- image 1 : original used for RGB array creation
+- image 2 : displayed , with RGB reference bars , no gamma correction
+- image 3 : image with gamma correction
+
 ![color](img/color.bmp)
+![color_no_gamma](img/color_no_gamma.bmp)
+![color_do_gamma](img/color_do_gamma.bmp)
 
 
 ##### Credits
+
+Getting started and connection diagrams are explained in the wiki :
+[wiki](https://www.waveshare.com/wiki/0.96inch_LCD_Module)
+
 The code for the bare minimum was inspired by a note from Bruce E. Hall, W8BH , who has done a great job in explaining how to get the module up and running
 [initialization](http://w8bh.net/avr/AvrTFT.pdf)
 
