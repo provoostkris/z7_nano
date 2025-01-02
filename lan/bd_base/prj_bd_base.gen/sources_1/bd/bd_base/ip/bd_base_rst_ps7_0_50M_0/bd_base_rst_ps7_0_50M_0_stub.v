@@ -2,7 +2,7 @@
 // Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-// Date        : Fri Oct 25 19:10:21 2024
+// Date        : Thu Jan  2 21:01:56 2025
 // Host        : vivobook running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode synth_stub
 //               d:/github/z7_nano/lan/bd_base/prj_bd_base.gen/sources_1/bd/bd_base/ip/bd_base_rst_ps7_0_50M_0/bd_base_rst_ps7_0_50M_0_stub.v

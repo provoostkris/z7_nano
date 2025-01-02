@@ -2,7 +2,7 @@
 --Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
---Date        : Fri Oct 25 19:09:02 2024
+--Date        : Thu Jan  2 20:59:27 2025
 --Host        : vivobook running 64-bit major release  (build 9200)
 --Command     : generate_target bd_base_wrapper.bd
 --Design      : bd_base_wrapper
@@ -14,6 +14,38 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity bd_base_wrapper is
   port (
+    APB_M1_0_paddr : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M1_0_penable : out STD_LOGIC;
+    APB_M1_0_prdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M1_0_pready : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M1_0_psel : out STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M1_0_pslverr : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M1_0_pwdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M1_0_pwrite : out STD_LOGIC;
+    APB_M2_0_paddr : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M2_0_penable : out STD_LOGIC;
+    APB_M2_0_prdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M2_0_pready : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M2_0_psel : out STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M2_0_pslverr : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M2_0_pwdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M2_0_pwrite : out STD_LOGIC;
+    APB_M3_0_paddr : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M3_0_penable : out STD_LOGIC;
+    APB_M3_0_prdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M3_0_pready : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M3_0_psel : out STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M3_0_pslverr : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M3_0_pwdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M3_0_pwrite : out STD_LOGIC;
+    APB_M4_0_paddr : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M4_0_penable : out STD_LOGIC;
+    APB_M4_0_prdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M4_0_pready : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M4_0_psel : out STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M4_0_pslverr : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M4_0_pwdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M4_0_pwrite : out STD_LOGIC;
     AXI_STR_RXD_0_tdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
     AXI_STR_RXD_0_tkeep : in STD_LOGIC_VECTOR ( 3 downto 0 );
     AXI_STR_RXD_0_tlast : in STD_LOGIC;
@@ -55,20 +87,6 @@ end bd_base_wrapper;
 architecture STRUCTURE of bd_base_wrapper is
   component bd_base is
   port (
-    interrupt_0 : out STD_LOGIC;
-    mm2s_prmry_reset_out_n_0 : out STD_LOGIC;
-    s2mm_prmry_reset_out_n_0 : out STD_LOGIC;
-    FCLK_CLK0_0 : out STD_LOGIC;
-    AXI_STR_RXD_0_tdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
-    AXI_STR_RXD_0_tkeep : in STD_LOGIC_VECTOR ( 3 downto 0 );
-    AXI_STR_RXD_0_tlast : in STD_LOGIC;
-    AXI_STR_RXD_0_tready : out STD_LOGIC;
-    AXI_STR_RXD_0_tvalid : in STD_LOGIC;
-    AXI_STR_TXD_0_tdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
-    AXI_STR_TXD_0_tkeep : out STD_LOGIC_VECTOR ( 3 downto 0 );
-    AXI_STR_TXD_0_tlast : out STD_LOGIC;
-    AXI_STR_TXD_0_tready : in STD_LOGIC;
-    AXI_STR_TXD_0_tvalid : out STD_LOGIC;
     DDR_cas_n : inout STD_LOGIC;
     DDR_cke : inout STD_LOGIC;
     DDR_ck_n : inout STD_LOGIC;
@@ -89,12 +107,90 @@ architecture STRUCTURE of bd_base_wrapper is
     FIXED_IO_ddr_vrp : inout STD_LOGIC;
     FIXED_IO_ps_srstb : inout STD_LOGIC;
     FIXED_IO_ps_clk : inout STD_LOGIC;
-    FIXED_IO_ps_porb : inout STD_LOGIC
+    FIXED_IO_ps_porb : inout STD_LOGIC;
+    AXI_STR_TXD_0_tdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    AXI_STR_TXD_0_tkeep : out STD_LOGIC_VECTOR ( 3 downto 0 );
+    AXI_STR_TXD_0_tlast : out STD_LOGIC;
+    AXI_STR_TXD_0_tready : in STD_LOGIC;
+    AXI_STR_TXD_0_tvalid : out STD_LOGIC;
+    AXI_STR_RXD_0_tdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    AXI_STR_RXD_0_tkeep : in STD_LOGIC_VECTOR ( 3 downto 0 );
+    AXI_STR_RXD_0_tlast : in STD_LOGIC;
+    AXI_STR_RXD_0_tready : out STD_LOGIC;
+    AXI_STR_RXD_0_tvalid : in STD_LOGIC;
+    APB_M1_0_paddr : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M1_0_penable : out STD_LOGIC;
+    APB_M1_0_prdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M1_0_pready : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M1_0_psel : out STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M1_0_pslverr : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M1_0_pwdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M1_0_pwrite : out STD_LOGIC;
+    APB_M2_0_paddr : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M2_0_penable : out STD_LOGIC;
+    APB_M2_0_prdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M2_0_pready : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M2_0_psel : out STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M2_0_pslverr : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M2_0_pwdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M2_0_pwrite : out STD_LOGIC;
+    APB_M3_0_paddr : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M3_0_penable : out STD_LOGIC;
+    APB_M3_0_prdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M3_0_pready : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M3_0_psel : out STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M3_0_pslverr : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M3_0_pwdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M3_0_pwrite : out STD_LOGIC;
+    APB_M4_0_paddr : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M4_0_penable : out STD_LOGIC;
+    APB_M4_0_prdata : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M4_0_pready : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M4_0_psel : out STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M4_0_pslverr : in STD_LOGIC_VECTOR ( 0 to 0 );
+    APB_M4_0_pwdata : out STD_LOGIC_VECTOR ( 31 downto 0 );
+    APB_M4_0_pwrite : out STD_LOGIC;
+    interrupt_0 : out STD_LOGIC;
+    mm2s_prmry_reset_out_n_0 : out STD_LOGIC;
+    s2mm_prmry_reset_out_n_0 : out STD_LOGIC;
+    FCLK_CLK0_0 : out STD_LOGIC
   );
   end component bd_base;
 begin
 bd_base_i: component bd_base
      port map (
+      APB_M1_0_paddr(31 downto 0) => APB_M1_0_paddr(31 downto 0),
+      APB_M1_0_penable => APB_M1_0_penable,
+      APB_M1_0_prdata(31 downto 0) => APB_M1_0_prdata(31 downto 0),
+      APB_M1_0_pready(0) => APB_M1_0_pready(0),
+      APB_M1_0_psel(0) => APB_M1_0_psel(0),
+      APB_M1_0_pslverr(0) => APB_M1_0_pslverr(0),
+      APB_M1_0_pwdata(31 downto 0) => APB_M1_0_pwdata(31 downto 0),
+      APB_M1_0_pwrite => APB_M1_0_pwrite,
+      APB_M2_0_paddr(31 downto 0) => APB_M2_0_paddr(31 downto 0),
+      APB_M2_0_penable => APB_M2_0_penable,
+      APB_M2_0_prdata(31 downto 0) => APB_M2_0_prdata(31 downto 0),
+      APB_M2_0_pready(0) => APB_M2_0_pready(0),
+      APB_M2_0_psel(0) => APB_M2_0_psel(0),
+      APB_M2_0_pslverr(0) => APB_M2_0_pslverr(0),
+      APB_M2_0_pwdata(31 downto 0) => APB_M2_0_pwdata(31 downto 0),
+      APB_M2_0_pwrite => APB_M2_0_pwrite,
+      APB_M3_0_paddr(31 downto 0) => APB_M3_0_paddr(31 downto 0),
+      APB_M3_0_penable => APB_M3_0_penable,
+      APB_M3_0_prdata(31 downto 0) => APB_M3_0_prdata(31 downto 0),
+      APB_M3_0_pready(0) => APB_M3_0_pready(0),
+      APB_M3_0_psel(0) => APB_M3_0_psel(0),
+      APB_M3_0_pslverr(0) => APB_M3_0_pslverr(0),
+      APB_M3_0_pwdata(31 downto 0) => APB_M3_0_pwdata(31 downto 0),
+      APB_M3_0_pwrite => APB_M3_0_pwrite,
+      APB_M4_0_paddr(31 downto 0) => APB_M4_0_paddr(31 downto 0),
+      APB_M4_0_penable => APB_M4_0_penable,
+      APB_M4_0_prdata(31 downto 0) => APB_M4_0_prdata(31 downto 0),
+      APB_M4_0_pready(0) => APB_M4_0_pready(0),
+      APB_M4_0_psel(0) => APB_M4_0_psel(0),
+      APB_M4_0_pslverr(0) => APB_M4_0_pslverr(0),
+      APB_M4_0_pwdata(31 downto 0) => APB_M4_0_pwdata(31 downto 0),
+      APB_M4_0_pwrite => APB_M4_0_pwrite,
       AXI_STR_RXD_0_tdata(31 downto 0) => AXI_STR_RXD_0_tdata(31 downto 0),
       AXI_STR_RXD_0_tkeep(3 downto 0) => AXI_STR_RXD_0_tkeep(3 downto 0),
       AXI_STR_RXD_0_tlast => AXI_STR_RXD_0_tlast,
