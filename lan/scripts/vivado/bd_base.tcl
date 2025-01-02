@@ -16,6 +16,7 @@ proc get_script_folder {} {
 }
 variable script_folder
 set script_folder [_tcl::get_script_folder]
+
 cd $script_folder
 pwd
 cd ..
@@ -49,10 +50,12 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
 
+
    create_project prj_bd_base bd_base -part xc7z020clg400-2
 
    set_property target_language VHDL [current_project]
    set_property simulator_language VHDL [current_project]
+
 
 }
 
@@ -98,7 +101,7 @@ if { ${design_name} eq "" } {
    set errMsg "Design <$design_name> already exists in your project, please set the variable <design_name> to another value."
    set nRet 1
 } elseif { [get_files -quiet ${design_name}.bd] ne "" } {
-   # USE CASES: 
+   # USE CASES:
    #    6) Current opened design, has components, but diff names, design_name exists in project.
    #    7) No opened design, design_name exists in project.
 
@@ -132,10 +135,11 @@ set bCheckIPsPassed 1
 ##################################################################
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
-   set list_check_ips "\ 
+   set list_check_ips "\
 xilinx.com:ip:processing_system7:5.5\
 xilinx.com:ip:proc_sys_reset:5.0\
 xilinx.com:ip:axi_fifo_mm_s:4.3\
+xilinx.com:ip:axi_apb_bridge:3.0\
 "
 
    set list_ips_missing ""
@@ -221,6 +225,14 @@ proc create_root_design { parentCell } {
    CONFIG.TID_WIDTH {0} \
    CONFIG.TUSER_WIDTH {0} \
    ] $AXI_STR_RXD_0
+
+  set APB_M1_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:apb_rtl:1.0 APB_M1_0 ]
+
+  set APB_M2_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:apb_rtl:1.0 APB_M2_0 ]
+
+  set APB_M3_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:apb_rtl:1.0 APB_M3_0 ]
+
+  set APB_M4_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:apb_rtl:1.0 APB_M4_0 ]
 
 
   # Create ports
@@ -363,7 +375,7 @@ proc create_root_design { parentCell } {
 
   # Create instance: ps7_0_axi_periph, and set properties
   set ps7_0_axi_periph [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 ps7_0_axi_periph ]
-  set_property CONFIG.NUM_MI {1} $ps7_0_axi_periph
+  set_property CONFIG.NUM_MI {2} $ps7_0_axi_periph
 
 
   # Create instance: axi_fifo_mm_s_0, and set properties
@@ -380,24 +392,36 @@ proc create_root_design { parentCell } {
   ] $axi_fifo_mm_s_0
 
 
+  # Create instance: axi_apb_bridge_0, and set properties
+  set axi_apb_bridge_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_apb_bridge:3.0 axi_apb_bridge_0 ]
+
   # Create interface connections
   connect_bd_intf_net -intf_net AXI_STR_RXD_0_1 [get_bd_intf_ports AXI_STR_RXD_0] [get_bd_intf_pins axi_fifo_mm_s_0/AXI_STR_RXD]
+  connect_bd_intf_net -intf_net axi_apb_bridge_0_APB_M [get_bd_intf_ports APB_M1_0] [get_bd_intf_pins axi_apb_bridge_0/APB_M]
+  connect_bd_intf_net -intf_net axi_apb_bridge_0_APB_M2 [get_bd_intf_ports APB_M2_0] [get_bd_intf_pins axi_apb_bridge_0/APB_M2]
+  connect_bd_intf_net -intf_net axi_apb_bridge_0_APB_M3 [get_bd_intf_ports APB_M3_0] [get_bd_intf_pins axi_apb_bridge_0/APB_M3]
+  connect_bd_intf_net -intf_net axi_apb_bridge_0_APB_M4 [get_bd_intf_ports APB_M4_0] [get_bd_intf_pins axi_apb_bridge_0/APB_M4]
   connect_bd_intf_net -intf_net axi_fifo_mm_s_0_AXI_STR_TXD [get_bd_intf_ports AXI_STR_TXD_0] [get_bd_intf_pins axi_fifo_mm_s_0/AXI_STR_TXD]
   connect_bd_intf_net -intf_net processing_system7_0_DDR [get_bd_intf_ports DDR] [get_bd_intf_pins processing_system7_0/DDR]
   connect_bd_intf_net -intf_net processing_system7_0_FIXED_IO [get_bd_intf_ports FIXED_IO] [get_bd_intf_pins processing_system7_0/FIXED_IO]
   connect_bd_intf_net -intf_net processing_system7_0_M_AXI_GP0 [get_bd_intf_pins processing_system7_0/M_AXI_GP0] [get_bd_intf_pins ps7_0_axi_periph/S00_AXI]
   connect_bd_intf_net -intf_net ps7_0_axi_periph_M00_AXI [get_bd_intf_pins ps7_0_axi_periph/M00_AXI] [get_bd_intf_pins axi_fifo_mm_s_0/S_AXI]
+  connect_bd_intf_net -intf_net ps7_0_axi_periph_M01_AXI [get_bd_intf_pins ps7_0_axi_periph/M01_AXI] [get_bd_intf_pins axi_apb_bridge_0/AXI4_LITE]
 
   # Create port connections
   connect_bd_net -net axi_fifo_mm_s_0_interrupt [get_bd_pins axi_fifo_mm_s_0/interrupt] [get_bd_ports interrupt_0]
   connect_bd_net -net axi_fifo_mm_s_0_mm2s_prmry_reset_out_n [get_bd_pins axi_fifo_mm_s_0/mm2s_prmry_reset_out_n] [get_bd_ports mm2s_prmry_reset_out_n_0]
   connect_bd_net -net axi_fifo_mm_s_0_s2mm_prmry_reset_out_n [get_bd_pins axi_fifo_mm_s_0/s2mm_prmry_reset_out_n] [get_bd_ports s2mm_prmry_reset_out_n_0]
-  connect_bd_net -net processing_system7_0_FCLK_CLK1 [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_ports FCLK_CLK0_0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins rst_ps7_0_50M/slowest_sync_clk] [get_bd_pins ps7_0_axi_periph/ACLK] [get_bd_pins ps7_0_axi_periph/S00_ACLK] [get_bd_pins ps7_0_axi_periph/M00_ACLK] [get_bd_pins axi_fifo_mm_s_0/s_axi_aclk]
+  connect_bd_net -net processing_system7_0_FCLK_CLK1 [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_ports FCLK_CLK0_0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins rst_ps7_0_50M/slowest_sync_clk] [get_bd_pins ps7_0_axi_periph/ACLK] [get_bd_pins ps7_0_axi_periph/S00_ACLK] [get_bd_pins ps7_0_axi_periph/M00_ACLK] [get_bd_pins axi_fifo_mm_s_0/s_axi_aclk] [get_bd_pins axi_apb_bridge_0/s_axi_aclk] [get_bd_pins ps7_0_axi_periph/M01_ACLK]
   connect_bd_net -net processing_system7_0_FCLK_RESET0_N [get_bd_pins processing_system7_0/FCLK_RESET0_N] [get_bd_pins rst_ps7_0_50M/ext_reset_in]
   connect_bd_net -net rst_ps7_0_50M_interconnect_aresetn [get_bd_pins rst_ps7_0_50M/interconnect_aresetn] [get_bd_pins ps7_0_axi_periph/M00_ARESETN] [get_bd_pins ps7_0_axi_periph/S00_ARESETN] [get_bd_pins ps7_0_axi_periph/ARESETN]
-  connect_bd_net -net rst_ps7_0_50M_peripheral_aresetn [get_bd_pins rst_ps7_0_50M/peripheral_aresetn] [get_bd_pins axi_fifo_mm_s_0/s_axi_aresetn]
+  connect_bd_net -net rst_ps7_0_50M_peripheral_aresetn [get_bd_pins rst_ps7_0_50M/peripheral_aresetn] [get_bd_pins axi_fifo_mm_s_0/s_axi_aresetn] [get_bd_pins axi_apb_bridge_0/s_axi_aresetn] [get_bd_pins ps7_0_axi_periph/M01_ARESETN]
 
   # Create address segments
+  assign_bd_address -offset 0x43C10000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs APB_M1_0/Reg] -force
+  assign_bd_address -offset 0x43C20000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs APB_M2_0/Reg] -force
+  assign_bd_address -offset 0x43C30000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs APB_M3_0/Reg] -force
+  assign_bd_address -offset 0x43C40000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs APB_M4_0/Reg] -force
   assign_bd_address -offset 0x43C00000 -range 0x00010000 -target_address_space [get_bd_addr_spaces processing_system7_0/Data] [get_bd_addr_segs axi_fifo_mm_s_0/S_AXI/Mem0] -force
 
 
