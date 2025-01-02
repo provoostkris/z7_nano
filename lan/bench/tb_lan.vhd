@@ -10,6 +10,7 @@ use ieee.numeric_std.all;
 -- just for random functions
 use ieee.math_real.all;
 
+
 -- this bench relies on the https://github.com/provoostkris/netwiz
 library nw_util;
 context nw_util.nw_util_context;

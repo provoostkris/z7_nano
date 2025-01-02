@@ -160,6 +160,39 @@ architecture rtl of lan is
   signal AXI_STR_TXD_SEL_tready : STD_LOGIC;
   signal AXI_STR_TXD_SEL_tvalid : STD_LOGIC;
 
+  -- APB signals
+  signal APB_M1_0_paddr           : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M1_0_penable         : STD_LOGIC;
+  signal APB_M1_0_prdata          : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M1_0_pready          : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M1_0_psel            : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M1_0_pslverr         : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M1_0_pwdata          : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M1_0_pwrite          : STD_LOGIC;
+  signal APB_M2_0_paddr           : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M2_0_penable         : STD_LOGIC;
+  signal APB_M2_0_prdata          : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M2_0_pready          : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M2_0_psel            : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M2_0_pslverr         : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M2_0_pwdata          : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M2_0_pwrite          : STD_LOGIC;
+  signal APB_M3_0_paddr           : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M3_0_penable         : STD_LOGIC;
+  signal APB_M3_0_prdata          : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M3_0_pready          : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M3_0_psel            : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M3_0_pslverr         : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M3_0_pwdata          : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M3_0_pwrite          : STD_LOGIC;
+  signal APB_M4_0_paddr           : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M4_0_penable         : STD_LOGIC;
+  signal APB_M4_0_prdata          : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M4_0_pready          : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M4_0_psel            : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M4_0_pslverr         : STD_LOGIC_VECTOR ( 0 to 0 );
+  signal APB_M4_0_pwdata          : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal APB_M4_0_pwrite          : STD_LOGIC;
 
 --! spare signals on block design
   signal interrupt_0              :   STD_LOGIC;
@@ -245,10 +278,10 @@ begin
     port map (
       clk           => clk_sel_pl,
       rst_n         => rst_n,
-      m_dat_tready  => AXI_STR_TXD_DBG_tready,
-      m_dat_tdata   => AXI_STR_TXD_DBG_tdata ,
-      m_dat_tlast   => AXI_STR_TXD_DBG_tlast ,
-      m_dat_tvalid  => AXI_STR_TXD_DBG_tvalid
+      m_tready  => AXI_STR_TXD_DBG_tready,
+      m_tdata   => AXI_STR_TXD_DBG_tdata ,
+      m_tlast   => AXI_STR_TXD_DBG_tlast ,
+      m_tvalid  => AXI_STR_TXD_DBG_tvalid
     );
 
     -- cheat for now
@@ -311,10 +344,10 @@ begin
       clk          => clk_sel_tx,
       rst_n        => rst_n,
 
-      dat_tready   => s_tx_dat_tready,
-      dat_tdata    => s_tx_dat_tdata,
-      dat_tlast    => s_tx_dat_tlast,
-      dat_tvalid   => s_tx_dat_tvalid,
+      s_tready     => s_tx_dat_tready,
+      s_tdata      => s_tx_dat_tdata,
+      s_tlast      => s_tx_dat_tlast,
+      s_tvalid     => s_tx_dat_tvalid,
 
       txdata       => frm_tx_data,
       txen         => frm_tx_en,
@@ -614,6 +647,39 @@ begin
       AXI_STR_TXD_0_tlast => AXI_STR_TXD_0_tlast,
       AXI_STR_TXD_0_tready => AXI_STR_TXD_0_tready,
       AXI_STR_TXD_0_tvalid => AXI_STR_TXD_0_tvalid,
+
+      APB_M1_0_paddr           => APB_M1_0_paddr,
+      APB_M1_0_penable         => APB_M1_0_penable,
+      APB_M1_0_prdata          => APB_M1_0_prdata,
+      APB_M1_0_pready          => APB_M1_0_pready,
+      APB_M1_0_psel            => APB_M1_0_psel,
+      APB_M1_0_pslverr         => APB_M1_0_pslverr,
+      APB_M1_0_pwdata          => APB_M1_0_pwdata,
+      APB_M1_0_pwrite          => APB_M1_0_pwrite,
+      APB_M2_0_paddr           => APB_M2_0_paddr,
+      APB_M2_0_penable         => APB_M2_0_penable,
+      APB_M2_0_prdata          => APB_M2_0_prdata,
+      APB_M2_0_pready          => APB_M2_0_pready,
+      APB_M2_0_psel            => APB_M2_0_psel,
+      APB_M2_0_pslverr         => APB_M2_0_pslverr,
+      APB_M2_0_pwdata          => APB_M2_0_pwdata,
+      APB_M2_0_pwrite          => APB_M2_0_pwrite,
+      APB_M3_0_paddr           => APB_M3_0_paddr,
+      APB_M3_0_penable         => APB_M3_0_penable,
+      APB_M3_0_prdata          => APB_M3_0_prdata,
+      APB_M3_0_pready          => APB_M3_0_pready,
+      APB_M3_0_psel            => APB_M3_0_psel,
+      APB_M3_0_pslverr         => APB_M3_0_pslverr,
+      APB_M3_0_pwdata          => APB_M3_0_pwdata,
+      APB_M3_0_pwrite          => APB_M3_0_pwrite,
+      APB_M4_0_paddr           => APB_M4_0_paddr,
+      APB_M4_0_penable         => APB_M4_0_penable,
+      APB_M4_0_prdata          => APB_M4_0_prdata,
+      APB_M4_0_pready          => APB_M4_0_pready,
+      APB_M4_0_psel            => APB_M4_0_psel,
+      APB_M4_0_pslverr         => APB_M4_0_pslverr,
+      APB_M4_0_pwdata          => APB_M4_0_pwdata,
+      APB_M4_0_pwrite          => APB_M4_0_pwrite,
 
       DDR_addr(14 downto 0) => DDR_addr(14 downto 0),
       DDR_ba(2 downto 0) => DDR_ba(2 downto 0),

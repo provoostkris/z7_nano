@@ -16,7 +16,7 @@ entity eth_frm_tx is
     -- signal from axis stream
     s_tready     : out std_logic;
     s_tdata      : in  std_logic_vector(7 downto 0);
-    s_tdata      : in  std_logic;
+    s_tlast      : in  std_logic;
     s_tvalid     : in  std_logic;
     -- signals to phy
     txdata       : out std_logic_vector(7 downto 0);
@@ -106,7 +106,7 @@ begin  -- architecture rtl
           txen         <= s_tvalid;
           txdata       <= s_tdata;
 
-          if s_tdata = '1' then
+          if s_tlast = '1' then
             state        <= send_crc;
             crcen        <= '0';
             s_tready     <= '0';
