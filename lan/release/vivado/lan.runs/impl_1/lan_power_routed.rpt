@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2023.1 (win64) Build 3865809 Sun May  7 15:05:29 MDT 2023
-| Date             : Fri Oct 25 19:35:21 2024
+| Date             : Thu Jan  2 21:36:03 2025
 | Host             : vivobook running 64-bit major release  (build 9200)
 | Command          : report_power -file lan_power_routed.rpt -pb lan_power_summary_routed.pb -rpx lan_power_routed.rpx
 | Design           : lan
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 1.548        |
+| Total On-Chip Power (W)  | 1.549        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 1.408        |
+| Dynamic (W)              | 1.409        |
 | Device Static (W)        | 0.140        |
 | Effective TJA (C/W)      | 11.5         |
 | Max Ambient (C)          | 67.1         |
@@ -52,22 +52,22 @@ Table of Contents
 +--------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
-| Clocks                   |     0.006 |        8 |       --- |             --- |
-| Slice Logic              |     0.002 |     4220 |       --- |             --- |
-|   LUT as Logic           |     0.001 |     1275 |     53200 |            2.40 |
+| Clocks                   |     0.007 |        8 |       --- |             --- |
+| Slice Logic              |     0.002 |     4588 |       --- |             --- |
+|   LUT as Logic           |     0.002 |     1406 |     53200 |            2.64 |
 |   LUT as Distributed RAM |    <0.001 |      292 |     17400 |            1.68 |
 |   CARRY4                 |    <0.001 |      137 |     13300 |            1.03 |
-|   Register               |    <0.001 |     1765 |    106400 |            1.66 |
+|   Register               |    <0.001 |     1956 |    106400 |            1.84 |
 |   F7/F8 Muxes            |    <0.001 |       22 |     53200 |            0.04 |
-|   LUT as Shift Register  |    <0.001 |       61 |     17400 |            0.35 |
-|   Others                 |     0.000 |      270 |       --- |             --- |
-| Signals                  |     0.002 |     2857 |       --- |             --- |
+|   LUT as Shift Register  |    <0.001 |       62 |     17400 |            0.36 |
+|   Others                 |     0.000 |      282 |       --- |             --- |
+| Signals                  |     0.002 |     3168 |       --- |             --- |
 | Block RAM                |     0.004 |        8 |       140 |            5.71 |
 | MMCM                     |     0.118 |        1 |         4 |           25.00 |
 | I/O                      |     0.007 |       17 |       125 |           13.60 |
 | PS7                      |     1.269 |        1 |       --- |             --- |
 | Static Power             |     0.140 |          |           |                 |
-| Total                    |     1.548 |          |           |                 |
+| Total                    |     1.549 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -158,8 +158,8 @@ Table of Contents
 +--------------------------------+-----------+
 | Name                           | Power (W) |
 +--------------------------------+-----------+
-| lan                            |     1.408 |
-|   bd_base_i                    |     1.275 |
+| lan                            |     1.409 |
+|   bd_base_i                    |     1.276 |
 |     axi_fifo_mm_s_0            |     0.005 |
 |       U0                       |     0.005 |
 |     processing_system7_0       |     1.269 |
