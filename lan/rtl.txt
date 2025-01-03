@@ -2,6 +2,7 @@ verilog/axis_adapter.v
 verilog/axis_async_fifo.v
 verilog/axis_async_fifo_adapter.v
 vhdl/lan_pkg.vhd
+vhdl/apb3_slave.vhd
 vhdl/shift_reg.vhd
 vhdl/eth_crc32.vhd
 vhdl/rgmii_rx_sdr.vhd

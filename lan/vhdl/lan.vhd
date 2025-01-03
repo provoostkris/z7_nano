@@ -630,6 +630,62 @@ begin
    );
 
 
+i_apb3_slave_1 : entity work.apb3_slave
+  port map (
+    PCLK    => clk_sel_pl,
+    PRESETn => rst_n,
+    PSEL    => APB_M1_0_psel(0),
+    PENABLE => APB_M1_0_penable,
+    PWRITE  => APB_M1_0_pwrite,
+    PADDR   => APB_M1_0_paddr,
+    PWDATA  => APB_M1_0_pwdata,
+    PRDATA  => APB_M1_0_prdata,
+    PREADY  => APB_M1_0_pready(0),
+    PSLVERR => APB_M1_0_pslverr(0)
+  );
+
+i_apb3_slave_2 : entity work.apb3_slave
+  port map (
+    PCLK    => clk_sel_pl,
+    PRESETn => rst_n,
+    PSEL    => APB_M2_0_psel(0),
+    PENABLE => APB_M2_0_penable,
+    PWRITE  => APB_M2_0_pwrite,
+    PADDR   => APB_M2_0_paddr,
+    PWDATA  => APB_M2_0_pwdata,
+    PRDATA  => APB_M2_0_prdata,
+    PREADY  => APB_M2_0_pready(0),
+    PSLVERR => APB_M2_0_pslverr(0)
+  );
+
+i_apb3_slave_3 : entity work.apb3_slave
+  port map (
+    PCLK    => clk_sel_pl,
+    PRESETn => rst_n,
+    PSEL    => APB_M3_0_psel(0),
+    PENABLE => APB_M3_0_penable,
+    PWRITE  => APB_M3_0_pwrite,
+    PADDR   => APB_M3_0_paddr,
+    PWDATA  => APB_M3_0_pwdata,
+    PRDATA  => APB_M3_0_prdata,
+    PREADY  => APB_M3_0_pready(0),
+    PSLVERR => APB_M3_0_pslverr(0)
+  );
+
+i_apb3_slave_4 : entity work.apb3_slave
+  port map (
+    PCLK    => clk_sel_pl,
+    PRESETn => rst_n,
+    PSEL    => APB_M4_0_psel(0),
+    PENABLE => APB_M4_0_penable,
+    PWRITE  => APB_M4_0_pwrite,
+    PADDR   => APB_M4_0_paddr,
+    PWDATA  => APB_M4_0_pwdata,
+    PRDATA  => APB_M4_0_prdata,
+    PREADY  => APB_M4_0_pready(0),
+    PSLVERR => APB_M4_0_pslverr(0)
+  );
+
 --! add the block design containing the processor
   bd_base_i: entity work.bd_base
     port map (

@@ -41,6 +41,12 @@ echo "adding waves"
   add wave    -group "i_eth_frm_tx"                  /tb_lan/dut/i_eth_frm_tx/*
   add wave    -group "i_rgmii_tx_ddr"                /tb_lan/dut/i_rgmii_tx_ddr/*
 
+  add wave    -divider "APB slaves"
+  add wave    -group "slave 1    "           -ports    /tb_lan/dut/i_apb3_slave_1/*
+  add wave    -group "slave 2    "           -ports    /tb_lan/dut/i_apb3_slave_2/*
+  add wave    -group "slave 3    "           -ports    /tb_lan/dut/i_apb3_slave_3/*
+  add wave    -group "slave 4    "           -ports    /tb_lan/dut/i_apb3_slave_4/*
+
   add wave    -divider "BD"
   --add wave    -group "bd_base_i"           -ports    /tb_lan/dut/bd_base_i/*
 
