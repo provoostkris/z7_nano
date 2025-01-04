@@ -55,7 +55,7 @@ echo "Compiling design"
 
   set path_bd "../../bd_base/prj_bd_base.gen/sources_1/bd/bd_base/ip"
 
-  set handle 5
+  set handle 0
   if {$handle == 0 } {
   }
   if {$handle == 1 } {
