@@ -194,6 +194,11 @@ architecture rtl of lan is
   signal APB_M4_0_pwdata          : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal APB_M4_0_pwrite          : STD_LOGIC;
 
+  signal reg_val_1                : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal reg_val_2                : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal reg_val_3                : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal reg_val_4                : STD_LOGIC_VECTOR ( 31 downto 0 );
+
 --! spare signals on block design
   signal interrupt_0              :   STD_LOGIC;
   signal mm2s_prmry_reset_out_n_0 :   STD_LOGIC;
@@ -269,9 +274,11 @@ begin
   end generate;
 
 --! indicate the board is running
-  i_pwm: entity work.pwm
-  port    map (clk_sel_tx, rst_n,led);
+  -- i_pwm: entity work.pwm
+  -- port    map (clk_sel_tx, rst_n,led);
 
+  -- just for test now , drive the LED over the QPB bus
+  led <= reg_val_1(0);
 
   --! user logic with ROM
   i_rom_tx : entity work.rom_tx
@@ -641,7 +648,8 @@ i_apb3_slave_1 : entity work.apb3_slave
     PWDATA  => APB_M1_0_pwdata,
     PRDATA  => APB_M1_0_prdata,
     PREADY  => APB_M1_0_pready(0),
-    PSLVERR => APB_M1_0_pslverr(0)
+    PSLVERR => APB_M1_0_pslverr(0),
+    reg_val => reg_val_1
   );
 
 i_apb3_slave_2 : entity work.apb3_slave
@@ -655,7 +663,8 @@ i_apb3_slave_2 : entity work.apb3_slave
     PWDATA  => APB_M2_0_pwdata,
     PRDATA  => APB_M2_0_prdata,
     PREADY  => APB_M2_0_pready(0),
-    PSLVERR => APB_M2_0_pslverr(0)
+    PSLVERR => APB_M2_0_pslverr(0),
+    reg_val => reg_val_2
   );
 
 i_apb3_slave_3 : entity work.apb3_slave
@@ -669,7 +678,8 @@ i_apb3_slave_3 : entity work.apb3_slave
     PWDATA  => APB_M3_0_pwdata,
     PRDATA  => APB_M3_0_prdata,
     PREADY  => APB_M3_0_pready(0),
-    PSLVERR => APB_M3_0_pslverr(0)
+    PSLVERR => APB_M3_0_pslverr(0),
+    reg_val => reg_val_3
   );
 
 i_apb3_slave_4 : entity work.apb3_slave
@@ -683,7 +693,8 @@ i_apb3_slave_4 : entity work.apb3_slave
     PWDATA  => APB_M4_0_pwdata,
     PRDATA  => APB_M4_0_prdata,
     PREADY  => APB_M4_0_pready(0),
-    PSLVERR => APB_M4_0_pslverr(0)
+    PSLVERR => APB_M4_0_pslverr(0),
+    reg_val => reg_val_4
   );
 
 --! add the block design containing the processor
