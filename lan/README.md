@@ -28,7 +28,7 @@ the system is kept to a very minimal setup and shown below:
 - Vivado 2023.1
 - Vitis 2023.1
 - Modelsim 10.5
-- Notepadd++
+- Visual Studio
 - Wireshark
 
 ### Simulation
