@@ -55,7 +55,13 @@ The bare essential commands are ticked , to be able to see some content on the s
 however it is highly likely, the size, color , orientation , etc will not be correct.
 Therefore the optional commands are added.
 
-The goal for the controller is to display a picture on the module>
+The goals for the controller are
+- [x]  to display a picture on the module
+- [x]  to display a character on the module
+- [ ]  to display a text on the module
+- [ ]  to display a text and image on the module
+
+#### For image display
 A random picture is converted to RGB array, with a free on line tool.
 Below is a comparison of the different images.
 It is difficult to see on the picture what is the benefit of gamma correction, since you can almost see every pixel.
@@ -65,9 +71,15 @@ However in reality, from a distance the gamma correction allows more accurate co
 - image 3 : image with gamma correction
 
 ![color](img/color.bmp)
+
 ![color_no_gamma](img/color_no_gamma.bmp)
+
 ![color_do_gamma](img/color_do_gamma.bmp)
 
+
+#### For character display
+a file {ascii_pkg.vhd} that contains many ASCII characters coded in logic vectors is used to lookup the black or white value for a pixel in that character.
+A character is 16hx8w , and a corresponding window is opened in the screen controller, then the pixels are send.
 
 ##### Credits
 
