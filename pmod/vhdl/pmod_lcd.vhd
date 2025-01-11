@@ -8,6 +8,7 @@ use     ieee.std_logic_1164.all;
 use     ieee.numeric_std.all;
 
 use     work.pmod_lcd_pkg.all;
+use     work.ascii_pkg.all;
 
 entity pmod_lcd is
   port(
@@ -46,6 +47,7 @@ architecture rtl of pmod_lcd is
                             s_ras_p1,
                             s_ramwr,
                             s_send_req,   --! request dara send
+                            s_draw_char,   --! request character
                             s_done    --! close transmission
   );
 
@@ -75,8 +77,11 @@ architecture rtl of pmod_lcd is
   signal sel_cmd      : std_logic;
   signal cnt_bit      : t_cnt_arr(0 to 2);
   signal cnt_pix      : natural range 0 to c_pixl-1 ;
-  signal cnt_hor      : natural range 0 to c_hori-1 ;
-  signal cnt_ver      : natural range 0 to c_vert-1 ;
+  signal cnt_img_hor  : natural range 0 to c_hori-1 ;
+  signal cnt_img_ver  : natural range 0 to c_vert-1 ;
+  signal cnt_chr_hor  : natural range 0 to  8-1 ;
+  signal cnt_chr_ver  : natural range 0 to 16-1 ;
+  signal char_bit     : std_logic;
 
   --! serializer
   signal ser_tx_now   : std_logic;
@@ -125,6 +130,15 @@ begin
     return y;
 end function f_format_666;
 
+
+function f_1608_to_bit(c : natural ; x : natural ; y : natural) return std_logic is
+  variable res  : std_logic := '0' ;
+begin
+  -- lookup the bit , black or white , in the characters
+  res := c_ascii_1608(c)(x)(y);
+  return res;
+end function f_1608_to_bit;
+
 begin
 
   -- simple counter to bring SPI frequency in range of component
@@ -155,19 +169,27 @@ begin
   end process;
 
   -- from the pixel counter , derive the row and column location
-  cnt_hor <= cnt_pix mod c_hori;
-  cnt_ver <= cnt_pix /   c_hori;
+  --- for a full display area
+  cnt_img_hor <= cnt_pix mod c_hori;
+  cnt_img_ver <= cnt_pix /   c_hori;
+  --- for only a character area
+  cnt_chr_hor <= cnt_pix mod 8;
+  cnt_chr_ver <= cnt_pix /   8;
 
-  -- pipe the lookup functions
+  -- pipe the lookup functions , for color maps and char maps
   process(reset_n, sel_cmd, clk) is
     begin
-        -- atypical reset added to speed up simulation
-        if reset_n='0' or sel_cmd = '1' then
+        if reset_n='0' then
           rgb_hor  <= ( others => ( others => '0'));
           rgb_ver  <= ( others => '0');
+          char_bit <= '0';
         elsif rising_edge(clk) then
-          rgb_hor  <= f_rgb_to_raw(cnt_hor);
-          rgb_ver  <= f_format_666(rgb_hor(cnt_ver));
+        -- only compute when colors are needed
+        if sel_cmd = '0' then
+          rgb_hor  <= f_rgb_to_raw(cnt_img_hor);
+          rgb_ver  <= f_format_666(rgb_hor(cnt_img_ver));
+          char_bit <= f_1608_to_bit(8,cnt_chr_ver,cnt_chr_hor);
+        end if;
         end if;
   end process;
 
@@ -177,7 +199,8 @@ begin
 
   -- data is command+parameter or pixel
   spi_sda     <=  write_cmd(cnt_bit(cnt_bit'high)) when sel_cmd = '1' else
-                  rgb_ver(cnt_bit(cnt_bit'high));
+                  char_bit;
+  -- rgb_ver(cnt_bit(cnt_bit'high));
   sda         <= spi_sda;
 
   -- SPI controller
@@ -370,7 +393,8 @@ begin
 
             when s_cas_p1 =>
               ser_bits  <= 16-1;
-              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_ras_xe,16));
+              -- write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_ras_xe,16));
+              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_ras_xs+8-1,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -403,7 +427,8 @@ begin
 
             when s_ras_p1 =>
               ser_bits  <= 16-1;
-              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_cas_ye,16));
+              -- write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_cas_ye,16));
+              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_cas_ys+16-1,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -418,7 +443,7 @@ begin
               spi_dc    <= '0';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
-                fsm_spi     <= s_send_req;
+                fsm_spi     <= s_draw_char;
               else
                 ser_tx_req  <= '1';
               end if;
@@ -433,6 +458,23 @@ begin
                   ser_tx_req  <= '0';
                 else
                   fsm_spi   <= s_send_req;
+                  cnt_pix   <= cnt_pix + 1;
+                end if;
+              else
+                ser_tx_req <= '1';
+              end if;
+              sel_cmd   <= '0';
+
+            when s_draw_char =>
+              ser_bits  <= c_bits-1;
+              spi_dc    <= '1';
+              if ser_tx_ack = '1' then
+                ser_tx_now <= '1';
+                if cnt_pix = 16*8-1 then
+                  fsm_spi  <= s_done;
+                  ser_tx_req  <= '0';
+                else
+                  fsm_spi   <= s_draw_char;
                   cnt_pix   <= cnt_pix + 1;
                 end if;
               else
