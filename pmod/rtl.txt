@@ -1,3 +1,4 @@
+vhdl/ascii_pkg.vhd
 vhdl/pmod_led.vhd
 vhdl/pmod_seg.vhd
 vhdl/pmod_lcd_pkg.vhd
