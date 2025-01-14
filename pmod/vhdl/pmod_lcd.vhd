@@ -79,8 +79,8 @@ architecture rtl of pmod_lcd is
   signal cnt_pix      : natural range 0 to c_pixl-1 ;
   signal cnt_img_hor  : natural range 0 to c_hori-1 ;
   signal cnt_img_ver  : natural range 0 to c_vert-1 ;
-  signal cnt_chr_hor  : natural range 0 to  8-1 ;
-  signal cnt_chr_ver  : natural range 0 to 16-1 ;
+  signal cnt_chr_hor  : natural range 0 to c_chr_w-1 ;
+  signal cnt_chr_ver  : natural range 0 to c_chr_h-1 ;
   signal char_bit     : std_logic;
 
   --! serializer
@@ -130,7 +130,10 @@ begin
     return y;
 end function f_format_666;
 
-
+-- lookup a character , and return what bit value should be used for the pixel
+-- c = character position in the ASCII table
+-- x = row to select from
+-- y = column to select fro;
 function f_1608_to_bit(c : natural ; x : natural ; y : natural) return std_logic is
   variable res  : std_logic := '0' ;
 begin
@@ -141,7 +144,7 @@ end function f_1608_to_bit;
 
 begin
 
-  -- simple counter to bring SPI frequency in range of component
+  --! simple counter to bring SPI frequency in range of component
   process(reset_n, clk) is
     begin
         if reset_n='0' then
@@ -168,13 +171,13 @@ begin
         end if;
   end process;
 
-  -- from the pixel counter , derive the row and column location
-  --- for a full display area
+  --! from the pixel counter , derive the row and column location
+  ---! for a full display area
   cnt_img_hor <= cnt_pix mod c_hori;
   cnt_img_ver <= cnt_pix /   c_hori;
-  --- for only a character area
-  cnt_chr_hor <= cnt_pix mod 8;
-  cnt_chr_ver <= cnt_pix /   8;
+  ---! for only a character area
+  cnt_chr_hor <= cnt_pix mod c_chr_w;
+  cnt_chr_ver <= cnt_pix /   c_chr_w;
 
   -- pipe the lookup functions , for color maps and char maps
   process(reset_n, sel_cmd, clk) is
@@ -203,7 +206,9 @@ begin
   -- rgb_ver(cnt_bit(cnt_bit'high));
   sda         <= spi_sda;
 
-  -- SPI controller
+  --! Display controller FSM
+  -- used to send the seauence of correct commands to the display controller
+  -- to put the display on , and show some thing on the screen
   process(reset_n, clk) is
     begin
         if reset_n='0' then
@@ -281,49 +286,49 @@ begin
                 ser_tx_req  <= '1';
               end if;
 
-          when s_gmctrp_cmd =>
-            ser_bits  <= c_GMCTRP1'high;
-            write_cmd(c_GMCTRP1'range) <= c_GMCTRP1;
-            spi_dc    <= '0';
-            if ser_tx_ack = '1' then
-              ser_tx_req  <= '0';
-              fsm_spi     <= s_gmctrp_p0;
-            else
-              ser_tx_req  <= '1';
-            end if;
+            when s_gmctrp_cmd =>
+              ser_bits  <= c_GMCTRP1'high;
+              write_cmd(c_GMCTRP1'range) <= c_GMCTRP1;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_gmctrp_p0;
+              else
+                ser_tx_req  <= '1';
+              end if;
 
-          when s_gmctrp_p0 =>
-            ser_bits  <= c_GMCTRP1_P0'high;
-            write_cmd(c_GMCTRP1_P0'range) <= c_GMCTRP1_P0;
-            spi_dc    <= '1';
-            if ser_tx_ack = '1' then
-              ser_tx_req  <= '0';
-              fsm_spi     <= s_gmctrn_cmd;
-            else
-              ser_tx_req  <= '1';
-            end if;
+            when s_gmctrp_p0 =>
+              ser_bits  <= c_GMCTRP1_P0'high;
+              write_cmd(c_GMCTRP1_P0'range) <= c_GMCTRP1_P0;
+              spi_dc    <= '1';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_gmctrn_cmd;
+              else
+                ser_tx_req  <= '1';
+              end if;
 
-          when s_gmctrn_cmd =>
-            ser_bits  <= c_GMCTRN1'high;
-            write_cmd(c_GMCTRN1'range) <= c_GMCTRN1;
-            spi_dc    <= '0';
-            if ser_tx_ack = '1' then
-              ser_tx_req  <= '0';
-              fsm_spi     <= s_gmctrn_p0;
-            else
-              ser_tx_req  <= '1';
-            end if;
+            when s_gmctrn_cmd =>
+              ser_bits  <= c_GMCTRN1'high;
+              write_cmd(c_GMCTRN1'range) <= c_GMCTRN1;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_gmctrn_p0;
+              else
+                ser_tx_req  <= '1';
+              end if;
 
-          when s_gmctrn_p0 =>
-            ser_bits  <= c_GMCTRN1_P0'high;
-            write_cmd(c_GMCTRN1_P0'range) <= c_GMCTRN1_P0;
-            spi_dc    <= '1';
-            if ser_tx_ack = '1' then
-              ser_tx_req  <= '0';
-              fsm_spi     <= s_mad_cmd;
-            else
-              ser_tx_req  <= '1';
-            end if;
+            when s_gmctrn_p0 =>
+              ser_bits  <= c_GMCTRN1_P0'high;
+              write_cmd(c_GMCTRN1_P0'range) <= c_GMCTRN1_P0;
+              spi_dc    <= '1';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_mad_cmd;
+              else
+                ser_tx_req  <= '1';
+              end if;
 
             when s_mad_cmd =>
               ser_bits  <= c_MADCTL'high;
@@ -470,7 +475,7 @@ begin
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_now <= '1';
-                if cnt_pix = 16*8-1 then
+                if cnt_pix = c_chr_h*c_chr_w-1 then
                   fsm_spi  <= s_done;
                   ser_tx_req  <= '0';
                 else

@@ -8,10 +8,10 @@ package pmod_lcd_pkg is
   constant c_clk_reduce             : positive := 3;
   -- proper reset time
   -- 1 clk = 20 ns ==> 1 us = 50x
-  constant c_clk_per_us             : positive :=     50 ; -- clock cycles for 1 us
-  constant c_rst_time_act           : positive :=      20 * c_clk_per_us ; -- $9.17   minimum      10 us
-  constant c_rst_time_hld           : positive := 125_000 * c_clk_per_us ; -- $9.17   minimum 120_000 us
-  constant c_sleep_out              : positive := 125_000 * c_clk_per_us ; -- $9.19.2 minimum 120_000 us
+  constant c_clk_per_us             : positive :=     50 ;                  --! clock cycles for 1 us
+  constant c_rst_time_act           : positive :=      20 * c_clk_per_us ;  --! $9.17   minimum      10 us
+  constant c_rst_time_hld           : positive := 125_000 * c_clk_per_us ;  --! $9.17   minimum 120_000 us
+  constant c_sleep_out              : positive := 125_000 * c_clk_per_us ;  --! $9.19.2 minimum 120_000 us
 
   -- constants found in the LCD controller datasheet
   constant c_bits_565         : positive := 5+6+5;
@@ -19,7 +19,7 @@ package pmod_lcd_pkg is
   constant c_bits             : positive := c_bits_666;
 
   -- memory area
-  -- the memory is X:132 x Y:162
+  -- the memory on the controller is X:132 x Y:162
   constant c_hori             : positive :=  160      ; --! display X
   constant c_vert             : positive :=  132 -26  ; --! display Y
   constant c_ras_xs           : positive :=  1   ;                    --! RAS Xstart
@@ -28,11 +28,12 @@ package pmod_lcd_pkg is
   constant c_cas_ye           : positive :=  c_cas_ys +  c_vert - 1;  --! CAS Yend
   constant c_pixl             : positive :=  c_hori * c_vert;         --! total amount of pixels
 
-  -- display area
+  -- the visible display area
   constant c_res_x            : positive :=  160      ; --! img X resolution
   constant c_res_y            : positive :=   80      ; --! img Y resolution
   constant c_pixl_img         : positive :=  c_res_x * c_res_y;         --! total amount of pixels
 
+  -- a set of the supported commands
   constant c_SLPOUT           : std_logic_vector(7 downto 0) := x"11";  --! sleep out
   constant c_DISPINV          : std_logic_vector(7 downto 0) := x"21";  --! display inversion
   constant c_DISPOFF          : std_logic_vector(7 downto 0) := x"28";  --! display off
@@ -44,7 +45,7 @@ package pmod_lcd_pkg is
   constant c_COLMOD           : std_logic_vector(7 downto 0) := x"3A";  --! color mode
   constant c_INVCTR           : std_logic_vector(7 downto 0) := x"B4";  --! display inversion
   constant c_GMCTRP1          : std_logic_vector(7 downto 0) := x"E0";  --! pos gamma
-  constant c_GMCTRN1          : std_logic_vector(7 downto 0) := x"E1";  --! neg gqmma
+  constant c_GMCTRN1          : std_logic_vector(7 downto 0) := x"E1";  --! neg gamma
 
   -- set display as a landscape mode , and reverse RGB<>BGR
   constant c_MADCTL_P0        : std_logic_vector(7 downto 0) := x"78";  --! parameter 0

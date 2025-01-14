@@ -6,11 +6,17 @@ use ieee.numeric_std.all;
 -------------------------------------------------------------------------------
 package ascii_pkg is
 
-  -- create arrays for pixel map stores
-  type t_xx08_arr  is array (natural range <>) of std_logic_vector(8-1 downto 0);     -- one row  in xx08 size
-  type t_1608_arr  is array (natural range <>) of t_xx08_arr(0 to 15);                -- one char in 1608 size
+  -- constants found in the LCD controller datasheet
+  constant c_chr_w         : positive :=  8; --! character width
+  constant c_chr_h         : positive := 16; --! character heigth
+  constant c_ascii_depth   : positive := 95; --! amount of ASCII chars
 
-  constant c_ascii_1608 : t_1608_arr( 0 to 94) :=
+  -- create arrays for character stores
+  type t_xx08_arr  is array (natural range <>) of std_logic_vector(c_chr_w-1 downto 0);     --! one row  in xx08 size
+  type t_1608_arr  is array (natural range <>) of t_xx08_arr(0 to c_chr_h-1);               --! one char in 1608 size
+
+  -- definition of an reduced ASCII table , sufficient for text display
+  constant c_ascii_1608 : t_1608_arr( 0 to c_ascii_depth-1) :=
   (
   (x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00"), --! " ",0*/
   (x"00",x"00",x"00",x"08",x"08",x"08",x"08",x"08",x"08",x"08",x"00",x"00",x"18",x"18",x"00",x"00"), --! "!",1*/
@@ -108,7 +114,6 @@ package ascii_pkg is
   (x"00",x"06",x"08",x"08",x"08",x"08",x"08",x"10",x"08",x"08",x"08",x"08",x"08",x"08",x"06",x"00"), --! "}",93*/
   (x"0C",x"32",x"C2",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00",x"00")  --! "~",94*/
   );
-
 
 end package ascii_pkg;
 -------------------------------------------------------------------------------
