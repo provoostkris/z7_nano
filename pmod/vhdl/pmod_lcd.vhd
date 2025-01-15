@@ -40,12 +40,12 @@ architecture rtl of pmod_lcd is
                             s_inv,    --! put display inverted
                             s_on,     --! put display on
                             s_cas_cmd, --! CAS command
-                            s_cas_p0,  --! MAD command
-                            s_cas_p1,
-                            s_ras_cmd,
-                            s_ras_p0,
-                            s_ras_p1,
-                            s_ramwr,
+                            s_cas_p0,  --! CAS param
+                            s_cas_p1,  --! CAS param
+                            s_ras_cmd, --! RAS command
+                            s_ras_p0,  --! RAS param
+                            s_ras_p1,  --! RAS param
+                            s_ramwr, --! WR command
                             s_send_req,   --! request dara send
                             s_draw_char,   --! request character
                             s_done    --! close transmission
@@ -399,7 +399,7 @@ begin
             when s_cas_p1 =>
               ser_bits  <= 16-1;
               -- write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_ras_xe,16));
-              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_ras_xs+8-1,16));
+              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_ras_xs+c_chr_w-1,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -433,7 +433,7 @@ begin
             when s_ras_p1 =>
               ser_bits  <= 16-1;
               -- write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_cas_ye,16));
-              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_cas_ys+16-1,16));
+              write_cmd(16-1 downto 0) <= std_logic_vector(to_unsigned(c_cas_ys+c_chr_h-1,16));
               spi_dc    <= '1';
               if ser_tx_ack = '1' then
                 ser_tx_req  <= '0';
@@ -492,7 +492,7 @@ begin
               cnt_delay <= c_rst_time_act-1;
 
             when others =>
-              fsm_spi <= s_idle;
+              fsm_spi   <= s_idle;
               cnt_delay <= c_rst_time_act-1;
 
           end case;
@@ -518,7 +518,7 @@ begin
               else
                 fsm_phy   <= s_idle;
                 spi_cs_n  <= '1';
-              end if;
+          end if;
 
             when s_req =>
               if ser_tx_now = '1' then
@@ -535,7 +535,7 @@ begin
                   ser_tx_ack <= '1';
                 else
                   cnt_bit(0)    <= cnt_bit(0) - 1;
-                end if;
+          end if;
               end if;
 
             when s_ack =>
@@ -549,6 +549,6 @@ begin
         -- pipe
         cnt_bit(1 to cnt_bit'high)    <= cnt_bit(0 to cnt_bit'high-1);
         end if;
-    end process;
+  end process;
 
 end rtl;
