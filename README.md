@@ -32,3 +32,12 @@ This repository contains several small hardware experiments that:
 | [led_blink](./led_blink/)   | Various LED blinking  perfect for first-time board testing |
 | [pl_eth_udp](./pl_eth_udp/)  | UDP communication via PL Ethernet |
 | [pmod](./pmod/)        | Simple PMOD interface examples |
+
+## 💖 Support This Project
+
+If you find VLink useful and would like to support its development, consider making a donation:
+
+- [☕ Buy Me a Coffee](https://www.buymeacoffee.com/provoostkris)
+- [❤️ GitHub Sponsors](https://github.com/sponsors/provoostkris)
+
+Your support helps keep the project alive and evolving. Thank you!
