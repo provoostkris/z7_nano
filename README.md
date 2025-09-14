@@ -1,24 +1,34 @@
-# z7_nano
+# 🧠 Z7-nano FPGA Experiments
+**Microphase Z7-nano with Xilinx Zynq-7020 SoC**
 
-### Hardware
-A Microphase Z7 nano. Small size developement board that contains a ZYNQ 7020 FPGA
+Welcome to a hands-on collection of FPGA experiments using the **Microphase Z7-nano** development board. This repo is designed to help you explore the capabilities of the **Microphase Z7-nano**
 
-### The board overview
-![Board](/img/z7_nano_board.jpg)
+Note that the **Microphase Z7-nano** can be ordered in the variant with **Zynq-7020 SoC** or **Zynq-7010 SoC** for these demo projects, the **Zynq-7020 SoC** is used.
 
-### The FPGA overview
-![FPGA](/img/zynq_7000_architecture.jpg)
+## 🧠 About the Board
 
-It contains a dual core ARM and an FPGA with 53200 LUT and 106400 DFF
+- **Board**: Microphase Z7-nano
+- **FPGA**: Xilinx Zynq-7020 SoC
+  - Dual-core ARM Cortex-A9
+  - 53,200 LUTs, 106,400 Flip-Flops
+- **Interfaces & components**:
+ - see [Documentation folder](/docs) for more information
 
-### [Blink a LED](/led_blink)
-A test run of the board. Basic use of the LED and the push button.
+## 🧰 What Is This Project About?
 
-### [HDMI out](/hdmi_tx)
-Adding the HDMI demonstration, making use of the on board HDMI connector
+This repository contains several small hardware experiments that:
+- Use the **FPGA fabric** to control LEDs, HDMI, Ethernet, PMODs , etc
+- Demonstrate **communication between the ARM processor and the FPGA**
+- Help you learn how to use **VHDL** to get functions running on the board
 
-### [LAN](/lan)
-Adding LAN (wired network) over the PL ETH port on a RGMII interface
+## 🔍 Examples list
 
-### [PMOD](/pmod)
-simple PMOD modules interface[s]
+| Folder         | Description                                                                 |
+|----------------|-----------------------------------------------------------------------------|
+| [docs](./docs)        | Board documentation and reference materials |
+| [hdmi_tx](./hdmi_tx/)     | HDMI video output using onboard connector |
+| [img](./img/)         | Diagrams and screenshots |
+| [lan](./lan/)         | Wired Ethernet over RGMII using programmable logic |
+| [led_blink](./led_blink/)   | Various LED blinking  perfect for first-time board testing |
+| [pl_eth_udp](./pl_eth_udp/)  | UDP communication via PL Ethernet |
+| [pmod](./pmod/)        | Simple PMOD interface examples |
