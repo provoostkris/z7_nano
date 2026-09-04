@@ -3,9 +3,6 @@
 --  rev. 1.0 : 2024 Provoost Kris
 ------------------------------------------------------------------------------
 
-# Clearing the transcript window:
-.main clear
-
 echo "Remove old files"
 
   proc detect_lib { lib } { if { [file exists $lib]} { echo " library detected $lib" } }
@@ -25,7 +22,6 @@ echo "Compiling design"
 echo "Compiling test bench"
 
   vcom  -2008 -quiet -work work $path_rtl/bench/tb_RMAP_Decoder_AXI.vhd
-  vcom  -2008 -quiet -work work $path_rtl/bench/rmap_ahb_verif_pkg.vhd
   vcom  -2008 -quiet -work work $path_rtl/bench/tb_rmap_to_ahb_bridge.vhd
 
 echo "Compilation script completed "

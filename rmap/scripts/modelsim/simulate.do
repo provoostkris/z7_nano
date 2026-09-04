@@ -3,12 +3,23 @@
 --  rev. 1.0 : 2023 Provoost Kris
 ------------------------------------------------------------------------------
 
+# Clearing the transcript window:
+.main clear
+
+echo "Move to work space"
+  -- to do , not working in all modelsim editions
+  set workspace [file dirname [file normalize [info script]]]
+  cd $workspace
+  echo [pwd]
+
+echo "start compilation"
+
   do compile.do
 
 echo "start simulation"
 
-  set bench "tb_RMAP_Decoder_AXI"
-  -- set bench "tb_rmap_to_ahb_bridge"
+  -- set bench "tb_RMAP_Decoder_AXI"
+  set bench "tb_rmap_to_ahb_bridge"
 
   vsim -gui -t ns -novopt work.$bench
 
@@ -17,9 +28,10 @@ echo "adding waves"
   view wave
   delete wave /*
 
-  add wave  -expand             -group "bench"                         /$bench/*
+  add wave                      -group "bench"      /$bench/*
 
-  add wave                      -group "dut"                           /$bench/dut/*
+  add wave  -expand             -group "dut top"    /$bench/dut/*
+  add wave  -expand             -group "dut mst"    /$bench/dut/i_ahbmst/*
 
   vcd file rmap.vcd
   vcd add -r /$bench/*

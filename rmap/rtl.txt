@@ -1,3 +1,5 @@
+vhdl/amba.vhd
+vhdl/ahbmst.vhd
 vhdl/pckg_rmap.vhd
 vhdl/rmap_to_ahb_bridge.vhd
 vhdl/RMAP_Decoder.vhd

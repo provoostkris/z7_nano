@@ -2,8 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.rmap_ahb_verif_pkg.all;
-use work.rmap_ahb_verif_pkg.all;
+library work;
+use work.amba.all;
 
 entity tb_rmap_to_ahb_bridge is
 end entity;
@@ -20,18 +20,10 @@ architecture sim of tb_rmap_to_ahb_bridge is
   signal rmap_data_out : std_logic_vector(31 downto 0);
   signal rmap_ready    : std_logic;
 
-  signal haddr         : std_logic_vector(31 downto 0);
-  signal hwrite        : std_logic;
-  signal htrans        : std_logic_vector(1 downto 0);
-  signal hsize         : std_logic_vector(2 downto 0);
-  signal hburst        : std_logic_vector(2 downto 0);
-  signal hprot         : std_logic_vector(3 downto 0);
-  signal hwdata        : std_logic_vector(31 downto 0);
-  signal hrdata        : std_logic_vector(31 downto 0);
-  signal hready        : std_logic := '1';
-  signal hresp         : std_logic_vector(1 downto 0) := "00";
-  signal hbusreq       : std_logic;
-  signal hgrant        : std_logic;
+  signal ahbi          : ahb_mst_in_type  := ahbm_in_none;
+  signal ahbo          : ahb_mst_out_type := ahbm_none;
+
+  signal data_store    : std_logic_vector(31 downto 0) := (others => '0');
 
   -- Randomization seed
   signal seed : unsigned(31 downto 0) := x"12345678";
@@ -55,25 +47,14 @@ begin
       rmap_data_in    => rmap_data_in,
       rmap_data_out   => rmap_data_out,
       rmap_ready      => rmap_ready,
-      haddr           => haddr,
-      hwrite          => hwrite,
-      htrans          => htrans,
-      hsize           => hsize,
-      hburst          => hburst,
-      hprot           => hprot,
-      hwdata          => hwdata,
-      hrdata          => hrdata,
-      hready          => hready,
-      hresp           => hresp,
-      hbusreq         => hbusreq,
-      hgrant          => hgrant
+      ahbi            => ahbi,
+      ahbo            => ahbo
     );
 
   stim: process
     variable addr, data : std_logic_vector(31 downto 0);
-    variable i : integer := 0;
   begin
-    hrdata <= ( others => '0');
+    ahbi.hresp <= HRESP_OKAY;
     rst_n <= '0';
     wait for 20 ns;
     wait until rising_edge(clk);
@@ -86,7 +67,6 @@ begin
       addr := std_logic_vector(seed and x"0000FFF0");
       seed <= rand32(seed);
       data := std_logic_vector(seed);
-      hrdata <= std_logic_vector(seed);
 
       -- Write transaction
       rmap_valid    <= '1';
@@ -95,10 +75,11 @@ begin
       rmap_data_in  <= data;
       wait until rising_edge(clk);
       rmap_valid    <= '0';
+      rmap_is_write <= '0';
+      rmap_address  <= ( others => '0');
+      rmap_data_in  <= ( others => '0');
 
       wait until rmap_ready = '1';
-      check_write_transaction(clk, haddr, hwrite, htrans, hburst, hwdata, addr, data);
-      wait until rising_edge(clk);
 
       -- Read transaction
       rmap_valid    <= '1';
@@ -106,11 +87,12 @@ begin
       rmap_address  <= addr;
       wait until rising_edge(clk);
       rmap_valid    <= '0';
+      wait until rising_edge(clk);
 
       wait until rmap_ready = '1';
-      check_read_transaction(clk, haddr, hwrite, htrans, hburst, rmap_data_out, addr, hrdata);
-
-      wait until rising_edge(clk);
+      if rmap_data_out /= data then
+        report "Error: rmap_data_out should be : " & to_hstring(rmap_data_out) severity error;
+      end if;
       wait until rising_edge(clk);
     end loop;
 
@@ -120,17 +102,47 @@ begin
 
   grant: process
   begin
-      hgrant <= '0';
-      wait until rising_edge(hbusreq);
+      ahbi.hgrant <= (others => '0');
+      wait until rising_edge(ahbo.hbusreq);
       wait until rising_edge(clk);
-      hgrant <= '1';
+      ahbi.hgrant(0) <= '1';
       wait until rising_edge(rmap_ready);
       wait until rising_edge(clk);
   end process;
 
+
+      -- always ready
+      ahbi.hready <= '1';
+
+  --! the last written data is stored
+  --! so it can be read back
+  p_data_wr: process (clk)
+  begin
+    if rising_edge(clk) then
+      if ahbi.hgrant(0) = '1' and
+         ahbo.hbusreq = '1' and
+         ahbo.hwrite = '1' and
+         ahbi.hready = '1' then
+          data_store <= ahbo.hwdata;
+      end if;
+    end if;
+  end process;
+  --! read back the data
+  p_data_rd: process (ahbi.hgrant(0))
+  begin
+    if rising_edge(ahbi.hgrant(0)) then
+      if ahbo.hbusreq = '1' and
+         ahbo.hwrite = '0' and
+         ahbi.hready = '1' then
+          ahbi.hrdata <= data_store;
+      end if;
+    end if;
+  end process;
+
+
   time_out: process
   begin
-    wait for 2 us;
+    wait for 1200 ns;
     report "Time out expired." severity note;
     std.env.stop;
   end process;

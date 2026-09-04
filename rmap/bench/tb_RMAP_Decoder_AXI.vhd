@@ -200,7 +200,7 @@ begin
 
   time_out: process
   begin
-    wait for 2 us;
+    wait for 500 ns;
     report "Time out expired." severity note;
     std.env.stop;
   end process;
