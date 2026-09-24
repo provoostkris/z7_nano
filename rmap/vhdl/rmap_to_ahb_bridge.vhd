@@ -42,7 +42,7 @@ architecture rtl of rmap_to_ahb_bridge is
   type state_t is ( s_idle,
                     s_request
                   );
-  signal s_bridge_state : state_t := s_idle;
+  signal s_bridge_state : state_t;
 
   signal dmai_i : ahb_dma_in_type;
   signal dmao_i : ahb_dma_out_type;
@@ -54,6 +54,7 @@ begin
     if rst_n = '0' then
       s_bridge_state <=   s_idle;
       rmap_ready     <=   '0';
+      rmap_data_out  <=  (others => '0');
       dmai_i         <=  c_rst_ahb_dma_in;
     elsif rising_edge(clk) then
       case s_bridge_state is
@@ -71,19 +72,16 @@ begin
             dmai_i.irq     <=  '0';
             dmai_i.size    <=  HSIZE_WORD;
 
-            s_bridge_state          <=  s_request;
+            s_bridge_state <=  s_request;
           end if;
 
-        when s_request =>
+        when others =>
           if dmao_i.ready = '1' then
             dmai_i         <=   c_rst_ahb_dma_in;
             rmap_ready     <=  '1';
             rmap_data_out  <=  dmao_i.rdata;
             s_bridge_state <=  s_idle;
           end if;
-
-        when others =>
-          s_bridge_state <= s_idle;
 
       end case;
     end if;
