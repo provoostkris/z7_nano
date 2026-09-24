@@ -82,6 +82,7 @@ architecture rtl of pmod_lcd is
   signal cnt_chr_hor  : natural range 0 to c_chr_w-1 ;
   signal cnt_chr_ver  : natural range 0 to c_chr_h-1 ;
   signal char_bit     : std_logic;
+  signal init_done    : std_logic;
 
   --! serializer
   signal ser_tx_now   : std_logic;
@@ -208,12 +209,11 @@ begin
 
   --! Display controller FSM
   -- used to send the seauence of correct commands to the display controller
-  -- to put the display on , and show some thing on the screen
+  -- to put the display on
   process(reset_n, clk) is
     begin
         if reset_n='0' then
           fsm_spi    <= s_idle;
-          rst        <= '0';
           spi_dc     <= '0';
           cnt_pix    <= 0;
           cnt_delay  <= c_rst_time_act-1;
@@ -226,153 +226,10 @@ begin
           case fsm_spi is
 
             when s_idle =>
-              if cnt_delay = 0 then
-                fsm_spi   <= s_reset;
-                cnt_delay <= c_rst_time_hld-1;
-              else
-                cnt_delay <= cnt_delay-1;
-              end if;
-              rst       <= '0';
-              sel_cmd   <= '1';
-
-            when s_reset =>
-              if cnt_delay = 0 then
-                fsm_spi   <= s_sleep;
-              else
-                cnt_delay <= cnt_delay-1;
-              end if;
-              rst       <= '1';
-
-            when s_sleep =>
-              ser_bits  <= c_SLPOUT'high;
-              write_cmd(c_SLPOUT'range) <= c_SLPOUT;
-              spi_dc    <= '0';
-              if ser_tx_ack = '1' then
-                ser_tx_req  <= '0';
-                fsm_spi     <= s_wake;
-              else
-                ser_tx_req <= '1';
-              end if;
-              cnt_delay <= c_sleep_out-1;
-
-            when s_wake =>
-              if cnt_delay = 0 then
-                fsm_spi   <= s_invctr_cmd;
-              else
-                cnt_delay <= cnt_delay-1;
+              if init_done then
+                fsm_spi   <= s_cas_cmd;
               end if;
               sel_cmd   <= '1';
-              cnt_pix   <= 0;
-
-            when s_invctr_cmd =>
-              ser_bits  <= c_INVCTR'high;
-              write_cmd(c_INVCTR'range) <= c_INVCTR;
-              spi_dc    <= '0';
-              if ser_tx_ack = '1' then
-                ser_tx_req  <= '0';
-                fsm_spi     <= s_invctr_p0;
-              else
-                ser_tx_req  <= '1';
-              end if;
-
-            when s_invctr_p0 =>
-              ser_bits  <= c_INVCTR_P0'high;
-              write_cmd(c_INVCTR_P0'range) <= c_INVCTR_P0;
-              spi_dc    <= '1';
-              if ser_tx_ack = '1' then
-                ser_tx_req  <= '0';
-                fsm_spi     <= s_gmctrp_cmd;
-              else
-                ser_tx_req  <= '1';
-              end if;
-
-            when s_gmctrp_cmd =>
-              ser_bits  <= c_GMCTRP1'high;
-              write_cmd(c_GMCTRP1'range) <= c_GMCTRP1;
-              spi_dc    <= '0';
-              if ser_tx_ack = '1' then
-                ser_tx_req  <= '0';
-                fsm_spi     <= s_gmctrp_p0;
-              else
-                ser_tx_req  <= '1';
-              end if;
-
-            when s_gmctrp_p0 =>
-              ser_bits  <= c_GMCTRP1_P0'high;
-              write_cmd(c_GMCTRP1_P0'range) <= c_GMCTRP1_P0;
-              spi_dc    <= '1';
-              if ser_tx_ack = '1' then
-                ser_tx_req  <= '0';
-                fsm_spi     <= s_gmctrn_cmd;
-              else
-                ser_tx_req  <= '1';
-              end if;
-
-            when s_gmctrn_cmd =>
-              ser_bits  <= c_GMCTRN1'high;
-              write_cmd(c_GMCTRN1'range) <= c_GMCTRN1;
-              spi_dc    <= '0';
-              if ser_tx_ack = '1' then
-                ser_tx_req  <= '0';
-                fsm_spi     <= s_gmctrn_p0;
-              else
-                ser_tx_req  <= '1';
-              end if;
-
-            when s_gmctrn_p0 =>
-              ser_bits  <= c_GMCTRN1_P0'high;
-              write_cmd(c_GMCTRN1_P0'range) <= c_GMCTRN1_P0;
-              spi_dc    <= '1';
-              if ser_tx_ack = '1' then
-                ser_tx_req  <= '0';
-                fsm_spi     <= s_mad_cmd;
-              else
-                ser_tx_req  <= '1';
-              end if;
-
-            when s_mad_cmd =>
-              ser_bits  <= c_MADCTL'high;
-              write_cmd(c_MADCTL'range) <= c_MADCTL;
-              spi_dc    <= '0';
-              if ser_tx_ack = '1' then
-                ser_tx_req  <= '0';
-                fsm_spi     <= s_mad_p0;
-              else
-                ser_tx_req  <= '1';
-              end if;
-
-            when s_mad_p0 =>
-              ser_bits  <= c_MADCTL_P0'high;
-              write_cmd(c_MADCTL_P0'range) <= c_MADCTL_P0;
-              spi_dc    <= '1';
-              if ser_tx_ack = '1' then
-                ser_tx_req  <= '0';
-                fsm_spi     <= s_inv;
-              else
-                ser_tx_req  <= '1';
-              end if;
-
-            when s_inv =>
-              ser_bits  <= c_DISPINV'high;
-              write_cmd(c_DISPINV'range) <= c_DISPINV;
-              spi_dc    <= '0';
-              if ser_tx_ack = '1' then
-                ser_tx_req  <= '0';
-                fsm_spi     <= s_on;
-              else
-                ser_tx_req  <= '1';
-              end if;
-
-            when s_on =>
-              ser_bits  <= c_DISPON'high;
-              write_cmd(c_DISPON'range) <= c_DISPON;
-              spi_dc    <= '0';
-              if ser_tx_ack = '1' then
-                ser_tx_req  <= '0';
-                fsm_spi     <= s_cas_cmd;
-              else
-                ser_tx_req  <= '1';
-              end if;
 
             when s_cas_cmd =>
               ser_bits  <= c_CASET'high;
@@ -500,6 +357,183 @@ begin
     end process;
 
 
+  --! Display controller FSM
+  -- used to send the seauence of correct commands to the display controller
+  -- to put the display on
+  process(reset_n, clk) is
+    begin
+        if reset_n='0' then
+          fsm_spi    <= s_idle;
+          rst        <= '0';
+          spi_dc     <= '0';
+          cnt_pix    <= 0;
+          cnt_delay  <= c_rst_time_act-1;
+          write_cmd  <= ( others => '0');
+          ser_tx_req <= '0';
+          ser_tx_now <= '0';
+          ser_bits   <= 0;
+          init_done  <= '0';
+        elsif rising_edge(clk) then
+          case fsm_spi is
+
+            when s_idle =>
+              if cnt_delay = 0 then
+                fsm_spi   <= s_reset;
+                cnt_delay <= c_rst_time_hld-1;
+              else
+                cnt_delay <= cnt_delay-1;
+              end if;
+              rst       <= '0';
+
+            when s_reset =>
+              if cnt_delay = 0 then
+                fsm_spi   <= s_sleep;
+              else
+                cnt_delay <= cnt_delay-1;
+              end if;
+              rst       <= '1';
+
+            when s_sleep =>
+              ser_bits  <= c_SLPOUT'high;
+              write_cmd(c_SLPOUT'range) <= c_SLPOUT;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_wake;
+              else
+                ser_tx_req <= '1';
+              end if;
+              cnt_delay <= c_sleep_out-1;
+
+            when s_wake =>
+              if cnt_delay = 0 then
+                fsm_spi   <= s_invctr_cmd;
+              else
+                cnt_delay <= cnt_delay-1;
+              end if;
+              cnt_pix   <= 0;
+
+            when s_invctr_cmd =>
+              ser_bits  <= c_INVCTR'high;
+              write_cmd(c_INVCTR'range) <= c_INVCTR;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_invctr_p0;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_invctr_p0 =>
+              ser_bits  <= c_INVCTR_P0'high;
+              write_cmd(c_INVCTR_P0'range) <= c_INVCTR_P0;
+              spi_dc    <= '1';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_gmctrp_cmd;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_gmctrp_cmd =>
+              ser_bits  <= c_GMCTRP1'high;
+              write_cmd(c_GMCTRP1'range) <= c_GMCTRP1;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_gmctrp_p0;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_gmctrp_p0 =>
+              ser_bits  <= c_GMCTRP1_P0'high;
+              write_cmd(c_GMCTRP1_P0'range) <= c_GMCTRP1_P0;
+              spi_dc    <= '1';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_gmctrn_cmd;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_gmctrn_cmd =>
+              ser_bits  <= c_GMCTRN1'high;
+              write_cmd(c_GMCTRN1'range) <= c_GMCTRN1;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_gmctrn_p0;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_gmctrn_p0 =>
+              ser_bits  <= c_GMCTRN1_P0'high;
+              write_cmd(c_GMCTRN1_P0'range) <= c_GMCTRN1_P0;
+              spi_dc    <= '1';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_mad_cmd;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_mad_cmd =>
+              ser_bits  <= c_MADCTL'high;
+              write_cmd(c_MADCTL'range) <= c_MADCTL;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_mad_p0;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_mad_p0 =>
+              ser_bits  <= c_MADCTL_P0'high;
+              write_cmd(c_MADCTL_P0'range) <= c_MADCTL_P0;
+              spi_dc    <= '1';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_inv;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_inv =>
+              ser_bits  <= c_DISPINV'high;
+              write_cmd(c_DISPINV'range) <= c_DISPINV;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_on;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_on =>
+              ser_bits  <= c_DISPON'high;
+              write_cmd(c_DISPON'range) <= c_DISPON;
+              spi_dc    <= '0';
+              if ser_tx_ack = '1' then
+                ser_tx_req  <= '0';
+                fsm_spi     <= s_done;
+              else
+                ser_tx_req  <= '1';
+              end if;
+
+            when s_done =>
+              init_done <= '1';
+
+            when others =>
+              fsm_spi   <= s_idle;
+
+          end case;
+        end if;
+    end process;
+
+
   -- SPI SERIALIZE
   process(reset_n, clk) is
     begin
@@ -518,7 +552,7 @@ begin
               else
                 fsm_phy   <= s_idle;
                 spi_cs_n  <= '1';
-          end if;
+              end if;
 
             when s_req =>
               if ser_tx_now = '1' then
@@ -535,7 +569,7 @@ begin
                   ser_tx_ack <= '1';
                 else
                   cnt_bit(0)    <= cnt_bit(0) - 1;
-          end if;
+                end if;
               end if;
 
             when s_ack =>
